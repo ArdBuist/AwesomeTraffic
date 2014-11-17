@@ -1,6 +1,6 @@
 ﻿namespace TrafficSimulation
 {
-    partial class Form1
+    partial class SimWindow
     {
         /// <summary>
         /// Required designer variable.

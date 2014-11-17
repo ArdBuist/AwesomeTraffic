@@ -44,11 +44,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form1.cs">
+    <Compile Include="BitmapControl.cs" />
+    <Compile Include="BuildPanel.cs" />
+    <Compile Include="LaneTrafficlight.cs" />
+    <Compile Include="Trafficlight.cs" />
+    <Compile Include="TrafficlightControl.cs" />
+    <Compile Include="ControlPanel.cs" />
+    <Compile Include="ITile.cs" />
+    <Compile Include="IVehicles.cs" />
+    <Compile Include="SimControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SimControl.Designer.cs">
+      <DependentUpon>SimControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SimWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="SimWindow.Designer.cs">
+      <DependentUpon>SimWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
