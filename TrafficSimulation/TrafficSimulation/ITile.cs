@@ -44,9 +44,13 @@ namespace TrafficSimulation
     }
     public class Crossroad : Roads
     {
-        public override string ToString() { return "CrossRoad"; }
+        public override string ToString() { return "crossroad"; }
         TrafficlightControl tc;
 
+        public Crossroad()
+        {
+            tc = new TrafficlightControl();
+        }
         public override void RemoveVehicle()
         {
             base.RemoveVehicle();
@@ -62,11 +66,16 @@ namespace TrafficSimulation
     }
     public class Fork : Crossroad
     {
-        public override string ToString() { return "Fork"; }
+        public override string ToString() { return "fork"; }
         int notDirection;
+        public Fork()
+        {
+
+        }
     }
     public class Road: Roads
     {
+        public override string ToString() { return "road"; }
         int startDirection;
         int eindDirection;
         public override void RemoveVehicle()
