@@ -7,19 +7,14 @@ using System.Threading.Tasks;
 
 namespace TrafficSimulation
 {
-    public interface IVehicles
+    public class Car
     {
         Point Position;
         Point Destination;
         int Length;
         int Direction;
-        
     }
-    public class Car : IVehicles
-    {
-
-    }
-    public class Truck : IVehicles
+    public class Truck : Car
     {
 
     }

@@ -10,6 +10,9 @@ namespace TrafficSimulation
     class BitmapControl
     {
         Bitmap kaart;
-        private void DrawBitmap();
+        private void DrawBitmap()
+        { 
+        
+        }
     }
 }
