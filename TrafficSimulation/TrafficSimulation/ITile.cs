@@ -10,7 +10,6 @@ namespace TrafficSimulation
 {
     interface ITile
     {
-        
         void RemoveVehicle();
         void AddVehicle();
         void Update();
@@ -18,7 +17,7 @@ namespace TrafficSimulation
 
     public abstract class Roads : ITile
     {
-        List<List<Car>> numberOfVehicles;
+        List<List<Vehicle>> Vehicles;
         Point position;
         int maxSpeed;
         int lanes;
@@ -27,15 +26,21 @@ namespace TrafficSimulation
         Size size;
         Bitmap image;
 
-        public virtual void RemoveVehicle()
+        public Roads(Point position)
         {
+            Vehicles = new List<List<Vehicle>>();
+            this.position = position;
         }
-        public virtual void AddVehicle()
+
+        public virtual void RemoveVehicle(Vehicle v)
         {
+
         }
-        public virtual void Update()
+        public virtual void AddVehicle(Vehicle v)
         {
+
         }
+        public virtual void Update();
         public Graphics BitmapGraphics()
         {
             Graphics gr = Graphics.FromImage(image);
@@ -45,15 +50,24 @@ namespace TrafficSimulation
     public class Crossroad : Roads
     {
         public override string ToString() { return "CrossRoad"; }
-        TrafficlightControl tc;
 
-        public override void RemoveVehicle()
-        {
-            base.RemoveVehicle();
+        List<TrafficlightControl> trafficlightControlList;
+
+        Crossroad(Point position):base(position){
+            trafficlightControlList = new List<TrafficlightControl>();
+            for (int i = 0; i < 3; i++)
+            {
+                trafficlightControlList.Add(new TrafficlightControl());
+            }
         }
-        public override void AddVehicle()
+
+        public override void RemoveVehicle(Vehicle v)
         {
-            base.AddVehicle();
+            base.RemoveVehicle(v);
+        }
+        public override void AddVehicle(Vehicle v)
+        {
+            base.AddVehicle(v);
         }
         public override void Update()
         {
@@ -65,17 +79,38 @@ namespace TrafficSimulation
         public override string ToString() { return "Fork"; }
         int notDirection;
     }
-    public class Road: Roads
+    public class Road : Roads
     {
+        List<TrafficlightControl> trafficlightControlList;
         int startDirection;
         int eindDirection;
-        public override void RemoveVehicle()
-        {
-            base.RemoveVehicle();
+
+        Road(Point position, int start, int end):base(position){
+            trafficlightControlList = new List<TrafficlightControl>();
+            if (start < end)
+            {
+                startDirection = start;
+                eindDirection = end;
+            }
+            else
+            {
+                startDirection = end;
+                eindDirection = start;
+            }
+
+            for (int i = 0; i < 3; i++)
+            {
+                trafficlightControlList.Add(new TrafficlightControl());
+            }
         }
-        public override void AddVehicle()
+
+        public override void RemoveVehicle(Vehicle v)
         {
-            base.AddVehicle();
+            base.RemoveVehicle(v);
+        }
+        public override void AddVehicle(Vehicle v)
+        {
+            base.AddVehicle(v);
         }
         public override void Update()
         {
@@ -85,7 +120,7 @@ namespace TrafficSimulation
         {
         }
         private void changeLane()
-        { 
+        {
         }
     }
     public class Spawner : Road
