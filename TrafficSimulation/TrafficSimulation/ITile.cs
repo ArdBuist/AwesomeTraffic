@@ -5,55 +5,102 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace TrafficSimulation
 {
-    interface ITile
+    public abstract class Tile
     {
-        void RemoveVehicle();
-        void AddVehicle();
-        void Update();
-    }
+        protected List<Vehicle>[] vehicles;
+        protected Tile[] adjacentTiles;
+        protected Point position;
+        protected int maxSpeed;
+        protected int lanes;
+        protected bool[] acces;
+        protected int TotalVehicleLength;
+        protected Size size;
+        protected Bitmap image;
 
-    public abstract class Roads : ITile
-    {
-        List<List<Vehicle>> Vehicles;
-        Point position;
-        int maxSpeed;
-        int lanes;
-        bool[] acces;
-        int TotalVehicleLength;
-        Size size;
-        Bitmap image;
-
-        public Roads(Point position)
+        public Tile(Point position, int maxSpeed, int lanes)
         {
-            Vehicles = new List<List<Vehicle>>();
+            vehicles = new List<Vehicle>[lanes * 2];
+            adjacentTiles = new Tile[4];
+
             this.position = position;
+            this.maxSpeed = maxSpeed;
+            this.lanes = lanes;
         }
 
-        public virtual void RemoveVehicle(Vehicle v)
+        public void RemoveVehicle(Vehicle v, int lane)
+        {
+            vehicles[lane].Remove(v);
+        }
+
+        public void AddVehicle(Vehicle v, int lane)
+        {
+            vehicles[lane].Add(v);
+        }
+
+        public void Update()
         {
 
         }
-        public virtual void AddVehicle(Vehicle v)
-        {
 
+        public void changeLane(Vehicle v, int begin, int eind)
+        {
+            RemoveVehicle(v, begin);
+            AddVehicle(v, eind);
         }
-        public virtual void Update();
+
+        public void addAdjacent(Tile t)
+        {
+            for (int i = 0; i < adjacentTiles.Length; i++)
+            {
+                if (adjacentTiles[i] == null)
+                {
+                    adjacentTiles[i] = t;
+                    break;
+                }
+            }
+        }
+
+        public void removeAdjacent(int direction)
+        {
+            adjacentTiles[direction] = null;
+        }
+
         public Graphics BitmapGraphics()
         {
             Graphics gr = Graphics.FromImage(image);
             return gr;
         }
     }
-    public class Crossroad : Roads
+    public class Crossroad : Tile
     {
         public override string ToString() { return "CrossRoad"; }
 
         List<TrafficlightControl> trafficlightControlList;
 
-        Crossroad(Point position):base(position){
+        public Crossroad(Point position, int maxSpeed, int lanes)
+            : base(position, maxSpeed, lanes)
+        {
+            trafficlightControlList = new List<TrafficlightControl>();
+            for (int i = 0; i < 4; i++)
+            {
+                trafficlightControlList.Add(new TrafficlightControl());
+            }
+        }
+    }
+    public class Fork : Tile
+    {
+        private int notDirection;
+        List<TrafficlightControl> trafficlightControlList;
+
+        public Fork(Point position, int maxSpeed, int lanes, int notDirection)
+            : base(position, maxSpeed, lanes)
+        {
+            this.notDirection = notDirection;
+
             trafficlightControlList = new List<TrafficlightControl>();
             for (int i = 0; i < 3; i++)
             {
@@ -61,32 +108,22 @@ namespace TrafficSimulation
             }
         }
 
-        public override void RemoveVehicle(Vehicle v)
-        {
-            base.RemoveVehicle(v);
-        }
-        public override void AddVehicle(Vehicle v)
-        {
-            base.AddVehicle(v);
-        }
-        public override void Update()
-        {
-            base.Update();
-        }
-    }
-    public class Fork : Crossroad
-    {
-        public override string ToString() { return "Fork"; }
-        int notDirection;
-    }
-    public class Road : Roads
-    {
-        List<TrafficlightControl> trafficlightControlList;
-        int startDirection;
-        int eindDirection;
 
-        Road(Point position, int start, int end):base(position){
-            trafficlightControlList = new List<TrafficlightControl>();
+        public override string ToString() { return "Fork"; }
+    }
+    public class Road : Tile
+    {
+        private int startDirection;
+        private int eindDirection;
+
+        public Road(Point position, int maxSpeed, int lanes, int start, int end)
+            : base(position, maxSpeed, lanes)
+        {
+            for (int i = 0; i < lanes * 2; i++)
+            {
+                vehicles[i] = new List<Vehicle>();
+            }
+
             if (start < end)
             {
                 startDirection = start;
@@ -97,48 +134,25 @@ namespace TrafficSimulation
                 startDirection = end;
                 eindDirection = start;
             }
-
-            for (int i = 0; i < 3; i++)
-            {
-                trafficlightControlList.Add(new TrafficlightControl());
-            }
-        }
-
-        public override void RemoveVehicle(Vehicle v)
-        {
-            base.RemoveVehicle(v);
-        }
-        public override void AddVehicle(Vehicle v)
-        {
-            base.AddVehicle(v);
-        }
-        public override void Update()
-        {
-            base.Update();
-        }
-        private void makeLists()
-        {
-        }
-        private void changeLane()
-        {
         }
     }
-    public class Spawner : Road
+    public class Spawner : Tile
     {
         public override string ToString() { return "Road"; }
+
+        int direction;
         double carsPerSec;
         double numberOfCars;
 
+        public Spawner(Point position, int maxSpeed, int lanes, int direction)
+            : base(position, maxSpeed, lanes)
+        {
+            this.direction = direction;
+        }
+
         private void createVehicle()
         {
+
         }
-    }
-    public class CurvedRoad : Road
-    {
-        public override string ToString() { return "Curve"; }
-    }
-    public class StraightRoad : Road
-    {
-        public override string ToString() { return "Straight"; }
     }
 }
