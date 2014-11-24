@@ -21,7 +21,7 @@ namespace TrafficSimulation
         protected Size size;
         protected Bitmap image;
 
-        public Tile(Point position, int maxSpeed, int lanes)
+        public Tile(Point position, int maxSpeed)
         {
             vehicles = new List<Vehicle>[lanes * 2];
             adjacentTiles = new Tile[4];
@@ -78,21 +78,31 @@ namespace TrafficSimulation
 
     public class Spawner : Tile
     {
-        public override string ToString() { return "Road"; }
-
         int direction;
-        int currentlane;
+        int lanesLowToHigh;
+        int lanesHighToLow;
+        int currentSpawn;
         double carsPerSec;
         double numberOfCars;
 
-        public Spawner(Point position, int maxSpeed, int lanes, int direction)
-            : base(position, maxSpeed, lanes)
+        public Spawner(Point position, int maxSpeed, int lanesLowToHigh, int lanesHighToLow, int direction)
+            : base(position, maxSpeed)
         {
             this.direction = direction;
-            currentlane = 0;
+            this.lanesLowToHigh = lanesLowToHigh;
+            this.lanesHighToLow = lanesHighToLow;
+
+            if (direction == 1 || direction == 2)
+            {
+                currentSpawn = lanesHighToLow;
+            }
+            else
+            {
+                currentSpawn = 0;
+            }
         }
 
-        private void createVehicle()
+        private void spawnVehicle()
         {
             numberOfCars += carsPerSec;
             if (numberOfCars >= 1)
@@ -100,15 +110,23 @@ namespace TrafficSimulation
                 //true moet vervangen worden door de methode waarin wordt bepaald of er een auto gespawned kan worden
                 if (true)
                 {
-                    AddVehicle(createRandomVehicle(), currentlane);
-                    currentlane = (currentlane + 1) % lanes;
+                    AddVehicle(createVehicle(), currentSpawn);
+                    currentSpawn = (currentSpawn + 1);
+                    if (direction == 1 || direction == 3)
+                    {
+                        currentSpawn = (currentSpawn - lanesHighToLow) % lanesHighToLow + lanesHighToLow;
+                    }
+                    else
+                    {
+                        currentSpawn = (currentSpawn + 1) % lanesLowToHigh;
+                    }
                 }
             }
-            numberOfCars = numberOfCars % 1;
         }
 
-        private Vehicle createRandomVehicle()
+        private Vehicle createVehicle()
         {
+            //deze methode moet ingevult worden, hier wordt een auto gegenereerd
             return new Vehicle(new Point(), new Point(), 0, 0, 0, 0);
         }
     }
@@ -118,8 +136,8 @@ namespace TrafficSimulation
         private int startDirection;
         private int eindDirection;
 
-        public Road(Point position, int maxSpeed, int lanes, int start, int end)
-            : base(position, maxSpeed, lanes)
+        public Road(Point position, int maxSpeed, int lanesLowToHigh, int lanesHighToLow, int start, int end)
+            : base(position, maxSpeed)
         {
             for (int i = 0; i < lanes * 2; i++)
             {
@@ -145,7 +163,7 @@ namespace TrafficSimulation
         List<TrafficlightControl> trafficlightControlList;
 
         public Fork(Point position, int maxSpeed, int lanes, int notDirection)
-            : base(position, maxSpeed, lanes)
+            : base(position, maxSpeed)
         {
             this.notDirection = notDirection;
 
@@ -167,7 +185,7 @@ namespace TrafficSimulation
         List<TrafficlightControl> trafficlightControlList;
 
         public Crossroad(Point position, int maxSpeed, int lanes)
-            : base(position, maxSpeed, lanes)
+            : base(position, maxSpeed)
         {
             trafficlightControlList = new List<TrafficlightControl>();
             for (int i = 0; i < 4; i++)
