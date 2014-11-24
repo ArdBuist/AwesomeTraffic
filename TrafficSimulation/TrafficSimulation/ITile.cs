@@ -9,26 +9,24 @@ using System.Threading;
 
 namespace TrafficSimulation
 {
-    public class Tile
+    public abstract class Tile
     {
         protected List<Vehicle>[] vehicles;
         protected Tile[] adjacentTiles;
         protected Point position;
         protected int maxSpeed;
-        protected int lanes;
-        protected bool[] acces;
+        protected bool[] access;
         protected int TotalVehicleLength;
         protected Size size;
+        protected string name;
         protected Bitmap image;
 
         public Tile(Point position, int maxSpeed)
         {
-            vehicles = new List<Vehicle>[lanes * 2];
-            adjacentTiles = new Tile[4];
-
             this.position = position;
             this.maxSpeed = maxSpeed;
-            this.lanes = lanes;
+
+            adjacentTiles = new Tile[4];
         }
 
         public void RemoveVehicle(Vehicle v, int lane)
@@ -43,7 +41,7 @@ namespace TrafficSimulation
 
         public void Update()
         {
-
+            //deze hele methode moet nog gemaakt worden (De weg moet zelf een update krijgen en de aanliggende tiles moeten een update krijgen als er wat in deze weg verandert is)
         }
 
         public void changeLane(Vehicle v, int begin, int eind)
@@ -69,6 +67,11 @@ namespace TrafficSimulation
             adjacentTiles[direction] = null;
         }
 
+        public string Number
+        {
+            get { return name; }
+        }
+
         public Graphics BitmapGraphics()
         {
             Graphics gr = Graphics.FromImage(image);
@@ -78,28 +81,26 @@ namespace TrafficSimulation
 
     public class Spawner : Tile
     {
-        int direction;
-        int lanesLowToHigh;
-        int lanesHighToLow;
-        int currentSpawn;
-        double carsPerSec;
-        double numberOfCars;
+        private int direction;
+        private int spawnLane;
+        private int currentSpawn;
+        private double carsPerSec;
+        private double numberOfCars;
 
-        public Spawner(Point position, int maxSpeed, int lanesLowToHigh, int lanesHighToLow, int direction)
+        public Spawner(Point position, int maxSpeed, int spawnLane, int direction, double carsPerSec)
             : base(position, maxSpeed)
         {
-            this.direction = direction;
-            this.lanesLowToHigh = lanesLowToHigh;
-            this.lanesHighToLow = lanesHighToLow;
+            this.position = position;
+            this.maxSpeed = maxSpeed;
+            this.name = "Spawner";
 
-            if (direction == 1 || direction == 2)
+            vehicles = new List<Vehicle>[spawnLane];
+            access = new bool[spawnLane + 1];
+            for (int i = 0; i < access.Length; i++)
             {
-                currentSpawn = lanesHighToLow;
+                access[i] = true;
             }
-            else
-            {
-                currentSpawn = 0;
-            }
+            currentSpawn = 0;
         }
 
         private void spawnVehicle()
@@ -112,15 +113,13 @@ namespace TrafficSimulation
                 {
                     AddVehicle(createVehicle(), currentSpawn);
                     currentSpawn = (currentSpawn + 1);
-                    if (direction == 1 || direction == 3)
-                    {
-                        currentSpawn = (currentSpawn - lanesHighToLow) % lanesHighToLow + lanesHighToLow;
-                    }
-                    else
-                    {
-                        currentSpawn = (currentSpawn + 1) % lanesLowToHigh;
-                    }
+
                 }
+                else
+                {
+                    //hierzo moet hij iets doen als er niet gespawnt kan worden, bijv het bijhouden of een queue maken ofzo
+                }
+                numberOfCars = numberOfCars % 1;
             }
         }
 
@@ -134,25 +133,37 @@ namespace TrafficSimulation
     public class Road : Tile
     {
         private int startDirection;
-        private int eindDirection;
+        private int endDirection;
+        private int totalLanes;
+        private int lanesLowToHigh, lanesHighToLow;
 
         public Road(Point position, int maxSpeed, int lanesLowToHigh, int lanesHighToLow, int start, int end)
             : base(position, maxSpeed)
         {
-            for (int i = 0; i < lanes * 2; i++)
-            {
-                vehicles[i] = new List<Vehicle>();
-            }
+            this.position = position;
+            this.maxSpeed = maxSpeed;
+            this.name = "Road";
+            this.lanesHighToLow = lanesHighToLow;
+            this.lanesLowToHigh = lanesLowToHigh;
 
             if (start < end)
             {
-                startDirection = start;
-                eindDirection = end;
+                this.startDirection = start;
+                this.endDirection = end;
             }
             else
             {
-                startDirection = end;
-                eindDirection = start;
+                this.startDirection = end;
+                this.endDirection = start;
+            }
+
+            totalLanes = lanesLowToHigh + lanesHighToLow;
+            vehicles = new List<Vehicle>[totalLanes];
+            access = new bool[totalLanes];
+            for (int i = 0; i < totalLanes; i++)
+            {
+                vehicles[i] = new List<Vehicle>();
+                access[i] = true;
             }
         }
     }
@@ -160,12 +171,29 @@ namespace TrafficSimulation
     public class Fork : Tile
     {
         private int notDirection;
-        List<TrafficlightControl> trafficlightControlList;
+        private int totalLanes;
+        private int lanes1, lanes2, lanes3;
+        private List<TrafficlightControl> trafficlightControlList;
 
-        public Fork(Point position, int maxSpeed, int lanes, int notDirection)
+        public Fork(Point position, int maxSpeed, int lanes1, int lanes2, int lanes3, int notDirection)
             : base(position, maxSpeed)
         {
+            this.position = position;
+            this.maxSpeed = maxSpeed;
+            this.name = "Fork";
+            this.lanes1 = lanes1;
+            this.lanes2 = lanes2;
+            this.lanes3 = lanes3;
             this.notDirection = notDirection;
+
+            totalLanes = lanes1 + lanes2 + lanes3;
+            vehicles = new List<Vehicle>[totalLanes];
+            access = new bool[totalLanes];
+            for (int i = 0; i < totalLanes; i++)
+            {
+                vehicles[i] = new List<Vehicle>();
+                access[i] = true;
+            }
 
             trafficlightControlList = new List<TrafficlightControl>();
             for (int i = 0; i < 3; i++)
@@ -173,20 +201,34 @@ namespace TrafficSimulation
                 trafficlightControlList.Add(new TrafficlightControl());
             }
         }
-
-
-        public override string ToString() { return "Fork"; }
     }
 
     public class Crossroad : Tile
     {
-        public override string ToString() { return "CrossRoad"; }
+        private int totalLanes;
+        private int lanes1, lanes2, lanes3, lanes4;
+        private List<TrafficlightControl> trafficlightControlList;
 
-        List<TrafficlightControl> trafficlightControlList;
-
-        public Crossroad(Point position, int maxSpeed, int lanes)
+        public Crossroad(Point position, int maxSpeed, int lanes1, int lanes2, int lanes3, int lanes4)
             : base(position, maxSpeed)
         {
+            this.position = position;
+            this.maxSpeed = maxSpeed;
+            this.name = "Crossroad";
+            this.lanes1 = lanes1;
+            this.lanes2 = lanes2;
+            this.lanes3 = lanes3;
+            this.lanes4 = lanes4;
+
+            totalLanes = lanes1 + lanes2 + lanes3 + lanes4;
+            vehicles = new List<Vehicle>[totalLanes];
+            access = new bool[totalLanes];
+            for (int i = 0; i < totalLanes; i++)
+            {
+                vehicles[i] = new List<Vehicle>();
+                access[i] = true;
+            }
+
             trafficlightControlList = new List<TrafficlightControl>();
             for (int i = 0; i < 4; i++)
             {
