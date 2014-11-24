@@ -9,7 +9,7 @@ using System.Threading;
 
 namespace TrafficSimulation
 {
-    public abstract class Tile
+    public class Tile
     {
         protected List<Vehicle>[] vehicles;
         protected Tile[] adjacentTiles;
@@ -75,42 +75,44 @@ namespace TrafficSimulation
             return gr;
         }
     }
-    public class Crossroad : Tile
+
+    public class Spawner : Tile
     {
-        public override string ToString() { return "CrossRoad"; }
+        public override string ToString() { return "Road"; }
 
-        List<TrafficlightControl> trafficlightControlList;
+        int direction;
+        int currentlane;
+        double carsPerSec;
+        double numberOfCars;
 
-        public Crossroad(Point position, int maxSpeed, int lanes)
+        public Spawner(Point position, int maxSpeed, int lanes, int direction)
             : base(position, maxSpeed, lanes)
         {
-            trafficlightControlList = new List<TrafficlightControl>();
-            for (int i = 0; i < 4; i++)
-            {
-                trafficlightControlList.Add(new TrafficlightControl());
-            }
+            this.direction = direction;
+            currentlane = 0;
         }
-    }
-    public class Fork : Tile
-    {
-        private int notDirection;
-        List<TrafficlightControl> trafficlightControlList;
 
-        public Fork(Point position, int maxSpeed, int lanes, int notDirection)
-            : base(position, maxSpeed, lanes)
+        private void createVehicle()
         {
-            this.notDirection = notDirection;
-
-            trafficlightControlList = new List<TrafficlightControl>();
-            for (int i = 0; i < 3; i++)
+            numberOfCars += carsPerSec;
+            if (numberOfCars >= 1)
             {
-                trafficlightControlList.Add(new TrafficlightControl());
+                //true moet vervangen worden door de methode waarin wordt bepaald of er een auto gespawned kan worden
+                if (true)
+                {
+                    AddVehicle(createRandomVehicle(), currentlane);
+                    currentlane = (currentlane + 1) % lanes;
+                }
             }
+            numberOfCars = numberOfCars % 1;
         }
 
-
-        public override string ToString() { return "Fork"; }
+        private Vehicle createRandomVehicle()
+        {
+            return new Vehicle(new Point(), new Point(), 0, 0, 0, 0);
+        }
     }
+
     public class Road : Tile
     {
         private int startDirection;
@@ -136,23 +138,42 @@ namespace TrafficSimulation
             }
         }
     }
-    public class Spawner : Tile
+
+    public class Fork : Tile
     {
-        public override string ToString() { return "Road"; }
+        private int notDirection;
+        List<TrafficlightControl> trafficlightControlList;
 
-        int direction;
-        double carsPerSec;
-        double numberOfCars;
-
-        public Spawner(Point position, int maxSpeed, int lanes, int direction)
+        public Fork(Point position, int maxSpeed, int lanes, int notDirection)
             : base(position, maxSpeed, lanes)
         {
-            this.direction = direction;
+            this.notDirection = notDirection;
+
+            trafficlightControlList = new List<TrafficlightControl>();
+            for (int i = 0; i < 3; i++)
+            {
+                trafficlightControlList.Add(new TrafficlightControl());
+            }
         }
 
-        private void createVehicle()
-        {
 
+        public override string ToString() { return "Fork"; }
+    }
+
+    public class Crossroad : Tile
+    {
+        public override string ToString() { return "CrossRoad"; }
+
+        List<TrafficlightControl> trafficlightControlList;
+
+        public Crossroad(Point position, int maxSpeed, int lanes)
+            : base(position, maxSpeed, lanes)
+        {
+            trafficlightControlList = new List<TrafficlightControl>();
+            for (int i = 0; i < 4; i++)
+            {
+                trafficlightControlList.Add(new TrafficlightControl());
+            }
         }
     }
 }
