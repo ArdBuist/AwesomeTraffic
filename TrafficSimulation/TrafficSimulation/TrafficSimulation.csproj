@@ -50,7 +50,7 @@
     <Compile Include="Trafficlight.cs" />
     <Compile Include="TrafficlightControl.cs" />
     <Compile Include="ControlPanel.cs" />
-    <Compile Include="ITile.cs" />
+    <Compile Include="Tile.cs" />
     <Compile Include="Vehicle.cs" />
     <Compile Include="SimControl.cs">
       <SubType>UserControl</SubType>
