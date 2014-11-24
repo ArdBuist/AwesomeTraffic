@@ -29,6 +29,17 @@ namespace TrafficSimulation
             adjacentTiles = new Tile[4];
         }
 
+        public void initialize(int totalLanes)
+        {
+            vehicles = new List<Vehicle>[totalLanes];
+            access = new bool[totalLanes];
+            for (int i = 0; i < totalLanes; i++)
+            {
+                vehicles[i] = new List<Vehicle>();
+                access[i] = true;
+            }
+        }
+
         public void RemoveVehicle(Vehicle v, int lane)
         {
             vehicles[lane].Remove(v);
@@ -94,13 +105,7 @@ namespace TrafficSimulation
             this.maxSpeed = maxSpeed;
             this.name = "Spawner";
 
-            vehicles = new List<Vehicle>[spawnLane];
-            access = new bool[spawnLane + 1];
-            for (int i = 0; i < access.Length; i++)
-            {
-                access[i] = true;
-            }
-            currentSpawn = 0;
+            initialize(spawnLane + 1);
         }
 
         private void spawnVehicle()
@@ -156,22 +161,13 @@ namespace TrafficSimulation
                 this.startDirection = end;
                 this.endDirection = start;
             }
-
-            totalLanes = lanesLowToHigh + lanesHighToLow;
-            vehicles = new List<Vehicle>[totalLanes];
-            access = new bool[totalLanes];
-            for (int i = 0; i < totalLanes; i++)
-            {
-                vehicles[i] = new List<Vehicle>();
-                access[i] = true;
-            }
+            initialize(lanesLowToHigh + lanesHighToLow);
         }
     }
 
     public class Fork : Tile
     {
         private int notDirection;
-        private int totalLanes;
         private int lanes1, lanes2, lanes3;
         private List<TrafficlightControl> trafficlightControlList;
 
@@ -186,20 +182,12 @@ namespace TrafficSimulation
             this.lanes3 = lanes3;
             this.notDirection = notDirection;
 
-            totalLanes = lanes1 + lanes2 + lanes3;
-            vehicles = new List<Vehicle>[totalLanes];
-            access = new bool[totalLanes];
-            for (int i = 0; i < totalLanes; i++)
-            {
-                vehicles[i] = new List<Vehicle>();
-                access[i] = true;
-            }
-
             trafficlightControlList = new List<TrafficlightControl>();
             for (int i = 0; i < 3; i++)
             {
                 trafficlightControlList.Add(new TrafficlightControl());
             }
+            initialize(lanes1 + lanes2 + lanes3);
         }
     }
 
@@ -220,20 +208,12 @@ namespace TrafficSimulation
             this.lanes3 = lanes3;
             this.lanes4 = lanes4;
 
-            totalLanes = lanes1 + lanes2 + lanes3 + lanes4;
-            vehicles = new List<Vehicle>[totalLanes];
-            access = new bool[totalLanes];
-            for (int i = 0; i < totalLanes; i++)
-            {
-                vehicles[i] = new List<Vehicle>();
-                access[i] = true;
-            }
-
             trafficlightControlList = new List<TrafficlightControl>();
             for (int i = 0; i < 4; i++)
             {
                 trafficlightControlList.Add(new TrafficlightControl());
             }
+            initialize(lanes1 + lanes2 + lanes3 + lanes4);
         }
     }
 }
