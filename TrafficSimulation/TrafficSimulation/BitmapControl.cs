@@ -4,40 +4,33 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Resources;
+using System.Drawing.Design;
 using System.Threading.Tasks;
 
 namespace TrafficSimulation
 {
     class BitmapControl
     {
+
+        public Bitmap bitmap;
         public BitmapControl(Size size)
         {
+            bitmap = new Bitmap(size.Width,size.Height);
+            
+        }
+        // altijd aanroepen als er in de bitmap getekend moet worden.
+        public Graphics GetBitmapGraphics
+        {
+            get { return Graphics.FromImage(bitmap); }
         }
         private void DrawBitmap()
         {
             
         }
-        public void Teken(Graphics gr)
-        {
-        }
-        public void AddTile(Graphics gr,string tileName, int x,int y, SimControl control)
-        {
-            ITile[] tileklasses = new ITile[] {new Crossroad, new Fork, new Road,new CurvedRoad };
-
-            ITile tile;
-            int i;
-            while(tile == null)
-            {
-                ITile tileklasse = tileklasses[i];
-                if(tileklasse.ToString() == tileName)
-                    tile = tileklasse;
-                i++;
-            }
-            control.tiles.Add(tile);
-            //afbeelding uit de resources halen en in de grid op een plek invoegen.
-            ResourceManager rm = Properties.Resources.ResourceManager;
-            Bitmap tile = (Bitmap)rm.GetObject(tileName);
-            gr.DrawImage(tile, x*100, y*100);
+        public void AddTile(Bitmap bitmap, int x, int y)
+        {//zorgt ervoor dat de nieuwe tile op de kaart komt in het grid.
+            Graphics gr = GetBitmapGraphics;
+            gr.DrawImage(bitmap, x*100, y*100);
         }
     }
 }
