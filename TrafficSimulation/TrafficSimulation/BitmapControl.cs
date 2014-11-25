@@ -14,5 +14,9 @@ namespace TrafficSimulation
         {
 
         }
+        private void DrawBitmap()
+        {
+
+        }
     }
 }
