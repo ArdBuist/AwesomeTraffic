@@ -10,77 +10,31 @@ namespace TrafficSimulation
 {
     interface ITile
     {
-        
-        void RemoveVehicle();
-        void AddVehicle();
-        void Update();
-    }
-
-    public abstract class Roads : ITile
-    {
-        List<List<Car>> numberOfVehicles;
+        List<List<IVehicles>> numberOfVehicles;
         Point position;
         int maxSpeed;
         int lanes;
         bool[] acces;
         int TotalVehicleLength;
         Size size;
-        Bitmap image;
-
-        public virtual void RemoveVehicle()
-        {
-        }
-        public virtual void AddVehicle()
-        {
-        }
-        public virtual void Update()
-        {
-        }
-        public Graphics BitmapGraphics()
-        {
-            Graphics gr = Graphics.FromImage(image);
-            return gr;
-        }
+        void RemoveVehicle();
+        void AddVehicle();
+        void Update();
     }
-    public class Crossroad : Roads
+    public class Crossroad : ITile
     {
         public override string ToString() { return "CrossRoad"; }
         TrafficlightControl tc;
-
-        public override void RemoveVehicle()
-        {
-            base.RemoveVehicle();
-        }
-        public override void AddVehicle()
-        {
-            base.AddVehicle();
-        }
-        public override void Update()
-        {
-            base.Update();
-        }
     }
     public class Fork : Crossroad
     {
         public override string ToString() { return "Fork"; }
         int notDirection;
     }
-    public class Road: Roads
+    public class Road: ITile
     {
         int startDirection;
         int eindDirection;
-        public override void RemoveVehicle()
-        {
-            base.RemoveVehicle();
-        }
-        public override void AddVehicle()
-        {
-            base.AddVehicle();
-        }
-        public override void Update()
-        {
-            base.Update();
-        }
         private void makeLists()
         {
         }

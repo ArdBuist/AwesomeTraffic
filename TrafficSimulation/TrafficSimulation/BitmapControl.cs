@@ -10,6 +10,7 @@ namespace TrafficSimulation
 {
     class BitmapControl
     {
+<<<<<<< HEAD
         public BitmapControl(Size size)
         {
         }
@@ -39,5 +40,9 @@ namespace TrafficSimulation
             Bitmap tile = (Bitmap)rm.GetObject(tileName);
             gr.DrawImage(tile, x*100, y*100);
         }
+=======
+        Bitmap kaart;
+        private void DrawBitmap();
+>>>>>>> parent of fb9b762... Klassen aangepast zodat programma uitgevoerd wordt.
     }
 }
