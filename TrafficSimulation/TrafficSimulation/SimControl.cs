@@ -15,16 +15,23 @@ namespace TrafficSimulation
     {
         BuildPanel buildPanel;
         ControlPanel controlPanel;
-        string currentTile;
+        string currentTileString;
+        ITile currentBuildTile;
         BitmapControl bitmapMap;
+        BitmapControl trafficlightMap;
+        BitmapControl vehicleMap;
+        Boolean isBuildingMode;//moet veranderd worden als van het kaartbouwen wordt overgesprongen naar het "spelen" 
         public ITile[] tiles;
 
         public SimControl(Size size)
         {
             
             this.Size = new Size(2000, 1500);
+            isBuildingMode = false;
             bitmapMap = new BitmapControl(this.Size);
-            this.DoubleBuffered = true;
+            trafficlightMap = new BitmapControl(this.Size);
+            vehicleMap = new BitmapControl(this.Size);
+            this.DoubleBuffered = false;
             this.Paint += this.Teken;
             this.MouseUp += this.MouseUnclick;
             this.Visible = true;
@@ -33,10 +40,22 @@ namespace TrafficSimulation
         }
         private void Teken(object o, PaintEventArgs pea)
         {
+            
             //dit zorgt ervoor dat de kaart op het scherm wordt weergegeven.
             //dit hoeft alleen maar gebeuren wanneer er nog aan de kaart gewerkt wordt.
-            Image image = (Image)bitmapMap.bitmap;
-            pea.Graphics.DrawImage(image, 0, 0);
+            Image image;
+            if (isBuildingMode == true)
+            {
+                image = (Image)bitmapMap.bitmap;
+                pea.Graphics.DrawImage(image, 0, 0);
+            }
+            else
+            {
+                image = (Image)vehicleMap.bitmap;
+                pea.Graphics.DrawImage(image, 0, 0);
+                image = (Image)trafficlightMap.bitmap;
+                pea.Graphics.DrawImage(image, 0, 0);
+            }
         }
         private void MouseUnclick(object obj, MouseEventArgs mea)
         {
@@ -47,12 +66,22 @@ namespace TrafficSimulation
             else
                 tileImage = DrawImage("crossroad");
             //voor als de code voor het zelf maken van de tiles werkt:
-            //tileImage = currentTile.DrawImage(hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden);
-            //currentTile.SetValues(hier startdirection, enddirection en alle andere nodige variabelen);
+            //ITile[] tileList = new ITile[] {new Crossroad(), new Road(), new Fork()};
+            //for (int i = 0; i < tileList.Length;i++ )
+            //{
+            //    ITile possibleTile = tileList[i];
+            //    if(possibleTile.ToString() == currentTileString)
+            //    {
+            //        currentBuildTile = possibleTile;
+            //        break;
+            //    }
+            //}
+            //currentBuildTile.SetValues(hier startdirection, enddirection en alle andere nodige variabelen);
+            //tileImage = currentBuildTile.DrawImage(hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden);
             //list[mea.Y/100*10+mea.X/100] = currentTile;
 
             //Dit zorgt ervoor dat de kaart geupdate wordt met de nieuwe tile.
-            bitmapMap.AddTile(tileImage, mea.X / 100, mea.Y / 100);
+            bitmapMap.AddTile(tileImage, mea.X / 100, mea.Y / 100);    
             Invalidate();
         }
         //deze methode moet anders komen in elke tileklasse, kan weg als dat klaar is. Deze is alleen maar als tussenproduct.
