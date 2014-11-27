@@ -166,9 +166,90 @@ namespace TrafficSimulation
         public override Bitmap DrawImage()
         {
             Bitmap image = new Bitmap(100, 100);
-            //drawForkroad(Graphics.FromImage(image), 0, 0, 1, 1, 1, 1, 1, 1);
+            drawRoad(Graphics.FromImage(image), startDirection,endDirection,lanesLowToHigh,lanesHighToLow);
             return image;
         }
+
+        /*Deze methode tekent een rechte of een kromme weg. De parameters zijn: sideIn(welke kant de weg binnenkomt), 
+        * sideOut(welke kant de weg uitgaat), lanesIn(hoeveel wegen er in gaan bij sideIn),
+        * lanesOut(hoeveel wegen er uit gaan bij sideIn). sideIn is altijd het laagste getal, sideOut het hoogste.
+        **/
+        public Graphics drawRoad(Graphics gr, int sideIn, int sideOut, int lanesIn, int lanesOut)
+        {
+            Graphics road = gr;
+            int sideTotal = sideIn + sideOut;
+
+            //aanmaken pen die in 1 lijn streepjes zet van 5 px per stuk
+            float[] stripesLine = new float[20];
+
+            for (int t = 0; t < stripesLine.Length; t++)
+            {
+                stripesLine[t] = 5;
+            }
+
+            Pen stripesPen = new Pen(Color.Black);
+            stripesPen.DashPattern = stripesLine;
+
+            //variabelen voor mogelijke wegen
+            int r = 50 - 10 * lanesOut;
+            int r2 = 50 + 10 * lanesOut;
+            int r3 = 50 - 10 * lanesIn;
+            int r4 = 50 + 10 * lanesIn;
+
+            //bij 0 is het een rechte weg, anders is het een kromme weg
+            if (sideTotal % 2 == 0)
+            {
+                //bij 4 loopt de weg verticaal, anders horizontaal
+                if (sideTotal == 4)
+                {
+                    road.DrawLine(Pens.Black, r3, 0, r3, 100);
+                    road.DrawLine(stripesPen, 50, 0, 50, 100);
+                    road.DrawLine(Pens.Black, r2, 0, r2, 100);
+                }
+
+                else
+                {
+                    road.DrawLine(Pens.Black, 0, r3, 100, r3);
+                    road.DrawLine(stripesPen, 0, 50, 100, 50);
+                    road.DrawLine(Pens.Black, 0, r2, 100, r2);
+                }
+            }
+
+            //alle mogelijke kromme wegen
+            else
+            {
+                //bij 3 loopt de weg van kant 1 naar kant 2
+                if (sideTotal == 3)
+                {
+                    road.DrawArc(Pens.Black, r2, -1 * r, 2 * r, 2 * r, 90, 90);
+                    road.DrawArc(stripesPen, 50, -50, 100, 100, 90, 90);
+                    road.DrawArc(Pens.Black, r3, -1 * r4, 2 * r4, 2 * r4, 90, 90);
+                }
+                //bij 5 en 1 loopt de weg van kant 1 naar kant 4
+                else if (sideTotal == 5 && sideIn == 1)
+                {
+                    road.DrawArc(Pens.Black, -1 * r3, -1 * r3, 2 * r3, 2 * r3, 0, 90);
+                    road.DrawArc(stripesPen, -50, -50, 100, 100, 0, 90);
+                    road.DrawArc(Pens.Black, -1 * r2, -1 * r2, 2 * r2, 2 * r2, 0, 90);
+                }
+                //bij 5 en 2 loopt de weg van kant 2 naar kant 3
+                else if (sideTotal == 5 && sideIn == 2)
+                {
+                    road.DrawArc(Pens.Black, r2, r2, 2 * r, 2 * r, 180, 90);
+                    road.DrawArc(stripesPen, 50, 50, 100, 100, 180, 90);
+                    road.DrawArc(Pens.Black, r3, r3, 2 * r4, 2 * r4, 180, 90);
+                }
+                //de weg loopt van kant 3 naar kant 4
+                else
+                {
+                    road.DrawArc(Pens.Black, -1 * r, r2, 2 * r, 2 * r, 270, 90);
+                    road.DrawArc(stripesPen, -50, 50, 100, 100, 270, 90);
+                    road.DrawArc(Pens.Black, -1 * r4, r3, 2 * r4, 2 * r4, 270, 90);
+                }
+            }
+
+            return road;
+        }         
     }
 
     public class Fork : Tile
