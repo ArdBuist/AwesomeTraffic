@@ -108,6 +108,79 @@ namespace TrafficSimulation
         {
 
         }
+
+        public Graphics drawForkroad(int upIn, int upOut, int rightIn, int rightOut, int downIn, int downOut, int leftIn, int leftOut)
+        {
+            Graphics fork = BitmapGraphics();
+
+            /*Er wordt een array aangemaakt met de vier inkomende wegen als elementen. (Elke kant heeft een inkomende en uitgaande weg of geen wegen
+             * dus hoeft alleen in- of output gecheckt te worden.) Vervolgens wordt met een forloop gekeken aan welke kant er geen wegen zijn.
+             * In count komt het nummer te staan van de kant die geen wegen heeft (0 is up, 1 is right, 2 is down, 3 is left.)
+             */
+            int [] sides = {upIn, rightIn, downIn, leftIn};
+            int count = 0;
+            for(int t=0; t<sides.Length;t++)
+            {
+                if(sides[t] == 0)
+                {
+                    count = t;
+                    break;
+                }
+            }
+
+            // Er worden 2 van de 4 booglijnen getekend: lineRU hoort bij de lijn rechtsboven, lineRD bij rechtsonder, lineLD bij linksonder, lineLU bij linksboven
+            int lineRUx = 50 + (10 * upOut);
+            int lineRUy = -1 * (50 - (10 * rightIn));
+            int lineRUheight = 2 * (50 - (10 * rightIn));
+            int lineRUwidth = 2 * (50 - (10 * upOut));
+
+            int lineRDx = 50 + (10 * downIn);
+            int lineRDy = 50 + (10 * rightOut);
+            int lineRDheight = 2 * (50 - (10 * rightOut));
+            int lineRDwidth = 2 * (50 - (10 * downIn));
+
+            int lineLDx = -1 * (50 - (10 * downOut));
+            int lineLDy = 50 + (10 * leftIn);
+            int lineLDheight = 2 * (50 - (10 * leftIn));
+            int lineLDwidth = 2 * (50 - (10 * downOut));
+
+            int lineLUx = -1 * (50 - (10 * upIn));
+            int lineLUy = -1 * (50 - (10 * leftOut));
+            int lineLUheight = 2 * (50 - (10 * leftOut));
+            int lineLUwidth = 2 * (50 - (10 * upIn));
+
+            //Afhankelijk van welke kant geen wegen heeft, worden er 2 bogen en een lijn getekend.
+            if(count == 0)
+            {
+                fork.DrawArc(Pens.Black, lineRDx, lineRDy, lineRDwidth, lineRDheight, 180, 90);
+                fork.DrawArc(Pens.Black, lineLDx, lineLDy, lineLDwidth, lineLDheight, 270, 90);
+                fork.DrawLine(Pens.Black, 0, (50 - 10 * leftOut), 100, (50 - 10 * rightIn));
+            }
+
+            else if(count == 1)
+            {
+                fork.DrawArc(Pens.Black, lineLDx, lineLDy, lineLDwidth, lineLDheight, 270, 90);
+                fork.DrawArc(Pens.Black, lineLUx, lineLUy, lineLUwidth, lineLUheight, 0, 90);
+                fork.DrawLine(Pens.Black, (50 + 10 * upOut), 0, (50 + 10 * downIn), 100);
+            }
+
+            else if(count == 2)
+            {
+                fork.DrawArc(Pens.Black, lineLUx, lineLUy, lineLUwidth, lineLUheight, 0, 90);
+                fork.DrawArc(Pens.Black, lineRUx, lineRUy, lineRUwidth, lineRUheight, 90, 90);
+                fork.DrawLine(Pens.Black, 0, (50 + 10 * leftIn), 100, (50 + 10 * rightOut));
+            }
+
+            else
+            {
+                fork.DrawArc(Pens.Black, lineRUx, lineRUy, lineRUwidth, lineRUheight, 90, 90);
+                fork.DrawArc(Pens.Black, lineRDx, lineRDy, lineRDwidth, lineRDheight, 180, 90);
+                fork.DrawLine(Pens.Black, (50 - 10 * upIn), 0, (50 - 10 * downOut), 100);
+            }
+
+            return fork;
+        }
+
     }
     public class Road: Roads
     {
