@@ -14,7 +14,7 @@ namespace TrafficSimulation
     {
         BuildPanel buildPanel;
         ControlPanel controlPanel;
-        ITile currentTile;
+        Tile currentTile;
         BitmapControl bitmap;
 
         public SimControl(Size size)
