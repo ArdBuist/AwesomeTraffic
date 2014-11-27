@@ -27,7 +27,7 @@ namespace TrafficSimulation
         {
             
             this.Size = new Size(2000, 1500);
-            isBuildingMode = false;
+            isBuildingMode = true;
             bitmapMap = new BitmapControl(this.Size);
             trafficlightMap = new BitmapControl(this.Size);
             vehicleMap = new BitmapControl(this.Size);
