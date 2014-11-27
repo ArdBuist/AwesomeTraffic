@@ -123,7 +123,7 @@ namespace TrafficSimulation
             {
                 if(sides[t] == 0)
                 {
-                    count = t;
+                    count = t + 1;
                     break;
                 }
             }
@@ -150,21 +150,21 @@ namespace TrafficSimulation
             int lineLUwidth = 2 * (50 - (10 * upIn));
 
             //Afhankelijk van welke kant geen wegen heeft, worden er 2 bogen en een lijn getekend.
-            if(count == 0)
+            if(count == 1)
             {
                 fork.DrawArc(Pens.Black, lineRDx, lineRDy, lineRDwidth, lineRDheight, 180, 90);
                 fork.DrawArc(Pens.Black, lineLDx, lineLDy, lineLDwidth, lineLDheight, 270, 90);
                 fork.DrawLine(Pens.Black, 0, (50 - 10 * leftOut), 100, (50 - 10 * rightIn));
             }
 
-            else if(count == 1)
+            else if(count == 2)
             {
                 fork.DrawArc(Pens.Black, lineLDx, lineLDy, lineLDwidth, lineLDheight, 270, 90);
                 fork.DrawArc(Pens.Black, lineLUx, lineLUy, lineLUwidth, lineLUheight, 0, 90);
                 fork.DrawLine(Pens.Black, (50 + 10 * upOut), 0, (50 + 10 * downIn), 100);
             }
 
-            else if(count == 2)
+            else if(count == 3)
             {
                 fork.DrawArc(Pens.Black, lineLUx, lineLUy, lineLUwidth, lineLUheight, 0, 90);
                 fork.DrawArc(Pens.Black, lineRUx, lineRUy, lineRUwidth, lineRUheight, 90, 90);
@@ -206,6 +206,35 @@ namespace TrafficSimulation
         private void changeLane()
         { 
         }
+
+        /*Deze methode tekent een normale rechte weg. De parameters zijn: direction(of de weg horizontaal(hor) of verticaal(ver) loopt), 
+         * lanesIn(hoeveel wegen er in komen aan de linkerkant of aan de bovenkant), lanesOut(hoeveel wegen er uit gaan aan de linkerkant
+         * of aan de bovenkant).
+         **/
+        public Graphics drawRoad(string direction, int leftIn, int leftOut)
+        {
+            Graphics road = BitmapGraphics();
+
+
+            if (direction == "hor")
+            {
+                road.DrawLine(Pens.Black, 0, (50 - 10 * lanesIn), 0, (50 - 10 * lanesOut), 100);
+            }
+
+            else
+            {
+
+            }
+
+            return road;
+        }
+        /*
+        float[] dashValues = { 5, 2, 15, 4 };
+Pen blackPen = new Pen(Color.Black, 5);
+blackPen.DashPattern = dashValues;
+e.Graphics.DrawLine(blackPen, new Point(5, 5), new Point(405, 5));
+        */
+         
     }
     public class Spawner : Road
     {
