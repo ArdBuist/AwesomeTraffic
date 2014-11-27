@@ -19,13 +19,11 @@ namespace TrafficSimulation
         protected int TotalVehicleLength;
         protected Size size;
         protected string name;
-        protected Bitmap image;
 
         public Tile(Point position, int maxSpeed)
         {
             this.position = position;
             this.maxSpeed = maxSpeed;
-            image = new Bitmap(100, 100);
             adjacentTiles = new Tile[4];
         }
 
@@ -39,6 +37,8 @@ namespace TrafficSimulation
                 access[i] = true;
             }
         }
+        //hierin worden in de andere klassen de bitmaps gemaakt voor de kaart
+        public abstract Bitmap DrawImage();
 
         public void RemoveVehicle(Vehicle v, int lane)
         {
@@ -82,12 +82,6 @@ namespace TrafficSimulation
         {
             get { return name; }
         }
-
-        public Graphics BitmapGraphics()
-        {
-            Graphics gr = Graphics.FromImage(image);
-            return gr;
-        }
     }
 
     public class Spawner : Tile
@@ -127,10 +121,16 @@ namespace TrafficSimulation
                 numberOfCars = numberOfCars % 1;
             }
         }
+        public override Bitmap DrawImage()
+        {
+            Bitmap image = new Bitmap(100, 100);
+            //drawForkroad(Graphics.FromImage(image), 0, 0, 1, 1, 1, 1, 1, 1);
+            return image;
+        }
 
         private Vehicle createVehicle()
         {
-            //deze methode moet ingevult worden, hier wordt een auto gegenereerd
+            //deze methode moet ingevuld worden, hier wordt een auto gegenereerd
             return new Vehicle(new Point(), new Point(), 0, 0, 0, 0);
         }
     }
@@ -163,6 +163,12 @@ namespace TrafficSimulation
             }
             initialize(lanesLowToHigh + lanesHighToLow);
         }
+        public override Bitmap DrawImage()
+        {
+            Bitmap image = new Bitmap(100, 100);
+            //drawForkroad(Graphics.FromImage(image), 0, 0, 1, 1, 1, 1, 1, 1);
+            return image;
+        }
     }
 
     public class Fork : Tile
@@ -189,10 +195,15 @@ namespace TrafficSimulation
             }
             initialize(lanes1 + lanes2 + lanes3);
         }
-
-        public Graphics drawForkroad(int upIn, int upOut, int rightIn, int rightOut, int downIn, int downOut, int leftIn, int leftOut)
+        public override Bitmap DrawImage()
         {
-            Graphics fork = BitmapGraphics();
+            Bitmap image = new Bitmap(100, 100);
+            drawForkroad(Graphics.FromImage(image), 0,0,1,1,1,1,1,1);
+            return image;
+        }
+        public Graphics drawForkroad(Graphics gr, int upIn, int upOut, int rightIn, int rightOut, int downIn, int downOut, int leftIn, int leftOut)
+        {
+            Graphics fork = gr;
 
             /*Er wordt een array aangemaakt met de vier inkomende wegen als elementen. (Elke kant heeft een inkomende en uitgaande weg of geen wegen
              * dus hoeft alleen in- of output gecheckt te worden.) Vervolgens wordt met een forloop gekeken aan welke kant er geen wegen zijn.
@@ -287,11 +298,16 @@ namespace TrafficSimulation
             }
             initialize(lanes1 + lanes2 + lanes3 + lanes4);
         }
-
+        public override Bitmap DrawImage()
+        { // hier wordt een bitmap gemaakt en getekend door de andere methode. 
+            Bitmap image = new Bitmap(100, 100);
+            drawCrossroad(Graphics.FromImage(image), 1, 1, 1, 1, 1, 1, 1, 1);//deze variabelen moeten nog echt variabel worden.
+            return image;
+        }
         //Hier wordt het kruispunt getekend m.b.v. parameters die aangeven hoeveel wegen er in en uit gaan bij elke zijde.
-        public Graphics drawCrossroad(int upIn, int upOut, int rightIn, int rightOut, int downIn, int downOut, int leftIn, int leftOut)
+        public Graphics drawCrossroad(Graphics gr, int upIn, int upOut, int rightIn, int rightOut, int downIn, int downOut, int leftIn, int leftOut)
         {
-            Graphics crossRoad = BitmapGraphics();
+            Graphics crossRoad = gr;
 
             // Er worden vier lijnen getekend: lineRU hoort bij de lijn rechtsboven, lineRD bij rechtsonder, lineLD bij linksonder, lineLU bij linksboven
             int lineRUx = 50 + (10 * upOut);

@@ -16,12 +16,12 @@ namespace TrafficSimulation
         BuildPanel buildPanel;
         ControlPanel controlPanel;
         string currentTileString;
-        ITile currentBuildTile;
+        Tile currentBuildTile;
         BitmapControl bitmapMap;
         BitmapControl trafficlightMap;
         BitmapControl vehicleMap;
         Boolean isBuildingMode;//moet veranderd worden als van het kaartbouwen wordt overgesprongen naar het "spelen" 
-        public ITile[] tiles;
+        public Tile[] tiles;
 
         public SimControl(Size size)
         {
@@ -31,11 +31,11 @@ namespace TrafficSimulation
             bitmapMap = new BitmapControl(this.Size);
             trafficlightMap = new BitmapControl(this.Size);
             vehicleMap = new BitmapControl(this.Size);
-            this.DoubleBuffered = false;
+            this.DoubleBuffered = true;
             this.Paint += this.Teken;
             this.MouseUp += this.MouseUnclick;
             this.Visible = true;
-            tiles = new ITile[(this.Size.Height / 100) * (this.Size.Width / 100)];
+            tiles = new Tile[(this.Size.Height / 100) * (this.Size.Width / 100)];
             Invalidate();
         }
         private void Teken(object o, PaintEventArgs pea)
@@ -59,37 +59,26 @@ namespace TrafficSimulation
         }
         private void MouseUnclick(object obj, MouseEventArgs mea)
         {
-            //Begin moet weer weg, dat is alleen om te laten zien dat het werkt
             Bitmap tileImage;
-            if(mea.Button == MouseButtons.Left)
-                tileImage = DrawImage("horizontalroad");
-            else
-                tileImage = DrawImage("crossroad");
             //voor als de code voor het zelf maken van de tiles werkt:
-            //ITile[] tileList = new ITile[] {new Crossroad(), new Road(), new Fork()};
+            //Tile[] tileList = new Tile[] {new Crossroad(), new Road(), new Fork()};
             //for (int i = 0; i < tileList.Length;i++ )
             //{
-            //    ITile possibleTile = tileList[i];
+            //    Tile possibleTile = tileList[i];
             //    if(possibleTile.ToString() == currentTileString)
             //    {
             //        currentBuildTile = possibleTile;
             //        break;
             //    }
             //}
+            currentBuildTile = new Crossroad(new Point(mea.X, mea.Y), 60, 2, 2, 2, 2);
             //currentBuildTile.SetValues(hier startdirection, enddirection en alle andere nodige variabelen);
-            //tileImage = currentBuildTile.DrawImage(hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden);
-            //list[mea.Y/100*10+mea.X/100] = currentTile;
+            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
+            tiles[mea.Y/100*10+mea.X/100] = currentBuildTile;
 
             //Dit zorgt ervoor dat de kaart geupdate wordt met de nieuwe tile.
             bitmapMap.AddTile(tileImage, mea.X / 100, mea.Y / 100);    
             Invalidate();
-        }
-        //deze methode moet anders komen in elke tileklasse, kan weg als dat klaar is. Deze is alleen maar als tussenproduct.
-        private Bitmap DrawImage(string name)
-        {
-            ResourceManager rm = Properties.Resources.ResourceManager;
-            Bitmap tile = (Bitmap)rm.GetObject(name);
-            return tile;
         }
     }
 }
