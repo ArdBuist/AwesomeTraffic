@@ -124,7 +124,7 @@ namespace TrafficSimulation
         public override Bitmap DrawImage()
         {
             Bitmap image = new Bitmap(100, 100);
-            //drawForkroad(Graphics.FromImage(image), 0, 0, 1, 1, 1, 1, 1, 1);
+            drawSpawner(Graphics.FromImage(image), 4,1,1);
             return image;
         }
 
