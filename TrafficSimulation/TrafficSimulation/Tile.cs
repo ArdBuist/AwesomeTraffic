@@ -133,6 +133,66 @@ namespace TrafficSimulation
             //deze methode moet ingevuld worden, hier wordt een auto gegenereerd
             return new Vehicle(new Point(), new Point(), 0, 0, 0, 0);
         }
+
+        public Graphics drawSpawner(Graphics gr, int side, int lanesIn, int lanesOut)
+        {
+            Graphics bmSpawner = gr;
+
+            //aanmaken pen die in 1 lijn streepjes zet van 5 px per stuk
+            float[] stripesLine = new float[20];
+
+            for (int t = 0; t < stripesLine.Length; t++)
+            {
+                stripesLine[t] = 5;
+            }
+
+            Pen stripesPen = new Pen(Color.Black);
+            stripesPen.DashPattern = stripesLine;
+
+            //variabelen voor mogelijke wegen
+            int r = 50 - 10 * lanesOut;
+            int r2 = 50 + 10 * lanesOut;
+            int r3 = 50 - 10 * lanesIn;
+            int r4 = 50 + 10 * lanesIn;
+            int width = 10 * lanesIn + 10 * lanesOut + 10;
+
+            /*Verschillende plaatjes voor verschillende kanten. Spawner is 30 px hoog
+             * en 5px breder aan beide kanten van de wegen.
+             **/
+            if (side == 1)
+            {
+                bmSpawner.DrawLine(Pens.Black, r3, 0, r3, 70);
+                bmSpawner.DrawLine(stripesPen, 50, 0, 50, 70);
+                bmSpawner.DrawLine(Pens.Black, r2, 0, r2, 70);
+                bmSpawner.FillRectangle(Brushes.Black, r3 - 5, 70, width, 30);
+            }
+
+            else if (side == 2)
+            {
+                bmSpawner.DrawLine(Pens.Black, 30, r, 100, r);
+                bmSpawner.DrawLine(stripesPen, 30, 50, 100, 50);
+                bmSpawner.DrawLine(Pens.Black, 30, r4, 100, r4);
+                bmSpawner.FillRectangle(Brushes.Black, 0, r3 - 5, 30, width);
+            }
+
+            else if (side == 3)
+            {
+                bmSpawner.DrawLine(Pens.Black, r3, 30, r3, 100);
+                bmSpawner.DrawLine(stripesPen, 50, 30, 50, 100);
+                bmSpawner.DrawLine(Pens.Black, r2, 30, r2, 100);
+                bmSpawner.FillRectangle(Brushes.Black, r3 - 5, 0, width, 30);
+            }
+
+            else
+            {
+                bmSpawner.DrawLine(Pens.Black, 0, r, 70, r);
+                bmSpawner.DrawLine(stripesPen, 0, 50, 70, 50);
+                bmSpawner.DrawLine(Pens.Black, 0, r4, 70, r4);
+                bmSpawner.FillRectangle(Brushes.Black, 70, r - 5, 30, width);
+            }
+
+            return bmSpawner;
+        }
     }
 
     public class Road : Tile
@@ -209,9 +269,9 @@ namespace TrafficSimulation
 
                 else
                 {
-                    road.DrawLine(Pens.Black, 0, r3, 100, r3);
+                    road.DrawLine(Pens.Black, 0, r, 100, r);
                     road.DrawLine(stripesPen, 0, 50, 100, 50);
-                    road.DrawLine(Pens.Black, 0, r2, 100, r2);
+                    road.DrawLine(Pens.Black, 0, r4, 100, r4);
                 }
             }
 

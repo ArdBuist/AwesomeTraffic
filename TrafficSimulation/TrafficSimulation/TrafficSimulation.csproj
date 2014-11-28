@@ -89,8 +89,18 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Resources\" />
+    <Content Include="Resources\car1.png" />
+    <Content Include="Resources\car2.png" />
+    <Content Include="Resources\car3.png" />
+    <Content Include="Resources\car4.png" />
+    <Content Include="Resources\car5.png" />
+    <Content Include="Resources\truck1.png" />
+    <Content Include="Resources\truck2.png" />
+    <Content Include="Resources\truck3.png" />
+    <Content Include="Resources\truck4.png" />
+    <Content Include="Resources\truck5.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
