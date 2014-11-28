@@ -382,7 +382,7 @@ namespace TrafficSimulation
         public override Bitmap DrawImage()
         { // hier wordt een bitmap gemaakt en getekend door de andere methode. 
             Bitmap image = new Bitmap(100, 100);
-            drawCrossroad(Graphics.FromImage(image), 1, 1, 1, 1, 1, 1, 1, 1);//deze variabelen moeten nog echt variabel worden.
+            drawCrossroad(Graphics.FromImage(image), 1, 1, 1, 1, 1, 1, 2, 2);//deze variabelen moeten nog echt variabel worden.
             return image;
         }
         //Hier wordt het kruispunt getekend m.b.v. parameters die aangeven hoeveel wegen er in en uit gaan bij elke zijde.

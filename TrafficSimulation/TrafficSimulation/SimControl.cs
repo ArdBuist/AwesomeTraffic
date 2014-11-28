@@ -73,13 +73,25 @@ namespace TrafficSimulation
             //}
             currentBuildTile = new Crossroad(new Point(mea.X, mea.Y), 60, 2, 2, 2, 2);
             currentBuildTile = new Fork(new Point(mea.X, mea.Y), 60, 2, 2, 2, 2);
-            currentBuildTile = new Road(new Point(mea.X, mea.Y), 60, 2, 2, 2, 3);
+            currentBuildTile = new Road(new Point(mea.X, mea.Y), 60, 3, 2, 1, 2);
             //currentBuildTile.SetValues(hier startdirection, enddirection en alle andere nodige variabelen);
             tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
             tiles[mea.Y/100*10+mea.X/100] = currentBuildTile;
 
             //Dit zorgt ervoor dat de kaart geupdate wordt met de nieuwe tile.
-            bitmapMap.AddTile(tileImage, mea.X / 100, mea.Y / 100);    
+            bitmapMap.AddTile(tileImage, mea.X / 100, mea.Y / 100);
+            currentBuildTile = new Road(new Point(mea.X, mea.Y), 60, 2, 2, 2, 4);
+            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
+            bitmapMap.AddTile(tileImage, 5, 5);
+            currentBuildTile = new Road(new Point(mea.X, mea.Y), 60, 1, 1, 2, 4);
+            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
+            bitmapMap.AddTile(tileImage, 7, 5);
+            currentBuildTile = new Crossroad(new Point(mea.X, mea.Y), 60, 2, 2, 2, 2);
+            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
+            bitmapMap.AddTile(tileImage, 6, 5);
+            currentBuildTile = new Fork(new Point(mea.X, mea.Y), 60, 2, 2, 2, 2);
+            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
+            bitmapMap.AddTile(tileImage, 6,6);
             Invalidate();
         }
     }
