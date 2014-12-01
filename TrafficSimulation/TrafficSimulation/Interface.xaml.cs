@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace TrafficSimulation
 {
     /// <summary>
-    /// Interaction logic for UserControl1.xaml
+    /// Interaction logic for Interface.xaml
     /// </summary>
-    public partial class UserControl1 : UserControl
+    public partial class Interface : UserControl
     {
-        public UserControl1()
+        public Interface()
         {
             InitializeComponent();
         }
