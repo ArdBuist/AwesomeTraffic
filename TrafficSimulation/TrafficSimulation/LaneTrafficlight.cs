@@ -11,7 +11,7 @@ namespace TrafficSimulation
     {
         List<Trafficlight> trafficlights;
 
-        public LaneTrafficlight(Crossroad road, int Direction, int Lanes)
+        public LaneTrafficlight(SimControl sim, Crossroad road, int Direction, int Lanes)
         {
             trafficlights = new List<Trafficlight>();
             
@@ -19,7 +19,7 @@ namespace TrafficSimulation
             for (int i = 0; i < Lanes;i++)
             {
                 Point Position = GetPosition(Direction, i);
-                trafficlights.Add(new Trafficlight(road, Position));
+                trafficlights.Add(new Trafficlight(sim, road, Position));
             }
         }
 
