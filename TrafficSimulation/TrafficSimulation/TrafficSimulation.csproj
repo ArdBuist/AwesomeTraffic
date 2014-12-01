@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="BitmapControl.cs" />
     <Compile Include="BuildPanel.cs" />
+    <Compile Include="DrawTile.cs" />
     <Compile Include="LaneTrafficlight.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

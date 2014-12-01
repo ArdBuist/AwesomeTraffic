@@ -166,90 +166,12 @@ namespace TrafficSimulation
         public override Bitmap DrawImage()
         {
             Bitmap image = new Bitmap(100, 100);
-            drawRoad(Graphics.FromImage(image), startDirection,endDirection,lanesLowToHigh,lanesHighToLow);
+            DrawTile t = new DrawTile();
+            t.drawRoad(Graphics.FromImage(image),lanesLowToHigh,lanesHighToLow,startDirection,endDirection);
             return image;
         }
 
-        /*Deze methode tekent een rechte of een kromme weg. De parameters zijn: sideIn(welke kant de weg binnenkomt), 
-        * sideOut(welke kant de weg uitgaat), lanesIn(hoeveel wegen er in gaan bij sideIn),
-        * lanesOut(hoeveel wegen er uit gaan bij sideIn). sideIn is altijd het laagste getal, sideOut het hoogste.
-        **/
-        public Graphics drawRoad(Graphics gr, int sideIn, int sideOut, int lanesIn, int lanesOut)
-        {
-            Graphics road = gr;
-            int sideTotal = sideIn + sideOut;
-
-            //aanmaken pen die in 1 lijn streepjes zet van 5 px per stuk
-            float[] stripesLine = new float[20];
-
-            for (int t = 0; t < stripesLine.Length; t++)
-            {
-                stripesLine[t] = 5;
-            }
-
-            Pen stripesPen = new Pen(Color.Black);
-            stripesPen.DashPattern = stripesLine;
-
-            //variabelen voor mogelijke wegen
-            int r = 50 - 10 * lanesOut;
-            int r2 = 50 + 10 * lanesOut;
-            int r3 = 50 - 10 * lanesIn;
-            int r4 = 50 + 10 * lanesIn;
-
-            //bij 0 is het een rechte weg, anders is het een kromme weg
-            if (sideTotal % 2 == 0)
-            {
-                //bij 4 loopt de weg verticaal, anders horizontaal
-                if (sideTotal == 4)
-                {
-                    road.DrawLine(Pens.Black, r3, 0, r3, 100);
-                    road.DrawLine(stripesPen, 50, 0, 50, 100);
-                    road.DrawLine(Pens.Black, r2, 0, r2, 100);
-                }
-
-                else
-                {
-                    road.DrawLine(Pens.Black, 0, r3, 100, r3);
-                    road.DrawLine(stripesPen, 0, 50, 100, 50);
-                    road.DrawLine(Pens.Black, 0, r2, 100, r2);
-                }
-            }
-
-            //alle mogelijke kromme wegen
-            else
-            {
-                //bij 3 loopt de weg van kant 1 naar kant 2
-                if (sideTotal == 3)
-                {
-                    road.DrawArc(Pens.Black, r2, -1 * r, 2 * r, 2 * r, 90, 90);
-                    road.DrawArc(stripesPen, 50, -50, 100, 100, 90, 90);
-                    road.DrawArc(Pens.Black, r3, -1 * r4, 2 * r4, 2 * r4, 90, 90);
-                }
-                //bij 5 en 1 loopt de weg van kant 1 naar kant 4
-                else if (sideTotal == 5 && sideIn == 1)
-                {
-                    road.DrawArc(Pens.Black, -1 * r3, -1 * r3, 2 * r3, 2 * r3, 0, 90);
-                    road.DrawArc(stripesPen, -50, -50, 100, 100, 0, 90);
-                    road.DrawArc(Pens.Black, -1 * r2, -1 * r2, 2 * r2, 2 * r2, 0, 90);
-                }
-                //bij 5 en 2 loopt de weg van kant 2 naar kant 3
-                else if (sideTotal == 5 && sideIn == 2)
-                {
-                    road.DrawArc(Pens.Black, r2, r2, 2 * r, 2 * r, 180, 90);
-                    road.DrawArc(stripesPen, 50, 50, 100, 100, 180, 90);
-                    road.DrawArc(Pens.Black, r3, r3, 2 * r4, 2 * r4, 180, 90);
-                }
-                //de weg loopt van kant 3 naar kant 4
-                else
-                {
-                    road.DrawArc(Pens.Black, -1 * r, r2, 2 * r, 2 * r, 270, 90);
-                    road.DrawArc(stripesPen, -50, 50, 100, 100, 270, 90);
-                    road.DrawArc(Pens.Black, -1 * r4, r3, 2 * r4, 2 * r4, 270, 90);
-                }
-            }
-
-            return road;
-        }         
+        
     }
 
     public class Fork : Tile
@@ -279,80 +201,11 @@ namespace TrafficSimulation
         public override Bitmap DrawImage()
         {
             Bitmap image = new Bitmap(100, 100);
-            drawForkroad(Graphics.FromImage(image), 0,0,1,1,1,1,1,1);
+            DrawTile t = new DrawTile();
+            t.drawForkroad(Graphics.FromImage(image), 0,0,1,1,1,1,1,1);
             return image;
         }
-        public Graphics drawForkroad(Graphics gr, int upIn, int upOut, int rightIn, int rightOut, int downIn, int downOut, int leftIn, int leftOut)
-        {
-            Graphics fork = gr;
-
-            /*Er wordt een array aangemaakt met de vier inkomende wegen als elementen. (Elke kant heeft een inkomende en uitgaande weg of geen wegen
-             * dus hoeft alleen in- of output gecheckt te worden.) Vervolgens wordt met een forloop gekeken aan welke kant er geen wegen zijn.
-             * In count komt het nummer te staan van de kant die geen wegen heeft (0 is up, 1 is right, 2 is down, 3 is left.)
-             */
-            int[] sides = { upIn, rightIn, downIn, leftIn };
-            int count = 0;
-            for (int t = 0; t < sides.Length; t++)
-            {
-                if (sides[t] == 0)
-                {
-                    count = t + 1;
-                    break;
-                }
-            }
-
-            // Er worden 2 van de 4 booglijnen getekend: lineRU hoort bij de lijn rechtsboven, lineRD bij rechtsonder, lineLD bij linksonder, lineLU bij linksboven
-            int lineRUx = 50 + (10 * upOut);
-            int lineRUy = -1 * (50 - (10 * rightIn));
-            int lineRUheight = 2 * (50 - (10 * rightIn));
-            int lineRUwidth = 2 * (50 - (10 * upOut));
-
-            int lineRDx = 50 + (10 * downIn);
-            int lineRDy = 50 + (10 * rightOut);
-            int lineRDheight = 2 * (50 - (10 * rightOut));
-            int lineRDwidth = 2 * (50 - (10 * downIn));
-
-            int lineLDx = -1 * (50 - (10 * downOut));
-            int lineLDy = 50 + (10 * leftIn);
-            int lineLDheight = 2 * (50 - (10 * leftIn));
-            int lineLDwidth = 2 * (50 - (10 * downOut));
-
-            int lineLUx = -1 * (50 - (10 * upIn));
-            int lineLUy = -1 * (50 - (10 * leftOut));
-            int lineLUheight = 2 * (50 - (10 * leftOut));
-            int lineLUwidth = 2 * (50 - (10 * upIn));
-
-            //Afhankelijk van welke kant geen wegen heeft, worden er 2 bogen en een lijn getekend.
-            if (count == 1)
-            {
-                fork.DrawArc(Pens.Black, lineRDx, lineRDy, lineRDwidth, lineRDheight, 180, 90);
-                fork.DrawArc(Pens.Black, lineLDx, lineLDy, lineLDwidth, lineLDheight, 270, 90);
-                fork.DrawLine(Pens.Black, 0, (50 - 10 * leftOut), 100, (50 - 10 * rightIn));
-            }
-
-            else if (count == 2)
-            {
-                fork.DrawArc(Pens.Black, lineLDx, lineLDy, lineLDwidth, lineLDheight, 270, 90);
-                fork.DrawArc(Pens.Black, lineLUx, lineLUy, lineLUwidth, lineLUheight, 0, 90);
-                fork.DrawLine(Pens.Black, (50 + 10 * upOut), 0, (50 + 10 * downIn), 100);
-            }
-
-            else if (count == 3)
-            {
-                fork.DrawArc(Pens.Black, lineLUx, lineLUy, lineLUwidth, lineLUheight, 0, 90);
-                fork.DrawArc(Pens.Black, lineRUx, lineRUy, lineRUwidth, lineRUheight, 90, 90);
-                fork.DrawLine(Pens.Black, 0, (50 + 10 * leftIn), 100, (50 + 10 * rightOut));
-            }
-
-            else
-            {
-                fork.DrawArc(Pens.Black, lineRUx, lineRUy, lineRUwidth, lineRUheight, 90, 90);
-                fork.DrawArc(Pens.Black, lineRDx, lineRDy, lineRDwidth, lineRDheight, 180, 90);
-                fork.DrawLine(Pens.Black, (50 - 10 * upIn), 0, (50 - 10 * downOut), 100);
-            }
-
-            return fork;
-        }
+        
     }
 
     public class Crossroad : Tile
@@ -382,41 +235,10 @@ namespace TrafficSimulation
         public override Bitmap DrawImage()
         { // hier wordt een bitmap gemaakt en getekend door de andere methode. 
             Bitmap image = new Bitmap(100, 100);
-            drawCrossroad(Graphics.FromImage(image), 1, 1, 1, 1, 1, 1, 1, 1);//deze variabelen moeten nog echt variabel worden.
+            DrawTile t = new DrawTile();
+            t.drawCrossroad(Graphics.FromImage(image), 1, 1, 1, 1, 1, 1, 1, 1);//deze variabelen moeten nog echt variabel worden.
             return image;
         }
-        //Hier wordt het kruispunt getekend m.b.v. parameters die aangeven hoeveel wegen er in en uit gaan bij elke zijde.
-        public Graphics drawCrossroad(Graphics gr, int upIn, int upOut, int rightIn, int rightOut, int downIn, int downOut, int leftIn, int leftOut)
-        {
-            Graphics crossRoad = gr;
-
-            // Er worden vier lijnen getekend: lineRU hoort bij de lijn rechtsboven, lineRD bij rechtsonder, lineLD bij linksonder, lineLU bij linksboven
-            int lineRUx = 50 + (10 * upOut);
-            int lineRUy = -1 * (50 - (10 * rightIn));
-            int lineRUheight = 2 * (50 - (10 * rightIn));
-            int lineRUwidth = 2 * (50 - (10 * upOut));
-
-            int lineRDx = 50 + (10 * downIn);
-            int lineRDy = 50 + (10 * rightOut);
-            int lineRDheight = 2 * (50 - (10 * rightOut));
-            int lineRDwidth = 2 * (50 - (10 * downIn));
-
-            int lineLDx = -1 * (50 - (10 * downOut));
-            int lineLDy = 50 + (10 * leftIn);
-            int lineLDheight = 2 * (50 - (10 * leftIn));
-            int lineLDwidth = 2 * (50 - (10 * downOut));
-
-            int lineLUx = -1 * (50 - (10 * upIn));
-            int lineLUy = -1 * (50 - (10 * leftOut));
-            int lineLUheight = 2 * (50 - (10 * leftOut));
-            int lineLUwidth = 2 * (50 - (10 * upIn));
-
-            crossRoad.DrawArc(Pens.Black, lineRUx, lineRUy, lineRUwidth, lineRUheight, 90, 90);
-            crossRoad.DrawArc(Pens.Black, lineRDx, lineRDy, lineRDwidth, lineRDheight, 180, 90);
-            crossRoad.DrawArc(Pens.Black, lineLDx, lineLDy, lineLDwidth, lineLDheight, 270, 90);
-            crossRoad.DrawArc(Pens.Black, lineLUx, lineLUy, lineLUwidth, lineLUheight, 0, 90);
-
-            return crossRoad;
-        }
+        
     }
 }
