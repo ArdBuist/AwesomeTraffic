@@ -19,12 +19,15 @@ namespace TrafficSimulation
         protected int TotalVehicleLength;
         protected Size size;
         protected string name;
+        protected int lanesLowToHigh, lanesHighToLow;
 
-        public Tile(Point position, int maxSpeed)
+        public Tile(Point position)
         {
             this.position = position;
-            this.maxSpeed = maxSpeed;
+            this.maxSpeed = 5;
             adjacentTiles = new Tile[4];
+            this.lanesHighToLow = 1;
+            this.lanesLowToHigh = 1;
         }
 
         public void initialize(int totalLanes)
@@ -39,6 +42,16 @@ namespace TrafficSimulation
         }
         //hierin worden in de andere klassen de bitmaps gemaakt voor de kaart
         public abstract Bitmap DrawImage();
+
+        public int CountLanes(int[] lanes)
+        {
+            int totalLanes = 0;
+            for (int i = 0; i < lanes.Length; i++)
+            {
+                totalLanes += lanes[i];
+            }
+            return totalLanes;
+        }
 
         public void RemoveVehicle(Vehicle v, int lane)
         {
@@ -86,18 +99,17 @@ namespace TrafficSimulation
 
     public class Spawner : Tile
     {
-        private int direction;
         private int spawnLane;
         private int currentSpawn;
         private double carsPerSec;
         private double numberOfCars;
 
-        public Spawner(Point position, int maxSpeed, int spawnLane, int direction, double carsPerSec)
-            : base(position, maxSpeed)
+        public Spawner(Point position, int direction)
+            : base(position)
         {
-            this.position = position;
-            this.maxSpeed = maxSpeed;
             this.name = "Spawner";
+            carsPerSec = 0.5;
+            spawnLane = 1;
 
             initialize(spawnLane + 1);
         }
@@ -200,16 +212,13 @@ namespace TrafficSimulation
         private int startDirection;
         private int endDirection;
         private int totalLanes;
-        private int lanesLowToHigh, lanesHighToLow;
 
-        public Road(Point position, int maxSpeed, int lanesLowToHigh, int lanesHighToLow, int start, int end)
-            : base(position, maxSpeed)
+
+        public Road(Point position, int start, int end)
+            : base(position)
         {
-            this.position = position;
-            this.maxSpeed = maxSpeed;
             this.name = "Road";
-            this.lanesHighToLow = lanesHighToLow;
-            this.lanesLowToHigh = lanesLowToHigh;
+
 
             if (start < end)
             {
@@ -315,18 +324,14 @@ namespace TrafficSimulation
     public class Fork : Tile
     {
         private int notDirection;
-        private int lanes1, lanes2, lanes3;
+        int[] lanes;
         private List<TrafficlightControl> trafficlightControlList;
 
-        public Fork(Point position, int maxSpeed, int lanes1, int lanes2, int lanes3, int notDirection)
-            : base(position, maxSpeed)
+        public Fork(Point position, int notDirection)
+            : base(position)
         {
-            this.position = position;
-            this.maxSpeed = maxSpeed;
             this.name = "Fork";
-            this.lanes1 = lanes1;
-            this.lanes2 = lanes2;
-            this.lanes3 = lanes3;
+            this.lanes = new int[] {1,1,1,1,0,0,1,1};
             this.notDirection = notDirection;
 
             trafficlightControlList = new List<TrafficlightControl>();
@@ -334,12 +339,15 @@ namespace TrafficSimulation
             {
                 trafficlightControlList.Add(new TrafficlightControl());
             }
-            initialize(lanes1 + lanes2 + lanes3);
+            int totalLanes = CountLanes(lanes);
+                initialize(totalLanes);
         }
+
+        
         public override Bitmap DrawImage()
         {
             Bitmap image = new Bitmap(100, 100);
-            drawForkroad(Graphics.FromImage(image), 0,0,1,1,1,1,1,1);
+            drawForkroad(Graphics.FromImage(image), 0, 0, 1, 1, 1, 1, 1, 1);//moet nog verandert worden bij samenvoegen
             return image;
         }
         public Graphics drawForkroad(Graphics gr, int upIn, int upOut, int rightIn, int rightOut, int downIn, int downOut, int leftIn, int leftOut)
@@ -417,32 +425,30 @@ namespace TrafficSimulation
 
     public class Crossroad : Tile
     {
-        private int totalLanes;
         private int lanes1, lanes2, lanes3, lanes4;
+        int[] lanes;
         private List<TrafficlightControl> trafficlightControlList;
 
-        public Crossroad(Point position, int maxSpeed, int lanes1, int lanes2, int lanes3, int lanes4)
-            : base(position, maxSpeed)
+        public Crossroad(Point position)
+            : base(position)
         {
             this.position = position;
             this.maxSpeed = maxSpeed;
             this.name = "Crossroad";
-            this.lanes1 = lanes1;
-            this.lanes2 = lanes2;
-            this.lanes3 = lanes3;
-            this.lanes4 = lanes4;
+            this.lanes = new int[] { 1, 1, 1, 1, 1, 1, 1, 1 };
 
             trafficlightControlList = new List<TrafficlightControl>();
             for (int i = 0; i < 4; i++)
             {
                 trafficlightControlList.Add(new TrafficlightControl());
             }
-            initialize(lanes1 + lanes2 + lanes3 + lanes4);
+            int totalLanes = CountLanes(lanes);
+            initialize(totalLanes);
         }
         public override Bitmap DrawImage()
         { // hier wordt een bitmap gemaakt en getekend door de andere methode. 
             Bitmap image = new Bitmap(100, 100);
-            drawCrossroad(Graphics.FromImage(image), 1, 1, 1, 1, 1, 1, 2, 2);//deze variabelen moeten nog echt variabel worden.
+            drawCrossroad(Graphics.FromImage(image), 1, 1, 1, 1, 1, 1, 1, 1);//deze variabelen moeten nog echt variabel worden.
             return image;
         }
         //Hier wordt het kruispunt getekend m.b.v. parameters die aangeven hoeveel wegen er in en uit gaan bij elke zijde.
