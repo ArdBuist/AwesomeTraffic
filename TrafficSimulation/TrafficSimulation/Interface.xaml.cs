@@ -18,11 +18,15 @@ namespace TrafficSimulation
     /// <summary>
     /// Interaction logic for Interface.xaml
     /// </summary>
-    public partial class Interface : UserControl
+    public partial class Interfase : UserControl
     {
-        public Interface()
+        
+        public Interfase()
         {
+            
             InitializeComponent();
         }
+
+       
     }
 }
