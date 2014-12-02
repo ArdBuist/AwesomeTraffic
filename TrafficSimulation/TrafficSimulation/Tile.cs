@@ -19,7 +19,8 @@ namespace TrafficSimulation
         protected int TotalVehicleLength;
         protected Size size;
         protected string name;
-        protected int lanesLowToHigh, lanesHighToLow;
+        protected int lanesLowToHigh;
+        protected int lanesHighToLow;
 
         public Tile(Point position)
         {
@@ -63,10 +64,8 @@ namespace TrafficSimulation
             vehicles[lane].Add(v);
         }
 
-        public void Update()
-        {
-            //deze hele methode moet nog gemaakt worden (De weg moet zelf een update krijgen en de aanliggende tiles moeten een update krijgen als er wat in deze weg verandert is)
-        }
+        //Hierin worden verschillende variabelen van de tiles verandert en doorgegeven naar de aanliggende tiles.
+        public abstract void Update(SimControl s, Road road, int direction);
 
         public void changeLane(Vehicle v, int begin, int eind)
         {
@@ -95,19 +94,36 @@ namespace TrafficSimulation
         {
             get { return name; }
         }
+        public void setMaxSpeed(int i)
+        {
+            this.maxSpeed = i;
+        }
+        public void setLanesHighToLow(int i)
+        {
+            this.lanesLowToHigh = i;
+        }
+        public void setLanesLowToHigh(int i)
+        {
+            this.lanesLowToHigh = i;
+        }
     }
 
     public class Spawner : Tile
     {
-        private int spawnLane;
-        private int currentSpawn;
-        private double carsPerSec;
-        private double numberOfCars;
+        private int spawnLane;//handigheid niet duidelijk voor mij
+        private int currentSpawn;//baan waarop de volgende auto gespawnt gaat worden
+        private int direction;//kant waarop de weg loopt
+        private int lanesOut, lanesIn;//aantal wegen van en naar de spawner
+        private double carsPerSec;//auto's die per seconde gespawned worden
+        private double numberOfCars;//opslag voor auto's die gespawned moeten worden voor als de weg vol is.
 
         public Spawner(Point position, int direction)
             : base(position)
         {
+            this.direction = direction;
             this.name = "Spawner";
+            this.lanesIn = 1;
+            this.lanesOut = 1;
             carsPerSec = 0.5;
             spawnLane = 1;
 
@@ -136,7 +152,7 @@ namespace TrafficSimulation
         public override Bitmap DrawImage()
         {
             Bitmap image = new Bitmap(100, 100);
-            drawSpawner(Graphics.FromImage(image), 4,1,1);
+            drawSpawner(Graphics.FromImage(image), direction,lanesIn,lanesOut);
             return image;
         }
 
@@ -145,7 +161,23 @@ namespace TrafficSimulation
             //deze methode moet ingevuld worden, hier wordt een auto gegenereerd
             return new Vehicle(new Point(), new Point(), 0, 0, 0, 0);
         }
-
+        public override void Update(SimControl s,Road road,int direction)
+        {
+            //if's voor verschil in richtingen van de wegen.
+            if(direction<3)
+            {
+                this.lanesIn = road.getLaneLowToHigh();
+                this.lanesOut = road.getLaneHighToLow();
+            }
+            else
+            {
+                this.lanesIn = road.getLaneHighToLow();
+                this.lanesOut = road.getLaneLowToHigh();
+            }
+            
+            this.maxSpeed = road.getMaxSpeed();
+            s.bitmapMap.AddTile(DrawImage(), position.X / 100, position.Y / 100);
+        }
         public Graphics drawSpawner(Graphics gr, int side, int lanesIn, int lanesOut)
         {
             Graphics bmSpawner = gr;
@@ -210,15 +242,15 @@ namespace TrafficSimulation
     public class Road : Tile
     {
         private int startDirection;
+        private int listPlace;
         private int endDirection;
-        private int totalLanes;
 
 
-        public Road(Point position, int start, int end)
+        public Road(Point position, int start, int end,int listPlace)
             : base(position)
         {
             this.name = "Road";
-
+            this.listPlace = listPlace;
 
             if (start < end)
             {
@@ -232,13 +264,108 @@ namespace TrafficSimulation
             }
             initialize(lanesLowToHigh + lanesHighToLow);
         }
+
         public override Bitmap DrawImage()
         {
             Bitmap image = new Bitmap(100, 100);
-            drawRoad(Graphics.FromImage(image), startDirection,endDirection,lanesLowToHigh,lanesHighToLow);
+            drawRoad(Graphics.FromImage(image), startDirection,endDirection,this.lanesLowToHigh,this.lanesHighToLow);
             return image;
         }
 
+        public override void Update(SimControl s,Road road, int direction)
+        {
+            //road is alleen maar null als dit de eerste methode update is die wordt aangeroepen na een verandering in de interface.
+            if (road != null)
+            {
+                this.lanesHighToLow = road.getLaneHighToLow();
+                this.lanesLowToHigh = road.getLaneLowToHigh();
+                this.maxSpeed = road.getMaxSpeed();
+            }
+            //als het een rechte weg is
+            if ((startDirection + endDirection) % 2 == 0)
+            {
+                if (direction == 0)
+                {
+                    UpdateOtherTile(s, this, endDirection);
+                    UpdateOtherTile(s, this, startDirection);
+                }
+                else if (direction != startDirection)
+                {
+                    UpdateOtherTile(s, this, endDirection);
+                }
+                else
+                {
+                    UpdateOtherTile(s, this, startDirection);
+                }
+            }
+            //als het een bocht is:
+            else
+            {
+                if(direction == 0)
+                {
+                    UpdateOtherTile(s, this, startDirection + 2);
+                    UpdateOtherTile(s, this, endDirection + 2);
+                }
+                else if(direction != startDirection)
+                {
+                    UpdateOtherTile(s, this, startDirection + 2);
+                }
+                else
+                {
+                    UpdateOtherTile(s, this, endDirection + 2);
+                }
+            }
+            
+            s.bitmapMap.AddTile(DrawImage(),position.X/100,position.Y/100);
+
+        }
+
+        /*Deze methode zorgt ervoor dat van de tiles om deze tile heen de methode Update wordt aangeroepen.
+        hiervoor zoekt hij in de list van SimControl naar de goede tile.*/
+        private void UpdateOtherTile(SimControl s, Road road, int direction)
+        {
+            Tile tile;
+            switch(direction)
+            {
+                case 1: tile = s.tiles[listPlace + s.tilesHorizontal];
+                    if (tile != null)
+                        tile.Update(s, this, 1);
+                    break;
+                case 2: tile = s.tiles[listPlace - 1];
+                    if (tile != null)
+                        tile.Update(s, this, 2);
+                    break;
+                case 3: tile = s.tiles[listPlace - s.tilesHorizontal];
+                    if (tile != null)
+                        tile.Update(s, this, 3);
+                    break;
+                case 4: tile = s.tiles[listPlace + 1];
+                    if(tile != null)
+                        tile.Update(s, this, 4);
+                    break;
+            }
+        }
+        public int getLaneHighToLow()
+        {
+            return lanesHighToLow;
+        }
+        public int getLaneLowToHigh()
+        {
+            return lanesLowToHigh;
+        }
+        public int getMaxSpeed()
+        {
+            return maxSpeed;
+        }
+
+        public int[] getValues()
+        {
+            int[] values = new int[3];
+            values[0] = maxSpeed;
+            values[1] = lanesHighToLow;
+            values[2] = lanesLowToHigh;
+            return values;
+        }
         /*Deze methode tekent een rechte of een kromme weg. De parameters zijn: sideIn(welke kant de weg binnenkomt), 
         * sideOut(welke kant de weg uitgaat), lanesIn(hoeveel wegen er in gaan bij sideIn),
         * lanesOut(hoeveel wegen er uit gaan bij sideIn). sideIn is altijd het laagste getal, sideOut het hoogste.
@@ -342,7 +469,21 @@ namespace TrafficSimulation
             int totalLanes = CountLanes(lanes);
                 initialize(totalLanes);
         }
-
+        public override void Update(SimControl s, Road road, int direction)
+        {
+            this.maxSpeed = road.getMaxSpeed();
+            if (direction < 3)
+            {
+                lanes[direction * 2 - 2] = road.getLaneLowToHigh();
+                lanes[direction * 2 - 1] = road.getLaneHighToLow();
+            }
+            else
+            {
+                lanes[direction * 2 - 2] = road.getLaneHighToLow();
+                lanes[direction * 2 - 1] = road.getLaneLowToHigh();
+            }
+            s.bitmapMap.AddTile(DrawImage(), position.X / 100, position.Y / 100);//drawmethode werkt nog niet naar behoren door ontbreken compatibiliteit met lists
+        }
         
         public override Bitmap DrawImage()
         {
@@ -444,6 +585,21 @@ namespace TrafficSimulation
             }
             int totalLanes = CountLanes(lanes);
             initialize(totalLanes);
+        }
+        public override void Update(SimControl s,Road road,int direction)
+        {
+            this.maxSpeed = road.getMaxSpeed();
+            if (direction < 3)
+            {
+                lanes[direction * 2 - 2] = road.getLaneLowToHigh();
+                lanes[direction * 2 - 1] = road.getLaneHighToLow();
+            }
+            else
+            {
+                lanes[direction * 2 - 2] = road.getLaneHighToLow();
+                lanes[direction * 2 - 1] = road.getLaneLowToHigh();
+            }
+            s.bitmapMap.AddTile(DrawImage(), position.X / 100, position.Y / 100);//drawmethode werkt nog niet naar behoren door ontbreken compatibiliteit met lists
         }
         public override Bitmap DrawImage()
         { // hier wordt een bitmap gemaakt en getekend door de andere methode. 
