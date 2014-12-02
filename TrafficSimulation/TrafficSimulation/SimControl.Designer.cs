@@ -28,20 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.SuspendLayout();
-            // 
-            // SimControl
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            components = new System.ComponentModel.Container();
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Name = "SimControl";
-            this.Size = new System.Drawing.Size(571, 357);
-            this.Load += new System.EventHandler(this.SimControl_Load);
-            this.ResumeLayout(false);
-
         }
 
         #endregion
-
     }
 }
