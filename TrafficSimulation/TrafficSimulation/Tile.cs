@@ -18,17 +18,18 @@ namespace TrafficSimulation
         protected bool[] access;
         protected int TotalVehicleLength;
         protected Size size;
-        protected string name;
+        public string name;
         protected int lanesLowToHigh;
         protected int lanesHighToLow;
+        protected int listPlace;
 
-        public Tile(Point position)
+        public Tile()
         {
-            this.position = position;
             this.maxSpeed = 5;
             adjacentTiles = new Tile[4];
             this.lanesHighToLow = 1;
             this.lanesLowToHigh = 1;
+            this.listPlace = 1;
         }
 
         public void initialize(int totalLanes)
@@ -44,6 +45,11 @@ namespace TrafficSimulation
         //hierin worden in de andere klassen de bitmaps gemaakt voor de kaart
         public abstract Bitmap DrawImage();
 
+        public void SetValues(Point position, int listPlace)
+        {
+            this.position = position;
+            this.listPlace = listPlace;
+        }
         public int CountLanes(int[] lanes)
         {
             int totalLanes = 0;
@@ -117,8 +123,7 @@ namespace TrafficSimulation
         private double carsPerSec;//auto's die per seconde gespawned worden
         private double numberOfCars;//opslag voor auto's die gespawned moeten worden voor als de weg vol is.
 
-        public Spawner(Point position, int direction)
-            : base(position)
+        public Spawner(int direction)
         {
             this.direction = direction;
             this.name = "Spawner";
@@ -129,7 +134,6 @@ namespace TrafficSimulation
 
             initialize(spawnLane + 1);
         }
-
         private void spawnVehicle()
         {
             numberOfCars += carsPerSec;
@@ -242,15 +246,13 @@ namespace TrafficSimulation
     public class Road : Tile
     {
         private int startDirection;
-        private int listPlace;
+        
         private int endDirection;
 
 
-        public Road(Point position, int start, int end,int listPlace)
-            : base(position)
+        public Road( int start, int end)
         {
             this.name = "Road";
-            this.listPlace = listPlace;
 
             if (start < end)
             {
@@ -264,14 +266,13 @@ namespace TrafficSimulation
             }
             initialize(lanesLowToHigh + lanesHighToLow);
         }
-
         public override Bitmap DrawImage()
         {
             Bitmap image = new Bitmap(100, 100);
             drawRoad(Graphics.FromImage(image), startDirection,endDirection,this.lanesLowToHigh,this.lanesHighToLow);
             return image;
         }
-
+        //update de tilevariabelen en zorgt dat tiles eromheen aangeroepen gaan worden.
         public override void Update(SimControl s,Road road, int direction)
         {
             //road is alleen maar null als dit de eerste methode update is die wordt aangeroepen na een verandering in de interface.
@@ -280,6 +281,18 @@ namespace TrafficSimulation
                 this.lanesHighToLow = road.getLaneHighToLow();
                 this.lanesLowToHigh = road.getLaneLowToHigh();
                 this.maxSpeed = road.getMaxSpeed();
+            }
+            else
+            {
+                /*hier moet nog code komen om de waarden van aanliggende tiles over te kunnen nemen*/
+                //Tile tile = s.tiles[listPlace];
+                //if (s.tiles[listPlace] != null && tile.name == "Road")
+                //{
+                //    Road Tile = (Road)tile;
+                //    this.lanesHighToLow = Tile.getLaneHighToLow();
+                //    this.lanesLowToHigh = Tile.getLaneLowToHigh();
+                //    this.maxSpeed = Tile.getMaxSpeed();
+                //}
             }
             //als het een rechte weg is
             if ((startDirection + endDirection) % 2 == 0)
@@ -454,8 +467,7 @@ namespace TrafficSimulation
         int[] lanes;
         private List<TrafficlightControl> trafficlightControlList;
 
-        public Fork(Point position, int notDirection)
-            : base(position)
+        public Fork(int notDirection)
         {
             this.name = "Fork";
             this.lanes = new int[] {1,1,1,1,0,0,1,1};
@@ -566,12 +578,10 @@ namespace TrafficSimulation
 
     public class Crossroad : Tile
     {
-        private int lanes1, lanes2, lanes3, lanes4;
         int[] lanes;
         private List<TrafficlightControl> trafficlightControlList;
 
-        public Crossroad(Point position)
-            : base(position)
+        public Crossroad()
         {
             this.position = position;
             this.maxSpeed = maxSpeed;
