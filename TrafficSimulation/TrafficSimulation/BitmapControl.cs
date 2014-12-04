@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace TrafficSimulation
 {
-    class BitmapControl
+    public class BitmapControl
     {
 
         public Bitmap bitmap;

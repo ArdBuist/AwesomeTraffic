@@ -9,7 +9,7 @@ namespace TrafficSimulation
 {
     class Trafficlight
     {
-        int color;
+        Color color;
         Point Position;
         Crossroad road;
         SimControl sc;
@@ -28,29 +28,29 @@ namespace TrafficSimulation
             DrawTrafficlight(Color.Red);
         }
 
-        public void UpdateColor(int kleur)
+        public void UpdateColor(Color kleur)
         {
             //hierin kunnen nog meer acties worden gedaan als de kleur wordt veranderd, zoals andere positie van de lichten t.o.v. elkaar.
             DrawTrafficlight(kleur);
         }
 
-        public void DrawTrafficlight(int kleur)
+        public void DrawTrafficlight(Color kleur)
         {
             Graphics gr = sc.trafficlightMap.GetBitmapGraphics;
             //teken hier het zwarte vierkant van het stoplicht
             gr.FillRectangle(zwart, Position.X, Position.Y, 15, 40);
             //teken hier de kleur van het rondje
-            switch (kleur)
+            if (kleur == Color.Green)
             {
-                case 0:
-                    gr.FillEllipse(groen, Position.X + 2, Position.Y + 2, 10, 10);
-                    break;
-                case 1:
-                    gr.FillEllipse(oranje, Position.X + 2, Position.Y + 12, 10, 10);
-                    break;
-                case 2:
-                    gr.FillEllipse(rood, Position.X + 2, Position.Y + 22, 10, 10);
-                    break;
+                gr.FillEllipse(groen, Position.X + 2, Position.Y + 2, 10, 10);
+            }
+            else if (kleur == Color.Orange)
+            {
+                gr.FillEllipse(oranje, Position.X + 2, Position.Y + 12, 10, 10);
+            }
+            else if (kleur == Color.Red)
+            {
+                gr.FillEllipse(rood, Position.X + 2, Position.Y + 22, 10, 10);
             }
         }
     }
