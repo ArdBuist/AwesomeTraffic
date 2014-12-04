@@ -364,6 +364,135 @@ namespace TrafficSimulation
 
             return crossRoad;
         }
+
+        public Graphics drawSpawner(Graphics gr, int side, int lanesIn, int lanesOut)
+        {
+            Graphics bmSpawner = gr;          
+            Pen stripesPen = strPen();
+            int lanesTotal = lanesIn + lanesOut;
+
+            //variabelen voor mogelijke wegen
+            int r = 50 - roadW * lanesOut;
+            int r2 = 50 + roadW * lanesOut;
+            int r3 = 50 - roadW * lanesIn;
+            int r4 = 50 + roadW * lanesIn;
+            int width = roadW * lanesIn + roadW * lanesOut + 10;
+
+            /*Verschillende plaatjes voor verschillende kanten. Spawner is 30 px hoog
+             * en 5px breder aan beide kanten van de wegen. De side is waar de
+             * spawner staat.
+             **/
+            if (side == 1)
+            {
+                bmSpawner.FillRectangle(Brushes.Gray, r3, 0, lanesTotal * roadW, 100);
+                bmSpawner.DrawLine(Pens.White, r3, 0, r3, 100);
+                bmSpawner.DrawLine(Pens.White, r2, 0, r2, 100);              
+
+                //als er maar 1 weg in en 1 weg uit, dan moet er een streepjeslijn in het midden
+                if (lanesIn == 1 && lanesOut == 1)
+                {
+                    bmSpawner.DrawLine(stripesPen, 50, 0, 50, 100);
+                }
+                else
+                {
+                    bmSpawner.DrawLine(Pens.White, 50, 0, 50, 100);
+                    for (int t = 1; t < lanesIn; t++)
+                    {
+                        bmSpawner.DrawLine(stripesPen, 50 - t * roadW, 0, 50 - t * roadW, 100);
+                    }
+                    for (int i = 1; i < lanesOut; i++)
+                    {
+                        bmSpawner.DrawLine(stripesPen, 50 + i * roadW, 0, 50 + i * roadW, 100);
+                    }
+                } 
+                
+                bmSpawner.FillRectangle(Brushes.Black, r3 - 5, 0, width, 30);
+            }
+
+            else if (side == 2)
+            {
+                bmSpawner.FillRectangle(Brushes.Gray, 0, r3, 100, lanesTotal * roadW);
+                bmSpawner.DrawLine(Pens.White, 0, r3, 100, r3);
+                bmSpawner.DrawLine(Pens.White, 0, r2, 100, r2);
+
+                //als er maar 1 weg in en 1 weg uit, dan moet er een streepjeslijn in het midden
+                if (lanesIn == 1 && lanesOut == 1)
+                {
+                    bmSpawner.DrawLine(stripesPen, 0, 50, 100, 50);
+                }
+                else
+                {
+                    bmSpawner.DrawLine(Pens.White, 0, 50, 100, 50);
+                    for (int t = 1; t < lanesIn; t++)
+                    {
+                        bmSpawner.DrawLine(stripesPen, 0, 50 - t * roadW, 100, 50 - t * roadW);
+                    }
+                    for (int i = 1; i < lanesOut; i++)
+                    {
+                        bmSpawner.DrawLine(stripesPen, 0, 50 + i * roadW, 100, 50 + i * roadW);
+                    }
+                }
+                bmSpawner.FillRectangle(Brushes.Black, 70, r3 - 5, 30, width);
+            }
+
+            else if (side == 3)
+            {
+                bmSpawner.FillRectangle(Brushes.Gray, r, 0, lanesTotal * roadW, 100);
+                bmSpawner.DrawLine(Pens.White, r, 0, r, 100);
+                bmSpawner.DrawLine(Pens.White, r4, 0, r4, 100);
+
+                if (lanesIn == 1 && lanesOut == 1)
+                {
+                    bmSpawner.DrawLine(stripesPen, 50, 0, 50, 100);
+                }
+
+                else
+                {
+                    bmSpawner.DrawLine(Pens.White, 50, 0, 50, 100);
+                    for (int t = 1; t < lanesIn; t++)
+                    {
+                        bmSpawner.DrawLine(stripesPen, 50 + t * roadW, 0, 50 + t * roadW, 100);
+                    }
+                    for (int i = 1; i < lanesOut; i++)
+                    {
+                        bmSpawner.DrawLine(stripesPen, 50 - i * roadW, 0, 50 - i * roadW, 100);
+                    }
+                }
+
+
+                bmSpawner.FillRectangle(Brushes.Black, r - 5, 70, width, 30);
+                
+            }
+
+            else
+            {
+
+                bmSpawner.FillRectangle(Brushes.Gray, 0, r, 100, lanesTotal * roadW);
+                bmSpawner.DrawLine(Pens.White, 0, r, 100, r);
+                bmSpawner.DrawLine(Pens.White, 0, r4, 100, r4);
+
+                //als er maar 1 weg in en 1 weg uit, dan moet er een streepjeslijn in het midden
+                if (lanesIn == 1 && lanesOut == 1)
+                {
+                    bmSpawner.DrawLine(stripesPen, 0, 50, 100, 50);
+                }
+                else
+                {
+                    bmSpawner.DrawLine(Pens.White, 0, 50, 100, 50);
+                    for (int t = 1; t < lanesIn; t++)
+                    {
+                        bmSpawner.DrawLine(stripesPen, 0, 50 + t * roadW, 100, 50 + t * roadW);
+                    }
+                    for (int i = 1; i < lanesOut; i++)
+                    {
+                        bmSpawner.DrawLine(stripesPen, 0, 50 - i * roadW, 100, 50 - i * roadW);
+                    }
+                }                   
+                bmSpawner.FillRectangle(Brushes.Black, 0, r - 5, 30, width);
+            }
+
+            return bmSpawner;
+        }
     }
    }     
 
