@@ -83,9 +83,9 @@ namespace TrafficSimulation
                 //horizontale weg
                 else
                 {
-                    road.FillRectangle(Brushes.Gray, 0, r, 100, lanesTotal*roadW);
-                    road.DrawLine(Pens.White, 0, r, 100, r);                    
-                    road.DrawLine(Pens.White, 0, r4, 100, r4);
+                    road.FillRectangle(Brushes.Gray, 0, r3, 100, lanesTotal*roadW);
+                    road.DrawLine(Pens.White, 0, r3, 100, r3);                    
+                    road.DrawLine(Pens.White, 0, r2, 100, r2);
 
                     //als er maar 1 weg in en 1 weg uit, dan moet er een streepjeslijn in het midden
                     if (lanesIn == 1 && lanesOut == 1)

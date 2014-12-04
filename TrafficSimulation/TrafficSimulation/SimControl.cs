@@ -73,8 +73,8 @@ namespace TrafficSimulation
             //}
             currentBuildTile = new Crossroad(new Point(mea.X, mea.Y), 60, 2, 2, 2, 2);
             currentBuildTile = new Fork(new Point(mea.X, mea.Y), 60, 2, 2, 2, 2);
-            currentBuildTile = new Road(new Point(mea.X, mea.Y), 60, 3, 2, 1, 4);
-            currentBuildTile = new Spawner(new Point(mea.X, mea.Y), 60, 1, 3, 10);
+            currentBuildTile = new Road(new Point(mea.X, mea.Y), 60, 2, 3, 1, 3);
+            //currentBuildTile = new Spawner(new Point(mea.X, mea.Y), 60, 1, 3, 10);
             //currentBuildTile.SetValues(hier startdirection, enddirection en alle andere nodige variabelen);
             tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
             tiles[mea.Y/100*10+mea.X/100] = currentBuildTile;
