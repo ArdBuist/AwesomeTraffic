@@ -140,7 +140,7 @@ namespace TrafficSimulation
             currentBuildTile.SetValues(new Point(600, 600), 600 / 100 * tilesHorizontal + 600 / 100);
             bitmapMap.AddTile(tileImage, 6, 6);
             currentBuildTile = tiles[500 / 100 * tilesHorizontal + 700 / 100];
-            currentBuildTile.setLanesHighToLow(2);
+            currentBuildTile.setLanesHighToLow(1);
             currentBuildTile.Update(this, null, 0);
 
         }
