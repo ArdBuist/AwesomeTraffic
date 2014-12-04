@@ -18,7 +18,7 @@ namespace TrafficSimulation
         string currentTileString;
         Tile currentBuildTile;
         BitmapControl bitmapMap;
-        public BitmapControl trafficlightMap;
+        BitmapControl trafficlightMap;
         BitmapControl vehicleMap;
         Boolean isBuildingMode;//moet veranderd worden als van het kaartbouwen wordt overgesprongen naar het "spelen" 
         public Tile[] tiles;

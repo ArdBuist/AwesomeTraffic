@@ -25,7 +25,7 @@ namespace TrafficSimulation
             this.road = road;
             this.Position = Position;
             sc = sim;
-            DrawTrafficlight(Color.Red);
+            //DrawTrafficlight(Color.Red);
         }
 
         public void UpdateColor(Color kleur)
