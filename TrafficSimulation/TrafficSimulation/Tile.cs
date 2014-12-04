@@ -201,8 +201,9 @@ namespace TrafficSimulation
         public override Bitmap DrawImage()
         {
             Bitmap image = new Bitmap(100, 100);
+            int [] lanes = {1,1,1,1,1,1,0,0};//deze array moet variabel worden
             DrawTile t = new DrawTile();
-            t.drawForkroad(Graphics.FromImage(image), 0,0,1,1,1,1,1,1);
+            t.drawForkroad(Graphics.FromImage(image), lanes);
             return image;
         }
         
@@ -235,8 +236,9 @@ namespace TrafficSimulation
         public override Bitmap DrawImage()
         { // hier wordt een bitmap gemaakt en getekend door de andere methode. 
             Bitmap image = new Bitmap(100, 100);
+            int[] lanes = { 1, 1, 1, 1, 1, 1, 1, 1 };//deze array moet nog echt variabel worden
             DrawTile t = new DrawTile();
-            t.drawCrossroad(Graphics.FromImage(image), 1, 1, 1, 1, 1, 1, 1, 1);//deze variabelen moeten nog echt variabel worden.
+            t.drawCrossroad(Graphics.FromImage(image), lanes);
             return image;
         }
         

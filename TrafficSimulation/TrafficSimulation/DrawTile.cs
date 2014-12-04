@@ -39,6 +39,8 @@ namespace TrafficSimulation
         public Graphics drawRoad(Graphics gr, int lanesIn, int lanesOut, int sideIn, int sideOut)
         {
             Graphics road = gr;
+            road.SmoothingMode = SmoothingMode.AntiAlias;
+
             int sideTotal = sideIn + sideOut;
             int lanesTotal = lanesIn + lanesOut;
             Pen stripesPen = strPen();
@@ -231,6 +233,8 @@ namespace TrafficSimulation
         public Graphics drawForkroad(Graphics gr, int [] lanes)
         {
             Graphics fork = gr;
+            fork.SmoothingMode = SmoothingMode.AntiAlias;
+
             int upIn = lanes[0]; int upOut = lanes[1];
             int rightIn = lanes[2]; int rightOut = lanes[3];
             int downIn = lanes[4]; int downOut = lanes[5];
@@ -238,7 +242,7 @@ namespace TrafficSimulation
 
             /*Er wordt een array aangemaakt met de vier inkomende wegen als elementen. (Elke kant heeft een inkomende en uitgaande weg of geen wegen
              * dus hoeft alleen in- of output gecheckt te worden.) Vervolgens wordt met een forloop gekeken aan welke kant er geen wegen zijn.
-             * In count komt het nummer te staan van de kant die geen wegen heeft (0 is up, 1 is right, 2 is down, 3 is left.)
+             * In count komt het nummer te staan van de kant die geen wegen heeft (1 is up, 2 is right, 3 is down, 4 is left.)
              */
             int[] sides = { upIn, rightIn, downIn, leftIn };
             int count = 0;
@@ -275,30 +279,42 @@ namespace TrafficSimulation
             //Afhankelijk van welke kant geen wegen heeft, worden er 2 bogen en een lijn getekend.
             if (count == 1)
             {
-                fork.DrawArc(Pens.Black, lineRDx, lineRDy, lineRDwidth, lineRDheight, 180, 90);
-                fork.DrawArc(Pens.Black, lineLDx, lineLDy, lineLDwidth, lineLDheight, 270, 90);
-                fork.DrawLine(Pens.Black, 0, (50 - roadW * leftOut), 100, (50 - roadW * rightIn));
+                fork.FillRectangle(Brushes.Gray, 0, 50 - leftOut * roadW, 100, 50 * leftOut * roadW);
+                fork.FillEllipse(Brushes.Green, lineLDx, lineLDy, lineLDwidth, lineLDheight);
+                fork.FillEllipse(Brushes.Green, lineRDx, lineRDy, lineRDwidth, lineRDheight);
+                fork.DrawArc(Pens.White, lineRDx, lineRDy, lineRDwidth, lineRDheight, 180, 90);
+                fork.DrawArc(Pens.White, lineLDx, lineLDy, lineLDwidth, lineLDheight, 270, 90);
+                fork.DrawLine(Pens.White, 0, (50 - roadW * leftOut), 100, (50 - roadW * rightIn));
             }
 
             else if (count == 2)
             {
-                fork.DrawArc(Pens.Black, lineLDx, lineLDy, lineLDwidth, lineLDheight, 270, 90);
-                fork.DrawArc(Pens.Black, lineLUx, lineLUy, lineLUwidth, lineLUheight, 0, 90);
-                fork.DrawLine(Pens.Black, (50 + roadW * upOut), 0, (50 + roadW * downIn), 100);
+                fork.FillRectangle(Brushes.Gray, 0, 0, 50 + upOut * roadW, 100);
+                fork.FillEllipse(Brushes.Green, lineLDx, lineLDy, lineLDwidth, lineLDheight);
+                fork.FillEllipse(Brushes.Green, lineLUx, lineLUy, lineLUwidth, lineLUheight);
+                fork.DrawArc(Pens.White, lineLDx, lineLDy, lineLDwidth, lineLDheight, 270, 90);
+                fork.DrawArc(Pens.White, lineLUx, lineLUy, lineLUwidth, lineLUheight, 0, 90);
+                fork.DrawLine(Pens.White, (50 + roadW * upOut), 0, (50 + roadW * downIn), 100);
             }
 
             else if (count == 3)
             {
-                fork.DrawArc(Pens.Black, lineLUx, lineLUy, lineLUwidth, lineLUheight, 0, 90);
-                fork.DrawArc(Pens.Black, lineRUx, lineRUy, lineRUwidth, lineRUheight, 90, 90);
-                fork.DrawLine(Pens.Black, 0, (50 + roadW * leftIn), 100, (50 + roadW * rightOut));
+                fork.FillRectangle(Brushes.Gray, 0, 0, 100, 50 + leftIn * roadW);
+                fork.FillEllipse(Brushes.Green, lineLUx, lineLUy, lineLUwidth, lineLUheight);
+                fork.FillEllipse(Brushes.Green, lineRUx, lineRUy, lineRUwidth, lineRUheight);
+                fork.DrawArc(Pens.White, lineLUx, lineLUy, lineLUwidth, lineLUheight, 0, 90);
+                fork.DrawArc(Pens.White, lineRUx, lineRUy, lineRUwidth, lineRUheight, 90, 90);
+                fork.DrawLine(Pens.White, 0, (50 + roadW * leftIn), 100, (50 + roadW * rightOut));
             }
 
             else
             {
-                fork.DrawArc(Pens.Black, lineRUx, lineRUy, lineRUwidth, lineRUheight, 90, 90);
-                fork.DrawArc(Pens.Black, lineRDx, lineRDy, lineRDwidth, lineRDheight, 180, 90);
-                fork.DrawLine(Pens.Black, (50 - roadW * upIn), 0, (50 - roadW * downOut), 100);
+                fork.FillRectangle(Brushes.Gray, 50 - upIn * roadW, 0, 50 + upIn * roadW, 100);
+                fork.FillEllipse(Brushes.Green, lineRUx, lineRUy, lineRUwidth, lineRUheight);
+                fork.FillEllipse(Brushes.Green, lineRDx, lineRDy, lineRDwidth, lineRDheight);
+                fork.DrawArc(Pens.White, lineRUx, lineRUy, lineRUwidth, lineRUheight, 90, 90);
+                fork.DrawArc(Pens.White, lineRDx, lineRDy, lineRDwidth, lineRDheight, 180, 90);
+                fork.DrawLine(Pens.White, (50 - roadW * upIn), 0, (50 - roadW * downOut), 100);
             }
 
             return fork;
@@ -308,6 +324,8 @@ namespace TrafficSimulation
         public Graphics drawCrossroad(Graphics gr, int [] lanes)
         {
             Graphics crossRoad = gr;
+            crossRoad.SmoothingMode = SmoothingMode.AntiAlias;
+
             int upIn = lanes[0]; int upOut = lanes[1];
             int rightIn = lanes[2]; int rightOut = lanes[3];
             int downIn = lanes[4]; int downOut = lanes[5];
@@ -334,10 +352,15 @@ namespace TrafficSimulation
             int lineLUheight = 2 * (50 - (roadW * leftOut));
             int lineLUwidth = 2 * (50 - (roadW * upIn));
 
-            crossRoad.DrawArc(Pens.Black, lineRUx, lineRUy, lineRUwidth, lineRUheight, 90, 90);
-            crossRoad.DrawArc(Pens.Black, lineRDx, lineRDy, lineRDwidth, lineRDheight, 180, 90);
-            crossRoad.DrawArc(Pens.Black, lineLDx, lineLDy, lineLDwidth, lineLDheight, 270, 90);
-            crossRoad.DrawArc(Pens.Black, lineLUx, lineLUy, lineLUwidth, lineLUheight, 0, 90);
+            crossRoad.FillRectangle(Brushes.Gray, 0, 0, 100, 100);
+            crossRoad.FillEllipse(Brushes.Green, lineRUx, lineRUy, lineRUwidth, lineRUheight);
+            crossRoad.FillEllipse(Brushes.Green, lineRDx, lineRDy, lineRDwidth, lineRDheight);
+            crossRoad.FillEllipse(Brushes.Green, lineLDx, lineLDy, lineLDwidth, lineLDheight);
+            crossRoad.FillEllipse(Brushes.Green, lineLUx, lineLUy, lineLUwidth, lineLUheight);
+            crossRoad.DrawArc(Pens.White, lineRUx, lineRUy, lineRUwidth, lineRUheight, 90, 90);
+            crossRoad.DrawArc(Pens.White, lineRDx, lineRDy, lineRDwidth, lineRDheight, 180, 90);
+            crossRoad.DrawArc(Pens.White, lineLDx, lineLDy, lineLDwidth, lineLDheight, 270, 90);
+            crossRoad.DrawArc(Pens.White, lineLUx, lineLUy, lineLUwidth, lineLUheight, 0, 90);
 
             return crossRoad;
         }
