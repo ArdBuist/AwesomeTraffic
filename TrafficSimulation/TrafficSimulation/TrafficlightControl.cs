@@ -13,7 +13,7 @@ namespace TrafficSimulation
         List<LaneTrafficlight> trafficlightList;
         int NumberOfDirections;
 
-        public TrafficlightControl(SimControl sim, Crossroad road, int Directions, int NotDirection, List<int> NumberOfLanes)
+        public TrafficlightControl(SimControl sim, Tile road, int Directions, int NotDirection, int[] NumberOfLanes)
         {
             this.NumberOfDirections = Directions;
             List<LaneTrafficlight> trafficlightList = new List<LaneTrafficlight>();

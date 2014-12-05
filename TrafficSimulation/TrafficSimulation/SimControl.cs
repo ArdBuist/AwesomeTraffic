@@ -74,8 +74,8 @@ namespace TrafficSimulation
             //        break;
             //    }
             //}
-            currentBuildTile = new Crossroad();
-            currentBuildTile = new Fork(2);
+            currentBuildTile = new Crossroad(this);
+            currentBuildTile = new Fork(this,2);
             currentBuildTile = new Road(4, 2);
             //currentBuildTile = new Spawner(new Point(mea.X, mea.Y), 2);
             currentBuildTile.SetValues(mea.Location,CalculateListPlace(mea.X, mea.Y));
@@ -129,12 +129,12 @@ namespace TrafficSimulation
             tiles[400 / 100 * tilesHorizontal + 1000 / 100] = currentBuildTile;
             currentBuildTile.SetValues(new Point(1000, 400), 400 / 100 * tilesHorizontal + 1000 / 100);
             bitmapMap.AddTile(tileImage, 10, 4);
-            currentBuildTile = new Crossroad();
+            currentBuildTile = new Crossroad(this);
             tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
             tiles[500 / 100 * tilesHorizontal + 600 / 100] = currentBuildTile;
             currentBuildTile.SetValues(new Point(600, 500), 500 / 100 * tilesHorizontal + 600 / 100);
             bitmapMap.AddTile(tileImage, 6, 5);
-            currentBuildTile = new Fork(2);
+            currentBuildTile = new Fork(this,2);
             tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
             tiles[600 / 100 * tilesHorizontal + 600 / 100] = currentBuildTile;
             currentBuildTile.SetValues(new Point(600, 600), 600 / 100 * tilesHorizontal + 600 / 100);

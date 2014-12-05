@@ -11,7 +11,7 @@ namespace TrafficSimulation
     {
         Color color;
         Point Position;
-        Crossroad road;
+        Tile road;
         SimControl sc;
 
         //brushes
@@ -20,7 +20,7 @@ namespace TrafficSimulation
         Brush rood = new SolidBrush(Color.Red);
         Brush oranje = new SolidBrush(Color.Orange);
 
-        public Trafficlight(SimControl sim, Crossroad road,Point Position)
+        public Trafficlight(SimControl sim, Tile road,Point Position)
         {
             this.road = road;
             this.Position = Position;

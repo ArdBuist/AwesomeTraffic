@@ -11,7 +11,7 @@ namespace TrafficSimulation
     {
         List<Trafficlight> trafficlights;
 
-        public LaneTrafficlight(SimControl sim, Crossroad road, int Direction, int Lanes)
+        public LaneTrafficlight(SimControl sim, Tile road, int Direction, int Lanes)
         {
             trafficlights = new List<Trafficlight>();
             

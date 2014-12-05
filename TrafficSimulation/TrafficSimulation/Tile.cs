@@ -390,7 +390,7 @@ namespace TrafficSimulation
         int[] lanes;
         private List<TrafficlightControl> trafficlightControlList;
 
-        public Fork(int notDirection)
+        public Fork(SimControl sim, int notDirection)
         {
             this.name = "Fork";
             this.lanes = new int[] {1,1,1,1,0,0,1,1};
@@ -399,7 +399,7 @@ namespace TrafficSimulation
             trafficlightControlList = new List<TrafficlightControl>();
             for (int i = 0; i < 3; i++)
             {
-                trafficlightControlList.Add(new TrafficlightControl());
+                trafficlightControlList.Add(new TrafficlightControl(sim,this,3,notDirection,lanes));
             }
             int totalLanes = CountLanes(lanes);
                 initialize(totalLanes);
@@ -435,7 +435,7 @@ namespace TrafficSimulation
         int[] lanes;
         private List<TrafficlightControl> trafficlightControlList;
 
-        public Crossroad()
+        public Crossroad(SimControl sim)
         {
             this.position = position;
             this.maxSpeed = maxSpeed;
@@ -445,7 +445,7 @@ namespace TrafficSimulation
             trafficlightControlList = new List<TrafficlightControl>();
             for (int i = 0; i < 4; i++)
             {
-                trafficlightControlList.Add(new TrafficlightControl());
+                trafficlightControlList.Add(new TrafficlightControl(sim, this, 4, 0, lanes));
             }
             int totalLanes = CountLanes(lanes);
             initialize(totalLanes);
