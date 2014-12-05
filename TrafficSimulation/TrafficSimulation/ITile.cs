@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace TrafficSimulation
 {
-    interface ITile
+    public interface ITile
     {
         
         void RemoveVehicle();
