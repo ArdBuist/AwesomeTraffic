@@ -17,17 +17,19 @@ namespace TrafficSimulation
         ControlPanel controlPanel;
         string currentTileString;
         Tile currentBuildTile;
-        BitmapControl bitmapMap;
         public BitmapControl trafficlightMap;
+        public BitmapControl bitmapMap;
         BitmapControl vehicleMap;
         Boolean isBuildingMode;//moet veranderd worden als van het kaartbouwen wordt overgesprongen naar het "spelen" 
         public Tile[] tiles;
+        public int tilesHorizontal;
 
         public SimControl(Size size)
         {
             
             this.Size = new Size(2000, 1500);
             isBuildingMode = true;
+            tilesHorizontal = Size.Width / 100;
             bitmapMap = new BitmapControl(this.Size);
             trafficlightMap = new BitmapControl(this.Size);
             vehicleMap = new BitmapControl(this.Size);
@@ -36,6 +38,7 @@ namespace TrafficSimulation
             this.MouseUp += this.MouseUnclick;
             this.Visible = true;
             tiles = new Tile[(this.Size.Height / 100) * (this.Size.Width / 100)];
+            DrawStartImages();
             Invalidate();
         }
         private void Teken(object o, PaintEventArgs pea)
@@ -71,29 +74,75 @@ namespace TrafficSimulation
             //        break;
             //    }
             //}
-            currentBuildTile = new Crossroad(new Point(mea.X, mea.Y), 60, 2, 2, 2, 2);
-            currentBuildTile = new Fork(new Point(mea.X, mea.Y), 60, 2, 2, 2, 2);
-            currentBuildTile = new Road(new Point(mea.X, mea.Y), 60, 3, 2, 1, 2);
-            currentBuildTile = new Spawner(new Point(mea.X, mea.Y), 60, 3, 2, 2);
-            //currentBuildTile.SetValues(hier startdirection, enddirection en alle andere nodige variabelen);
-            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
-            tiles[mea.Y/100*10+mea.X/100] = currentBuildTile;
-
+            currentBuildTile = new Crossroad();
+            currentBuildTile = new Fork(2);
+            currentBuildTile = new Road(4, 2);
+            //currentBuildTile = new Spawner(new Point(mea.X, mea.Y), 2);
+            currentBuildTile.SetValues(mea.Location,CalculateListPlace(mea.X, mea.Y));
+            tileImage = currentBuildTile.DrawImage();
+            currentBuildTile.Update(this, null, 0);
+            tiles[CalculateListPlace(mea.X, mea.Y)] = currentBuildTile;
             //Dit zorgt ervoor dat de kaart geupdate wordt met de nieuwe tile.
             bitmapMap.AddTile(tileImage, mea.X / 100, mea.Y / 100);
-            currentBuildTile = new Road(new Point(mea.X, mea.Y), 60, 2, 2, 2, 4);
-            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
-            bitmapMap.AddTile(tileImage, 5, 5);
-            currentBuildTile = new Road(new Point(mea.X, mea.Y), 60, 1, 1, 2, 4);
-            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
-            bitmapMap.AddTile(tileImage, 7, 5);
-            currentBuildTile = new Crossroad(new Point(mea.X, mea.Y), 60, 2, 2, 2, 2);
-            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
-            bitmapMap.AddTile(tileImage, 6, 5);
-            currentBuildTile = new Fork(new Point(mea.X, mea.Y), 60, 2, 2, 2, 2);
-            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
-            bitmapMap.AddTile(tileImage, 6,6);
+            
+            
+
+            //hier moet nog een nieuwe currentBuildTile worden aangemaakt met dezelde waarden als de vorige.
             Invalidate();
+        }
+
+        public int CalculateListPlace(int mouseX, int mouseY)
+        {
+            return mouseY / 100 * tilesHorizontal + mouseX/ 100;
+        }
+        //hele methode kan weer weg zo gauw er een interface is waar we mee kunnen testen.
+        private void DrawStartImages()
+        {
+            Bitmap tileImage;
+            currentBuildTile = new Road(2,4);
+            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
+            tiles[500 / 100 * tilesHorizontal + 500 / 100] = currentBuildTile;
+            currentBuildTile.SetValues(new Point(500, 500), 500 / 100 * tilesHorizontal + 500 / 100);
+            bitmapMap.AddTile(tileImage, 5, 5);
+            currentBuildTile = new Road(2,4);
+            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
+            tiles[500 / 100 * tilesHorizontal + 700 / 100] = currentBuildTile;
+            currentBuildTile.SetValues(new Point(700, 500), 500 / 100 * tilesHorizontal + 700 / 100);
+            bitmapMap.AddTile(tileImage, 7, 5);
+            currentBuildTile = new Road(2,4);
+            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
+            tiles[500 / 100 * tilesHorizontal + 800 / 100] = currentBuildTile;
+            currentBuildTile.SetValues(new Point(800, 500), 500 / 100 * tilesHorizontal + 800 / 100);
+            bitmapMap.AddTile(tileImage, 8, 5);
+            currentBuildTile = new Road(2,4);
+            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
+            tiles[500 / 100 * tilesHorizontal + 900 / 100] = currentBuildTile;
+            currentBuildTile.SetValues(new Point(900, 500), 500 / 100 * tilesHorizontal + 900 / 100);
+            bitmapMap.AddTile(tileImage, 9, 5);
+            currentBuildTile = new Road(1,4);
+            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
+            tiles[500 / 100 * tilesHorizontal + 1000 / 100] = currentBuildTile;
+            currentBuildTile.SetValues(new Point(1000, 500), 500 / 100 * tilesHorizontal + 1000 / 100);
+            bitmapMap.AddTile(tileImage, 10, 5);
+            currentBuildTile = new Spawner(3);
+            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
+            tiles[400 / 100 * tilesHorizontal + 1000 / 100] = currentBuildTile;
+            currentBuildTile.SetValues(new Point(1000, 400), 400 / 100 * tilesHorizontal + 1000 / 100);
+            bitmapMap.AddTile(tileImage, 10, 4);
+            currentBuildTile = new Crossroad();
+            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
+            tiles[500 / 100 * tilesHorizontal + 600 / 100] = currentBuildTile;
+            currentBuildTile.SetValues(new Point(600, 500), 500 / 100 * tilesHorizontal + 600 / 100);
+            bitmapMap.AddTile(tileImage, 6, 5);
+            currentBuildTile = new Fork(2);
+            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
+            tiles[600 / 100 * tilesHorizontal + 600 / 100] = currentBuildTile;
+            currentBuildTile.SetValues(new Point(600, 600), 600 / 100 * tilesHorizontal + 600 / 100);
+            bitmapMap.AddTile(tileImage, 6, 6);
+            currentBuildTile = tiles[500 / 100 * tilesHorizontal + 700 / 100];
+            currentBuildTile.setLanesHighToLow(1);
+            currentBuildTile.Update(this, null, 0);
+
         }
     }
 }
