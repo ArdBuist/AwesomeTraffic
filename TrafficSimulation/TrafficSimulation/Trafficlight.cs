@@ -9,7 +9,7 @@ namespace TrafficSimulation
 {
     class Trafficlight
     {
-        int color;
+        Color color;
         Point Position;
         Crossroad road;
         SimControl sc;
