@@ -16,7 +16,7 @@ namespace TrafficSimulation
             trafficlights = new List<Trafficlight>();
             
 
-            for (int i = 0; i < Lanes;i++)
+            for (int i = 0; i < Lanes; i++)
             {
                 Point Position = GetPosition(Direction, i);
                 trafficlights.Add(new Trafficlight(sim, road, Position));
@@ -25,7 +25,7 @@ namespace TrafficSimulation
 
         public void ChangeColor(Color kleur)
         { 
-            for(int i = 0; i<trafficlights.Count;i++)
+            for (int i = 0; i<trafficlights.Count; i++)
             {
                 Trafficlight Light =  (Trafficlight)trafficlights[i];
                 Light.UpdateColor(kleur);

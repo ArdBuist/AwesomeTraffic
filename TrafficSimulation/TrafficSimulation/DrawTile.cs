@@ -15,7 +15,9 @@ namespace TrafficSimulation
         const int roadW = 15;
 
         public DrawTile()
-        {}
+        {
+        
+        }
 
         //aanmaken pen die in 1 lijn streepjes zet van 5 px per stuk
         public Pen strPen()

@@ -183,6 +183,7 @@ namespace TrafficSimulation
             this.maxSpeed = road.getMaxSpeed();
             s.bitmapMap.AddTile(DrawImage(), position.X / 100, position.Y / 100);
         }
+
         public Graphics drawSpawner(Graphics gr, int side, int lanesIn, int lanesOut)
         {
             Graphics bmSpawner = gr;
@@ -399,11 +400,12 @@ namespace TrafficSimulation
             trafficlightControlList = new List<TrafficlightControl>();
             for (int i = 0; i < 3; i++)
             {
-                trafficlightControlList.Add(new TrafficlightControl(sim,this,3,notDirection,lanes));
+                trafficlightControlList.Add(new TrafficlightControl(sim, this, 3, notDirection, lanes));
             }
             int totalLanes = CountLanes(lanes);
                 initialize(totalLanes);
         }
+
         public override void Update(SimControl s, Road road, int direction)
         {
             this.maxSpeed = road.getMaxSpeed();
@@ -427,7 +429,6 @@ namespace TrafficSimulation
             t.drawForkroad(Graphics.FromImage(image), lanes);
             return image;
         }
-        
     }
 
     public class Crossroad : Tile
@@ -450,6 +451,7 @@ namespace TrafficSimulation
             int totalLanes = CountLanes(lanes);
             initialize(totalLanes);
         }
+
         public override void Update(SimControl s, Road road, int direction)
         {
             this.maxSpeed = road.getMaxSpeed();
@@ -465,6 +467,7 @@ namespace TrafficSimulation
             }
             s.bitmapMap.AddTile(DrawImage(), position.X / 100, position.Y / 100);//drawmethode werkt nog niet naar behoren door ontbreken compatibiliteit met lists
         }
+
         public override Bitmap DrawImage()
         { // hier wordt een bitmap gemaakt en getekend door de andere methode. 
             Bitmap image = new Bitmap(100, 100);
@@ -472,6 +475,5 @@ namespace TrafficSimulation
             t.drawCrossroad(Graphics.FromImage(image), lanes);
             return image;
         }
-        
     }
 }

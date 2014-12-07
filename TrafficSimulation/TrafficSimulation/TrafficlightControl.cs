@@ -30,7 +30,7 @@ namespace TrafficSimulation
         {
             int i = 0;
             //Zorgt dat elke 5 seconden Update wordt aangeroepen met als variabele 1-4/1-3 in volgorde
-            while (1!=0)
+            while (true)
             {
                 i++;
                 int turn = i % NumberOfDirections;
