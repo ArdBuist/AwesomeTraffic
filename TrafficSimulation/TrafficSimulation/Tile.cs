@@ -450,7 +450,7 @@ namespace TrafficSimulation
             int totalLanes = CountLanes(lanes);
             initialize(totalLanes);
         }
-        public override void Update(SimControl s,Road road,int direction)
+        public override void Update(SimControl s, Road road, int direction)
         {
             this.maxSpeed = road.getMaxSpeed();
             if (direction < 3)
