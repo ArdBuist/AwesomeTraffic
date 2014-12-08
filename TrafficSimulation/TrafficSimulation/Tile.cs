@@ -45,10 +45,15 @@ namespace TrafficSimulation
         //hierin worden in de andere klassen de bitmaps gemaakt voor de kaart
         public abstract Bitmap DrawImage();
 
-        public void SetValues(Point position, int listPlace)
+        public void SetValues(SimControl s, Point position, int listPlace)
         {
             this.position = position;
             this.listPlace = listPlace;
+            if (this.name == "Road")
+            {
+                Road thisTile = (Road)this;
+                thisTile.UpdateFromOtherTiles(s);
+            }
         }
         public int CountLanes(int[] lanes)
         {
@@ -59,7 +64,7 @@ namespace TrafficSimulation
             }
             return totalLanes;
         }
-
+        
         public void RemoveVehicle(Vehicle v, int lane)
         {
             vehicles[lane].Remove(v);
@@ -77,23 +82,6 @@ namespace TrafficSimulation
         {
             RemoveVehicle(v, begin);
             AddVehicle(v, eind);
-        }
-
-        public void addAdjacent(Tile t)
-        {
-            for (int i = 0; i < adjacentTiles.Length; i++)
-            {
-                if (adjacentTiles[i] == null)
-                {
-                    adjacentTiles[i] = t;
-                    break;
-                }
-            }
-        }
-
-        public void removeAdjacent(int direction)
-        {
-            adjacentTiles[direction] = null;
         }
 
         public string Number
@@ -249,10 +237,8 @@ namespace TrafficSimulation
 
     public class Road : Tile
     {
-        private int startDirection;
-        
-        private int endDirection;
-
+        public int startDirection;
+        public int endDirection;
 
         public Road( int start, int end)
         {
@@ -277,6 +263,7 @@ namespace TrafficSimulation
             t.drawRoad(Graphics.FromImage(image),lanesLowToHigh,lanesHighToLow,startDirection,endDirection);
             return image;
         }
+
         //update de tilevariabelen en zorgt dat tiles eromheen aangeroepen gaan worden.
         public override void Update(SimControl s,Road road, int direction)
         {
@@ -286,18 +273,6 @@ namespace TrafficSimulation
                 this.lanesHighToLow = road.getLaneHighToLow();
                 this.lanesLowToHigh = road.getLaneLowToHigh();
                 this.maxSpeed = road.getMaxSpeed();
-            }
-            else
-            {
-                /*hier moet nog code komen om de waarden van aanliggende tiles over te kunnen nemen*/
-                //Tile tile = s.tiles[listPlace];
-                //if (s.tiles[listPlace] != null && tile.name == "Road")
-                //{
-                //    Road Tile = (Road)tile;
-                //    this.lanesHighToLow = Tile.getLaneHighToLow();
-                //    this.lanesLowToHigh = Tile.getLaneLowToHigh();
-                //    this.maxSpeed = Tile.getMaxSpeed();
-                //}
             }
             //als het een rechte weg is
             if ((startDirection + endDirection) % 2 == 0)
@@ -333,11 +308,31 @@ namespace TrafficSimulation
                     UpdateOtherTile(s, endDirection + 2);
                 }
             }
-            
             s.bitmapMap.AddTile(DrawImage(),position.X/100,position.Y/100);
-
         }
-
+        public void UpdateFromOtherTiles(SimControl s)
+        {
+            Tile tile;
+            tile = this.GetOtherTile(s, startDirection);
+            if (tile != null && tile.name == "Road" )
+            {
+                Road otherRoad = (Road)tile;
+                this.lanesHighToLow = otherRoad.getLaneHighToLow();
+                this.lanesLowToHigh = otherRoad.getLaneLowToHigh();
+                this.maxSpeed = otherRoad.getMaxSpeed();
+            }
+            else
+            {
+                tile = this.GetOtherTile(s, endDirection);
+                if (tile != null && tile.name == "Road")
+                {
+                    Road otherRoad = (Road)tile;
+                    this.lanesHighToLow = otherRoad.getLaneHighToLow();
+                    this.lanesLowToHigh = otherRoad.getLaneLowToHigh();
+                    this.maxSpeed = otherRoad.getMaxSpeed();
+                }
+            }
+        }
         public Tile GetOtherTile(SimControl s, int direction)
         {
             Tile tile = null;
@@ -382,7 +377,6 @@ namespace TrafficSimulation
             values[2] = lanesLowToHigh;
             return values;
         }
-
     }
 
     public class Fork : Tile
@@ -394,8 +388,10 @@ namespace TrafficSimulation
         public Fork(int notDirection)
         {
             this.name = "Fork";
-            this.lanes = new int[] {1,1,0,0,1,1,1,1};
+            this.lanes = new int[] {1,1,1,1,1,1,1,1};
             this.notDirection = notDirection;
+            lanes[notDirection * 2 - 2] = 0;
+            lanes[notDirection * 2 - 1] = 0;
 
             trafficlightControlList = new List<TrafficlightControl>();
             for (int i = 0; i < 3; i++)
