@@ -84,6 +84,8 @@ namespace TrafficSimulation
             tiles[CalculateListPlace(mea.X, mea.Y)] = currentBuildTile;
             //Dit zorgt ervoor dat de kaart geupdate wordt met de nieuwe tile.
             bitmapMap.AddTile(tileImage, mea.X / 100, mea.Y / 100);
+            currentBuildTile.setLanesHighToLow(2);
+            currentBuildTile.Update(this, null, 0);
             
             
 
