@@ -332,9 +332,7 @@ namespace TrafficSimulation
                     UpdateOtherTile(s, this, endDirection + 2);
                 }
             }
-            
             s.bitmapMap.AddTile(DrawImage(),position.X/100,position.Y/100);
-
         }
 
         /*Deze methode zorgt ervoor dat van de tiles om deze tile heen de methode Update wordt aangeroepen.
@@ -362,14 +360,17 @@ namespace TrafficSimulation
                     break;
             }
         }
+
         public int getLaneHighToLow()
         {
             return lanesHighToLow;
         }
+
         public int getLaneLowToHigh()
         {
             return lanesLowToHigh;
         }
+
         public int getMaxSpeed()
         {
             return maxSpeed;
@@ -383,7 +384,6 @@ namespace TrafficSimulation
             values[2] = lanesLowToHigh;
             return values;
         }
-
     }
 
     public class Fork : Tile
@@ -399,6 +399,7 @@ namespace TrafficSimulation
             this.notDirection = notDirection;
 
             trafficlightControlList = new List<TrafficlightControl>();
+
             for (int i = 0; i < 3; i++)
             {
                 trafficlightControlList.Add(new TrafficlightControl(sim, this, 3, notDirection, lanes));
@@ -434,10 +435,10 @@ namespace TrafficSimulation
         public override void SetValues(Point position, int listPlace)
         {
             base.SetValues(position, listPlace);
-            for (int i = 0; i < 3; i++)
+
+            foreach (TrafficlightControl control in trafficlightControlList)
             {
-                TrafficlightControl obj = trafficlightControlList[i];
-                
+                control.ChangeValues(position, listPlace);
             }
         }
     }

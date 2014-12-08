@@ -56,5 +56,13 @@ namespace TrafficSimulation
             }
             return Position;
         }
+
+        public void ChangeValues(Point position, int ListPlace)
+        {
+            foreach (Trafficlight light in trafficlights)
+            {
+                light.DrawTrafficlight(Color.Red);
+            }
+        }
     }
 }

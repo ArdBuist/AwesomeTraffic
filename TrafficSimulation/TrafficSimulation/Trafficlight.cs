@@ -39,25 +39,24 @@ namespace TrafficSimulation
         {
             Graphics gr = sc.trafficlightMap.GetBitmapGraphics;
             gr.SmoothingMode = SmoothingMode.AntiAlias;
-            //
-            Point TruePos = new Point();
-            TruePos.X = Position.X + road.position.X;
-            TruePos.Y = Position.Y + road.position.Y;
+
+            //daadwerkelijke positie stoplichten
+            Point TruePos = new Point(Position.X + road.position.X, Position.Y + road.position.Y);
 
             //teken hier het zwarte vierkant van het stoplicht
             gr.FillRectangle(zwart, TruePos.X, TruePos.Y, 10, 10);
             //teken hier de kleur van het rondje
             if (kleur == Color.Green)
             {
-                gr.FillEllipse(groen, Position.X + 1, Position.Y + 1, 8, 8);
+                gr.FillEllipse(groen, TruePos.X + 1, TruePos.Y + 1, 8, 8);
             }
             else if (kleur == Color.Red)
             {
-                gr.FillEllipse(rood, Position.X + 1, Position.Y + 1, 8, 8);
+                gr.FillEllipse(rood, TruePos.X + 1, TruePos.Y + 1, 8, 8);
             }
             else if (kleur == Color.Orange)
             {
-                gr.FillEllipse(oranje, Position.X + 1, Position.Y + 1, 8, 8);
+                gr.FillEllipse(oranje, TruePos.X + 1, TruePos.Y + 1, 8, 8);
             }
         }
     }

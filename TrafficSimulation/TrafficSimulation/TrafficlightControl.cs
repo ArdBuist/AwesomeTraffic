@@ -56,5 +56,13 @@ namespace TrafficSimulation
             }
             //Geeft nog helemaal niks door aan omliggende tiles. Dat moet hier nog.
         }
+
+        public void ChangeValues(Point position, int ListPlace)
+        {
+            foreach (LaneTrafficlight lane in trafficlightList)
+            {
+                lane.ChangeValues(position, ListPlace);
+            }
+        }
     }
 }
