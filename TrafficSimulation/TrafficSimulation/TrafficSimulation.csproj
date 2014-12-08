@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="BitmapControl.cs" />
     <Compile Include="BuildPanel.cs" />
+    <Compile Include="Simulation.cs" />
     <Compile Include="DrawTile.cs" />
     <Compile Include="LaneTrafficlight.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -76,6 +77,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SimControl.resx">
+      <DependentUpon>SimControl.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

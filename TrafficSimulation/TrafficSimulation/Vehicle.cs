@@ -11,6 +11,7 @@ namespace TrafficSimulation
         private Point position;
         private Point destination;
         private int length;
+        private int width;
         private int speed;
         private int direction;
         private int lane;
@@ -20,7 +21,10 @@ namespace TrafficSimulation
             position = pos;
             destination = dest;
             length = len;
+            width = 10;
             this.speed = speed;
+            this.direction = direction;
+            this.lane = lane;
         }
 
         public Point Destination
@@ -35,6 +39,27 @@ namespace TrafficSimulation
         public int Lane
         {
             get { return lane; }
+        }
+        public void Update()
+        {
+            if (speed != 0)
+            {
+                switch (direction)
+                {
+                    case 1:
+                        position.Y -= speed;
+                        break;
+                    case 2:
+                        position.X += speed;
+                        break;
+                    case 3:
+                        position.Y += speed;
+                        break;
+                    case 4:
+                        position.X -= speed;
+                        break;
+                }
+            }
         }
     }
 
@@ -52,6 +77,7 @@ namespace TrafficSimulation
         Truck(Point pos, Point dest, int len, int speed, int direction, int lane)
             : base(pos, dest, len, speed, direction, lane)
         {
+
         }
     }
 }

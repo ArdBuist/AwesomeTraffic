@@ -23,10 +23,11 @@ namespace TrafficSimulation
         Boolean isBuildingMode;//moet veranderd worden als van het kaartbouwen wordt overgesprongen naar het "spelen" 
         public Tile[] tiles;
         public int tilesHorizontal;
+        private Simulation sim;
+        public PictureBox background, trafficlight, vehicle;
 
         public SimControl(Size size)
         {
-            
             this.Size = new Size(2000, 1500);
             isBuildingMode = true;
             tilesHorizontal = Size.Width / 100;
@@ -38,9 +39,16 @@ namespace TrafficSimulation
             this.MouseUp += this.MouseUnclick;
             this.Visible = true;
             tiles = new Tile[(this.Size.Height / 100) * (this.Size.Width / 100)];
+            this.sim = new Simulation(tiles);
             DrawStartImages();
-            Invalidate();
+
+            Image image = (Image)bitmapMap.bitmap;
+            background.Image = (Image)bitmapMap.bitmap;
+            this.background.Location = new Point(0, 0);
+            this.background.Size = new Size(this.Width, this.Height);
+            //Invalidate();
         }
+
         private void Teken(object o, PaintEventArgs pea)
         {
             
@@ -49,8 +57,7 @@ namespace TrafficSimulation
             Image image;
             if (isBuildingMode == true)
             {
-                image = (Image)bitmapMap.bitmap;
-                pea.Graphics.DrawImage(image, 0, 0);
+                background.Invalidate();
             }
             else
             {
@@ -78,6 +85,7 @@ namespace TrafficSimulation
             currentBuildTile = new Fork(2);
             currentBuildTile = new Road(4, 2);
             //currentBuildTile = new Spawner(new Point(mea.X, mea.Y), 2);
+            //sim.Start();
             currentBuildTile.SetValues(mea.Location,CalculateListPlace(mea.X, mea.Y));
             tileImage = currentBuildTile.DrawImage();
             currentBuildTile.Update(this, null, 0);
@@ -88,7 +96,7 @@ namespace TrafficSimulation
             
 
             //hier moet nog een nieuwe currentBuildTile worden aangemaakt met dezelde waarden als de vorige.
-            Invalidate();
+            background.Invalidate();
         }
 
         public int CalculateListPlace(int mouseX, int mouseY)
@@ -142,6 +150,20 @@ namespace TrafficSimulation
             currentBuildTile = tiles[500 / 100 * tilesHorizontal + 700 / 100];
             currentBuildTile.setLanesHighToLow(1);
             currentBuildTile.Update(this, null, 0);
+        }
+
+        public void Update()
+        {
+            background.Invalidate();
+        }
+
+        private void SimControl_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void SimControl_Load_1(object sender, EventArgs e)
+        {
 
         }
     }

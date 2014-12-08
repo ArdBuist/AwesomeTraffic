@@ -32,6 +32,16 @@ namespace TrafficSimulation
             this.listPlace = 1;
         }
 
+        public void CarUpdate()
+        {
+            foreach(List<Vehicle> list in vehicles){
+                foreach (Vehicle v in list)
+                {
+                    v.Update();
+                }
+            }
+        }
+
         public void initialize(int totalLanes)
         {
             vehicles = new List<Vehicle>[totalLanes];
@@ -121,7 +131,7 @@ namespace TrafficSimulation
         private int direction;//kant waarop de weg loopt
         private int lanesOut, lanesIn;//aantal wegen van en naar de spawner
         private double carsPerSec;//auto's die per seconde gespawned worden
-        private double numberOfCars;//opslag voor auto's die gespawned moeten worden voor als de weg vol is.
+        private double numberOfCars;//opslag voor als er een nieuwe auto gespawnt moet worden, bij numberOfCars > 1 word er een nieuwe auto gespawned
 
         public Spawner(int direction)
         {
@@ -164,7 +174,7 @@ namespace TrafficSimulation
         private Vehicle createVehicle()
         {
             //deze methode moet ingevuld worden, hier wordt een auto gegenereerd
-            return new Vehicle(new Point(), new Point(), 0, 0, 0, 0);
+            return new Vehicle(new Point(position.X + 70, position.Y + 50 - 8), new Point(position.X +200, position.Y + 200), 10, 5, this.direction, 1);
         }
         public override void Update(SimControl s,Road road,int direction)
         {
