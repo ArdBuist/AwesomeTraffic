@@ -90,7 +90,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Content Include="Resources\car1.png" />
     <Content Include="Resources\car2.png" />

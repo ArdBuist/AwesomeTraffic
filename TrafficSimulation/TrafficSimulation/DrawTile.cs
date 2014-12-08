@@ -12,7 +12,7 @@ namespace TrafficSimulation
     public class DrawTile
     {
         //roadW is de breedte van de weg
-        const int roadW = 15;
+        const int roadW = 16;
 
         public DrawTile()
         {}
