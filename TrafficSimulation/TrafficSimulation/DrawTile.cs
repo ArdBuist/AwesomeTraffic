@@ -45,6 +45,8 @@ namespace TrafficSimulation
             int lanesTotal = lanesIn + lanesOut;
             Pen stripesPen = strPen();
 
+            road.FillRectangle(Brushes.Green, 0, 0, 100, 100);
+
             //variabelen voor mogelijke wegen
             int r = 50 - roadW * lanesOut;
             int r2 = 50 + roadW * lanesOut;
@@ -235,6 +237,8 @@ namespace TrafficSimulation
             Graphics fork = gr;
             fork.SmoothingMode = SmoothingMode.AntiAlias;
 
+            fork.FillRectangle(Brushes.Green, 0, 0, 100, 100);
+
             int upIn = lanes[0]; int upOut = lanes[1];
             int rightIn = lanes[2]; int rightOut = lanes[3];
             int downIn = lanes[4]; int downOut = lanes[5];
@@ -325,6 +329,7 @@ namespace TrafficSimulation
         {
             Graphics crossRoad = gr;
             crossRoad.SmoothingMode = SmoothingMode.AntiAlias;
+            crossRoad.FillRectangle(Brushes.Green, 0, 0, 100, 100);
 
             int upIn = lanes[0]; int upOut = lanes[1];
             int rightIn = lanes[2]; int rightOut = lanes[3];
@@ -367,7 +372,8 @@ namespace TrafficSimulation
 
         public Graphics drawSpawner(Graphics gr, int side, int lanesIn, int lanesOut)
         {
-            Graphics bmSpawner = gr;          
+            Graphics bmSpawner = gr;
+            bmSpawner.FillRectangle(Brushes.Green, 0, 0, 100, 100);
             Pen stripesPen = strPen();
             int lanesTotal = lanesIn + lanesOut;
 
