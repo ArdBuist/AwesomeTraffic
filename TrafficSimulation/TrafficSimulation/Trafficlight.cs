@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Drawing;
 using System.Threading.Tasks;
+using System.Drawing.Drawing2D;
 
 namespace TrafficSimulation
 {
@@ -37,20 +38,26 @@ namespace TrafficSimulation
         public void DrawTrafficlight(Color kleur)
         {
             Graphics gr = sc.trafficlightMap.GetBitmapGraphics;
+            gr.SmoothingMode = SmoothingMode.AntiAlias;
+            //
+            Point TruePos = new Point();
+            TruePos.X = Position.X + road.position.X;
+            TruePos.Y = Position.Y + road.position.Y;
+
             //teken hier het zwarte vierkant van het stoplicht
-            gr.FillRectangle(zwart, Position.X, Position.Y, 15, 40);
+            gr.FillRectangle(zwart, TruePos.X, TruePos.Y, 10, 10);
             //teken hier de kleur van het rondje
             if (kleur == Color.Green)
             {
-                gr.FillEllipse(zwart, Position.X + 5, Position.Y + 25, 10, 10);
+                gr.FillEllipse(groen, Position.X + 1, Position.Y + 1, 8, 8);
             }
             else if (kleur == Color.Red)
             {
-                gr.FillEllipse(zwart, Position.X + 5, Position.Y + 5, 10, 10);
+                gr.FillEllipse(rood, Position.X + 1, Position.Y + 1, 8, 8);
             }
             else if (kleur == Color.Orange)
             {
-                gr.FillEllipse(zwart, Position.X + 5, Position.Y + 15, 10, 10);
+                gr.FillEllipse(oranje, Position.X + 1, Position.Y + 1, 8, 8);
             }
         }
     }

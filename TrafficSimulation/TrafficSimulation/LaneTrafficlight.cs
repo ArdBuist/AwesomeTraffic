@@ -10,10 +10,12 @@ namespace TrafficSimulation
     class LaneTrafficlight
     {
         List<Trafficlight> trafficlights;
+        Tile road;
 
         public LaneTrafficlight(SimControl sim, Tile road, int Direction, int Lanes)
         {
             trafficlights = new List<Trafficlight>();
+            this.road = road;
             
 
             for (int i = 0; i < Lanes; i++)
@@ -43,13 +45,13 @@ namespace TrafficSimulation
                         Position.Y = 50;
                     break;
                 case 2: Position.X = 150;
-                        Position.Y = 100 - (NumberTrafficlight * 10);
+                    Position.Y = 100 - (NumberTrafficlight * 10);
                     break;
                 case 3: Position.X = 100 + (NumberTrafficlight * 10);
-                        Position.Y = 150;
+                    Position.Y = 150;
                     break;
                 case 4: Position.X = 50;
-                        Position.Y = 100 + (NumberTrafficlight * 10);
+                    Position.Y = 100 + (NumberTrafficlight * 10);
                     break;
             }
             return Position;

@@ -13,7 +13,7 @@ namespace TrafficSimulation
     {
         protected List<Vehicle>[] vehicles;
         protected Tile[] adjacentTiles;
-        protected Point position;
+        public Point position;
         protected int maxSpeed;
         protected bool[] access;
         protected int TotalVehicleLength;
@@ -45,7 +45,7 @@ namespace TrafficSimulation
         //hierin worden in de andere klassen de bitmaps gemaakt voor de kaart
         public abstract Bitmap DrawImage();
 
-        public void SetValues(Point position, int listPlace)
+        public virtual void SetValues(Point position, int listPlace)
         {
             this.position = position;
             this.listPlace = listPlace;
@@ -153,6 +153,7 @@ namespace TrafficSimulation
                 numberOfCars = numberOfCars % 1;
             }
         }
+        
         public override Bitmap DrawImage()
         {
             Bitmap image = new Bitmap(100, 100);
@@ -419,7 +420,7 @@ namespace TrafficSimulation
                 lanes[direction * 2 - 2] = road.getLaneHighToLow();
                 lanes[direction * 2 - 1] = road.getLaneLowToHigh();
             }
-            s.bitmapMap.AddTile(DrawImage(), position.X / 100, position.Y / 100);//drawmethode werkt nog niet naar behoren door ontbreken compatibiliteit met lists
+            s.bitmapMap.AddTile(DrawImage(), position.X / 100, position.Y / 100); //drawmethode werkt nog niet naar behoren door ontbreken compatibiliteit met lists
         }
         
         public override Bitmap DrawImage()
@@ -428,6 +429,11 @@ namespace TrafficSimulation
             DrawTile t = new DrawTile();
             t.drawForkroad(Graphics.FromImage(image), lanes);
             return image;
+        }
+
+        public override void SetValues(Point position, int listPlace)
+        {
+            base.SetValues(position, listPlace);
         }
     }
 

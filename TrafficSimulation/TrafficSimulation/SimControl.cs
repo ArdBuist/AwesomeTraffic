@@ -20,7 +20,7 @@ namespace TrafficSimulation
         public BitmapControl trafficlightMap;
         public BitmapControl bitmapMap;
         BitmapControl vehicleMap;
-        Boolean isBuildingMode;//moet veranderd worden als van het kaartbouwen wordt overgesprongen naar het "spelen" 
+        Boolean isBuildingMode; //moet veranderd worden als van het kaartbouwen wordt overgesprongen naar het "spelen" 
         public Tile[] tiles;
         public int tilesHorizontal;
 
@@ -43,23 +43,18 @@ namespace TrafficSimulation
         }
         private void Teken(object o, PaintEventArgs pea)
         {
-            
+
             //dit zorgt ervoor dat de kaart op het scherm wordt weergegeven.
             //dit hoeft alleen maar gebeuren wanneer er nog aan de kaart gewerkt wordt.
             Image image;
-            if (isBuildingMode == true)
-            {
-                image = (Image)bitmapMap.bitmap;
-                pea.Graphics.DrawImage(image, 0, 0);
-            }
-            else
-            {
-                image = (Image)vehicleMap.bitmap;
-                pea.Graphics.DrawImage(image, 0, 0);
-                image = (Image)trafficlightMap.bitmap;
-                pea.Graphics.DrawImage(image, 0, 0);
-            }
+            image = (Image)bitmapMap.bitmap;
+            pea.Graphics.DrawImage(image, 0, 0);
+            image = (Image)vehicleMap.bitmap;
+            pea.Graphics.DrawImage(image, 0, 0);
+            image = (Image)trafficlightMap.bitmap;
+            pea.Graphics.DrawImage(image, 0, 0);
         }
+
         private void MouseUnclick(object obj, MouseEventArgs mea)
         {
             Bitmap tileImage;
