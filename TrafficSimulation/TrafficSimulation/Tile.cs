@@ -434,6 +434,11 @@ namespace TrafficSimulation
         public override void SetValues(Point position, int listPlace)
         {
             base.SetValues(position, listPlace);
+            for (int i = 0; i < 3; i++)
+            {
+                TrafficlightControl obj = trafficlightControlList[i];
+                
+            }
         }
     }
 
