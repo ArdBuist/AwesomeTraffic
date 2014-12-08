@@ -15,13 +15,15 @@ namespace TrafficSimulation
 
         public TrafficlightControl(SimControl sim, Tile road, int Directions, int NotDirection, int[] NumberOfLanes)
         {
-            this.NumberOfDirections = Directions;
             trafficlightList = new List<LaneTrafficlight>();
-            for (int i = 1; i < Directions + 1; i++)
+            
+            NumberOfDirections = Directions;
+            
+            for (int i = 0; i < Directions; i++)
             {
                 if (i != NotDirection)
                 {
-                    trafficlightList.Add(new LaneTrafficlight(sim, road, i, NumberOfLanes[i]));
+                    trafficlightList.Add(new LaneTrafficlight(sim, road, i + 1, NumberOfLanes[i] + NumberOfLanes[i + 4]));
                 }
             }
         }
