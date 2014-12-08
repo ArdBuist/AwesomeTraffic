@@ -19,11 +19,11 @@ namespace TrafficSimulation
             
             NumberOfDirections = Directions;
             
-            for (int i = 0; i < Directions; i++)
+            for (int i = 0; i < NumberOfLanes.Length; i++)
             {
                 if (i != NotDirection)
                 {
-                    trafficlightList.Add(new LaneTrafficlight(sim, road, i + 1, NumberOfLanes[i] + NumberOfLanes[i + 4]));
+                    trafficlightList.Add(new LaneTrafficlight(sim, road, i + 1, NumberOfLanes[i]));
                 }
             }
         }
