@@ -50,12 +50,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BitmapControl.cs" />
+    <Compile Include="BovenScherm.xaml.cs">
+      <DependentUpon>BovenScherm.xaml</DependentUpon>
+    </Compile>
     <Compile Include="BuildPanel.cs" />
+    <Compile Include="InfoBalk.xaml.cs">
+      <DependentUpon>InfoBalk.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Interface.xaml.cs">
       <DependentUpon>Interface.xaml</DependentUpon>
     </Compile>
     <Compile Include="DrawTile.cs" />
     <Compile Include="LaneTrafficlight.cs" />
+    <Compile Include="OnderScherm.xaml.cs">
+      <DependentUpon>OnderScherm.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -85,7 +94,6 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    
     <EmbeddedResource Include="SimWindow.resx">
       <DependentUpon>SimWindow.cs</DependentUpon>
     </EmbeddedResource>
@@ -116,7 +124,19 @@
     <Content Include="Resources\truck5.png" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="BovenScherm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="InfoBalk.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Interface.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="OnderScherm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

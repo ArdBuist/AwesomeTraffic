@@ -15,25 +15,19 @@ namespace TrafficSimulation
     {
         SimControl s;
         //MenuStrip menu;
-        ElementHost host; 
+         
 
         public SimWindow()
         {
             //scherm maximaliseren
-            //this.WindowState = FormWindowState.Maximized;
+            this.WindowState = FormWindowState.Maximized;
+
             //alle schermranden weghalen
-            //this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 
-            host = new ElementHost();
-            //host.Dock = DockStyle.Fill;
-            host.Height = 300;
-            host.Width = 300;
-            Interface scherm = new Interface();
-            host.Child = scherm;
-            this.Controls.Add(host);
-
-            this.BackColor = Color.Green;
             s = new SimControl(this.ClientSize);
+            this.BackColor = Color.Green;
+
             s.Location = new Point(0, 0);
             this.Controls.Add(s);
 

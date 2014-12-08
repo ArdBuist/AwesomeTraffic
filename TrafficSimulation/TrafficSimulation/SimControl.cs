@@ -24,10 +24,16 @@ namespace TrafficSimulation
         Boolean isBuildingMode;//moet veranderd worden als van het kaartbouwen wordt overgesprongen naar het "spelen" 
         public Tile[] tiles;
         public int tilesHorizontal;
+        ElementHost BovenHost, OnderHost, InfoHost;
 
         public SimControl(Size size)
         {
-            
+            BovenScherm BovenScherm = new BovenScherm();
+            OnderScherm OnderScherm = new OnderScherm();
+            InfoBalk InfoBalk = new InfoBalk();
+            int hoogte = ClientSize.Height;
+            int breedte = ClientSize.Width;
+
             this.Size = new Size(2000, 1500);
             isBuildingMode = true;
             tilesHorizontal = Size.Width / 100;
@@ -40,11 +46,40 @@ namespace TrafficSimulation
             this.Visible = true;
             tiles = new Tile[(this.Size.Height / 100) * (this.Size.Width / 100)];
             DrawStartImages();
+
+            BovenHost = new ElementHost()
+            {
+                BackColor = Color.Transparent,
+                Height= 50,
+                Width = ClientSize.Width,
+                Child = BovenScherm,
+            };
+            this.Controls.Add(BovenHost);
+
+            OnderHost = new ElementHost()
+            {
+                BackColor = Color.Transparent,
+                Location = new Point(0,900),
+                Height= 120,
+                Width = ClientSize.Width,
+                Child = OnderScherm,
+            };
+            this.Controls.Add(OnderHost);
+
+            InfoHost = new ElementHost()
+            {
+                BackColor = Color.Transparent,
+                Location = new Point(1600, 75),
+                Height = 800,
+                Width = 300,
+                Child = InfoBalk,
+            };
+            this.Controls.Add(InfoHost);
+           
             Invalidate();
         }
         private void Teken(object o, PaintEventArgs pea)
         {
-            
             //dit zorgt ervoor dat de kaart op het scherm wordt weergegeven.
             //dit hoeft alleen maar gebeuren wanneer er nog aan de kaart gewerkt wordt.
             Image image;
@@ -61,7 +96,7 @@ namespace TrafficSimulation
                 pea.Graphics.DrawImage(image, 0, 0);
             }
         }
-        private void MouseUnclick(object obj, MouseEventArgs mea)
+        public void MouseUnclick(object obj, MouseEventArgs mea)
         {
             Bitmap tileImage;
             //voor als de code voor het zelf maken van de tiles werkt:
@@ -85,9 +120,9 @@ namespace TrafficSimulation
             tiles[CalculateListPlace(mea.X, mea.Y)] = currentBuildTile;
             //Dit zorgt ervoor dat de kaart geupdate wordt met de nieuwe tile.
             bitmapMap.AddTile(tileImage, mea.X / 100, mea.Y / 100);
-            
-            
 
+
+            //host.BackColorTransparent = true;
             //hier moet nog een nieuwe currentBuildTile worden aangemaakt met dezelde waarden als de vorige.
             Invalidate();
         }
