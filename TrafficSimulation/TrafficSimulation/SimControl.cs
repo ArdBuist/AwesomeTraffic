@@ -42,11 +42,7 @@ namespace TrafficSimulation
             this.sim = new Simulation(tiles);
             DrawStartImages();
 
-            Image image = (Image)bitmapMap.bitmap;
-            background.Image = (Image)bitmapMap.bitmap;
-            this.background.Location = new Point(0, 0);
-            this.background.Size = new Size(this.Width, this.Height);
-            //Invalidate();
+            background = new PictureBox();
         }
 
         private void Teken(object o, PaintEventArgs pea)
@@ -54,18 +50,20 @@ namespace TrafficSimulation
             
             //dit zorgt ervoor dat de kaart op het scherm wordt weergegeven.
             //dit hoeft alleen maar gebeuren wanneer er nog aan de kaart gewerkt wordt.
-            Image image;
             if (isBuildingMode == true)
             {
-                background.Invalidate();
+                background.Image = bitmapMap.bitmap;
+                this.background.Location = new Point(0, 0);
+                this.background.Size = new Size(this.Width, this.Height);
+                this.Controls.Add(background);
             }
-            else
+            /*else
             {
                 image = (Image)vehicleMap.bitmap;
                 pea.Graphics.DrawImage(image, 0, 0);
                 image = (Image)trafficlightMap.bitmap;
                 pea.Graphics.DrawImage(image, 0, 0);
-            }
+            }*/
         }
         private void MouseUnclick(object obj, MouseEventArgs mea)
         {
@@ -97,6 +95,8 @@ namespace TrafficSimulation
 
             //hier moet nog een nieuwe currentBuildTile worden aangemaakt met dezelde waarden als de vorige.
             background.Invalidate();
+            Invalidate();
+            background.Image = bitmapMap.bitmap;
         }
 
         public int CalculateListPlace(int mouseX, int mouseY)
@@ -152,9 +152,9 @@ namespace TrafficSimulation
             currentBuildTile.Update(this, null, 0);
         }
 
-        public void Update()
+        public void tempRefresh()
         {
-            background.Invalidate();
+            //background.Invalidate();
         }
 
         private void SimControl_Load(object sender, EventArgs e)

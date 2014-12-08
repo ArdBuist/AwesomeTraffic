@@ -23,6 +23,9 @@ namespace TrafficSimulation
         {
             get { return Graphics.FromImage(bitmap); }
         }
+
+
+
         private void DrawBitmap()
         {
             
