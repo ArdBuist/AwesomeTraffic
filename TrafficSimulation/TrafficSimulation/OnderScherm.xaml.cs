@@ -27,14 +27,21 @@ namespace TrafficSimulation
             InitializeComponent();
         }
 
+        public void removeTile(Object obj, MouseEventArgs mea)
+        {
+            sc.eraser = true;
+        }
+
         public void spawnerClick(Object obj, MouseEventArgs mea)
         {
+            sc.eraser = false;
             int direction = 4; //=4 vervangen door variabele, de kant waar de weg heen loopt
             sc.currentBuildTile = new Spawner(direction);
         }
 
         public void roadClick(Object obj, MouseEventArgs mea)
         {
+            sc.eraser = false;
             int start = 1; //=1 vervangen door variabele
             int end = 4;   //=4 vervangen door variabele
             sc.currentBuildTile = new Road(start, end);
@@ -42,12 +49,14 @@ namespace TrafficSimulation
 
         public void forkClick(Object obj, MouseEventArgs mea)
         {
+            sc.eraser = false;
             int notdirection = 1; //=1 vervangen door variabele, variabele waar geen weg naartoe loopt
             sc.currentBuildTile = new Fork(notdirection);
         }
 
         public void crossRoadClick (Object obj, MouseEventArgs mea)
         {
+            sc.eraser = false;
             sc.currentBuildTile = new Crossroad();
         }
     }

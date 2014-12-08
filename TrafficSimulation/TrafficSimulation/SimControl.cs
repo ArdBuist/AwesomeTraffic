@@ -18,6 +18,7 @@ namespace TrafficSimulation
         ControlPanel controlPanel;
         string currentTileString;
         public Tile currentBuildTile;
+        public bool eraser = false;
         public BitmapControl bitmapMap;
         BitmapControl trafficlightMap;
         BitmapControl vehicleMap;
@@ -104,12 +105,23 @@ namespace TrafficSimulation
             currentBuildTile = new Fork(2);
             currentBuildTile = new Road(4, 2);
             currentBuildTile = new Spawner(new Point(mea.X, mea.Y), 2);*/
-            currentBuildTile.SetValues(mea.Location,CalculateListPlace(mea.X, mea.Y));
-            tileImage = currentBuildTile.DrawImage();
-            currentBuildTile.Update(this, null, 0);
-            tiles[CalculateListPlace(mea.X, mea.Y)] = currentBuildTile;
-            //Dit zorgt ervoor dat de kaart geupdate wordt met de nieuwe tile.
-            bitmapMap.AddTile(tileImage, mea.X / 100, mea.Y / 100);
+
+            if (eraser == false)
+            {
+                currentBuildTile.SetValues(mea.Location, CalculateListPlace(mea.X, mea.Y));
+                tileImage = currentBuildTile.DrawImage();
+                currentBuildTile.Update(this, null, 0);
+                tiles[CalculateListPlace(mea.X, mea.Y)] = currentBuildTile;
+                //Dit zorgt ervoor dat de kaart geupdate wordt met de nieuwe tile.
+                bitmapMap.AddTile(tileImage, mea.X / 100, mea.Y / 100);
+            }
+            else //Er wordt een nieuwe bitmap waarop een groen vlak wordt getekend (oftewel, de geklikte tile wordt 'verwijderd')
+            {
+                tileImage = new Bitmap(100,100);
+                Graphics gr = Graphics.FromImage(tileImage);
+                gr.FillRectangle(Brushes.Green, 0, 0, 100, 100);
+                //nog laten verwijderen van de tile waarop geklikt is
+            }
 
 
             //host.BackColorTransparent = true;
