@@ -446,7 +446,7 @@ namespace TrafficSimulation
     public class Crossroad : Tile
     {
         int[] lanes;
-        private List<TrafficlightControl> trafficlightControlList;
+        private TrafficlightControl control;
 
         public Crossroad(SimControl sim)
         {
@@ -455,11 +455,8 @@ namespace TrafficSimulation
             this.name = "Crossroad";
             this.lanes = new int[] { 1, 1, 1, 1, 1, 1, 1, 1 };
 
-            trafficlightControlList = new List<TrafficlightControl>();
-            for (int i = 0; i < 4; i++)
-            {
-                trafficlightControlList.Add(new TrafficlightControl(sim, this, 4, 0, lanes));
-            }
+            control = new TrafficlightControl(sim, this, 4, 0, lanes);
+
             int totalLanes = CountLanes(lanes);
             initialize(totalLanes);
         }
@@ -492,10 +489,7 @@ namespace TrafficSimulation
         {
             base.SetValues(position, listPlace);
 
-            foreach (TrafficlightControl control in trafficlightControlList)
-            {
-                control.ChangeValues(position, listPlace);
-            }
+            control.ChangeValues(position, listPlace);
         }
     }
 }

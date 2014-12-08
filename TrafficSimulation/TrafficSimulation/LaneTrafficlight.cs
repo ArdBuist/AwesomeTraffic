@@ -33,6 +33,7 @@ namespace TrafficSimulation
                 Light.UpdateColor(kleur);
             }
         }
+
         //uitrekenen van de relatieve positie van het stoplicht t.o.v. de linkerbovenhoek van de tile.
         //Dit moet nog een stuk beter en mooier.
         private Point GetPosition(int Direction, int NumberTrafficlight)
@@ -41,17 +42,17 @@ namespace TrafficSimulation
 
             switch(Direction)
             {
-                case 1: Position.X = 50 - (NumberTrafficlight * 10);
+                case 1: Position.X = 50 - (NumberTrafficlight * 16);
                         Position.Y = 0;
                     break;
                 case 2: Position.X = 100;
-                    Position.Y = 50 - (NumberTrafficlight * 10);
+                    Position.Y = 50 - (NumberTrafficlight * 16);
                     break;
-                case 3: Position.X = 50 + (NumberTrafficlight * 10);
+                case 3: Position.X = 50 + (NumberTrafficlight * 16);
                     Position.Y = 100;
                     break;
                 case 4: Position.X = 0;
-                    Position.Y = 50 + (NumberTrafficlight * 10);
+                    Position.Y = 50 + (NumberTrafficlight * 16);
                     break;
             }
             return Position;

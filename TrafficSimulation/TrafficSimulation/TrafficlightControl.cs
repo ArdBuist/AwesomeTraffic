@@ -17,13 +17,11 @@ namespace TrafficSimulation
         {
             this.NumberOfDirections = Directions;
             trafficlightList = new List<LaneTrafficlight>();
-            for(int i = 1; i<Directions+1; i++)
+            for (int i = 1; i < Directions + 1; i++)
             {
                 if (i != NotDirection)
                 {
                     trafficlightList.Add(new LaneTrafficlight(sim, road, i, NumberOfLanes[i]));
-
-
                 }
             }
         }
