@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Resources;
 using System.Text;
 
 namespace TrafficSimulation
 {
     public class Vehicle
     {
-        private Point position;
+        public Point position;
         private Point destination;
+        protected Bitmap bitmap;
         private int length;
         private int width;
         private int speed;
@@ -25,21 +27,15 @@ namespace TrafficSimulation
             this.speed = speed;
             this.direction = direction;
             this.lane = lane;
+
+
         }
 
-        public Point Destination
-        {
-            get { return destination; }
-        }
+        public Point Destination { get { return destination; } }
+        public int Direction { get { return direction; } }
+        public int Lane { get { return lane; } }
+        public Bitmap Bitmap { get { return bitmap; } }
 
-        public int Direction
-        {
-            get { return direction; }
-        }
-        public int Lane
-        {
-            get { return lane; }
-        }
         public void Update()
         {
             if (speed != 0)
@@ -68,7 +64,8 @@ namespace TrafficSimulation
         NormalCar(Point pos, Point dest, int len, int speed, int direction, int lane)
             : base(pos, dest, len, speed, direction, lane)
         {
-
+            ResourceManager rm = Properties.Resources.ResourceManager;
+            this.bitmap = (Bitmap)rm.GetObject("car1");
         }
     }
 
@@ -77,7 +74,8 @@ namespace TrafficSimulation
         Truck(Point pos, Point dest, int len, int speed, int direction, int lane)
             : base(pos, dest, len, speed, direction, lane)
         {
-
+            ResourceManager rm = Properties.Resources.ResourceManager;
+            this.bitmap = (Bitmap)rm.GetObject("truck1");
         }
     }
 }

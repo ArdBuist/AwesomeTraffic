@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,24 +9,36 @@ namespace TrafficSimulation
 {
     class Simulation
     {
-        public Tile[] tiles;
-        private const int ticksPerSec = 25;
-        bool playing = false;
+        public const int ticksPerSec = 25;
+        private bool playing;
+        private List<Spawner> spawnerList;
+        private SimControl simControl;
 
-        public Simulation(Tile[] t)
+        public Simulation(SimControl simControl)
         {
-            this.tiles = t;
+            this.simControl = simControl;
+            playing = false;
+            spawnerList = new List<Spawner>();
+
+            foreach (Tile tile in simControl.tileList)
+            {
+                if (tile != null && tile.name.Equals("Spawner"))
+                {
+                    spawnerList.Add((Spawner)tile);
+                }
+            }
         }
 
         public void Start()
         {
             playing = true;
 
-            while (playing == true)
+            while (playing)
             {
                 int start = Environment.TickCount;
                 UpdateVariables();
                 UpdateGame();
+                simControl.vehicle.Invalidate();
                 Sleep(Environment.TickCount - start);
             }
         }
@@ -37,7 +50,8 @@ namespace TrafficSimulation
 
         private void UpdateVariables()
         {
-            if (true)//wanneer er op stop wordt geklikt
+
+            if (false)//wanneer er op stop wordt geklikt
             {
                 Stop();
             }
@@ -55,13 +69,35 @@ namespace TrafficSimulation
 
         private void UpdateCars()
         {
-            foreach (Tile t in tiles)
+            foreach (Tile t in simControl.tileList)
             {
                 if (t != null)
                 {
                     t.CarUpdate();
+                    foreach(List<Vehicle> list in t.vehicles){
+                        foreach (Vehicle v in list)
+                        {
+                            simControl.vehicleMap.AddObject(v.Bitmap, 150,150);
+                        }
+                    }
                 }
             }
+            foreach (Spawner spawn in spawnerList)
+            {
+                spawn.Tick(1 / ticksPerSec);
+                if (spawn.CurrentSpawn > 1)
+                {
+                    Vehicle v = createVehicle(spawn);
+                    spawn.AddVehicle(v, spawn.SpawnLane);
+                    simControl.vehicleList.Add(v);
+                }
+            }
+        }
+
+        private Vehicle createVehicle(Spawner spawn)
+        {
+            //deze methode moet ingevuld worden, hier wordt een auto gegenereerd
+            return new Vehicle(new Point(spawn.position.X + 70, spawn.position.Y + 50 - 8), new Point(spawn.position.X + 200, spawn.position.Y + 200), 10, 5, spawn.direction, 1);
         }
     }
 }
