@@ -20,9 +20,35 @@ namespace TrafficSimulation
     /// </summary>
     public partial class OnderScherm : UserControl
     {
-        public OnderScherm()
+        SimControl sc;
+
+        public OnderScherm(SimControl sc)
         {
             InitializeComponent();
+        }
+
+        public void spawnerClick(Object obj, MouseEventArgs mea)
+        {
+            int direction = 4; //=4 vervangen door variabele, de kant waar de weg heen loopt
+            sc.currentBuildTile = new Spawner(direction);
+        }
+
+        public void roadClick(Object obj, MouseEventArgs mea)
+        {
+            int start = 1; //=1 vervangen door variabele
+            int end = 4;   //=4 vervangen door variabele
+            sc.currentBuildTile = new Road(start, end);
+        }
+
+        public void forkClick(Object obj, MouseEventArgs mea)
+        {
+            int notdirection = 1; //=1 vervangen door variabele, variabele waar geen weg naartoe loopt
+            sc.currentBuildTile = new Fork(notdirection);
+        }
+
+        public void crossRoadClick (Object obj, MouseEventArgs mea)
+        {
+            sc.currentBuildTile = new Crossroad();
         }
     }
 }

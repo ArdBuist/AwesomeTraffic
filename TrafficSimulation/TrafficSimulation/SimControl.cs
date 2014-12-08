@@ -17,7 +17,7 @@ namespace TrafficSimulation
         BuildPanel buildPanel;
         ControlPanel controlPanel;
         string currentTileString;
-        Tile currentBuildTile;
+        public Tile currentBuildTile;
         public BitmapControl bitmapMap;
         BitmapControl trafficlightMap;
         BitmapControl vehicleMap;
@@ -29,7 +29,7 @@ namespace TrafficSimulation
         public SimControl(Size size)
         {
             BovenScherm BovenScherm = new BovenScherm();
-            OnderScherm OnderScherm = new OnderScherm();
+            OnderScherm OnderScherm = new OnderScherm(this);
             InfoBalk InfoBalk = new InfoBalk();
             int hoogte = ClientSize.Height;
             int breedte = ClientSize.Width;
@@ -59,7 +59,7 @@ namespace TrafficSimulation
             OnderHost = new ElementHost()
             {
                 BackColor = Color.Transparent,
-                Location = new Point(0,900),
+                Location = new Point(0,600),
                 Height= 120,
                 Width = ClientSize.Width,
                 Child = OnderScherm,
@@ -69,7 +69,7 @@ namespace TrafficSimulation
             InfoHost = new ElementHost()
             {
                 BackColor = Color.Transparent,
-                Location = new Point(1600, 75),
+                Location = new Point(900, 75),
                 Height = 800,
                 Width = 300,
                 Child = InfoBalk,
@@ -99,21 +99,11 @@ namespace TrafficSimulation
         public void MouseUnclick(object obj, MouseEventArgs mea)
         {
             Bitmap tileImage;
-            //voor als de code voor het zelf maken van de tiles werkt:
-            //Tile[] tileList = new Tile[] {new Crossroad(), new Road(), new Fork()};
-            //for (int i = 0; i < tileList.Length;i++ )
-            //{
-            //    Tile possibleTile = tileList[i];
-            //    if(possibleTile.ToString() == currentTileString)
-            //    {
-            //        currentBuildTile = possibleTile;
-            //        break;
-            //    }
-            //}
-            currentBuildTile = new Crossroad();
+
+           /* currentBuildTile = new Crossroad();
             currentBuildTile = new Fork(2);
             currentBuildTile = new Road(4, 2);
-            //currentBuildTile = new Spawner(new Point(mea.X, mea.Y), 2);
+            currentBuildTile = new Spawner(new Point(mea.X, mea.Y), 2);*/
             currentBuildTile.SetValues(mea.Location,CalculateListPlace(mea.X, mea.Y));
             tileImage = currentBuildTile.DrawImage();
             currentBuildTile.Update(this, null, 0);
