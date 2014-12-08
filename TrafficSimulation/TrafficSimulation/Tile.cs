@@ -487,5 +487,15 @@ namespace TrafficSimulation
             t.drawCrossroad(Graphics.FromImage(image), lanes);
             return image;
         }
+
+        public override void SetValues(Point position, int listPlace)
+        {
+            base.SetValues(position, listPlace);
+
+            foreach (TrafficlightControl control in trafficlightControlList)
+            {
+                control.ChangeValues(position, listPlace);
+            }
+        }
     }
 }

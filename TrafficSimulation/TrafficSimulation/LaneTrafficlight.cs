@@ -26,8 +26,8 @@ namespace TrafficSimulation
         }
 
         public void ChangeColor(Color kleur)
-        { 
-            for (int i = 0; i<trafficlights.Count; i++)
+        {
+            for (int i = 0; i < trafficlights.Count; i++)
             {
                 Trafficlight Light =  (Trafficlight)trafficlights[i];
                 Light.UpdateColor(kleur);
@@ -41,17 +41,17 @@ namespace TrafficSimulation
 
             switch(Direction)
             {
-                case 1: Position.X = 100 - (NumberTrafficlight * 10);
-                        Position.Y = 50;
+                case 1: Position.X = 50 - (NumberTrafficlight * 10);
+                        Position.Y = 0;
                     break;
-                case 2: Position.X = 150;
-                    Position.Y = 100 - (NumberTrafficlight * 10);
+                case 2: Position.X = 100;
+                    Position.Y = 50 - (NumberTrafficlight * 10);
                     break;
-                case 3: Position.X = 100 + (NumberTrafficlight * 10);
-                    Position.Y = 150;
+                case 3: Position.X = 50 + (NumberTrafficlight * 10);
+                    Position.Y = 100;
                     break;
-                case 4: Position.X = 50;
-                    Position.Y = 100 + (NumberTrafficlight * 10);
+                case 4: Position.X = 0;
+                    Position.Y = 50 + (NumberTrafficlight * 10);
                     break;
             }
             return Position;
