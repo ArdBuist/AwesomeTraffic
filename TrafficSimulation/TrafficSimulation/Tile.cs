@@ -455,7 +455,7 @@ namespace TrafficSimulation
             this.name = "Crossroad";
             this.lanes = new int[] { 1, 1, 1, 1, 1, 1, 1, 1 };
 
-            control = new TrafficlightControl(sim, this, 4, 5, lanes);
+            control = new TrafficlightControl(sim, this, 4, 9, lanes);
 
             int totalLanes = CountLanes(lanes);
             initialize(totalLanes);

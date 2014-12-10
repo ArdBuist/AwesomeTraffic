@@ -18,7 +18,7 @@ namespace TrafficSimulation
             this.road = road;
             
 
-            for (int i = 0; i < Lanes; i++)
+            for (int i = 1; i < Lanes + 1; i++)
             {
                 Point Position = GetPosition(Direction, i);
                 trafficlights.Add(new Trafficlight(sim, road, Position));
@@ -40,19 +40,39 @@ namespace TrafficSimulation
         {
             Point Position = new Point(0, 0);
 
-            switch(Direction)
+            switch (Direction)
             {
-                case 0: Position.X = 50 - (NumberTrafficlight * 16);
-                        Position.Y = 0;
+                case 0:
+                    Position.X = 53 - (NumberTrafficlight * 16);
+                    Position.Y = 0;
                     break;
-                case 1: Position.X = 100;
-                    Position.Y = 50 - (NumberTrafficlight * 16);
+                case 1:
+                    Position.X = 90;
+                    Position.Y = 53 - (NumberTrafficlight * 16);
                     break;
-                case 2: Position.X = 50 + (NumberTrafficlight * 16);
-                    Position.Y = 100;
+                case 2:
+                    Position.X = 53 + (NumberTrafficlight * 16);
+                    Position.Y = 90;
                     break;
-                case 3: Position.X = 0;
-                    Position.Y = 50 + (NumberTrafficlight * 16);
+                case 3:
+                    Position.X = 0;
+                    Position.Y = 53 + (NumberTrafficlight * 16);
+                    break;
+                case 4:
+                    Position.X = 53 + (NumberTrafficlight * 16);
+                    Position.Y = 0;
+                    break;
+                case 5:
+                    Position.X = 90;
+                    Position.Y = 53 + (NumberTrafficlight * 16);
+                    break;
+                case 6:
+                    Position.X = 53 - (NumberTrafficlight * 16);
+                    Position.Y = 90;
+                    break;
+                case 7:
+                    Position.X = 0;
+                    Position.Y = 53 - (NumberTrafficlight * 16);
                     break;
             }
             return Position;
