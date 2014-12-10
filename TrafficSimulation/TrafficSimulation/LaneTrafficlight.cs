@@ -16,7 +16,7 @@ namespace TrafficSimulation
         {
             trafficlights = new List<Trafficlight>();
             this.road = road;
-            
+
 
             for (int i = 0; i < Lanes; i++)
             {
@@ -29,7 +29,7 @@ namespace TrafficSimulation
         {
             for (int i = 0; i < trafficlights.Count; i++)
             {
-                Trafficlight Light =  (Trafficlight)trafficlights[i];
+                Trafficlight Light = (Trafficlight)trafficlights[i];
                 Light.UpdateColor(kleur);
             }
         }

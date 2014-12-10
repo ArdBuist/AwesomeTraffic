@@ -16,9 +16,9 @@ namespace TrafficSimulation
         public TrafficlightControl(SimControl sim, Tile road, int Directions, int NotDirection, int[] NumberOfLanes)
         {
             trafficlightList = new List<LaneTrafficlight>();
-            
+
             NumberOfDirections = Directions;
-            
+
             for (int i = 0; i < 4; i++)
             {
                 if (i != NotDirection)
@@ -27,7 +27,7 @@ namespace TrafficSimulation
                 }
             }
         }
-        
+
         private void Run()
         {
             int i = 0;
@@ -44,10 +44,10 @@ namespace TrafficSimulation
         private void Update(int turn)
         {
             //Zet nu telkens een andere kant op groen.
-            for(int i = 0; i < NumberOfDirections;i++)
+            for (int i = 0; i < NumberOfDirections; i++)
             {
-                Color kleur;   
-                LaneTrafficlight laneTrafficlight =(LaneTrafficlight) trafficlightList[i];
+                Color kleur;
+                LaneTrafficlight laneTrafficlight = (LaneTrafficlight)trafficlightList[i];
                 if (i == turn)
                     kleur = Color.Green;
                 else

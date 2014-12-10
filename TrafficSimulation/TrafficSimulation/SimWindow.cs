@@ -20,7 +20,7 @@ namespace TrafficSimulation
             this.WindowState = FormWindowState.Maximized;
             //alle schermranden weghalen
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            
+
             this.BackColor = Color.Green;
             s = new SimControl(this.ClientSize);
             s.Location = new Point(0, 0);

@@ -153,7 +153,7 @@ namespace TrafficSimulation
                 numberOfCars = numberOfCars % 1;
             }
         }
-        
+
         public override Bitmap DrawImage()
         {
             Bitmap image = new Bitmap(100, 100);
@@ -167,10 +167,10 @@ namespace TrafficSimulation
             //deze methode moet ingevuld worden, hier wordt een auto gegenereerd
             return new Vehicle(new Point(), new Point(), 0, 0, 0, 0);
         }
-        public override void Update(SimControl s,Road road,int direction)
+        public override void Update(SimControl s, Road road, int direction)
         {
             //if's voor verschil in richtingen van de wegen.
-            if(direction<3)
+            if (direction < 3)
             {
                 this.lanesIn = road.getLaneLowToHigh();
                 this.lanesOut = road.getLaneHighToLow();
@@ -180,7 +180,7 @@ namespace TrafficSimulation
                 this.lanesIn = road.getLaneHighToLow();
                 this.lanesOut = road.getLaneLowToHigh();
             }
-            
+
             this.maxSpeed = road.getMaxSpeed();
             s.bitmapMap.AddTile(DrawImage(), position.X / 100, position.Y / 100);
         }
@@ -249,11 +249,11 @@ namespace TrafficSimulation
     public class Road : Tile
     {
         private int startDirection;
-        
+
         private int endDirection;
 
 
-        public Road( int start, int end)
+        public Road(int start, int end)
         {
             this.name = "Road";
 
@@ -273,11 +273,11 @@ namespace TrafficSimulation
         {
             Bitmap image = new Bitmap(100, 100);
             DrawTile t = new DrawTile();
-            t.drawRoad(Graphics.FromImage(image),lanesLowToHigh,lanesHighToLow,startDirection,endDirection);
+            t.drawRoad(Graphics.FromImage(image), lanesLowToHigh, lanesHighToLow, startDirection, endDirection);
             return image;
         }
         //update de tilevariabelen en zorgt dat tiles eromheen aangeroepen gaan worden.
-        public override void Update(SimControl s,Road road, int direction)
+        public override void Update(SimControl s, Road road, int direction)
         {
             //road is alleen maar null als dit de eerste methode update is die wordt aangeroepen na een verandering in de interface.
             if (road != null)
@@ -318,12 +318,12 @@ namespace TrafficSimulation
             //als het een bocht is:
             else
             {
-                if(direction == 0)
+                if (direction == 0)
                 {
                     UpdateOtherTile(s, this, startDirection + 2);
                     UpdateOtherTile(s, this, endDirection + 2);
                 }
-                else if(direction != startDirection)
+                else if (direction != startDirection)
                 {
                     UpdateOtherTile(s, this, startDirection + 2);
                 }
@@ -332,7 +332,7 @@ namespace TrafficSimulation
                     UpdateOtherTile(s, this, endDirection + 2);
                 }
             }
-            s.bitmapMap.AddTile(DrawImage(),position.X/100,position.Y/100);
+            s.bitmapMap.AddTile(DrawImage(), position.X / 100, position.Y / 100);
         }
 
         /*Deze methode zorgt ervoor dat van de tiles om deze tile heen de methode Update wordt aangeroepen.
@@ -340,7 +340,7 @@ namespace TrafficSimulation
         private void UpdateOtherTile(SimControl s, Road road, int direction)
         {
             Tile tile;
-            switch(direction)
+            switch (direction)
             {
                 case 1: tile = s.tiles[listPlace + s.tilesHorizontal];
                     if (tile != null)
@@ -355,7 +355,7 @@ namespace TrafficSimulation
                         tile.Update(s, this, 3);
                     break;
                 case 4: tile = s.tiles[listPlace + 1];
-                    if(tile != null)
+                    if (tile != null)
                         tile.Update(s, this, 4);
                     break;
             }
@@ -395,7 +395,7 @@ namespace TrafficSimulation
         public Fork(SimControl sim, int notDirection)
         {
             this.name = "Fork";
-            this.lanes = new int[] {1,1,1,1,0,0,1,1};
+            this.lanes = new int[] { 1, 1, 1, 1, 0, 0, 1, 1 };
             this.notDirection = notDirection;
 
             trafficlightControlList = new List<TrafficlightControl>();
@@ -405,7 +405,7 @@ namespace TrafficSimulation
                 trafficlightControlList.Add(new TrafficlightControl(sim, this, 3, notDirection, lanes));
             }
             int totalLanes = CountLanes(lanes);
-                initialize(totalLanes);
+            initialize(totalLanes);
         }
 
         public override void Update(SimControl s, Road road, int direction)
@@ -423,7 +423,7 @@ namespace TrafficSimulation
             }
             s.bitmapMap.AddTile(DrawImage(), position.X / 100, position.Y / 100); //drawmethode werkt nog niet naar behoren door ontbreken compatibiliteit met lists
         }
-        
+
         public override Bitmap DrawImage()
         {
             Bitmap image = new Bitmap(100, 100);
