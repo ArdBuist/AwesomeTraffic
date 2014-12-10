@@ -42,16 +42,16 @@ namespace TrafficSimulation
 
             switch(Direction)
             {
-                case 1: Position.X = 50 - (NumberTrafficlight * 16);
+                case 0: Position.X = 50 - (NumberTrafficlight * 16);
                         Position.Y = 0;
                     break;
-                case 2: Position.X = 100;
+                case 1: Position.X = 100;
                     Position.Y = 50 - (NumberTrafficlight * 16);
                     break;
-                case 3: Position.X = 50 + (NumberTrafficlight * 16);
+                case 2: Position.X = 50 + (NumberTrafficlight * 16);
                     Position.Y = 100;
                     break;
-                case 4: Position.X = 0;
+                case 3: Position.X = 0;
                     Position.Y = 50 + (NumberTrafficlight * 16);
                     break;
             }
