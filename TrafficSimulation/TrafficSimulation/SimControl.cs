@@ -22,11 +22,12 @@ namespace TrafficSimulation
         BitmapControl vehicleMap;
         Boolean isBuildingMode;//moet veranderd worden als van het kaartbouwen wordt overgesprongen naar het "spelen" 
         public Tile[] tiles;
+        Point mouseDownPoint;
         public int tilesHorizontal;
 
         public SimControl(Size size)
         {
-            
+            mouseDownPoint = new Point(0,0);
             this.Size = new Size(2000, 1500);
             isBuildingMode = true;
             tilesHorizontal = Size.Width / 100;
@@ -35,7 +36,11 @@ namespace TrafficSimulation
             vehicleMap = new BitmapControl(this.Size);
             this.DoubleBuffered = true;
             this.Paint += this.Teken;
-            this.MouseUp += this.MouseUnclick;
+            this.MouseDown += this.MouseClickDown;
+            this.MouseMove += (object o, MouseEventArgs mea) => { if (mouseDownPoint != new Point(0,0))
+                                                                   if(TileIsStraight(mouseDownPoint,mea.Location))
+                                                                        DrawTile(mea);};
+            this.MouseUp += (object o, MouseEventArgs mea) => { mouseDownPoint = new Point(0, 0); };
             this.Visible = true;
             tiles = new Tile[(this.Size.Height / 100) * (this.Size.Width / 100)];
             DrawStartImages();
@@ -60,13 +65,38 @@ namespace TrafficSimulation
                 pea.Graphics.DrawImage(image, 0, 0);
             }
         }
-        private void MouseUnclick(object obj, MouseEventArgs mea)
+        private void MouseClickDown(object obj, MouseEventArgs mea)
         {
-            Bitmap tileImage;
+            //mouseDownPoint wordt gebruikt voor het laten functioneren van het door slepen aanbrengen van wegen
+            mouseDownPoint = new Point(mea.X/100*100,mea.Y/100*100);
+            DrawTile(mea);
+        }
+        /*controleert of de tile een rechte weg is en checkt of de weg naar de goede kant doorloopt zodat je een hele weg kunt maken door rechtdoor te slepen
+        *Hierdoor kun je alleen rechte wegen door slepen op de kaart aanbrengen. Dit verhoogt het gebruiksgemak omdat het wegen leggen zo een stuk sneller gaat.
+        */
+        private bool TileIsStraight(Point mouseDown, Point mousePoint)
+        {
+        if(currentBuildTile.name == "Road")
+        {
+            Road tile = (Road)currentBuildTile;
+            if ((tile.startDirection + tile.endDirection) % 2 == 0)
+            {
+                if (tile.startDirection == 2 && mouseDown.Y < mousePoint.Y && mouseDown.Y + 100 > mousePoint.Y)
+                    return true;
+                if (tile.startDirection == 1 && mouseDown.X < mousePoint.X && mouseDown.X + 100 > mousePoint.X)
+                    return true;
+            }
+        }
+        return false;
+        }
+
+        private void DrawTile(MouseEventArgs mea)
+        {
+             Bitmap tileImage;
             currentBuildTile = new Crossroad();
             currentBuildTile = new Fork(2);
-            currentBuildTile = new Road(4, 2);
-            //currentBuildTile = new Spawner(new Point(mea.X, mea.Y), 2);
+            currentBuildTile = new Road(2, 4);
+            //currentBuildTile = new Spawner(2);
             currentBuildTile.SetValues(this,mea.Location,CalculateListPlace(mea.X, mea.Y));
             tileImage = currentBuildTile.DrawImage();
             tiles[CalculateListPlace(mea.X, mea.Y)] = currentBuildTile;

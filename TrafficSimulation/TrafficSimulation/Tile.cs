@@ -313,11 +313,11 @@ namespace TrafficSimulation
                 }
                 else if (direction != startDirection)
                 {
-                    UpdateOtherTile(s, endDirection);
+                    UpdateOtherTile(s, startDirection);
                 }
                 else
                 {
-                    UpdateOtherTile(s, startDirection);
+                    UpdateOtherTile(s, endDirection);
                 }
             }
             //als het een bocht is:
@@ -325,16 +325,16 @@ namespace TrafficSimulation
             {
                 if(direction == 0)
                 {
-                    UpdateOtherTile(s, startDirection + 2);
-                    UpdateOtherTile(s, endDirection + 2);
+                    UpdateOtherTile(s, startDirection );
+                    UpdateOtherTile(s, endDirection);
                 }
                 else if(direction != startDirection)
                 {
-                    UpdateOtherTile(s, startDirection + 2);
+                    UpdateOtherTile(s, startDirection );
                 }
                 else
                 {
-                    UpdateOtherTile(s, endDirection + 2);
+                    UpdateOtherTile(s, endDirection );
                 }
             }
             s.bitmapMap.AddTile(DrawImage(),position.X/100,position.Y/100);
@@ -343,7 +343,7 @@ namespace TrafficSimulation
         {
             Tile tile;
             tile = this.GetOtherTile(s, startDirection);
-            if (tile != null && tile.name == "Road" && doesConnect(tile,endDirection))
+            if (tile != null && tile.name == "Road" && doesConnect(tile,startDirection))
             {
                 Road otherRoad = (Road)tile;
                 if(otherRoad.startDirection == ( this.startDirection)) 
@@ -354,7 +354,7 @@ namespace TrafficSimulation
             else
             {
                 tile = this.GetOtherTile(s, endDirection);
-                if (tile != null && tile.name == "Road" && doesConnect(tile,startDirection))
+                if (tile != null && tile.name == "Road" && doesConnect(tile,endDirection))
                 {
                     Road otherRoad = (Road)tile;
                     this.lanesHighToLow = otherRoad.getLaneHighToLow();
@@ -367,26 +367,36 @@ namespace TrafficSimulation
         public Tile GetOtherTile(SimControl s, int direction)
         {
             Tile tile = null;
-            switch(direction)
+            try
             {
-                case 1: tile = s.tiles[listPlace + s.tilesHorizontal];
-                    break;
-                case 2: tile = s.tiles[listPlace - 1];
-                    break;
-                case 3: tile = s.tiles[listPlace - s.tilesHorizontal];
-                    break;
-                case 4: tile = s.tiles[listPlace + 1];
-                    break;
+                switch (direction)
+                {
+                    case 1: tile = s.tiles[listPlace - s.tilesHorizontal];
+                        break;
+                    case 2: tile = s.tiles[listPlace + 1];
+                        break;
+                    case 3: tile = s.tiles[listPlace + s.tilesHorizontal];
+                        break;
+                    case 4: tile = s.tiles[listPlace - 1];
+                        break;
+                }
             }
+            catch
+            { }
             return tile;
         }
         /*Deze methode zorgt ervoor dat van de tiles om deze tile heen de methode Update wordt aangeroepen.*/
         private void UpdateOtherTile(SimControl s, int direction)
         {
             Tile tile = GetOtherTile(s, direction);
+            direction += 2;
+            if (direction > 4)
+                direction -= 4;
             if(tile != null)
                 tile.Update(s, this, direction);
         }
+
+
         public int getLaneHighToLow()
         {
             return lanesHighToLow;
