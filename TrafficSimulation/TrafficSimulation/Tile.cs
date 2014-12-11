@@ -55,6 +55,35 @@ namespace TrafficSimulation
                 thisTile.UpdateFromOtherTiles(s);
             }
         }
+        public bool doesConnect(Tile tile, int side)
+        {
+            int direction = side + 2;
+            if (direction > 4)
+                direction -= 4 ;
+            Boolean value = false;
+            switch (tile.name)
+            {
+                case "Spawner": Spawner tileSpawner = (Spawner)tile;
+                    if(tileSpawner.direction== direction)
+                        value = true;
+                    break;
+                case "Crossroad": value = true;
+                    break;
+                case "Road": Road tileRoad = (Road)tile;
+                    if(tileRoad.startDirection== direction || tileRoad.endDirection == direction)
+                        value = true;
+                    break;
+                case "Fork": Fork tileFork = (Fork)tile;
+                    if(tileFork.notDirection !=direction)
+                        value = true;
+                    break;
+                default: ;
+                    break;
+            }
+
+
+            return value;
+        }
         public int CountLanes(int[] lanes)
         {
             int totalLanes = 0;
@@ -106,7 +135,7 @@ namespace TrafficSimulation
     {
         private int spawnLane;//handigheid niet duidelijk voor mij
         private int currentSpawn;//baan waarop de volgende auto gespawnt gaat worden
-        private int direction;//kant waarop de weg loopt
+        public int direction;//kant waarop de weg loopt
         private int lanesOut, lanesIn;//aantal wegen van en naar de spawner
         private double carsPerSec;//auto's die per seconde gespawned worden
         private double numberOfCars;//opslag voor auto's die gespawned moeten worden voor als de weg vol is.
@@ -314,9 +343,10 @@ namespace TrafficSimulation
         {
             Tile tile;
             tile = this.GetOtherTile(s, startDirection);
-            if (tile != null && tile.name == "Road" )
+            if (tile != null && tile.name == "Road" && doesConnect(tile,endDirection))
             {
                 Road otherRoad = (Road)tile;
+                if(otherRoad.startDirection == ( this.startDirection)) 
                 this.lanesHighToLow = otherRoad.getLaneHighToLow();
                 this.lanesLowToHigh = otherRoad.getLaneLowToHigh();
                 this.maxSpeed = otherRoad.getMaxSpeed();
@@ -324,7 +354,7 @@ namespace TrafficSimulation
             else
             {
                 tile = this.GetOtherTile(s, endDirection);
-                if (tile != null && tile.name == "Road")
+                if (tile != null && tile.name == "Road" && doesConnect(tile,startDirection))
                 {
                     Road otherRoad = (Road)tile;
                     this.lanesHighToLow = otherRoad.getLaneHighToLow();
@@ -333,6 +363,7 @@ namespace TrafficSimulation
                 }
             }
         }
+        //haalt andere tile uit de lijst. Vul direction in voor welke kant je op wilt.
         public Tile GetOtherTile(SimControl s, int direction)
         {
             Tile tile = null;
@@ -381,7 +412,7 @@ namespace TrafficSimulation
 
     public class Fork : Tile
     {
-        private int notDirection;
+        public int notDirection;
         int[] lanes;
         private List<TrafficlightControl> trafficlightControlList;
 

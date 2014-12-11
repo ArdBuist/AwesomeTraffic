@@ -72,14 +72,33 @@ namespace TrafficSimulation
             tiles[CalculateListPlace(mea.X, mea.Y)] = currentBuildTile;
             //Dit zorgt ervoor dat de kaart geupdate wordt met de nieuwe tile.
             bitmapMap.AddTile(tileImage, mea.X / 100, mea.Y / 100);
-            
-            
-
-            //hier moet nog een nieuwe currentBuildTile worden aangemaakt met dezelde waarden als de vorige.
+            currentBuildTile = CopyCurrentTile();//hier wordt een nieuwe buildTile gemaakt met dezelfde waardes als daarvoor omdat er dan opnieuw een tile ingeklikt kan worden.
             Invalidate();
         }
-
-        public int CalculateListPlace(int mouseX, int mouseY)
+        //methode maakt een kopie van de huidige tile die net getekend is, zodat dezelfde tile nog een keer getekend kan worden.
+        private Tile CopyCurrentTile() 
+        { 
+            Tile tile;
+            string tileName = currentBuildTile.name;
+            switch(tileName)
+            {
+                case "Spawner":     Spawner currentSpawnerTile = (Spawner) currentBuildTile;
+                                    tile = new Spawner(currentSpawnerTile.direction);
+                    break;
+                case "Crossroad":   tile = new Crossroad();
+                    break;
+                case "Road" :       Road currentRoadTile = (Road) currentBuildTile;
+                                    tile = new Road(currentRoadTile.startDirection, currentRoadTile.endDirection);
+                    break;
+                case "Fork" :       Fork currentForkTile = (Fork) currentBuildTile;
+                                    tile = new Fork(currentForkTile.notDirection);
+                    break;
+                default :           tile = new Crossroad();
+                    break;
+            }
+            return tile;
+        }
+        private int CalculateListPlace(int mouseX, int mouseY)
         {
             return mouseY / 100 * tilesHorizontal + mouseX/ 100;
         }
@@ -87,11 +106,7 @@ namespace TrafficSimulation
         private void DrawStartImages()
         {
             Bitmap tileImage;
-            currentBuildTile = new Road(2, 4);
-            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
-            tiles[500 / 100 * tilesHorizontal + 500 / 100] = currentBuildTile;
-            currentBuildTile.SetValues(this, new Point(500, 500), 500 / 100 * tilesHorizontal + 500 / 100);
-            bitmapMap.AddTile(tileImage, 5, 5);
+            
             currentBuildTile = new Road(2,4);
             tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
             tiles[500 / 100 * tilesHorizontal + 700 / 100] = currentBuildTile;
@@ -128,6 +143,13 @@ namespace TrafficSimulation
             currentBuildTile.SetValues(this,new Point(600, 600), 600 / 100 * tilesHorizontal + 600 / 100);
             bitmapMap.AddTile(tileImage, 6, 6);
             currentBuildTile = tiles[500 / 100 * tilesHorizontal + 700 / 100];
+            currentBuildTile.setLanesHighToLow(3);
+            currentBuildTile.Update(this, null, 0);
+            currentBuildTile = new Road(2, 4);
+            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
+            tiles[500 / 100 * tilesHorizontal + 500 / 100] = currentBuildTile;
+            currentBuildTile.SetValues(this, new Point(500, 500), 500 / 100 * tilesHorizontal + 500 / 100);
+            bitmapMap.AddTile(tileImage, 5, 5);
             currentBuildTile.setLanesHighToLow(2);
             currentBuildTile.Update(this, null, 0);
 
