@@ -43,6 +43,12 @@ namespace TrafficSimulation
             vehicleList = new List<Vehicle>();
             this.sim = new Simulation(this);
             DrawStartImages();
+            
+            //Begin test code
+            NormalCar v = new NormalCar(new Point(150, 150), new Point(200, 200), 10, 5, 3, 1);
+            //vehicleMap.AddObject(v.Bitmap, v.position.X, v.position.Y);
+            vehicleList.Add(v);
+            //Einde test code
 
             background = new PictureBox();
             trafficlight = new PictureBox();
@@ -80,8 +86,6 @@ namespace TrafficSimulation
                 this.vehicle.Location = new Point(0, 0);
                 this.vehicle.Size = new Size(this.Width, this.Height);
                 this.background.Controls.Add(vehicle);
-                NormalCar v = new NormalCar(new Point(100, 100), new Point(200, 200), 10, 5, 4, 1);
-                vehicleMap.AddObject(v.Bitmap, 150, 150);
             }
             else
             {
@@ -107,17 +111,30 @@ namespace TrafficSimulation
             //        break;
             //    }
             //}
-            currentBuildTile = new Crossroad();
-            currentBuildTile = new Fork(2 * 100);
-            currentBuildTile = new Road(4 * 100, 2 * 100);
+            //currentBuildTile = new Crossroad();
+            //currentBuildTile = new Fork(2 * 100);
+            //currentBuildTile = new Road(4 * 100, 2 * 100);
             //currentBuildTile = new Spawner(new Point(mea.X, mea.Y), 2);
-            currentBuildTile.SetValues(mea.Location, CalculateListPlace(mea.X, mea.Y));
-            tileImage = currentBuildTile.DrawImage();
-            currentBuildTile.Update(this, null, 0);
-            tileList[CalculateListPlace(mea.X, mea.Y)] = currentBuildTile;
+            //currentBuildTile.SetValues(mea.Location, CalculateListPlace(mea.X, mea.Y));
+            //tileImage = currentBuildTile.DrawImage();
+            //currentBuildTile.Update(this, null, 0);
+            //tileList[CalculateListPlace(mea.X, mea.Y)] = currentBuildTile;
             //Dit zorgt ervoor dat de kaart geupdate wordt met de nieuwe tile.
-            bitmapMap.AddObject(tileImage, mea.X, mea.Y);
+            //bitmapMap.AddObject(tileImage, mea.X, mea.Y);
 
+            //testcode
+            int x = mea.X;
+            int y = mea.Y;
+            for (int i = x; i < x+20; i++)
+            {
+                for (int j = y; j < y+20; j++)
+                {
+                    vehicleMap.bitmap.SetPixel(i, j, Color.Blue);
+                }
+            }
+            vehicle.Invalidate();
+            vehicle.Update();
+            //einde testcode
             //hier moet nog een nieuwe currentBuildTile worden aangemaakt met dezelde waarden als de vorige.
             
             //tijdelijke sim.Start(), dit moet nog aan een knop verbonden worden

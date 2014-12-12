@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 
 namespace TrafficSimulation
 {
@@ -33,27 +33,14 @@ namespace TrafficSimulation
         {
             playing = true;
 
-            //testcode
-            for (int i = 200; i < 250; i++)
-            {
-                for (int j = 200; j < 250; j++)
-                {
-                    simControl.vehicleMap.bitmap.SetPixel(i, j, Color.Black);
-                    simControl.
-                }
-            }
-            //einde testcode
-
             while (playing)
             {
                 int start = Environment.TickCount;
                 UpdateVariables();
                 UpdateGame();
-                simControl.Invalidate();
                 simControl.vehicle.Invalidate();
-                simControl.background.Invalidate();
-                simControl.trafficlight.Invalidate();
-                Sleep(Environment.TickCount - start);
+                simControl.vehicle.Update();
+                //Sleep(Environment.TickCount - start);
             }
         }
 
@@ -64,7 +51,6 @@ namespace TrafficSimulation
 
         private void UpdateVariables()
         {
-
             if (false)//wanneer er op stop wordt geklikt
             {
                 Stop();
@@ -78,11 +64,17 @@ namespace TrafficSimulation
 
         private void Sleep(int timePassed)
         {
-            System.Threading.Thread.Sleep(100);//1000 / ticksPerSec - timePassed);
+            System.Threading.Thread.Sleep(2000);//1000 / ticksPerSec - timePassed);
         }
 
         private void UpdateCars()
         {
+            foreach (Vehicle v in simControl.vehicleList)
+            {
+                v.Update();
+                simControl.vehicleMap.AddObject(v.Bitmap, v.position.X, v.position.Y);
+            }
+            /* eventueel permenente code, anders code hierboven gebruiken (doen nu nog hetzelfde)
             foreach (Tile t in simControl.tileList)
             {
                 if (t != null)
@@ -105,7 +97,7 @@ namespace TrafficSimulation
                     spawn.AddVehicle(v, spawn.SpawnLane);
                     simControl.vehicleList.Add(v);
                 }
-            }
+            }*/
         }
 
         private Vehicle createVehicle(Spawner spawn)
