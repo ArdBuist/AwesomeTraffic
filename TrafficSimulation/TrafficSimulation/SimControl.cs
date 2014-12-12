@@ -19,6 +19,8 @@ namespace TrafficSimulation
         string currentTileString;
         public Tile currentBuildTile;
         public bool eraser = false;
+        public bool selected = false;
+        public int TimeofDay = 1;
         public BitmapControl bitmapMap;
         BitmapControl trafficlightMap;
         BitmapControl vehicleMap;
@@ -29,9 +31,9 @@ namespace TrafficSimulation
 
         public SimControl(Size size)
         {
-            BovenScherm BovenScherm = new BovenScherm();
+            BovenScherm BovenScherm = new BovenScherm(this);
             OnderScherm OnderScherm = new OnderScherm(this);
-            InfoBalk InfoBalk = new InfoBalk();
+            InfoBalk InfoBalk = new InfoBalk(this);
             int hoogte = ClientSize.Height;
             int breedte = ClientSize.Width;
 
@@ -106,27 +108,41 @@ namespace TrafficSimulation
             currentBuildTile = new Road(4, 2);
             currentBuildTile = new Spawner(new Point(mea.X, mea.Y), 2);*/
 
-            if (eraser == false)
+            if (selected == true) //als de select-tool is aangeklikt
             {
-                currentBuildTile.SetValues(mea.Location, CalculateListPlace(mea.X, mea.Y));
-                tileImage = currentBuildTile.DrawImage();
-                currentBuildTile.Update(this, null, 0);
-                tiles[CalculateListPlace(mea.X, mea.Y)] = currentBuildTile;
-                //Dit zorgt ervoor dat de kaart geupdate wordt met de nieuwe tile.
-                bitmapMap.AddTile(tileImage, mea.X / 100, mea.Y / 100);
-            }
-            else //Er wordt een nieuwe bitmap waarop een groen vlak wordt getekend (oftewel, de geklikte tile wordt 'verwijderd')
-            {
-                tileImage = new Bitmap(100,100);
+                Tile selectedTile = tiles[CalculateListPlace(mea.X, mea.Y)];
+
+                //Blauw randje om geselecteerde tile
+                tileImage = new Bitmap(100, 100);
                 Graphics gr = Graphics.FromImage(tileImage);
-                gr.FillRectangle(Brushes.Green, 0, 0, 100, 100);
-                //nog laten verwijderen van de tile waarop geklikt is
+                Pen selectPen = new Pen(Color.LightBlue,Width = 3);
+                gr.DrawRectangle(selectPen, (mea.X / 100 * 100), (mea.Y / 100 * 100), 100, 100);
             }
 
+            else
+            {
+                if (eraser == false) //als de gum-tool niet is aangeklikt
+                {
+                    currentBuildTile.SetValues(mea.Location, CalculateListPlace(mea.X, mea.Y));
+                    tileImage = currentBuildTile.DrawImage();
+                    currentBuildTile.Update(this, null, 0);
+                    tiles[CalculateListPlace(mea.X, mea.Y)] = currentBuildTile;
+                    //Dit zorgt ervoor dat de kaart geupdate wordt met de nieuwe tile.
+                    bitmapMap.AddTile(tileImage, mea.X / 100, mea.Y / 100);
+                }
+                else //alsde gum-tool is geselecteerd, wordt er een nieuwe bitmap gemaakt waarop een groen vlak 
+                //wordt getekend (oftewel, de geklikte tile wordt 'verwijderd')
+                {
+                    tileImage = new Bitmap(100, 100);
+                    Graphics gr = Graphics.FromImage(tileImage);
+                    gr.FillRectangle(Brushes.Green, (mea.X / 100 * 100), (mea.Y / 100 * 100), 100, 100);
+                    tiles[CalculateListPlace(mea.X, mea.Y)] = null;
+                }
 
-            //host.BackColorTransparent = true;
-            //hier moet nog een nieuwe currentBuildTile worden aangemaakt met dezelde waarden als de vorige.
-            Invalidate();
+                //host.BackColorTransparent = true;
+                //hier moet nog een nieuwe currentBuildTile worden aangemaakt met dezelde waarden als de vorige.
+                Invalidate();
+            }
         }
 
         public int CalculateListPlace(int mouseX, int mouseY)

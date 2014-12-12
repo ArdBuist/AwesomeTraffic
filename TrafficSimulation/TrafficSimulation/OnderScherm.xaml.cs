@@ -27,6 +27,12 @@ namespace TrafficSimulation
             InitializeComponent();
         }
 
+        public void selectTile(Object obj, MouseEventArgs mea)
+        {
+            sc.selected = true;
+            //hierna moet dan een scherm verschijnen met info en aanpassingsmogelijkheden
+        }
+
         public void removeTile(Object obj, MouseEventArgs mea)
         {
             sc.eraser = true;

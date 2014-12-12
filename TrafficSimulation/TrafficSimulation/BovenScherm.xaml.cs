@@ -20,9 +20,25 @@ namespace TrafficSimulation
     /// </summary>
     public partial class BovenScherm : UserControl
     {
-        public BovenScherm()
+        SimControl sc;
+
+        public BovenScherm(SimControl sc)
         {
             InitializeComponent();
+        }
+
+        public void TimeofDay(Object obj, MouseEventArgs mea)
+        {
+            //1 is dag, 2 is nacht
+            if (sc.TimeofDay == 1)
+            {
+                sc.TimeofDay = 2;
+            }
+
+            else
+            {
+                sc.TimeofDay = 1;
+            }
         }
     }
 }
