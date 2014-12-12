@@ -27,6 +27,7 @@ namespace TrafficSimulation
             InitializeComponent();
         }
 
+        //klikmethode voor het selecteren van een tile
         public void selectTile(Object obj, MouseEventArgs mea)
         {
             sc.selected = true;

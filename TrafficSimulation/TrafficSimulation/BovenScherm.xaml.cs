@@ -27,6 +27,13 @@ namespace TrafficSimulation
             InitializeComponent();
         }
 
+        //klikmethode voor het vertragen van de simulatie
+        public void slowDown(Object obj, MouseEventArgs mea)
+        {
+           //hier moet de variabele van de sleep veranderd worden, zodat de simulatie langzamer gaat
+        }
+
+        //klikmethode voor dag- of nachtsimulatie
         public void TimeofDay(Object obj, MouseEventArgs mea)
         {
             //1 is dag, 2 is nacht
