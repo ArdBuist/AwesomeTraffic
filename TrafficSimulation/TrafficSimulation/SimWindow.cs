@@ -13,7 +13,8 @@ namespace TrafficSimulation
 {
        public partial class SimWindow : Form
     {
-        SimControl s;
+        SimControl sim;
+        StartControl start;
         //MenuStrip menu;
          
 
@@ -25,16 +26,20 @@ namespace TrafficSimulation
             //alle schermranden weghalen
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 
-            s = new SimControl(this.ClientSize);
+            start = new StartControl(this.ClientSize);
             this.BackColor = Color.Green;
 
-            s.Location = new Point(0, 0);
-            this.Controls.Add(s);
+            start.Location = new Point(0, 0);
+            this.Controls.Add(start);
 
         }
         private void New()
         {
+            sim = new SimControl(this.ClientSize);
+            this.BackColor = Color.Green;
 
+            sim.Location = new Point(0, 0);
+            this.Controls.Add(sim);
         }
         private void Save()
         {

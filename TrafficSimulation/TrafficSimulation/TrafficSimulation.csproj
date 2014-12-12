@@ -71,6 +71,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="StartControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="StartControl.Designer.cs">
+      <DependentUpon>StartControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Tile.cs" />
     <Compile Include="Trafficlight.cs" />
     <Compile Include="TrafficlightControl.cs" />
