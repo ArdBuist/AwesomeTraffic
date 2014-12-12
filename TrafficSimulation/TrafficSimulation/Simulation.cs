@@ -33,12 +33,26 @@ namespace TrafficSimulation
         {
             playing = true;
 
+            //testcode
+            for (int i = 200; i < 250; i++)
+            {
+                for (int j = 200; j < 250; j++)
+                {
+                    simControl.vehicleMap.bitmap.SetPixel(i, j, Color.Black);
+                    simControl.
+                }
+            }
+            //einde testcode
+
             while (playing)
             {
                 int start = Environment.TickCount;
                 UpdateVariables();
                 UpdateGame();
+                simControl.Invalidate();
                 simControl.vehicle.Invalidate();
+                simControl.background.Invalidate();
+                simControl.trafficlight.Invalidate();
                 Sleep(Environment.TickCount - start);
             }
         }
@@ -64,7 +78,7 @@ namespace TrafficSimulation
 
         private void Sleep(int timePassed)
         {
-            System.Threading.Thread.Sleep(1000 / ticksPerSec - timePassed);
+            System.Threading.Thread.Sleep(100);//1000 / ticksPerSec - timePassed);
         }
 
         private void UpdateCars()
@@ -97,7 +111,7 @@ namespace TrafficSimulation
         private Vehicle createVehicle(Spawner spawn)
         {
             //deze methode moet ingevuld worden, hier wordt een auto gegenereerd
-            return new Vehicle(new Point(spawn.position.X + 70, spawn.position.Y + 50 - 8), new Point(spawn.position.X + 200, spawn.position.Y + 200), 10, 5, spawn.direction, 1);
+            return new NormalCar(new Point(spawn.position.X + 70, spawn.position.Y + 50 - 8), new Point(spawn.position.X + 200, spawn.position.Y + 200), 10, 5, spawn.direction, 1);
         }
     }
-}
+} 

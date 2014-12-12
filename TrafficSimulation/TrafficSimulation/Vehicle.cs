@@ -7,16 +7,16 @@ using System.Text;
 
 namespace TrafficSimulation
 {
-    public class Vehicle
+    public abstract class Vehicle
     {
         public Point position;
-        private Point destination;
+        protected Point destination;
         protected Bitmap bitmap;
-        private int length;
-        private int width;
-        private int speed;
-        private int direction;
-        private int lane;
+        protected int length;
+        protected int width;
+        protected int speed;
+        protected int direction;
+        protected int lane;
 
         public Vehicle(Point pos, Point dest, int len, int speed, int direction, int lane)
         {
@@ -61,11 +61,19 @@ namespace TrafficSimulation
 
     public class NormalCar : Vehicle
     {
-        NormalCar(Point pos, Point dest, int len, int speed, int direction, int lane)
+        public NormalCar(Point pos, Point dest, int len, int speed, int direction, int lane)
             : base(pos, dest, len, speed, direction, lane)
         {
-            ResourceManager rm = Properties.Resources.ResourceManager;
-            this.bitmap = (Bitmap)rm.GetObject("car1");
+            /*ResourceManager rm = Properties.Resources.ResourceManager;
+            this.bitmap = (Bitmap)rm.GetObject("car1");*/
+            this.bitmap = new Bitmap(10, 14);
+            for (int i = 0; i < 10; i++)
+            {
+                for (int j = 0; j < 14; j++)
+                {
+                    bitmap.SetPixel(i, j, Color.Red);
+                }
+            }
         }
     }
 
@@ -74,8 +82,8 @@ namespace TrafficSimulation
         Truck(Point pos, Point dest, int len, int speed, int direction, int lane)
             : base(pos, dest, len, speed, direction, lane)
         {
-            ResourceManager rm = Properties.Resources.ResourceManager;
-            this.bitmap = (Bitmap)rm.GetObject("truck1");
+            /*ResourceManager rm = Properties.Resources.ResourceManager;
+            this.bitmap = (Bitmap)rm.GetObject("truck1");*/
         }
     }
 }

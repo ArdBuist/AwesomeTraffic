@@ -42,5 +42,10 @@ namespace TrafficSimulation
         {
             this.Close();
         }
+
+        private void SimWindow_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

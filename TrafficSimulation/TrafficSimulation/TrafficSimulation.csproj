@@ -81,6 +81,9 @@
     <EmbeddedResource Include="SimControl.resx">
       <DependentUpon>SimControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="SimWindow.resx">
+      <DependentUpon>SimWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
