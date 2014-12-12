@@ -390,7 +390,7 @@ namespace TrafficSimulation
     {
         private int notDirection;
         int[] lanes;
-        private List<TrafficlightControl> trafficlightControlList;
+        private TrafficlightControl control;
 
         public Fork(SimControl sim, int notDirection)
         {
@@ -398,12 +398,8 @@ namespace TrafficSimulation
             this.lanes = new int[] { 1, 1, 1, 1, 0, 0, 1, 1 };
             this.notDirection = notDirection;
 
-            trafficlightControlList = new List<TrafficlightControl>();
+            control = new TrafficlightControl(sim, this, 3, notDirection, lanes);
 
-            for (int i = 0; i < 3; i++)
-            {
-                trafficlightControlList.Add(new TrafficlightControl(sim, this, 3, notDirection, lanes));
-            }
             int totalLanes = CountLanes(lanes);
             initialize(totalLanes);
         }
@@ -436,10 +432,7 @@ namespace TrafficSimulation
         {
             base.SetValues(position, listPlace);
 
-            foreach (TrafficlightControl control in trafficlightControlList)
-            {
-                control.ChangeValues(position, listPlace);
-            }
+            control.ChangeValues(position, listPlace);
         }
     }
 
