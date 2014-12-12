@@ -25,12 +25,19 @@ namespace TrafficSimulation
 
             //alle schermranden weghalen
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-
+            /*
             start = new StartControl(this.ClientSize);
             this.BackColor = Color.Green;
 
             start.Location = new Point(0, 0);
             this.Controls.Add(start);
+            */
+
+            sim = new SimControl(this.ClientSize);
+            this.BackColor = Color.Green;
+
+            sim.Location = new Point(0, 0);
+            this.Controls.Add(sim);
 
         }
         private void New()

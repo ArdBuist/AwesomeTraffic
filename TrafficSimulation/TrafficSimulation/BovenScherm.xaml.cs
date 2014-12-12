@@ -23,6 +23,8 @@ namespace TrafficSimulation
         public BovenScherm()
         {
             InitializeComponent();
+                      
+            
         }
 
         public void Info_Click(object sender, RoutedEventArgs e)

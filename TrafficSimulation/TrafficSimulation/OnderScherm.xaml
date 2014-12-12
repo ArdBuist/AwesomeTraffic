@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="120" d:DesignWidth="600">
+             d:DesignHeight="60" d:DesignWidth="600">
     
     <Grid x:Name="BasicOnder">
       
@@ -19,27 +19,27 @@
 
         <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left">
            
-            <Button x:Name="select" Height="80" Width="80" Margin="5,10,5,10" Click="select_Click">
+            <Button x:Name="select" Height="40" Width="40" Margin="5,10,5,10" Click="select_Click">
                 <TextBlock Text="Select"/>
             </Button>
             
-            <Button x:Name="Gum"  Height="80" Width="80" Margin="5,10,5,10" Click="Gum_Click">
+            <Button x:Name="Gum"  Height="40" Width="40" Margin="5,10,5,10" Click="Gum_Click">
                 <TextBlock Text="Gum"/>
             </Button>
 
-            <Button x:Name="RechtWeg" Height="80" Width="80" Margin="5,10,5,10" Click="RechtWeg_Click">
+            <Button x:Name="RechtWeg" Height="40" Width="40" Margin="5,10,5,10" Click="RechtWeg_Click">
                 <TextBlock Text="Rechte Weg" />
             </Button>
             
-            <Button x:Name="Bocht" Height="80" Width="80" Margin="5,10,5,10" Click="Bocht_Click">
+            <Button x:Name="Bocht" Height="40" Width="40" Margin="5,10,5,10" Click="Bocht_Click">
                 <TextBlock Text="Bocht"/>
             </Button>
             
-            <Button x:Name="Kruispunt" Height="80" Width="80" Margin="5,10,5,10" Click="Kruispunt_Click">
+            <Button x:Name="Kruispunt" Height="40" Width="40" Margin="5,10,5,10" Click="Kruispunt_Click">
                 <TextBlock Text="Kruispunt"/>
             </Button>
 
-            <Button x:Name="Tsplitsing" Height="80" Width="80" Margin="5,10,5,10" Click="Tsplitsing_Click">
+            <Button x:Name="Tsplitsing" Height="40" Width="40" Margin="5,10,5,10" Click="Tsplitsing_Click">
                 <TextBlock Text="T-splitsing"/>
                 
             </Button>

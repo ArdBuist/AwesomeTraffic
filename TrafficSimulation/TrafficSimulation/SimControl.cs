@@ -25,15 +25,16 @@ namespace TrafficSimulation
         public Tile[] tiles;
         public int tilesHorizontal;
         ElementHost BovenHost, OnderHost, InfoHost;
-        public Boolean InfoVisible;
+        public Boolean InfoVisible = true;
 
-        public static Boolean Infozichtbaar{Return }
+        //public static Boolean Infozichtbaar{Return }
 
         public SimControl(Size size)
         {
             BovenScherm BovenScherm = new BovenScherm();
             OnderScherm OnderScherm = new OnderScherm();
             InfoBalk InfoBalk = new InfoBalk();
+            int HoogteBovenBalk, HoogteOnderbalk, BreedteInfoBalk, HoogteInfobalk, BreedteScherm, HoogteScherm,YLocatieOnderbalk; 
 
             this.Size = new Size(2000, 1500);
             isBuildingMode = true;
@@ -47,12 +48,21 @@ namespace TrafficSimulation
             this.Visible = true;
             tiles = new Tile[(this.Size.Height / 100) * (this.Size.Width / 100)];
             DrawStartImages();
-            InfoVisible = false;
+
+            //Variable om de elementhosten afhankelijk te maken van het scherm en andere elementhosten
+            BreedteScherm = Screen.PrimaryScreen.Bounds.Width;
+            HoogteScherm = Screen.PrimaryScreen.Bounds.Height;
+            HoogteBovenBalk = 50; 
+            HoogteOnderbalk = 100;
+            YLocatieOnderbalk = (HoogteScherm- HoogteOnderbalk);
+            HoogteInfobalk = (HoogteScherm - (HoogteBovenBalk + HoogteOnderbalk));  
+            BreedteInfoBalk = 300; 
+            
             BovenHost = new ElementHost()
             {
                 BackColor = Color.Transparent,
-                Height= 50,
-                Width = ClientSize.Width,
+                Height = HoogteBovenBalk,
+                Width = BreedteScherm,
                 Child = BovenScherm,
             };
             this.Controls.Add(BovenHost);
@@ -60,9 +70,9 @@ namespace TrafficSimulation
             OnderHost = new ElementHost()
             {
                 BackColor = Color.Transparent,
-                Location = new Point(0,900),
-                Height= 120,
-                Width = ClientSize.Width,
+                Location = new Point(0, YLocatieOnderbalk),
+                Height = HoogteOnderbalk,
+                Width = BreedteScherm,
                 Child = OnderScherm,
             };
             this.Controls.Add(OnderHost);
@@ -70,15 +80,14 @@ namespace TrafficSimulation
             InfoHost = new ElementHost()
             {
                 BackColor = Color.Transparent,
-                Location = new Point(1600, 75),
+                Location = new Point((BreedteScherm - BreedteInfoBalk), HoogteBovenBalk),
                 Visible= InfoVisible,
-                Height = 800,
-                Width = 300,
+                Height = HoogteInfobalk,
+                Width = BreedteInfoBalk,
                 Child = InfoBalk,
             };
             this.Controls.Add(InfoHost);
             
-
             Invalidate();
         }
         private void Teken(object o, PaintEventArgs pea)
