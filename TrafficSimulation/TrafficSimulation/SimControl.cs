@@ -25,14 +25,15 @@ namespace TrafficSimulation
         public Tile[] tiles;
         public int tilesHorizontal;
         ElementHost BovenHost, OnderHost, InfoHost;
+        public Boolean InfoVisible;
+
+        public static Boolean Infozichtbaar{Return }
 
         public SimControl(Size size)
         {
             BovenScherm BovenScherm = new BovenScherm();
             OnderScherm OnderScherm = new OnderScherm();
             InfoBalk InfoBalk = new InfoBalk();
-            int hoogte = ClientSize.Height;
-            int breedte = ClientSize.Width;
 
             this.Size = new Size(2000, 1500);
             isBuildingMode = true;
@@ -46,7 +47,7 @@ namespace TrafficSimulation
             this.Visible = true;
             tiles = new Tile[(this.Size.Height / 100) * (this.Size.Width / 100)];
             DrawStartImages();
-
+            InfoVisible = false;
             BovenHost = new ElementHost()
             {
                 BackColor = Color.Transparent,
@@ -70,12 +71,14 @@ namespace TrafficSimulation
             {
                 BackColor = Color.Transparent,
                 Location = new Point(1600, 75),
+                Visible= InfoVisible,
                 Height = 800,
                 Width = 300,
                 Child = InfoBalk,
             };
             this.Controls.Add(InfoHost);
-           
+            
+
             Invalidate();
         }
         private void Teken(object o, PaintEventArgs pea)

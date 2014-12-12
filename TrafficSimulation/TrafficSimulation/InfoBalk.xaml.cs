@@ -20,10 +20,14 @@ namespace TrafficSimulation
     /// </summary>
     public partial class InfoBalk : UserControl
     {
+        
         public InfoBalk()
         {
             
+            
             InitializeComponent();
         }
+        
+    
     }
 }

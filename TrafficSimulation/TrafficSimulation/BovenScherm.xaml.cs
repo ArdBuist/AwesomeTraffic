@@ -24,5 +24,10 @@ namespace TrafficSimulation
         {
             InitializeComponent();
         }
+
+        public void Info_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
     }
 }

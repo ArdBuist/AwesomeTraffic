@@ -24,5 +24,36 @@ namespace TrafficSimulation
         {
             InitializeComponent();
         }
+
+        private void RechtWeg_Click(object sender, RoutedEventArgs e)
+        {
+           
+        }
+
+        private void Bocht_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Kruispunt_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Tsplitsing_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Gum_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void select_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        
     }
 }
