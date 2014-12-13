@@ -62,7 +62,7 @@ namespace TrafficSimulation
             return Position;
         }
 
-        public void ChangeValues(Point position, int ListPlace)
+        public void ChangeValues(Point position)
         {
             foreach (Trafficlight light in trafficlights)
             {

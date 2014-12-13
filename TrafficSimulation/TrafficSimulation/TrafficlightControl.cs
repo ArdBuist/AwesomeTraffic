@@ -12,6 +12,7 @@ namespace TrafficSimulation
     {
         List<LaneTrafficlight> trafficlightList;
         int NumberOfDirections;
+        int turn = 0;
 
         public TrafficlightControl(SimControl sim, Tile road, int Directions, int NotDirection, int[] NumberOfLanes)
         {
@@ -23,21 +24,37 @@ namespace TrafficSimulation
             {
                 if (i != NotDirection)
                 {
-                    trafficlightList.Add(new LaneTrafficlight(sim, road, i, NumberOfLanes[i]));
+                    trafficlightList.Add(new LaneTrafficlight(sim, road, i, NumberOfLanes[i * 2]));
                 }
+            }
+        }
+
+        public TrafficlightControl(SimControl sim, Tile road, int Directions, int NotDirection, int[] NumberOfLanes, Point position)
+        {
+            trafficlightList = new List<LaneTrafficlight>();
+
+            NumberOfDirections = Directions;
+
+            for (int i = 0; i < 4; i++)
+            {
+                if (i != NotDirection)
+                {
+                    trafficlightList.Add(new LaneTrafficlight(sim, road, i, NumberOfLanes[i * 2]));
+                }
+            }
+
+            foreach (LaneTrafficlight lane in trafficlightList)
+            {
+                lane.ChangeValues(position);
             }
         }
 
         private void Run()
         {
-            int i = 0;
-            //Zorgt dat elke 5 seconden Update wordt aangeroepen met als variabele 1-4/1-3 in volgorde
-            while (true)
+            turn++;
+            if (turn % 4 == 0)
             {
-                i++;
-                int turn = i % NumberOfDirections;
                 Update(turn);
-                Thread.Sleep(5000);
             }
         }
 
@@ -57,11 +74,11 @@ namespace TrafficSimulation
             //Geeft nog helemaal niks door aan omliggende tiles. Dat moet hier nog.
         }
 
-        public void ChangeValues(Point position, int ListPlace)
+        public void ChangeValues(Point position)
         {
             foreach (LaneTrafficlight lane in trafficlightList)
             {
-                lane.ChangeValues(position, ListPlace);
+                lane.ChangeValues(position);
             }
         }
     }

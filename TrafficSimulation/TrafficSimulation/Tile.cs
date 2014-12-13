@@ -432,7 +432,7 @@ namespace TrafficSimulation
         {
             base.SetValues(position, listPlace);
 
-            control.ChangeValues(position, listPlace);
+            control.ChangeValues(position);
         }
     }
 
@@ -448,7 +448,7 @@ namespace TrafficSimulation
             this.name = "Crossroad";
             this.lanes = new int[] { 1, 1, 1, 1, 1, 1, 1, 1 };
 
-            control = new TrafficlightControl(sim, this, 4, 9, lanes);
+            control = new TrafficlightControl(sim, this, 4, 5, lanes);
 
             int totalLanes = CountLanes(lanes);
             initialize(totalLanes);
@@ -468,6 +468,7 @@ namespace TrafficSimulation
                 lanes[direction * 2 - 1] = road.getLaneLowToHigh();
             }
             s.bitmapMap.AddTile(DrawImage(), position.X / 100, position.Y / 100);//drawmethode werkt nog niet naar behoren door ontbreken compatibiliteit met lists
+            control = new TrafficlightControl(s, this, 4, 5, lanes, position);
         }
 
         public override Bitmap DrawImage()
@@ -482,7 +483,7 @@ namespace TrafficSimulation
         {
             base.SetValues(position, listPlace);
 
-            control.ChangeValues(position, listPlace);
+            control.ChangeValues(position);
         }
     }
 }
