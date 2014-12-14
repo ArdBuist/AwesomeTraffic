@@ -20,14 +20,25 @@ namespace TrafficSimulation
     /// </summary>
     public partial class InfoBalk : UserControl
     {
-        
-        public InfoBalk()
+        SimControl s;
+        public InfoBalk(SimControl s)
         {
-            
-            
+            this.s = s;
+            s.InfoVisible = false;
+            if (s.InfoVisible == true)
+            {
+                this.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                this.Visibility = Visibility.Hidden;
+            }
+
+            s.Invalidate();
             InitializeComponent();
+
         }
-        
-    
+
+
     }
 }

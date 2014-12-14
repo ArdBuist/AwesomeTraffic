@@ -124,11 +124,16 @@
     <Content Include="Resources\car3.png" />
     <Content Include="Resources\car4.png" />
     <Content Include="Resources\car5.png" />
+    <Resource Include="Resources\Buttons\Home_button.png" />
+    <Resource Include="Resources\Buttons\info_button.png" />
+    <Resource Include="Resources\Buttons\pauze_button.png" />
+    <Resource Include="Resources\Buttons\play_button.png" />
     <Content Include="Resources\truck1.png" />
     <Content Include="Resources\truck2.png" />
     <Content Include="Resources\truck3.png" />
     <Content Include="Resources\truck4.png" />
     <Content Include="Resources\truck5.png" />
+    <Resource Include="Resources\Buttons\Vraagteken_button.jpg" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="BovenScherm.xaml">

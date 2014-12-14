@@ -24,17 +24,18 @@ namespace TrafficSimulation
         Boolean isBuildingMode;//moet veranderd worden als van het kaartbouwen wordt overgesprongen naar het "spelen" 
         public Tile[] tiles;
         public int tilesHorizontal;
-        ElementHost BovenHost, OnderHost, InfoHost;
-        public Boolean InfoVisible = true;
-
-        //public static Boolean Infozichtbaar{Return }
+        public ElementHost BovenHost, OnderHost, InfoHost;
+        public Boolean InfoVisible;
+        public BovenScherm BovenScherm;
+        public InfoBalk InfoBalk;
+        public Boolean Simulatie;
 
         public SimControl(Size size)
         {
-            BovenScherm BovenScherm = new BovenScherm();
+            BovenScherm BovenScherm = new BovenScherm(this);
             OnderScherm OnderScherm = new OnderScherm();
-            InfoBalk InfoBalk = new InfoBalk();
-            int HoogteBovenBalk, HoogteOnderbalk, BreedteInfoBalk, HoogteInfobalk, BreedteScherm, HoogteScherm,YLocatieOnderbalk; 
+            InfoBalk InfoBalk = new InfoBalk(this);
+            int HoogteBovenBalk, HoogteOnderbalk, BreedteInfoBalk, HoogteInfobalk, BreedteScherm, HoogteScherm, YLocatieOnderbalk;
 
             this.Size = new Size(2000, 1500);
             isBuildingMode = true;
@@ -49,15 +50,17 @@ namespace TrafficSimulation
             tiles = new Tile[(this.Size.Height / 100) * (this.Size.Width / 100)];
             DrawStartImages();
 
+            Simulatie = false;
+
             //Variable om de elementhosten afhankelijk te maken van het scherm en andere elementhosten
             BreedteScherm = Screen.PrimaryScreen.Bounds.Width;
             HoogteScherm = Screen.PrimaryScreen.Bounds.Height;
-            HoogteBovenBalk = 50; 
+            HoogteBovenBalk = 100;
             HoogteOnderbalk = 100;
-            YLocatieOnderbalk = (HoogteScherm- HoogteOnderbalk);
-            HoogteInfobalk = (HoogteScherm - (HoogteBovenBalk + HoogteOnderbalk));  
-            BreedteInfoBalk = 300; 
-            
+            YLocatieOnderbalk = (HoogteScherm - HoogteOnderbalk);
+            HoogteInfobalk = (HoogteScherm - (HoogteBovenBalk + HoogteOnderbalk));
+            BreedteInfoBalk = 300;
+
             BovenHost = new ElementHost()
             {
                 BackColor = Color.Transparent,
@@ -81,13 +84,13 @@ namespace TrafficSimulation
             {
                 BackColor = Color.Transparent,
                 Location = new Point((BreedteScherm - BreedteInfoBalk), HoogteBovenBalk),
-                Visible= InfoVisible,
+
                 Height = HoogteInfobalk,
                 Width = BreedteInfoBalk,
                 Child = InfoBalk,
             };
             this.Controls.Add(InfoHost);
-            
+
             Invalidate();
         }
         private void Teken(object o, PaintEventArgs pea)
@@ -126,7 +129,7 @@ namespace TrafficSimulation
             currentBuildTile = new Fork(2);
             currentBuildTile = new Road(4, 2);
             //currentBuildTile = new Spawner(new Point(mea.X, mea.Y), 2);
-            currentBuildTile.SetValues(mea.Location,CalculateListPlace(mea.X, mea.Y));
+            currentBuildTile.SetValues(mea.Location, CalculateListPlace(mea.X, mea.Y));
             tileImage = currentBuildTile.DrawImage();
             currentBuildTile.Update(this, null, 0);
             tiles[CalculateListPlace(mea.X, mea.Y)] = currentBuildTile;
@@ -141,33 +144,33 @@ namespace TrafficSimulation
 
         public int CalculateListPlace(int mouseX, int mouseY)
         {
-            return mouseY / 100 * tilesHorizontal + mouseX/ 100;
+            return mouseY / 100 * tilesHorizontal + mouseX / 100;
         }
         //hele methode kan weer weg zo gauw er een interface is waar we mee kunnen testen.
         private void DrawStartImages()
         {
             Bitmap tileImage;
-            currentBuildTile = new Road(2,4);
+            currentBuildTile = new Road(2, 4);
             tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
             tiles[500 / 100 * tilesHorizontal + 500 / 100] = currentBuildTile;
             currentBuildTile.SetValues(new Point(500, 500), 500 / 100 * tilesHorizontal + 500 / 100);
             bitmapMap.AddTile(tileImage, 5, 5);
-            currentBuildTile = new Road(2,4);
+            currentBuildTile = new Road(2, 4);
             tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
             tiles[500 / 100 * tilesHorizontal + 700 / 100] = currentBuildTile;
             currentBuildTile.SetValues(new Point(700, 500), 500 / 100 * tilesHorizontal + 700 / 100);
             bitmapMap.AddTile(tileImage, 7, 5);
-            currentBuildTile = new Road(2,4);
+            currentBuildTile = new Road(2, 4);
             tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
             tiles[500 / 100 * tilesHorizontal + 800 / 100] = currentBuildTile;
             currentBuildTile.SetValues(new Point(800, 500), 500 / 100 * tilesHorizontal + 800 / 100);
             bitmapMap.AddTile(tileImage, 8, 5);
-            currentBuildTile = new Road(2,4);
+            currentBuildTile = new Road(2, 4);
             tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
             tiles[500 / 100 * tilesHorizontal + 900 / 100] = currentBuildTile;
             currentBuildTile.SetValues(new Point(900, 500), 500 / 100 * tilesHorizontal + 900 / 100);
             bitmapMap.AddTile(tileImage, 9, 5);
-            currentBuildTile = new Road(1,4);
+            currentBuildTile = new Road(1, 4);
             tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
             tiles[500 / 100 * tilesHorizontal + 1000 / 100] = currentBuildTile;
             currentBuildTile.SetValues(new Point(1000, 500), 500 / 100 * tilesHorizontal + 1000 / 100);
@@ -190,7 +193,6 @@ namespace TrafficSimulation
             currentBuildTile = tiles[500 / 100 * tilesHorizontal + 700 / 100];
             currentBuildTile.setLanesHighToLow(1);
             currentBuildTile.Update(this, null, 0);
-
         }
     }
 }

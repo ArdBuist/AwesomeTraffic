@@ -11,12 +11,12 @@ using System.Windows.Forms.Integration;
 
 namespace TrafficSimulation
 {
-       public partial class SimWindow : Form
+    public partial class SimWindow : Form
     {
         SimControl sim;
         StartControl start;
         //MenuStrip menu;
-         
+
 
         public SimWindow()
         {

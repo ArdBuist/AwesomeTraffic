@@ -4,46 +4,82 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="60" d:DesignWidth="600">
-    
-    <Grid x:Name="BasicOnder">
-      
+             d:DesignHeight="100" d:DesignWidth="600">
+    <UserControl.Resources>
+        <!--
+     Hier moet nog een linear brush achtig komen zodat je en knoppen een mooie leuk overgang kan laten hebben.   
+     -->
+        <Style x:Key="StyleRadioButton" TargetType="RadioButton">
+            <Setter Property="Width" Value="70" />
+            <Setter Property="Height" Value="60" />
+            <Setter Property="Margin" Value="5,0,5,0" />
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type RadioButton}">
+                        <Border Background="LightGreen" 
+                                BorderBrush="DarkGreen" 
+                                BorderThickness="5" 
+                                CornerRadius="10,0,10,0" 
+                                x:Name="RadioButtonBorder"/>
+                       <!-- <ContentPresenter Margin="{TemplateBinding Padding}" 
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          ClipToBounds="True" 
+                                                                  >
+                        </ContentPresenter>
+                        -->
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="RadioButtonBorder" Property="Background" Value="white"/>
+                                <Setter Property="Foreground" Value="Red" />
+                                <Setter Property="Cursor" Value="Hand" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </UserControl.Resources>
+    <Grid x:Name="BasicOnder" >
+
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
+        <Border BorderBrush="Gray" Opacity="0.75" BorderThickness="5" CornerRadius="15,0,15,0" Background="White" >
+            <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" >
 
-        <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left">
-           
-            <Button x:Name="select" Height="40" Width="40" Margin="5,10,5,10" Click="select_Click">
-                <TextBlock Text="Select"/>
-            </Button>
-            
-            <Button x:Name="Gum"  Height="40" Width="40" Margin="5,10,5,10" Click="Gum_Click">
-                <TextBlock Text="Gum"/>
-            </Button>
+                <RadioButton x:Name="Select" Style="{StaticResource StyleRadioButton}" Checked="Select_Click" GroupName="Onderbuttons">
+                    <TextBlock Text="Select"/>
+                </RadioButton>
 
-            <Button x:Name="RechtWeg" Height="40" Width="40" Margin="5,10,5,10" Click="RechtWeg_Click">
-                <TextBlock Text="Rechte Weg" />
-            </Button>
-            
-            <Button x:Name="Bocht" Height="40" Width="40" Margin="5,10,5,10" Click="Bocht_Click">
-                <TextBlock Text="Bocht"/>
-            </Button>
-            
-            <Button x:Name="Kruispunt" Height="40" Width="40" Margin="5,10,5,10" Click="Kruispunt_Click">
-                <TextBlock Text="Kruispunt"/>
-            </Button>
+                <RadioButton x:Name="Gum"  Style="{StaticResource StyleRadioButton}" Checked="Gum_Click" GroupName="Onderbuttons">
+                    <TextBlock Text="gum"/>
+                </RadioButton>
 
-            <Button x:Name="Tsplitsing" Height="40" Width="40" Margin="5,10,5,10" Click="Tsplitsing_Click">
-                <TextBlock Text="T-splitsing"/>
-                
-            </Button>
-        </StackPanel>
-        
+                <RadioButton x:Name="RechtWeg" Style="{StaticResource StyleRadioButton}" Checked="RechtWeg_Click" GroupName="Onderbuttons">
+                    <TextBlock Text="Rechte Weg" />
+                </RadioButton>
+
+                <RadioButton x:Name="Bocht" Style="{StaticResource StyleRadioButton}" Checked="Bocht_Click" GroupName="Onderbuttons">
+                    <TextBlock Text="Bocht"/>
+                </RadioButton>
+
+                <RadioButton x:Name="Kruispunt" Style="{StaticResource StyleRadioButton}" Checked="Kruispunt_Click" GroupName="Onderbuttons">
+                    <TextBlock Text="Kruispunt"/>
+                </RadioButton>
+
+                <RadioButton x:Name="Tsplitsing" Style="{StaticResource StyleRadioButton}" Checked="Tsplitsing_Click" GroupName="Onderbuttons">
+                    <TextBlock Text="T-splitsing"/>
+                </RadioButton>
+
+            </StackPanel>
+
+        </Border>
     </Grid>
 </UserControl>

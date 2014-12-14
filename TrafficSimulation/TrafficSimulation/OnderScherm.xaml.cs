@@ -27,7 +27,7 @@ namespace TrafficSimulation
 
         private void RechtWeg_Click(object sender, RoutedEventArgs e)
         {
-           
+
         }
 
         private void Bocht_Click(object sender, RoutedEventArgs e)
@@ -50,10 +50,10 @@ namespace TrafficSimulation
 
         }
 
-        private void select_Click(object sender, RoutedEventArgs e)
+        private void Select_Click(object sender, RoutedEventArgs e)
         {
 
         }
-        
+
     }
 }
