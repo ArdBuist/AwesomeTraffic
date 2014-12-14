@@ -26,12 +26,13 @@ namespace TrafficSimulation
         public int tilesHorizontal;
         ElementHost BovenHost, OnderHost, InfoHost;
         public Boolean InfoVisible;
+        SimWindow simwindow;
 
-        public static Boolean Infozichtbaar{Return }
+        // public static Boolean Infozichtbaar{Return }
 
-        public SimControl(Size size)
+        public SimControl(Size size, SimWindow sim)
         {
-            BovenScherm BovenScherm = new BovenScherm();
+            BovenScherm BovenScherm = new BovenScherm(sim);
             OnderScherm OnderScherm = new OnderScherm();
             InfoBalk InfoBalk = new InfoBalk();
 
@@ -45,24 +46,26 @@ namespace TrafficSimulation
             this.Paint += this.Teken;
             this.MouseUp += this.MouseUnclick;
             this.Visible = true;
+
             tiles = new Tile[(this.Size.Height / 100) * (this.Size.Width / 100)];
             DrawStartImages();
             InfoVisible = false;
+
             BovenHost = new ElementHost()
             {
-                BackColor = Color.Transparent,
-                Height= 50,
-                Width = ClientSize.Width,
+                BackColor = Color.Blue, // Boeit niet wat je hier zet..
+                Height= 35,
+                Width = Screen.PrimaryScreen.Bounds.Width,
                 Child = BovenScherm,
             };
             this.Controls.Add(BovenHost);
 
             OnderHost = new ElementHost()
             {
-                BackColor = Color.Transparent,
-                Location = new Point(0,900),
-                Height= 120,
-                Width = ClientSize.Width,
+                BackColor = Color.Transparent, // Boeit niet wat je hier zet
+                Location = new Point(0,(Screen.PrimaryScreen.Bounds.Height-80)),
+                Height= 80,
+                Width = Screen.PrimaryScreen.Bounds.Width,
                 Child = OnderScherm,
             };
             this.Controls.Add(OnderHost);
@@ -78,9 +81,9 @@ namespace TrafficSimulation
             };
             this.Controls.Add(InfoHost);
             
-
             Invalidate();
         }
+
         private void Teken(object o, PaintEventArgs pea)
         {
             //dit zorgt ervoor dat de kaart op het scherm wordt weergegeven.
@@ -99,6 +102,7 @@ namespace TrafficSimulation
                 pea.Graphics.DrawImage(image, 0, 0);
             }
         }
+
         public void MouseUnclick(object obj, MouseEventArgs mea)
         {
             Bitmap tileImage;

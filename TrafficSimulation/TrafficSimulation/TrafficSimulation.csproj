@@ -62,6 +62,9 @@
       <DependentUpon>Interface.xaml</DependentUpon>
     </Compile>
     <Compile Include="DrawTile.cs" />
+    <Compile Include="InterfaceStart.xaml.cs">
+      <DependentUpon>InterfaceStart.xaml</DependentUpon>
+    </Compile>
     <Compile Include="LaneTrafficlight.cs" />
     <Compile Include="OnderScherm.xaml.cs">
       <DependentUpon>OnderScherm.xaml</DependentUpon>
@@ -124,6 +127,12 @@
     <Content Include="Resources\car3.png" />
     <Content Include="Resources\car4.png" />
     <Content Include="Resources\car5.png" />
+    <Resource Include="Resources\DayIcon.png" />
+    <Resource Include="Resources\HelpIcon.png" />
+    <Resource Include="Resources\HomeIcon.png" />
+    <Resource Include="Resources\InfoIcon.png" />
+    <Resource Include="Resources\NightIcon.png" />
+    <Resource Include="Resources\SaveIcon.png" />
     <Content Include="Resources\truck1.png" />
     <Content Include="Resources\truck2.png" />
     <Content Include="Resources\truck3.png" />
@@ -140,6 +149,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Interface.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="InterfaceStart.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

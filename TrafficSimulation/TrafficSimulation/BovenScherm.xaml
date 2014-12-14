@@ -3,10 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" 
-             d:DesignHeight="50" d:DesignWidth="1080">
+             mc:Ignorable="d"
+             d:DesignHeight="35" d:DesignWidth="1080">
     
-    <Grid x:Name="BasicBoven">
+    <Grid x:Name="BasicBoven" Background="White">
         
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -17,53 +17,45 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         
-        <StackPanel Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Orientation="Horizontal">
-           
-            <Button Width="Auto" Height="Auto" Margin="5,0,0,0">
+        <StackPanel x:Name="leftpanel" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Orientation="Horizontal" Margin="5">
+            <Button Width="25" Height="25" Margin="5,0,0,0">
                 <TextBlock Text="Vertragen"/>
             </Button>
             
-            <Button Width="Auto" Height="Auto" Margin="5,0,0,0">
+            <Button Width="25" Height="25" Margin="5,0,0,0">
                 <TextBlock Text="play/pauze"/>
             </Button>
-            
-            <Button Width="Auto" Height="Auto" Margin="5,0,0,0">
+
+            <Button Width="25" Height="25" Margin="5,0,0,0">
                 <TextBlock Text="versnellen"/>
             </Button>
-            
-            <Button Width="Auto" Height="Auto" Margin="5,0,0,0">
+
+            <Button Width="25" Height="25" Margin="5,0,0,0">
                 <TextBlock Text="sim/ont"/>
-            </Button>
-            
+            </Button>     
         </StackPanel>
 
-        <StackPanel Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal">
-            
-            <Button Width="50" Height="50" Margin="5,0,0,0">
-                <TextBlock Text="Day"/>
-            </Button>
-            
-            <Button Width="50" Height="50" Margin="5,0,0,0">
-                <TextBlock Text="Night"/>
-            </Button>
-            
-            <Button Width="50" Height="50" Margin="5,0,0,0">
-                <TextBlock Text="help"/>
-            </Button>
-            
-            <Button x:Name="Info" Width="50" Height="50" Margin="5,0,0,0" Click="Info_Click">
-                <TextBlock Text="Info"/>
-            </Button>
-            
-            <Button Width="50" Height="50" Margin="5,0,0,0">
-                <TextBlock Text="save"/>
-            </Button>
-            
-            <Button Width="50" Height="50" Margin="5,0,0,0">
-                <TextBlock Text="home"/>
-            </Button>
-            
-        </StackPanel>
+        <StackPanel x:Name="rightpanel" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal" Margin="5">
 
+            <Button Name="DayNightIcon" Width="25" Height="25" Margin="5,0,0,0" Cursor="Hand">
+                Day
+            </Button>
+
+            <Button Width="25" Height="25" Margin="5,0,0,0" Cursor="Hand">
+                ?           
+            </Button>
+
+            <Button x:Name="Info" Width="25" Height="25" Margin="5,0,0,0" Cursor="Hand">
+                i
+            </Button>
+
+            <Button Width="25" Height="25" Margin="5,0,0,0" Cursor="Hand">
+                Save
+            </Button>
+
+            <Button Width="25" Height="25" Margin="5,0,0,0" Click="Home_Click" Cursor="Hand">
+                Home
+            </Button>
+        </StackPanel>
     </Grid>
 </UserControl>

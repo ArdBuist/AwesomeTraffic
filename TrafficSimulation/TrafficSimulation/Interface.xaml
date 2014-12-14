@@ -20,10 +20,10 @@
 
         <StackPanel Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Orientation="Horizontal">
             <Button Width="Auto" Height="Auto">
-                <TextBlock Text="Vertragen"/>
+                Vertragen
             </Button>
             <Button Width="Auto" Height="Auto">
-                <TextBlock Text="play/pauze"/>
+              play/pauze
             </Button>
             <Button Width="Auto" Height="Auto">
                 <TextBlock Text="versnellen"/>

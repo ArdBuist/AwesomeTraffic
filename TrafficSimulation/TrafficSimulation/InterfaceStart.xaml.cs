@@ -16,28 +16,27 @@ using System.Windows.Shapes;
 namespace TrafficSimulation
 {
     /// <summary>
-    /// Interaction logic for BovenScherm.xaml
+    /// Interaction logic for InterfaceStart.xaml
     /// </summary>
-    public partial class BovenScherm : UserControl
+    public partial class InterfaceStart : UserControl
     {
-        SimWindow simwindow;
-        int daynightcount = 0;
+        StartControl startcontrol;
 
-        public BovenScherm(SimWindow sim)
+        public InterfaceStart(StartControl start)
         {
-            simwindow = sim;
-
             InitializeComponent();
+
+            startcontrol = start;
         }
 
-        public void Info_Click(object sender, RoutedEventArgs e)
+        public void New_Click(object sender, RoutedEventArgs e)
         {
-            
+            startcontrol.New_Click();
         }
 
-        public void Home_Click(object sender, RoutedEventArgs e)
+        private void Exit_Click(object sender, RoutedEventArgs e)
         {
-            simwindow.Start();
+            startcontrol.Exit_Click();
         }
     }
 }

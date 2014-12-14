@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,7 +28,7 @@ namespace TrafficSimulation
 
         private void RechtWeg_Click(object sender, RoutedEventArgs e)
         {
-           
+
         }
 
         private void Bocht_Click(object sender, RoutedEventArgs e)
