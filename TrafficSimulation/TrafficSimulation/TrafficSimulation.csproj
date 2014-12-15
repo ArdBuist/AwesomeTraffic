@@ -112,11 +112,26 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Content Include="Resources\bendLD.png" />
+    <Content Include="Resources\bendLU.PNG" />
+    <Content Include="Resources\bendRD.png" />
+    <Content Include="Resources\bendUR.png" />
     <Content Include="Resources\car1.png" />
     <Content Include="Resources\car2.png" />
     <Content Include="Resources\car3.png" />
     <Content Include="Resources\car4.png" />
     <Content Include="Resources\car5.png" />
+    <Content Include="Resources\forkdown.PNG" />
+    <Content Include="Resources\forkleft.png" />
+    <Content Include="Resources\forkright.png" />
+    <Content Include="Resources\forkup.png" />
+    <Content Include="Resources\kruispunt standaard.PNG" />
+    <Content Include="Resources\roadhor.PNG" />
+    <Content Include="Resources\roadver.png" />
+    <Content Include="Resources\spawnerdown.PNG" />
+    <Content Include="Resources\spawnerleft.png" />
+    <Content Include="Resources\spawnerright.png" />
+    <Content Include="Resources\spawnerup.png" />
     <Content Include="Resources\truck1.png" />
     <Content Include="Resources\truck2.png" />
     <Content Include="Resources\truck3.png" />
