@@ -17,7 +17,10 @@ namespace TrafficSimulation
         BuildPanel buildPanel;
         ControlPanel controlPanel;
         string currentTileString;
-        Tile currentBuildTile;
+        public Tile currentBuildTile;
+        public bool eraser = false;
+        public bool selected = false;
+        public int TimeofDay = 1;
         public BitmapControl bitmapMap;
         BitmapControl trafficlightMap;
         BitmapControl vehicleMap;
@@ -33,12 +36,12 @@ namespace TrafficSimulation
 
         public SimControl(Size size, SimWindow sim)
         {
+
 	// Maak de infobalk, onderscherm en bovenscherm
             InfoBalk InfoBalk = new InfoBalk(this);
             OnderScherm OnderScherm = new OnderScherm();
             BovenScherm BovenScherm = new BovenScherm(sim, this, InfoBalk);
             int HoogteBovenBalk, HoogteOnderbalk, BreedteInfoBalk, HoogteInfobalk, BreedteScherm, HoogteScherm, YLocatieOnderbalk;
-
             this.Size = new Size(2000, 1500);
             isBuildingMode = true;
             tilesHorizontal = Size.Width / 100;
@@ -66,7 +69,6 @@ namespace TrafficSimulation
 
             BovenHost = new ElementHost()
             {
-
                 BackColor = Color.Transparent,
                 Height = HoogteBovenBalk,
                 Width = BreedteScherm,
@@ -76,10 +78,10 @@ namespace TrafficSimulation
 
             OnderHost = new ElementHost()
             {
-                BackColor = Color.Transparent, // Boeit niet wat je hier zet
-                Location = new Point(0,(Screen.PrimaryScreen.Bounds.Height-100)),
-                Height= 100,
-                Width = Screen.PrimaryScreen.Bounds.Width,
+                BackColor = Color.Transparent,
+                Location = new Point(0,YLocatieOnderbalk),
+                Height= HoogteOnderbalk,
+                Width = BreedteScherm,
                 Child = OnderScherm,
             };
             this.Controls.Add(OnderHost);
@@ -87,9 +89,9 @@ namespace TrafficSimulation
             InfoHost = new ElementHost()
             {
                 BackColor = Color.Transparent,
-                Location = new Point(Screen.PrimaryScreen.Bounds.Width - 400, 80),
-                Height = 800,
-                Width = 400,
+		Location = new Point((BreedteScherm - BreedteInfoBalk), HoogteBovenBalk),
+                Height = HoogteInfobalk,
+                Width = BreedteInfoBalk,
                 Child = InfoBalk,
             };
             this.Controls.Add(InfoHost);
@@ -119,32 +121,49 @@ namespace TrafficSimulation
         public void MouseUnclick(object obj, MouseEventArgs mea)
         {
             Bitmap tileImage;
-            //voor als de code voor het zelf maken van de tiles werkt:
-            //Tile[] tileList = new Tile[] {new Crossroad(), new Road(), new Fork()};
-            //for (int i = 0; i < tileList.Length;i++ )
-            //{
-            //    Tile possibleTile = tileList[i];
-            //    if(possibleTile.ToString() == currentTileString)
-            //    {
-            //        currentBuildTile = possibleTile;
-            //        break;
-            //    }
-            //}
-            currentBuildTile = new Crossroad();
+
+           /*currentBuildTile = new Crossroad();
             currentBuildTile = new Fork(2);
             currentBuildTile = new Road(4, 2);
-            //currentBuildTile = new Spawner(new Point(mea.X, mea.Y), 2);
-            currentBuildTile.SetValues(mea.Location, CalculateListPlace(mea.X, mea.Y));
-            tileImage = currentBuildTile.DrawImage();
-            currentBuildTile.Update(this, null, 0);
-            tiles[CalculateListPlace(mea.X, mea.Y)] = currentBuildTile;
-            //Dit zorgt ervoor dat de kaart geupdate wordt met de nieuwe tile.
-            bitmapMap.AddTile(tileImage, mea.X / 100, mea.Y / 100);
+		*/
+            
 
 
-            //host.BackColorTransparent = true;
-            //hier moet nog een nieuwe currentBuildTile worden aangemaakt met dezelde waarden als de vorige.
-            Invalidate();
+            if (selected == true) //als de select-tool is aangeklikt
+            {
+                Tile selectedTile = tiles[CalculateListPlace(mea.X, mea.Y)];
+
+                //Blauw randje om geselecteerde tile
+                tileImage = new Bitmap(100, 100);
+                Graphics gr = Graphics.FromImage(tileImage);
+                Pen selectPen = new Pen(Color.LightBlue,Width = 3);
+                gr.DrawRectangle(selectPen, (mea.X / 100 * 100), (mea.Y / 100 * 100), 100, 100);
+            }
+
+            else
+            {
+                if (eraser == false) //als de gum-tool niet is aangeklikt
+                {
+                    currentBuildTile.SetValues(mea.Location, CalculateListPlace(mea.X, mea.Y));
+                    tileImage = currentBuildTile.DrawImage();
+                    currentBuildTile.Update(this, null, 0);
+                    tiles[CalculateListPlace(mea.X, mea.Y)] = currentBuildTile;
+                    //Dit zorgt ervoor dat de kaart geupdate wordt met de nieuwe tile.
+                    bitmapMap.AddTile(tileImage, mea.X / 100, mea.Y / 100);
+                }
+                else //alsde gum-tool is geselecteerd, wordt er een nieuwe bitmap gemaakt waarop een groen vlak 
+                //wordt getekend (oftewel, de geklikte tile wordt 'verwijderd')
+                {
+                    tileImage = new Bitmap(100, 100);
+                    Graphics gr = Graphics.FromImage(tileImage);
+                    gr.FillRectangle(Brushes.Green, (mea.X / 100 * 100), (mea.Y / 100 * 100), 100, 100);
+                    tiles[CalculateListPlace(mea.X, mea.Y)] = null;
+                }
+
+                //host.BackColorTransparent = true;
+                //hier moet nog een nieuwe currentBuildTile worden aangemaakt met dezelde waarden als de vorige.
+                Invalidate();
+            }
         }
 
         public int CalculateListPlace(int mouseX, int mouseY)

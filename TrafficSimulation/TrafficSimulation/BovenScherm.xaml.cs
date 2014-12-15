@@ -81,10 +81,11 @@ namespace TrafficSimulation
         {
 
         }
-
+	
+	//klikmethode voor het vertragen van de simulatie
         private void Vertragen_Click(object sender, RoutedEventArgs e)
         {
-
+		//hier moet de variabele van de sleep veranderd worden, zodat de simulatie langzamer gaat
         }
 
         private void Home_Click(object sender, RoutedEventArgs e)
@@ -102,6 +103,7 @@ namespace TrafficSimulation
 
         }
 
+	//klikmethode voor dag- of nachtsimulatie
         private void DayNight_Click(object sender, RoutedEventArgs e)
         {
             if (s.Day == true)

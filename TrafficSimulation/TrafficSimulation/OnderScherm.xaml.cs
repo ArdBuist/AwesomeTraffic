@@ -21,40 +21,75 @@ namespace TrafficSimulation
     /// </summary>
     public partial class OnderScherm : UserControl
     {
-        public OnderScherm()
+        SimControl s;
+
+        public OnderScherm(SimControl s)
         {
             InitializeComponent();
         }
 
         private void RechtWeg_Click(object sender, RoutedEventArgs e)
         {
-
+		s.eraser = false;
+            	int start = 1; //=1 vervangen door variabele
+            	int end = 4;   //=4 vervangen door variabele
+            	s.currentBuildTile = new Road(start, end);
         }
 
         private void Bocht_Click(object sender, RoutedEventArgs e)
         {
-
+		s.eraser = false;
+            	int start = 1; //=1 vervangen door variabele
+            	int end = 4;   //=4 vervangen door variabele
+            	s.currentBuildTile = new Road(start, end);
         }
 
         private void Kruispunt_Click(object sender, RoutedEventArgs e)
         {
-
+		s.eraser = false;
+            	s.currentBuildTile = new Crossroad();
         }
 
         private void Tsplitsing_Click(object sender, RoutedEventArgs e)
         {
-
+		s.eraser = false;
+            	int notdirection = 1; //=1 vervangen door variabele, variabele waar geen weg naartoe loopt
+            	s.currentBuildTile = new Fork(notdirection);
         }
 
         private void Gum_Click(object sender, RoutedEventArgs e)
         {
-
+		s.eraser = true;
         }
-
+	
+	//klikmethode voor dag- of nachtsimulatie
         private void Select_Click(object sender, RoutedEventArgs e)
         {
-
+		s.selected = true;
+            //hierna moet dan een scherm verschijnen met info en aanpassingsmogelijkheden
         }
 
+
+        public void spawnerClick(Object obj, MouseEventArgs mea)
+        {
+            s.eraser = false;
+            int direction = 4; //=4 vervangen door variabele, de kant waar de weg heen loopt
+            s.currentBuildTile = new Spawner(direction);
+        }
+
+        public void roadClick(Object obj, MouseEventArgs mea)
+        {
+            
+        }
+
+        public void forkClick(Object obj, MouseEventArgs mea)
+        {
+            
+        }
+
+        public void crossRoadClick (Object obj, MouseEventArgs mea)
+        {
+            
+        }
     }
 }
