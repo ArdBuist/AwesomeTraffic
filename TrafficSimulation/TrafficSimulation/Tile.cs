@@ -11,10 +11,10 @@ namespace TrafficSimulation
 {
     public abstract class Tile
     {
-        protected List<Vehicle>[] vehicles;
+        public List<Vehicle>[] vehicles;
         protected Tile[] adjacentTiles;
         public Point position;
-        protected int maxSpeed;
+        public int maxSpeed;
         protected bool[] access;
         protected int TotalVehicleLength;
         protected Size size;
@@ -30,6 +30,22 @@ namespace TrafficSimulation
             this.lanesHighToLow = 1;
             this.lanesLowToHigh = 1;
             this.listPlace = 1;
+
+            initialize(lanesHighToLow + lanesLowToHigh);
+        }
+
+        public void CarUpdate()
+        {
+            foreach (List<Vehicle> list in vehicles)
+            {
+                if (list != null)
+                {
+                    foreach (Vehicle v in list)
+                    {
+                        v.Update();
+                    }
+                }
+            }
         }
 
         public void initialize(int totalLanes)
@@ -116,12 +132,11 @@ namespace TrafficSimulation
 
     public class Spawner : Tile
     {
-        private int spawnLane;//handigheid niet duidelijk voor mij
-        private int currentSpawn;//baan waarop de volgende auto gespawnt gaat worden
-        private int direction;//kant waarop de weg loopt
+        public int direction;//kant waarop de weg loopt
         private int lanesOut, lanesIn;//aantal wegen van en naar de spawner
-        private double carsPerSec;//auto's die per seconde gespawned worden
-        private double numberOfCars;//opslag voor auto's die gespawned moeten worden voor als de weg vol is.
+        private int spawnLane;//Lane waar de auto gespawnt gaat worden
+        private double currentSpawn;//Nummer waarin word opgeslagen hoever de spawner is met het spawnen van een nieuwe auto
+        private double spawnPerSec;//Aantal wat elke gametick bij de currentspawn word opgetelt
 
         public Spawner(int direction)
         {
@@ -129,30 +144,15 @@ namespace TrafficSimulation
             this.name = "Spawner";
             this.lanesIn = 1;
             this.lanesOut = 1;
-            carsPerSec = 0.5;
+            this.spawnPerSec = 0.05;
+
             spawnLane = 1;
-
-            initialize(spawnLane + 1);
+            currentSpawn = 0;
         }
-        private void spawnVehicle()
-        {
-            numberOfCars += carsPerSec;
-            if (numberOfCars >= 1)
-            {
-                //true moet vervangen worden door de methode waarin wordt bepaald of er een auto gespawned kan worden
-                if (true)
-                {
-                    AddVehicle(createVehicle(), currentSpawn);
-                    currentSpawn = (currentSpawn + 1);
 
-                }
-                else
-                {
-                    //hierzo moet hij iets doen als er niet gespawnt kan worden, bijv het bijhouden of een queue maken ofzo
-                }
-                numberOfCars = numberOfCars % 1;
-            }
-        }
+
+          
+
 
         public override Bitmap DrawImage()
         {
@@ -162,11 +162,20 @@ namespace TrafficSimulation
             return image;
         }
 
-        private Vehicle createVehicle()
+        public void Tick()
         {
-            //deze methode moet ingevuld worden, hier wordt een auto gegenereerd
-            return new Vehicle(new Point(), new Point(), 0, 0, 0, 0);
+            currentSpawn += spawnPerSec;
         }
+
+        public void Spawn()
+        {
+            currentSpawn--;
+        }
+
+        public double CurrentSpawn { get { return currentSpawn; } }
+        public int SpawnLane { get { return spawnLane; } }
+
+
         public override void Update(SimControl s, Road road, int direction)
         {
             //if's voor verschil in richtingen van de wegen.
@@ -182,7 +191,7 @@ namespace TrafficSimulation
             }
 
             this.maxSpeed = road.getMaxSpeed();
-            s.bitmapMap.AddTile(DrawImage(), position.X / 100, position.Y / 100);
+            s.bitmapMap.AddObject(DrawImage(), position.X / 100, position.Y / 100);
         }
 
         public Graphics drawSpawner(Graphics gr, int side, int lanesIn, int lanesOut)
@@ -249,7 +258,6 @@ namespace TrafficSimulation
     public class Road : Tile
     {
         private int startDirection;
-
         private int endDirection;
 
 
@@ -332,7 +340,8 @@ namespace TrafficSimulation
                     UpdateOtherTile(s, this, endDirection + 2);
                 }
             }
-            s.bitmapMap.AddTile(DrawImage(), position.X / 100, position.Y / 100);
+            s.bitmapMap.AddObject(DrawImage(), position.X / 100, position.Y / 100);
+
         }
 
         /*Deze methode zorgt ervoor dat van de tiles om deze tile heen de methode Update wordt aangeroepen.
@@ -342,19 +351,19 @@ namespace TrafficSimulation
             Tile tile;
             switch (direction)
             {
-                case 1: tile = s.tiles[listPlace + s.tilesHorizontal];
+                case 1: tile = s.tileList[listPlace + s.tilesHorizontal];
                     if (tile != null)
                         tile.Update(s, this, 1);
                     break;
-                case 2: tile = s.tiles[listPlace - 1];
+                case 2: tile = s.tileList[listPlace - 1];
                     if (tile != null)
                         tile.Update(s, this, 2);
                     break;
-                case 3: tile = s.tiles[listPlace - s.tilesHorizontal];
+                case 3: tile = s.tileList[listPlace - s.tilesHorizontal];
                     if (tile != null)
                         tile.Update(s, this, 3);
                     break;
-                case 4: tile = s.tiles[listPlace + 1];
+                case 4: tile = s.tileList[listPlace + 1];
                     if (tile != null)
                         tile.Update(s, this, 4);
                     break;
@@ -417,7 +426,8 @@ namespace TrafficSimulation
                 lanes[direction * 2 - 2] = road.getLaneHighToLow();
                 lanes[direction * 2 - 1] = road.getLaneLowToHigh();
             }
-            s.bitmapMap.AddTile(DrawImage(), position.X / 100, position.Y / 100); //drawmethode werkt nog niet naar behoren door ontbreken compatibiliteit met lists
+
+            s.bitmapMap.AddObject(DrawImage(), position.X / 100, position.Y / 100);//drawmethode werkt nog niet naar behoren door ontbreken compatibiliteit met lists
         }
 
         public override Bitmap DrawImage()
@@ -467,8 +477,8 @@ namespace TrafficSimulation
                 lanes[direction * 2 - 2] = road.getLaneHighToLow();
                 lanes[direction * 2 - 1] = road.getLaneLowToHigh();
             }
-            s.bitmapMap.AddTile(DrawImage(), position.X / 100, position.Y / 100);//drawmethode werkt nog niet naar behoren door ontbreken compatibiliteit met lists
             control = new TrafficlightControl(s, this, 4, 5, lanes, position);
+            s.bitmapMap.AddObject(DrawImage(), position.X / 100, position.Y / 100);//drawmethode werkt nog niet naar behoren door ontbreken compatibiliteit met lists
         }
 
         public override Bitmap DrawImage()

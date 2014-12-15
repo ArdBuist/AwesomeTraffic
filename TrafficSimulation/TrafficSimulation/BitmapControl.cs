@@ -23,14 +23,19 @@ namespace TrafficSimulation
         {
             get { return Graphics.FromImage(bitmap); }
         }
+
+
+
         private void DrawBitmap()
         {
 
         }
-        public void AddTile(Bitmap bitmap, int x, int y)
+
+        public void AddObject(Bitmap bitmap, int x, int y)
         {//zorgt ervoor dat de nieuwe tile op de kaart komt in het grid.
             Graphics gr = GetBitmapGraphics;
-            gr.DrawImage(bitmap, x * 100, y * 100);
+            gr.DrawImage(bitmap, x, y);
+
         }
     }
 }
