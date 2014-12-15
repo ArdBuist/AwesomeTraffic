@@ -54,7 +54,7 @@ namespace TrafficSimulation
             turn++;
             if (turn % 4 == 0)
             {
-                Update(turn);
+                Update(turn/4);
             }
         }
 
