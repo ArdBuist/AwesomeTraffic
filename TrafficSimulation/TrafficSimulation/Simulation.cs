@@ -18,6 +18,7 @@ namespace TrafficSimulation
         private bool playing;
         private List<Spawner> spawnerList;
         private SimControl simControl;
+        int turn;
 
         public Simulation(SimControl simControl)
         {
@@ -55,13 +56,26 @@ namespace TrafficSimulation
 
         private void UpdateVariables()
         {
+            turn++;
             if (false)//wanneer er op stop wordt geklikt
             {
                 Stop();
             }
-
             UpdateSpawners();
+
+            if (turn % 50 == 0)
+            {
+                UpdateTrafficlights();
+            }
             UpdateCars();
+        }
+
+        private void UpdateTrafficlights()
+        {
+            foreach (TrafficlightControl t in simControl.controlList)
+            {
+                t.Run();
+            }
         }
 
         private void UpdateGame()

@@ -68,7 +68,7 @@ namespace TrafficSimulation
         //hierin worden in de andere klassen de bitmaps gemaakt voor de kaart
         public abstract Bitmap DrawImage();
 
-        public void SetValues(Point position, int listPlace)
+        public virtual void SetValues(Point position, int listPlace)
         {
             this.position.X = (position.X / 100) * 100;
             this.position.Y = (position.Y / 100) * 100;
@@ -183,6 +183,7 @@ namespace TrafficSimulation
         public double CurrentSpawn { get { return currentSpawn; } }
         public int SpawnLane { get { return spawnLane; } }
         public int LanesOut { get { return lanesOut; } }
+
 
         public override void Update(SimControl s, Road road, int direction)
         {
@@ -348,7 +349,6 @@ namespace TrafficSimulation
                     UpdateOtherTile(s, this, endDirection + 2);
                 }
             }
-
             s.bitmapMap.AddObject(DrawImage(), position.X / 100, position.Y / 100);
 
         }
@@ -378,14 +378,17 @@ namespace TrafficSimulation
                     break;
             }
         }
+
         public int getLaneHighToLow()
         {
             return lanesHighToLow;
         }
+
         public int getLaneLowToHigh()
         {
             return lanesLowToHigh;
         }
+
         public int getMaxSpeed()
         {
             return maxSpeed;
@@ -399,29 +402,26 @@ namespace TrafficSimulation
             values[2] = lanesLowToHigh;
             return values;
         }
-
     }
 
     public class Fork : Tile
     {
         private int notDirection;
         int[] lanes;
-        private List<TrafficlightControl> trafficlightControlList;
+        public TrafficlightControl control;
 
-        public Fork(int notDirection)
+        public Fork(SimControl sim, int notDirection)
         {
             this.name = "Fork";
             this.lanes = new int[] { 1, 1, 1, 1, 0, 0, 1, 1 };
             this.notDirection = notDirection;
 
-            trafficlightControlList = new List<TrafficlightControl>();
-            for (int i = 0; i < 3; i++)
-            {
-                trafficlightControlList.Add(new TrafficlightControl());
-            }
+            control = new TrafficlightControl(sim, this, 3, notDirection, lanes);
+
             int totalLanes = CountLanes(lanes);
             initialize(totalLanes);
         }
+
         public override void Update(SimControl s, Road road, int direction)
         {
             this.maxSpeed = road.getMaxSpeed();
@@ -435,6 +435,7 @@ namespace TrafficSimulation
                 lanes[direction * 2 - 2] = road.getLaneHighToLow();
                 lanes[direction * 2 - 1] = road.getLaneLowToHigh();
             }
+
             s.bitmapMap.AddObject(DrawImage(), position.X / 100, position.Y / 100);//drawmethode werkt nog niet naar behoren door ontbreken compatibiliteit met lists
         }
 
@@ -446,28 +447,32 @@ namespace TrafficSimulation
             return image;
         }
 
+        public override void SetValues(Point position, int listPlace)
+        {
+            base.SetValues(position, listPlace);
+
+            control.ChangeValues(position);
+        }
     }
 
     public class Crossroad : Tile
     {
         int[] lanes;
-        private List<TrafficlightControl> trafficlightControlList;
+        public TrafficlightControl control;
 
-        public Crossroad()
+        public Crossroad(SimControl sim)
         {
             this.position = position;
             this.maxSpeed = maxSpeed;
             this.name = "Crossroad";
             this.lanes = new int[] { 1, 1, 1, 1, 1, 1, 1, 1 };
 
-            trafficlightControlList = new List<TrafficlightControl>();
-            for (int i = 0; i < 4; i++)
-            {
-                trafficlightControlList.Add(new TrafficlightControl());
-            }
+            control = new TrafficlightControl(sim, this, 4, 5, lanes);
+
             int totalLanes = CountLanes(lanes);
             initialize(totalLanes);
         }
+
         public override void Update(SimControl s, Road road, int direction)
         {
             this.maxSpeed = road.getMaxSpeed();
@@ -481,8 +486,10 @@ namespace TrafficSimulation
                 lanes[direction * 2 - 2] = road.getLaneHighToLow();
                 lanes[direction * 2 - 1] = road.getLaneLowToHigh();
             }
+            control = new TrafficlightControl(s, this, 4, 5, lanes, position);
             s.bitmapMap.AddObject(DrawImage(), position.X / 100, position.Y / 100);//drawmethode werkt nog niet naar behoren door ontbreken compatibiliteit met lists
         }
+
         public override Bitmap DrawImage()
         { // hier wordt een bitmap gemaakt en getekend door de andere methode. 
             Bitmap image = new Bitmap(100, 100);
@@ -491,5 +498,11 @@ namespace TrafficSimulation
             return image;
         }
 
+        public override void SetValues(Point position, int listPlace)
+        {
+            base.SetValues(position, listPlace);
+
+            control.ChangeValues(position);
+        }
     }
 }
