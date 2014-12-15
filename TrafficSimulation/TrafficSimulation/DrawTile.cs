@@ -15,11 +15,13 @@ namespace TrafficSimulation
         const int roadW = 16;
 
         public DrawTile()
-        {}
+        {
+
+        }
 
         //aanmaken pen die in 1 lijn streepjes zet van 5 px per stuk
         public Pen strPen()
-        {            
+        {
             float[] stripesLine = new float[20];
 
             for (int t = 0; t < stripesLine.Length; t++)
@@ -59,23 +61,23 @@ namespace TrafficSimulation
                 //bij 4 loopt de weg verticaal, anders horizontaal
                 if (sideTotal == 4)
                 {
-                    road.FillRectangle(Brushes.Gray,r3,0, lanesTotal * roadW, 100);
+                    road.FillRectangle(Brushes.Gray, r3, 0, lanesTotal * roadW, 100);
                     road.DrawLine(Pens.White, r3, 0, r3, 100);
                     road.DrawLine(Pens.White, r2, 0, r2, 100);
 
                     //als er maar 1 weg in en 1 weg uit, dan moet er een streepjeslijn in het midden
                     if (lanesIn == 1 && lanesOut == 1)
-                    {                        
-                        road.DrawLine(stripesPen, 50, 0, 50, 100);               
+                    {
+                        road.DrawLine(stripesPen, 50, 0, 50, 100);
                     }
                     else
                     {
                         road.DrawLine(Pens.White, 50, 0, 50, 100);
-                        for(int t=1; t<lanesIn;t++)
+                        for (int t = 1; t < lanesIn; t++)
                         {
-                            road.DrawLine(stripesPen, 50 - t*roadW, 0, 50 - t*roadW, 100);
+                            road.DrawLine(stripesPen, 50 - t * roadW, 0, 50 - t * roadW, 100);
                         }
-                        for(int i=1; i<lanesOut;i++)
+                        for (int i = 1; i < lanesOut; i++)
                         {
                             road.DrawLine(stripesPen, 50 + i * roadW, 0, 50 + i * roadW, 100);
                         }
@@ -85,8 +87,8 @@ namespace TrafficSimulation
                 //horizontale weg
                 else
                 {
-                    road.FillRectangle(Brushes.Gray, 0, r3, 100, lanesTotal*roadW);
-                    road.DrawLine(Pens.White, 0, r3, 100, r3);                    
+                    road.FillRectangle(Brushes.Gray, 0, r3, 100, lanesTotal * roadW);
+                    road.DrawLine(Pens.White, 0, r3, 100, r3);
                     road.DrawLine(Pens.White, 0, r2, 100, r2);
 
                     //als er maar 1 weg in en 1 weg uit, dan moet er een streepjeslijn in het midden
@@ -105,7 +107,7 @@ namespace TrafficSimulation
                         {
                             road.DrawLine(stripesPen, 0, 50 + i * roadW, 100, 50 + i * roadW);
                         }
-                    }                   
+                    }
                 }
             }
 
@@ -117,7 +119,7 @@ namespace TrafficSimulation
                 {
                     road.FillEllipse(Brushes.Gray, r3, -1 * r4, 2 * r4, 2 * r4);
                     road.FillEllipse(Brushes.Green, r2, -1 * r, 2 * r, 2 * r); //groen ipv transparant
-                    road.DrawArc(Pens.White, r2, -1 * r, 2 * r, 2 * r, 90, 90);                 
+                    road.DrawArc(Pens.White, r2, -1 * r, 2 * r, 2 * r, 90, 90);
                     road.DrawArc(Pens.White, r3, -1 * r4, 2 * r4, 2 * r4, 90, 90);
 
                     if (lanesIn == 1 && lanesOut == 1)
@@ -130,14 +132,14 @@ namespace TrafficSimulation
                         road.DrawArc(Pens.White, 50, -50, 100, 100, 90, 90);
                         for (int t = 1; t < lanesIn; t++)
                         {
-                            road.DrawArc(stripesPen, 50 - roadW *t, -1 * 50 - roadW * t, 2 * (50 + roadW * t), 2 * (50 + roadW * t), 90, 90);
+                            road.DrawArc(stripesPen, 50 - roadW * t, -1 * 50 - roadW * t, 2 * (50 + roadW * t), 2 * (50 + roadW * t), 90, 90);
                         }
-                                         
-                       for (int i = 1; i < lanesOut; i++)
-                       {
-                           road.DrawArc(stripesPen, 50 + roadW *i, -1 * 50 + roadW * i, 2 * (50 - roadW * i), 2 * (50 - roadW * i), 90, 90);
-                       }
-                   }                        
+
+                        for (int i = 1; i < lanesOut; i++)
+                        {
+                            road.DrawArc(stripesPen, 50 + roadW * i, -1 * 50 + roadW * i, 2 * (50 - roadW * i), 2 * (50 - roadW * i), 90, 90);
+                        }
+                    }
                 }
 
                 //bij 5 en 1 loopt de weg van kant 1 naar kant 4
@@ -145,29 +147,29 @@ namespace TrafficSimulation
                 {
                     road.FillEllipse(Brushes.Gray, -1 * r2, -1 * r2, 2 * r2, 2 * r2);
                     road.FillEllipse(Brushes.Green, -1 * r3, -1 * r3, 2 * r3, 2 * r3); //groen ipv transparant
-                    road.DrawArc(Pens.White, -1 * r3, -1 * r3, 2 * r3, 2 * r3, 0, 90);                    
+                    road.DrawArc(Pens.White, -1 * r3, -1 * r3, 2 * r3, 2 * r3, 0, 90);
                     road.DrawArc(Pens.White, -1 * r2, -1 * r2, 2 * r2, 2 * r2, 0, 90);
 
-                   
+
                     if (lanesIn == 1 && lanesOut == 1)
                     {
                         road.DrawArc(stripesPen, -50, -50, 100, 100, 0, 90);
                     }
-                     
+
                     else
                     {
                         road.DrawArc(Pens.White, -50, -50, 100, 100, 0, 90);
 
                         for (int t = 1; t < lanesIn; t++)
                         {
-                            road.DrawArc(stripesPen, -1 *(50 - roadW * t), -1*(50 - roadW * t), 2 * (50 - roadW * t), 2 * (50 - roadW * t), 0, 90);
+                            road.DrawArc(stripesPen, -1 * (50 - roadW * t), -1 * (50 - roadW * t), 2 * (50 - roadW * t), 2 * (50 - roadW * t), 0, 90);
                         }
-                        
+
                         for (int i = 1; i < lanesOut; i++)
                         {
-                            road.DrawArc(stripesPen, -1*(50 + roadW * i), -1*(50 + roadW * i), 2 * (50 + roadW * i), 2 * (50 + roadW * i), 0, 90);
+                            road.DrawArc(stripesPen, -1 * (50 + roadW * i), -1 * (50 + roadW * i), 2 * (50 + roadW * i), 2 * (50 + roadW * i), 0, 90);
                         }
-                    }       
+                    }
                 }
 
                 //bij 5 en 2 loopt de weg van kant 2 naar kant 3
@@ -203,9 +205,9 @@ namespace TrafficSimulation
                 {
                     road.FillEllipse(Brushes.Gray, -1 * r4, r3, 2 * r4, 2 * r4);
                     road.FillEllipse(Brushes.Green, -1 * r, r2, 2 * r, 2 * r); //groen ipv transparant
-                    road.DrawArc(Pens.White, -1 * r, r2, 2 * r, 2 * r, 270, 90);                    
+                    road.DrawArc(Pens.White, -1 * r, r2, 2 * r, 2 * r, 270, 90);
                     road.DrawArc(Pens.White, -1 * r4, r3, 2 * r4, 2 * r4, 270, 90);
-                    
+
 
                     if (lanesIn == 1 && lanesOut == 1)
                     {
@@ -222,9 +224,9 @@ namespace TrafficSimulation
 
                         for (int i = 1; i < lanesOut; i++)
                         {
-                            road.DrawArc(stripesPen, -1 *(50 - roadW * i), 50 + roadW * i, 2 * (50 - roadW * i), 2 * (50 - roadW * i), 270, 90);
+                            road.DrawArc(stripesPen, -1 * (50 - roadW * i), 50 + roadW * i, 2 * (50 - roadW * i), 2 * (50 - roadW * i), 270, 90);
                         }
-                    }                        
+                    }
                 }
             }
 
@@ -232,7 +234,7 @@ namespace TrafficSimulation
         }
 
         //Deze methode tekent een t-splitsing m.b.v. parameters die aangeven hoeveel wegen er in en uit gaan bij elke zijde.
-        public Graphics drawForkroad(Graphics gr, int [] lanes)
+        public Graphics drawForkroad(Graphics gr, int[] lanes)
         {
             Graphics fork = gr;
             fork.SmoothingMode = SmoothingMode.AntiAlias;
@@ -325,7 +327,7 @@ namespace TrafficSimulation
         }
 
         //Deze methode tekent het kruispunt m.b.v. parameters die aangeven hoeveel wegen er in en uit gaan bij elke zijde.
-        public Graphics drawCrossroad(Graphics gr, int [] lanes)
+        public Graphics drawCrossroad(Graphics gr, int[] lanes)
         {
             Graphics crossRoad = gr;
             crossRoad.SmoothingMode = SmoothingMode.AntiAlias;
@@ -392,7 +394,7 @@ namespace TrafficSimulation
             {
                 bmSpawner.FillRectangle(Brushes.Gray, r3, 0, lanesTotal * roadW, 100);
                 bmSpawner.DrawLine(Pens.White, r3, 0, r3, 100);
-                bmSpawner.DrawLine(Pens.White, r2, 0, r2, 100);              
+                bmSpawner.DrawLine(Pens.White, r2, 0, r2, 100);
 
                 //als er maar 1 weg in en 1 weg uit, dan moet er een streepjeslijn in het midden
                 if (lanesIn == 1 && lanesOut == 1)
@@ -410,8 +412,8 @@ namespace TrafficSimulation
                     {
                         bmSpawner.DrawLine(stripesPen, 50 + i * roadW, 0, 50 + i * roadW, 100);
                     }
-                } 
-                
+                }
+
                 bmSpawner.FillRectangle(Brushes.Black, r3 - 5, 0, width, 30);
             }
 
@@ -467,7 +469,7 @@ namespace TrafficSimulation
 
 
                 bmSpawner.FillRectangle(Brushes.Black, r - 5, 70, width, 30);
-                
+
             }
 
             else
@@ -493,12 +495,12 @@ namespace TrafficSimulation
                     {
                         bmSpawner.DrawLine(stripesPen, 0, 50 - i * roadW, 100, 50 - i * roadW);
                     }
-                }                   
+                }
                 bmSpawner.FillRectangle(Brushes.Black, 0, r - 5, 30, width);
             }
 
             return bmSpawner;
         }
     }
-   }     
+}     
 

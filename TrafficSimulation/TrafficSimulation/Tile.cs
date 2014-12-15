@@ -11,10 +11,10 @@ namespace TrafficSimulation
 {
     public abstract class Tile
     {
-        protected List<Vehicle>[] vehicles;
-        protected Tile[] adjacentTiles;
-        protected Point position;
-        protected int maxSpeed;
+        public List<Vehicle>[] vehicles;
+        protected Tile[] adjacenttileList;
+        public Point position;
+        public int maxSpeed;
         protected bool[] access;
         protected int TotalVehicleLength;
         protected Size size;
@@ -26,10 +26,33 @@ namespace TrafficSimulation
         public Tile()
         {
             this.maxSpeed = 5;
-            adjacentTiles = new Tile[4];
+            adjacenttileList = new Tile[4];
             this.lanesHighToLow = 1;
             this.lanesLowToHigh = 1;
             this.listPlace = 1;
+            this.size = new Size(100, 100);
+
+            initialize(lanesHighToLow + lanesLowToHigh);
+        }
+
+        public void CarUpdate(SimControl sim)
+        {
+            foreach (List<Vehicle> list in vehicles)
+            {
+                foreach (Vehicle v in list)
+                {
+                    if (v.position.X - v.Speed >= this.position.X && v.position.X + v.Speed <= this.position.X + this.size.Width - v.Size.Width - v.Speed &&
+                        v.position.Y - v.Speed >= this.position.Y && v.position.Y + v.Speed <= this.position.Y + this.size.Height - v.Size.Height - v.Speed)
+                    {
+                        v.Update();
+                        sim.vehicleMap.AddObject(v.Bitmap, v.position.X, v.position.Y);
+                    }
+                    else
+                    {
+
+                    }
+                }
+            }
         }
 
         public void initialize(int totalLanes)
@@ -53,13 +76,13 @@ namespace TrafficSimulation
             {
                 switch (direction)
                 {
-                    case 1: tile = s.tiles[listPlace - s.tilesHorizontal];
+                    case 1: tile = s.tileList[listPlace - s.tilesHorizontal];
                         break;
-                    case 2: tile = s.tiles[listPlace + 1];
+                    case 2: tile = s.tileList[listPlace + 1];
                         break;
-                    case 3: tile = s.tiles[listPlace + s.tilesHorizontal];
+                    case 3: tile = s.tileList[listPlace + s.tilesHorizontal];
                         break;
-                    case 4: tile = s.tiles[listPlace - 1];
+                    case 4: tile = s.tileList[listPlace - 1];
                         break;
                 }
             }
@@ -67,17 +90,18 @@ namespace TrafficSimulation
             { }
             return tile;
         }
-        public void SetValues(SimControl s, Point position, int listPlace)
+        public virtual void SetValues(SimControl s, Point position, int listPlace)
         {
-            this.position = position;
+            this.position.X = (position.X / 100) * 100;
+            this.position.Y = (position.Y / 100) * 100;
             this.listPlace = listPlace;
             if (this.name == "Road")
             {
                 Road thisTile = (Road)this;
-                thisTile.UpdateFromOtherTiles(s);
+                thisTile.UpdateFromOthertiles(s);
             }
         }
-        public abstract void UpdateFromOtherTiles(SimControl s);
+        public abstract void UpdateFromOthertiles(SimControl s);
 
         public abstract bool doesConnect(int side);
 
@@ -97,8 +121,8 @@ namespace TrafficSimulation
             Boolean value = false;
             switch (tile.name)
             {
-                case "Spawner": Spawner tileSpawner = (Spawner)tile;
-                    if (tileSpawner.direction == direction)
+                case "Spawner": Spawner tileListpawner = (Spawner)tile;
+                    if (tileListpawner.direction == direction)
                         value = true;
                     break;
                 case "Crossroad": value = true;
@@ -133,12 +157,12 @@ namespace TrafficSimulation
             vehicles[lane].Remove(v);
         }
 
-        public void AddVehicle(Vehicle v, int lane)
+        public virtual void AddVehicle(Vehicle v, int lane)
         {
             vehicles[lane].Add(v);
         }
 
-        //Hierin worden verschillende variabelen van de tiles verandert en doorgegeven naar de aanliggende tiles.
+        //Hierin worden verschillende variabelen van de tileList verandert en doorgegeven naar de aanliggende tileList.
         public abstract void Update(SimControl s, Tile tile, int direction);
 
         public void changeLane(Vehicle v, int begin, int eind)
@@ -167,11 +191,13 @@ namespace TrafficSimulation
 
     public class Spawner : Tile
     {
-        private int spawnLane;//handigheid niet duidelijk voor mij
-        private int currentSpawn;//baan waarop de volgende auto gespawnt gaat worden
-        public int direction;//kant waarop de weg loopt
         private double carsPerSec;//auto's die per seconde gespawned worden
         private double numberOfCars;//opslag voor auto's die gespawned moeten worden voor als de weg vol is.
+        public int direction;//kant waarop de weg loopt
+        private int lanesOut, lanesIn;//aantal wegen van en naar de spawner
+        private int spawnLane;//Lane waar de auto gespawnt gaat worden
+        private double currentSpawn;//Nummer waarin word opgeslagen hoever de spawner is met het spawnen van een nieuwe auto
+        private double spawnPerSec;//Aantal wat elke gametick bij de currentspawn word opgetelt
 
         public Spawner(int direction)
         {
@@ -179,8 +205,11 @@ namespace TrafficSimulation
             this.name = "Spawner";
             carsPerSec = 0.5;
             spawnLane = 1;
-
-            initialize(spawnLane + 1);
+            this.lanesIn = 1;
+            this.lanesOut = 1;
+            this.spawnPerSec = 0.05;
+            spawnLane = 0;
+            currentSpawn = 0;
         }
         public override bool doesConnect(int side)
         {
@@ -191,31 +220,22 @@ namespace TrafficSimulation
                 return true;
             return false;
         }
-        public override void UpdateFromOtherTiles(SimControl s)
+        public override void UpdateFromOthertiles(SimControl s)
         {
             Tile tile = GetOtherTile(s, direction);
             if (tile.name == "Road")
                 Update(s, (Road)tile, direction);
         }
-        private void spawnVehicle()
-        {
-            numberOfCars += carsPerSec;
-            if (numberOfCars >= 1)
-            {
-                //true moet vervangen worden door de methode waarin wordt bepaald of er een auto gespawned kan worden
-                if (true)
-                {
-                    AddVehicle(createVehicle(), currentSpawn);
-                    currentSpawn = (currentSpawn + 1);
 
-                }
-                else
-                {
-                    //hierzo moet hij iets doen als er niet gespawnt kan worden, bijv het bijhouden of een queue maken ofzo
-                }
-                numberOfCars = numberOfCars % 1;
-            }
+        public void Spawn(Vehicle v)
+        {
+            //nog onder voorbehoud, weet nog niet zeker of deze code werkt voor elke wegbreedte, werkt samen met Simulation.CreateVehicle
+            currentSpawn--;
+            vehicles[spawnLane].Add(v);
+            spawnLane++;
+            spawnLane = spawnLane % lanesOut;
         }
+
         public override Bitmap DrawImage()
         {
             Bitmap image = new Bitmap(100, 100);
@@ -224,30 +244,34 @@ namespace TrafficSimulation
             return image;
         }
 
-        private Vehicle createVehicle()
+        public void Tick()
         {
-            //deze methode moet ingevuld worden, hier wordt een auto gegenereerd
-            return new Vehicle(new Point(), new Point(), 0, 0, 0, 0);
+            currentSpawn += spawnPerSec;
         }
+
+        public double CurrentSpawn { get { return currentSpawn; } }
+        public int SpawnLane { get { return spawnLane; } }
+        public int LanesOut { get { return lanesOut; } }
+
+
         public override void Update(SimControl s, Tile tile, int direction)
         {
+            //if's voor verschil in richtingen van de wegen.
+            Road road = (Road)tile;
             if (direction == this.direction)
             {
-                Road road = (Road)tile;
-                //if's voor verschil in richtingen van de wegen.
                 if (direction < 3)
                 {
-                    this.lanesHighToLow = road.getLaneLowToHigh();
-                    this.lanesLowToHigh = road.getLaneHighToLow();
+                    this.lanesIn = road.getLaneLowToHigh();
+                    this.lanesOut = road.getLaneHighToLow();
                 }
                 else
                 {
-                    this.lanesHighToLow = road.getLaneHighToLow();
-                    this.lanesLowToHigh = road.getLaneLowToHigh();
+                    this.lanesIn = road.getLaneHighToLow();
+                    this.lanesOut = road.getLaneLowToHigh();
                 }
-
                 this.maxSpeed = road.getMaxSpeed();
-                s.bitmapMap.AddTile(DrawImage(), position.X / 100, position.Y / 100);
+                s.bitmapMap.AddObject(DrawImage(), position.X / 100, position.Y / 100);
             }
         }
     }
@@ -291,8 +315,9 @@ namespace TrafficSimulation
             return false;
         }
 
-        //update de tilevariabelen en zorgt dat tiles eromheen aangeroepen gaan worden.
+        //update de tilevariabelen en zorgt dat tileList eromheen aangeroepen gaan worden.
         public override void Update(SimControl s, Tile tile, int direction)
+
         {
             Road road = (Road)tile;
             //road is alleen maar null als dit de eerste methode update is die wordt aangeroepen na een verandering in de interface.
@@ -352,9 +377,10 @@ namespace TrafficSimulation
                     UpdateOtherTile(s, endDirection);
                 }
             }
-            s.bitmapMap.AddTile(DrawImage(), position.X / 100, position.Y / 100);
+            s.bitmapMap.AddObject(DrawImage(), position.X / 100, position.Y / 100);
+
         }
-        public override void UpdateFromOtherTiles(SimControl s)
+        public override void UpdateFromOthertiles(SimControl s)
         {
             Tile tile;
             tile = this.GetOtherTile(s, startDirection);
@@ -418,7 +444,7 @@ namespace TrafficSimulation
             this.Update(s, null, 0);
         }
 
-        /*Deze methode zorgt ervoor dat van de tiles om deze tile heen de methode Update wordt aangeroepen.*/
+        /*Deze methode zorgt ervoor dat van de tileList om deze tile heen de methode Update wordt aangeroepen.*/
         private void UpdateOtherTile(SimControl s, int direction)
         {
             Tile tile = GetOtherTile(s, direction);
@@ -428,14 +454,17 @@ namespace TrafficSimulation
             if (tile != null)
                 tile.Update(s, this, direction);
         }
+
         public int getLaneHighToLow()
         {
             return lanesHighToLow;
         }
+
         public int getLaneLowToHigh()
         {
             return lanesLowToHigh;
         }
+
         public int getMaxSpeed()
         {
             return maxSpeed;
@@ -455,9 +484,9 @@ namespace TrafficSimulation
     {
         public int notDirection;
         int[] lanes;
-        private List<TrafficlightControl> trafficlightControlList;
+        public TrafficlightControl control;
 
-        public Fork(int notDirection)
+        public Fork(SimControl sim, int notDirection)
         {
             this.name = "Fork";
             this.lanes = new int[] { 1, 1, 1, 1, 1, 1, 1, 1 };
@@ -465,14 +494,12 @@ namespace TrafficSimulation
             lanes[notDirection * 2 - 2] = 0;
             lanes[notDirection * 2 - 1] = 0;
 
-            trafficlightControlList = new List<TrafficlightControl>();
-            for (int i = 0; i < 3; i++)
-            {
-                trafficlightControlList.Add(new TrafficlightControl());
-            }
+            control = new TrafficlightControl(sim, this, 3, notDirection, lanes);
+
             int totalLanes = CountLanes(lanes);
             initialize(totalLanes);
         }
+
         public override bool doesConnect(int side)
         {
             int direction = side + 2;
@@ -482,7 +509,7 @@ namespace TrafficSimulation
                 return true;
             return false;
         }
-        public override void UpdateFromOtherTiles(SimControl s)
+        public override void UpdateFromOthertiles(SimControl s)
         {
             throw new NotImplementedException();
         }
@@ -502,7 +529,7 @@ namespace TrafficSimulation
                     lanes[direction * 2 - 2] = road.getLaneHighToLow();
                     lanes[direction * 2 - 1] = road.getLaneLowToHigh();
                 }
-                s.bitmapMap.AddTile(DrawImage(), position.X / 100, position.Y / 100);//drawmethode werkt nog niet naar behoren door ontbreken compatibiliteit met lists
+                s.bitmapMap.AddObject(DrawImage(), position.X / 100, position.Y / 100);//drawmethode werkt nog niet naar behoren door ontbreken compatibiliteit met lists
             }
         }
 
@@ -514,25 +541,28 @@ namespace TrafficSimulation
             return image;
         }
 
+        public override void SetValues(SimControl s, Point position, int listPlace)
+        {
+            base.SetValues(s,position, listPlace);
+
+            control.ChangeValues(position);
+        }
     }
 
     public class Crossroad : Tile
     {
         int[] lanes;
-        private List<TrafficlightControl> trafficlightControlList;
+        public TrafficlightControl control;
 
-        public Crossroad()
+        public Crossroad(SimControl sim)
         {
             this.position = position;
             this.maxSpeed = maxSpeed;
             this.name = "Crossroad";
             this.lanes = new int[] { 1, 1, 1, 1, 1, 1, 1, 1 };
 
-            trafficlightControlList = new List<TrafficlightControl>();
-            for (int i = 0; i < 4; i++)
-            {
-                trafficlightControlList.Add(new TrafficlightControl());
-            }
+            control = new TrafficlightControl(sim, this, 4, 5, lanes);
+
             int totalLanes = CountLanes(lanes);
             initialize(totalLanes);
         }
@@ -540,7 +570,7 @@ namespace TrafficSimulation
         {
             return true;
         }
-        public override void UpdateFromOtherTiles(SimControl s)
+        public override void UpdateFromOthertiles(SimControl s)
         {
             for (int i = 1; i < 5; i++)
             {
@@ -563,8 +593,10 @@ namespace TrafficSimulation
                 lanes[direction * 2 - 2] = road.getLaneHighToLow();
                 lanes[direction * 2 - 1] = road.getLaneLowToHigh();
             }
-            s.bitmapMap.AddTile(DrawImage(), position.X / 100, position.Y / 100);//drawmethode werkt nog niet naar behoren door ontbreken compatibiliteit met lists
+            control = new TrafficlightControl(s, this, 4, 5, lanes, position);
+            s.bitmapMap.AddObject(DrawImage(), position.X / 100, position.Y / 100);//drawmethode werkt nog niet naar behoren door ontbreken compatibiliteit met lists
         }
+
         public override Bitmap DrawImage()
         { // hier wordt een bitmap gemaakt en getekend door de andere methode. 
             Bitmap image = new Bitmap(100, 100);
@@ -573,5 +605,11 @@ namespace TrafficSimulation
             return image;
         }
 
+        public override void SetValues(SimControl s, Point position, int listPlace)
+        {
+            base.SetValues(s, position, listPlace);
+
+            control.ChangeValues(position);
+        }
     }
 }
