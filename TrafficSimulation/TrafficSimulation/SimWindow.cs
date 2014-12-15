@@ -53,6 +53,11 @@ namespace TrafficSimulation
             this.Controls.Add(sim);
         }
 
+        public void Options()
+        {
+
+        }
+
         public void Save()
         {
 

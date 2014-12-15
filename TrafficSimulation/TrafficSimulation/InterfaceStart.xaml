@@ -13,7 +13,7 @@
         <StackPanel Orientation="Vertical" Grid.Column="1" VerticalAlignment="Center">
             <Button Height="30" Margin="5" Click="New_Click">New</Button>
             <Button Height="30" Margin="5">Open</Button>
-            <Button Height="30" Margin="5">Opties</Button>
+            <Button Height="30" Margin="5" Click="Options_Click">Options</Button>
             <Button Height="30" Margin="5">How To</Button>
             <Button Height="30" Margin="5">Credit</Button>
             <Button Height="30" Margin="5" Click="Exit_Click">Exit</Button>

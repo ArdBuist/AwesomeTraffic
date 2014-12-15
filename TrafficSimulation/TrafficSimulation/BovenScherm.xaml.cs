@@ -31,6 +31,7 @@ namespace TrafficSimulation
             this.s = s;
 		    simwindow = sim;
             Infobalk = info;
+
             InitializeComponent();
         }
 

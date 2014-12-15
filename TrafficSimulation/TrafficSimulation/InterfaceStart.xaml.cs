@@ -34,6 +34,11 @@ namespace TrafficSimulation
             startcontrol.New_Click();
         }
 
+        public void Options_Click(object sender, RoutedEventArgs e)
+        {
+            startcontrol.Option_Click();
+        }
+
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
             startcontrol.Exit_Click();

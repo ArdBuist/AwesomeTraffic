@@ -21,18 +21,19 @@ namespace TrafficSimulation
         public BitmapControl bitmapMap;
         BitmapControl trafficlightMap;
         BitmapControl vehicleMap;
-        Boolean isBuildingMode;//moet veranderd worden als van het kaartbouwen wordt overgesprongen naar het "spelen" 
+        Boolean isBuildingMode; //moet veranderd worden als van het kaartbouwen wordt overgesprongen naar het "spelen" 
         public Tile[] tiles;
         public int tilesHorizontal;
         public ElementHost BovenHost, OnderHost, InfoHost;
         public BovenScherm BovenScherm;
         public InfoBalk InfoBalk;
         public Boolean Simulatie, Day;
-        
+        public Boolean InfoVisible;
         //SimWindow simwindow;
 
         public SimControl(Size size, SimWindow sim)
         {
+	// Maak de infobalk, onderscherm en bovenscherm
             InfoBalk InfoBalk = new InfoBalk(this);
             OnderScherm OnderScherm = new OnderScherm();
             BovenScherm BovenScherm = new BovenScherm(sim, this, InfoBalk);
@@ -65,6 +66,7 @@ namespace TrafficSimulation
 
             BovenHost = new ElementHost()
             {
+
                 BackColor = Color.Transparent,
                 Height = HoogteBovenBalk,
                 Width = BreedteScherm,
@@ -74,10 +76,10 @@ namespace TrafficSimulation
 
             OnderHost = new ElementHost()
             {
-                BackColor = Color.Transparent,
-                Location = new Point(0, YLocatieOnderbalk),
-                Height = HoogteOnderbalk,
-                Width = BreedteScherm,
+                BackColor = Color.Transparent, // Boeit niet wat je hier zet
+                Location = new Point(0,(Screen.PrimaryScreen.Bounds.Height-100)),
+                Height= 100,
+                Width = Screen.PrimaryScreen.Bounds.Width,
                 Child = OnderScherm,
             };
             this.Controls.Add(OnderHost);
@@ -85,9 +87,9 @@ namespace TrafficSimulation
             InfoHost = new ElementHost()
             {
                 BackColor = Color.Transparent,
-                Location = new Point((BreedteScherm - BreedteInfoBalk), HoogteBovenBalk),
-                Height = HoogteInfobalk,
-                Width = BreedteInfoBalk,
+                Location = new Point(Screen.PrimaryScreen.Bounds.Width - 400, 80),
+                Height = 800,
+                Width = 400,
                 Child = InfoBalk,
             };
             this.Controls.Add(InfoHost);
