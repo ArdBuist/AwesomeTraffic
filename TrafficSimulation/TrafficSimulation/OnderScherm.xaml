@@ -75,7 +75,7 @@
             <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" >
 
                 <RadioButton x:Name="Select" Style="{StaticResource StyleRadioButton}" Checked="Select_Click" GroupName="Onderbuttons">
-                    <Image Source="Resources/Buttons/Home_button.png" Height="40" Width="40"/>
+                    Select
                 </RadioButton>
 
                 <RadioButton x:Name="Gum"  Style="{StaticResource StyleRadioButton}" Checked="Gum_Click" GroupName="Onderbuttons" >
@@ -83,19 +83,19 @@
                 </RadioButton>
 
                 <RadioButton x:Name="RechtWeg" Style="{StaticResource StyleRadioButton}" Checked="RechtWeg_Click" GroupName="Onderbuttons" IsChecked="True">
-                    <TextBlock Text="Rechte Weg" />
+                    <Image Source="Resources/Roads/roadhor.png" Height="40" Width="40"/>
                 </RadioButton>
 
                 <RadioButton x:Name="Bocht" Style="{StaticResource StyleRadioButton}" Checked="Bocht_Click" GroupName="Onderbuttons">
-                    <TextBlock Text="Bocht"/>
+                    <Image Source="Resources/Roads/bendUR.png" Height="40" Width="40"/>
                 </RadioButton>
 
                 <RadioButton x:Name="Kruispunt" Style="{StaticResource StyleRadioButton}" Checked="Kruispunt_Click" GroupName="Onderbuttons">
-                    <TextBlock Text="Kruispunt"/>
+                    <Image Source="Resources/Crossroads/Crossroadstandaard.png" Height="40" Width="40"/>
                 </RadioButton>
 
                 <RadioButton x:Name="Tsplitsing" Style="{StaticResource StyleRadioButton}" Checked="Tsplitsing_Click" GroupName="Onderbuttons">
-                    <TextBlock Text="T-splitsing"/>
+                    <Image Source="Resources/Crossroads/forkup.png" Height="40" Width="40"/>
                 </RadioButton>
 
             </StackPanel>

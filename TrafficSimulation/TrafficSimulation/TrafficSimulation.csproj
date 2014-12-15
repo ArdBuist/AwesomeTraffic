@@ -122,10 +122,10 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Content Include="Resources\bendLD.png" />
-    <Content Include="Resources\bendLU.PNG" />
-    <Content Include="Resources\bendRD.png" />
-    <Content Include="Resources\bendUR.png" />
+    <Resource Include="Resources\Roads\bendLD.png" />
+    <Resource Include="Resources\Roads\bendLU.PNG" />
+    <Resource Include="Resources\Roads\bendRD.png" />
+    <Resource Include="Resources\Roads\bendUR.png" />
     <Content Include="Resources\car1.png" />
     <Content Include="Resources\car2.png" />
     <Content Include="Resources\car3.png" />
@@ -135,17 +135,17 @@
     <Resource Include="Resources\Buttons\info_button.png" />
     <Resource Include="Resources\Buttons\pauze_button.png" />
     <Resource Include="Resources\Buttons\play_button.png" />
-    <Content Include="Resources\forkdown.PNG" />
-    <Content Include="Resources\forkleft.png" />
-    <Content Include="Resources\forkright.png" />
-    <Content Include="Resources\forkup.png" />
-    <Content Include="Resources\kruispunt standaard.PNG" />
-    <Content Include="Resources\roadhor.PNG" />
-    <Content Include="Resources\roadver.png" />
-    <Content Include="Resources\spawnerdown.PNG" />
-    <Content Include="Resources\spawnerleft.png" />
-    <Content Include="Resources\spawnerright.png" />
-    <Content Include="Resources\spawnerup.png" />
+    <Resource Include="Resources\Crossroads\forkdown.PNG" />
+    <Resource Include="Resources\Crossroads\forkleft.png" />
+    <Resource Include="Resources\Crossroads\forkright.png" />
+    <Resource Include="Resources\Crossroads\forkup.png" />
+    <Resource Include="Resources\Crossroads\Crossroadstandaard.PNG" />
+    <Resource Include="Resources\Roads\roadhor.PNG" />
+    <Resource Include="Resources\Roads\roadver.png" />
+    <Resource Include="Resources\Roads\spawnerdown.PNG" />
+    <Resource Include="Resources\Roads\spawnerleft.png" />
+    <Resource Include="Resources\Roads\spawnerright.png" />
+    <Resource Include="Resources\Roads\spawnerup.png" />
     <Content Include="Resources\truck1.png" />
     <Content Include="Resources\truck2.png" />
     <Content Include="Resources\truck3.png" />

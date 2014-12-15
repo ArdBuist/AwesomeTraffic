@@ -122,11 +122,14 @@ namespace TrafficSimulation
         {
             Bitmap tileImage;
 
-            /*currentBuildTile = new Crossroad();
-             currentBuildTile = new Fork(2);
-             currentBuildTile = new Road(4, 2);
-             */
+            /* 
+            currentBuildTile = new Crossroad();
+            currentBuildTile = new Fork(2);
+            currentBuildTile = new Road(4, 2);
+            currentBuildTile = new Spawner(new Point(mea.X, mea.Y), 2);
+            */
 
+            
             if (selected == true) //als de select-tool is aangeklikt
             {
                 Tile selectedTile = tiles[CalculateListPlace(mea.X, mea.Y)];
@@ -157,7 +160,7 @@ namespace TrafficSimulation
                     gr.FillRectangle(Brushes.Green, (mea.X / 100 * 100), (mea.Y / 100 * 100), 100, 100);
                     tiles[CalculateListPlace(mea.X, mea.Y)] = null;
                 }
-
+            
                 //host.BackColorTransparent = true;
                 //hier moet nog een nieuwe currentBuildTile worden aangemaakt met dezelde waarden als de vorige.
                 Invalidate();

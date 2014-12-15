@@ -21,25 +21,29 @@ namespace TrafficSimulation
         public StartControl(Size size, SimWindow sim)
         {
             this.Size = size;
+            simwindow = sim;
 
-            StartScherm = new InterfaceStart(this);  
+            StartScherm = new InterfaceStart(this);
 
-            StartHost = new ElementHost() { Child = StartScherm };
-            StartHost.Size = new Size(300, 300);
+            StartHost = new ElementHost()
+            {
+                Height = 350,
+                Width = 300,
+                Child = StartScherm
+            };
             this.Controls.Add(StartHost);
 
-            simwindow = sim;
         }
 
         public void New_Click()
         {
             // Open simcontrol
-            simwindow.New();          
+            simwindow.New();
         }
 
         public void Option_Click()
         {
-            
+
         }
 
         public void Exit_Click()
