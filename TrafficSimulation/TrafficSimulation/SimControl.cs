@@ -29,9 +29,14 @@ namespace TrafficSimulation
         public BovenScherm BovenScherm;
         public InfoBalk InfoBalk;
         public Boolean Simulatie, Day;
+        SimWindow simwindow;
 
-        public SimControl(Size size)
+        
+
+
+        public SimControl(Size size, SimWindow sim)
         {
+<<<<<<< HEAD
             BovenScherm BovenScherm = new BovenScherm(this);
             OnderScherm OnderScherm = new OnderScherm();
             InfoBalk InfoBalk = new InfoBalk(this);
@@ -47,6 +52,7 @@ namespace TrafficSimulation
             this.Paint += this.Teken;
             this.MouseUp += this.MouseUnclick;
             this.Visible = true;
+
             tiles = new Tile[(this.Size.Height / 100) * (this.Size.Width / 100)];
             DrawStartImages();
 
@@ -84,7 +90,6 @@ namespace TrafficSimulation
             {
                 BackColor = Color.Transparent,
                 Location = new Point((BreedteScherm - BreedteInfoBalk), HoogteBovenBalk),
-
                 Height = HoogteInfobalk,
                 Width = BreedteInfoBalk,
                 Child = InfoBalk,
@@ -93,6 +98,7 @@ namespace TrafficSimulation
 
             Invalidate();
         }
+
         private void Teken(object o, PaintEventArgs pea)
         {
             //dit zorgt ervoor dat de kaart op het scherm wordt weergegeven.
@@ -111,6 +117,7 @@ namespace TrafficSimulation
                 pea.Graphics.DrawImage(image, 0, 0);
             }
         }
+
         public void MouseUnclick(object obj, MouseEventArgs mea)
         {
             Bitmap tileImage;

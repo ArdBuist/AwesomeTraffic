@@ -20,12 +20,16 @@ namespace TrafficSimulation
     /// </summary>
     public partial class BovenScherm : UserControl
     {
+
         SimControl s;
+	SimWindow simwindow;
+        int daynightcount = 0;
         
-        public BovenScherm(SimControl s)
+        public BovenScherm(SimWindow sim)
         {
-            this.s = s;
-            InitializeComponent();
+            	this.s = s;
+		simwindow = sim;
+          	 InitializeComponent();
         }
 
         public void Info_Click(object sender, RoutedEventArgs e)
@@ -108,6 +112,11 @@ namespace TrafficSimulation
                 DayNight.Content = "Night";
                 s.Day = true;
             }
+        }
+
+        public void Home_Click(object sender, RoutedEventArgs e)
+        {
+            simwindow.Start();
         }
     }
 }

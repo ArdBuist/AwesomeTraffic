@@ -62,6 +62,9 @@
       <DependentUpon>InfoBalk.xaml</DependentUpon>
     </Compile>
     <Compile Include="DrawTile.cs" />
+    <Compile Include="InterfaceStart.xaml.cs">
+      <DependentUpon>InterfaceStart.xaml</DependentUpon>
+    </Compile>
     <Compile Include="LaneTrafficlight.cs" />
     <Compile Include="OnderScherm.xaml.cs">
       <DependentUpon>OnderScherm.xaml</DependentUpon>
@@ -145,6 +148,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="InfoBalk.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="InterfaceStart.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
