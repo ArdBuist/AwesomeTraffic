@@ -86,23 +86,12 @@ namespace TrafficSimulation
             {
                 spawn.Tick();
 
-                if (spawn.CurrentSpawn > 1)
+                if (spawn.CurrentSpawn >= 1)
                 {
                     Vehicle v = createVehicle(spawn);
                     //spawn.AddVehicle(v, spawn.SpawnLane);
                     simControl.vehicleList.Add(v);
                     spawn.Spawn();
-                }
-
-                testSpawn++;
-
-                if (testSpawn == 25)
-                {
-                    Vehicle v = createVehicle(spawn);
-                    //spawn.AddVehicle(v, spawn.SpawnLane);
-                    simControl.vehicleList.Add(v);
-                    spawn.Spawn();
-                    testSpawn = 0;
                 }
             }
         }
@@ -110,7 +99,8 @@ namespace TrafficSimulation
         private Vehicle createVehicle(Spawner spawn)
         {
             //deze methode moet ingevuld worden, hier wordt een auto gegenereerd
-            return new NormalCar(new Point(spawn.position.X, spawn.position.Y), new Point(spawn.position.X, spawn.position.Y), 10, spawn.maxSpeed, spawn.direction, 1);
+            return new NormalCar(new Point(spawn.position.X+30, spawn.position.Y+50-16*1+3//aantal rijbanen
+                ), new Point(spawn.position.X, spawn.position.Y), 10, spawn.maxSpeed, spawn.direction, 1);
         }
     }
 }

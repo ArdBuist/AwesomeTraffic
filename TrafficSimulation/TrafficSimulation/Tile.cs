@@ -144,7 +144,7 @@ namespace TrafficSimulation
             this.name = "Spawner";
             this.lanesIn = 1;
             this.lanesOut = 1;
-            this.spawnPerSec = 1 / 20;
+            this.spawnPerSec = 0.05;
 
             spawnLane = 1;
             currentSpawn = 0;

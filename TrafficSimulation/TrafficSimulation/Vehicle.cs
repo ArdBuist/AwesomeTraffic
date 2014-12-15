@@ -73,7 +73,7 @@ namespace TrafficSimulation
                 {
                     for (int j = 0; j < trailBitmap.Size.Height; j++)
                     {
-                        trailBitmap.SetPixel(i, j, Color.Green);
+                        trailBitmap.SetPixel(i, j, Color.Gray);
                     }
                 }
 
@@ -100,7 +100,7 @@ namespace TrafficSimulation
                 {
                     for (int j = 0; j < trailBitmap.Size.Height; j++)
                     {
-                        trailBitmap.SetPixel(i, j, Color.Green);
+                        trailBitmap.SetPixel(i, j, Color.Gray);
                     }
                 }
 
