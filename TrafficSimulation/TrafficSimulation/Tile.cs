@@ -14,7 +14,7 @@ namespace TrafficSimulation
         public List<Vehicle>[] vehicles;
         protected Tile[] adjacentTiles;
         public Point position;
-        protected int maxSpeed;
+        public int maxSpeed;
         protected bool[] access;
         protected int TotalVehicleLength;
         protected Size size;
@@ -134,9 +134,9 @@ namespace TrafficSimulation
     {
         public int direction;//kant waarop de weg loopt
         private int lanesOut, lanesIn;//aantal wegen van en naar de spawner
-
         private int spawnLane;//Lane waar de auto gespawnt gaat worden
         private double currentSpawn;//Nummer waarin word opgeslagen hoever de spawner is met het spawnen van een nieuwe auto
+        private double spawnPerSec;//Aantal wat elke gametick bij de currentspawn word opgetelt
 
         public Spawner(int direction)
         {
@@ -144,6 +144,7 @@ namespace TrafficSimulation
             this.name = "Spawner";
             this.lanesIn = 1;
             this.lanesOut = 1;
+            this.spawnPerSec = 1 / 20;
 
             spawnLane = 1;
             currentSpawn = 0;
@@ -157,9 +158,14 @@ namespace TrafficSimulation
             return image;
         }
 
-        public void Tick(double cars)
+        public void Tick()
         {
-            currentSpawn += cars;
+            currentSpawn += spawnPerSec;
+        }
+
+        public void Spawn()
+        {
+            currentSpawn--;
         }
 
         public double CurrentSpawn { get { return currentSpawn; } }
@@ -182,6 +188,7 @@ namespace TrafficSimulation
             this.maxSpeed = road.getMaxSpeed();
             s.bitmapMap.AddObject(DrawImage(), position.X / 100, position.Y / 100);
         }
+
         public Graphics drawSpawner(Graphics gr, int side, int lanesIn, int lanesOut)
         {
             Graphics bmSpawner = gr;

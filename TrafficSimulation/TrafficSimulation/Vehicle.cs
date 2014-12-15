@@ -27,8 +27,6 @@ namespace TrafficSimulation
             this.speed = speed;
             this.direction = direction;
             this.lane = lane;
-
-
         }
 
         public Point Destination { get { return destination; } }
@@ -57,6 +55,72 @@ namespace TrafficSimulation
                 }
             }
         }
+
+        protected void createBitmap(int bmDirection)
+        {
+            Graphics gr;
+            Rectangle destCar, destTrail;
+            Bitmap trailBitmap, carBitmap;
+
+            if (bmDirection == 1 || bmDirection == 3)
+            {
+                carBitmap = (Bitmap)Properties.Resources.ResourceManager.GetObject("car1R");
+                bitmap = new Bitmap(carBitmap.Width, carBitmap.Height + speed);
+                trailBitmap = new Bitmap(carBitmap.Width, speed);
+                gr = Graphics.FromImage(bitmap);
+
+                for (int i = 0; i < trailBitmap.Size.Width; i++)
+                {
+                    for (int j = 0; j < trailBitmap.Size.Height; j++)
+                    {
+                        trailBitmap.SetPixel(i, j, Color.Green);
+                    }
+                }
+
+                if (bmDirection == 1)
+                {
+                    destCar = new Rectangle(new Point(0, 0), carBitmap.Size);
+                    destTrail = new Rectangle(new Point(0, carBitmap.Size.Height), trailBitmap.Size);
+                }
+                else
+                {
+                    carBitmap.RotateFlip(RotateFlipType.Rotate180FlipNone);
+                    destCar = new Rectangle(new Point(0, trailBitmap.Size.Height), carBitmap.Size);
+                    destTrail = new Rectangle(new Point(0, 0), trailBitmap.Size);
+                }
+            }
+            else
+            {
+                carBitmap = (Bitmap)Properties.Resources.ResourceManager.GetObject("car1");
+                bitmap = new Bitmap(carBitmap.Width + speed, carBitmap.Height);
+                trailBitmap = new Bitmap(speed, carBitmap.Height);
+                gr = Graphics.FromImage(bitmap);
+
+                for (int i = 0; i < trailBitmap.Size.Width; i++)
+                {
+                    for (int j = 0; j < trailBitmap.Size.Height; j++)
+                    {
+                        trailBitmap.SetPixel(i, j, Color.Green);
+                    }
+                }
+
+                if (bmDirection == 2)
+                {
+
+                    destCar = new Rectangle(new Point(trailBitmap.Size.Width, 0), carBitmap.Size);
+                    destTrail = new Rectangle(new Point(0, 0), trailBitmap.Size);
+                }
+                else //if(bmDirection == 4)
+                {
+                    carBitmap.RotateFlip(RotateFlipType.Rotate180FlipNone);
+                    destCar = new Rectangle(new Point(0, 0), carBitmap.Size);
+                    destTrail = new Rectangle(new Point(carBitmap.Size.Width, 0), trailBitmap.Size);
+                }
+            }
+
+            gr.DrawImage(carBitmap, destCar, new Rectangle(new Point(), carBitmap.Size), GraphicsUnit.Pixel);
+            gr.DrawImage(trailBitmap, destTrail, new Rectangle(new Point(), trailBitmap.Size), GraphicsUnit.Pixel);
+        }
     }
 
     public class NormalCar : Vehicle
@@ -64,15 +128,20 @@ namespace TrafficSimulation
         public NormalCar(Point pos, Point dest, int len, int speed, int direction, int lane)
             : base(pos, dest, len, speed, direction, lane)
         {
-            /*ResourceManager rm = Properties.Resources.ResourceManager;
-            this.bitmap = (Bitmap)rm.GetObject("car1");*/
-            this.bitmap = new Bitmap(10, 14);
-            for (int i = 0; i < 10; i++)
+            switch (direction)
             {
-                for (int j = 0; j < 14; j++)
-                {
-                    bitmap.SetPixel(i, j, Color.Red);
-                }
+                case 1:
+                    createBitmap(1);
+                    break;
+                case 2:
+                    createBitmap(2);
+                    break;
+                case 3:
+                    createBitmap(3);
+                    break;
+                case 4:
+                    createBitmap(4);
+                    break;
             }
         }
     }
@@ -82,8 +151,8 @@ namespace TrafficSimulation
         Truck(Point pos, Point dest, int len, int speed, int direction, int lane)
             : base(pos, dest, len, speed, direction, lane)
         {
-            /*ResourceManager rm = Properties.Resources.ResourceManager;
-            this.bitmap = (Bitmap)rm.GetObject("truck1");*/
+            Bitmap tempBitmap = (Bitmap)Properties.Resources.ResourceManager.GetObject("truck1");
+
         }
     }
 }

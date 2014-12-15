@@ -4,11 +4,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Resources;
 
 namespace TrafficSimulation
 {
     class Simulation
     {
+        //begin test code
+        private int testSpawn = 0;
+        //einde test code
+
         public const int ticksPerSec = 25;
         private bool playing;
         private List<Spawner> spawnerList;
@@ -18,8 +23,12 @@ namespace TrafficSimulation
         {
             this.simControl = simControl;
             playing = false;
-            spawnerList = new List<Spawner>();
+        }
 
+        public void Start()
+        {
+            //maakt een lijst met alle spawners zodat het spawnalgoritme makkelijk uitgevoerd kan worden
+            spawnerList = new List<Spawner>();
             foreach (Tile tile in simControl.tileList)
             {
                 if (tile != null && tile.name.Equals("Spawner"))
@@ -27,10 +36,7 @@ namespace TrafficSimulation
                     spawnerList.Add((Spawner)tile);
                 }
             }
-        }
 
-        public void Start()
-        {
             playing = true;
 
             while (playing)
@@ -55,55 +61,56 @@ namespace TrafficSimulation
             {
                 Stop();
             }
+
+            UpdateCars();
         }
 
         private void UpdateGame()
         {
-            UpdateCars();
+            foreach (Vehicle v in simControl.vehicleList)
+            {
+                simControl.vehicleMap.AddObject(v.Bitmap, v.position.X, v.position.Y);
+                v.Update();
+            }
         }
 
         private void Sleep(int timePassed)
         {
-            System.Threading.Thread.Sleep(2000);//1000 / ticksPerSec - timePassed);
+            System.Threading.Thread.Sleep(1000);//1000 / ticksPerSec - timePassed);
         }
 
         private void UpdateCars()
         {
-            foreach (Vehicle v in simControl.vehicleList)
-            {
-                v.Update();
-                simControl.vehicleMap.AddObject(v.Bitmap, v.position.X, v.position.Y);
-            }
-            /* eventueel permenente code, anders code hierboven gebruiken (doen nu nog hetzelfde)
-            foreach (Tile t in simControl.tileList)
-            {
-                if (t != null)
-                {
-                    t.CarUpdate();
-                    foreach(List<Vehicle> list in t.vehicles){
-                        foreach (Vehicle v in list)
-                        {
-                            simControl.vehicleMap.AddObject(v.Bitmap, 150,150);
-                        }
-                    }
-                }
-            }
+
             foreach (Spawner spawn in spawnerList)
             {
-                spawn.Tick(1 / ticksPerSec);
+                spawn.Tick();
+
                 if (spawn.CurrentSpawn > 1)
                 {
                     Vehicle v = createVehicle(spawn);
-                    spawn.AddVehicle(v, spawn.SpawnLane);
+                    //spawn.AddVehicle(v, spawn.SpawnLane);
                     simControl.vehicleList.Add(v);
+                    spawn.Spawn();
                 }
-            }*/
+
+                testSpawn++;
+
+                if (testSpawn == 25)
+                {
+                    Vehicle v = createVehicle(spawn);
+                    //spawn.AddVehicle(v, spawn.SpawnLane);
+                    simControl.vehicleList.Add(v);
+                    spawn.Spawn();
+                    testSpawn = 0;
+                }
+            }
         }
 
         private Vehicle createVehicle(Spawner spawn)
         {
             //deze methode moet ingevuld worden, hier wordt een auto gegenereerd
-            return new NormalCar(new Point(spawn.position.X + 70, spawn.position.Y + 50 - 8), new Point(spawn.position.X + 200, spawn.position.Y + 200), 10, 5, spawn.direction, 1);
+            return new NormalCar(new Point(spawn.position.X, spawn.position.Y), new Point(spawn.position.X, spawn.position.Y), 10, spawn.maxSpeed, spawn.direction, 1);
         }
     }
-} 
+}
