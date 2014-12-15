@@ -16,15 +16,12 @@ namespace TrafficSimulation
         public BitmapControl(Size size)
         {
             bitmap = new Bitmap(size.Width,size.Height);
-            
         }
         // altijd aanroepen als er in de bitmap getekend moet worden.
         public Graphics GetBitmapGraphics
         {
             get { return Graphics.FromImage(bitmap); }
         }
-
-
 
         private void DrawBitmap()
         {

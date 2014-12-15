@@ -36,23 +36,20 @@ namespace TrafficSimulation
 
         public void Update()
         {
-            if (speed != 0)
+            switch (direction)
             {
-                switch (direction)
-                {
-                    case 1:
-                        position.Y -= speed;
-                        break;
-                    case 2:
-                        position.X += speed;
-                        break;
-                    case 3:
-                        position.Y += speed;
-                        break;
-                    case 4:
-                        position.X -= speed;
-                        break;
-                }
+                case 1:
+                    position.Y -= speed;
+                    break;
+                case 2:
+                    position.X += speed;
+                    break;
+                case 3:
+                    position.Y += speed;
+                    break;
+                case 4:
+                    position.X -= speed;
+                    break;
             }
         }
 

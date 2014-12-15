@@ -30,36 +30,43 @@ namespace TrafficSimulation
 
         public SimControl(Size size)
         {
+            //grootte van de kaart
             this.Size = new Size(1600, 900);
+            //buildingmode is true als er word gebouwd en false als de simulatie start
             isBuildingMode = true;
+            //
             tilesHorizontal = Size.Width / 100;
+            /* De bitmapControlls waar de simulatie in word afgebeeld
+             * bitmapMap voor de achtergrond met Tiles
+             * vehicleMap voor de middelste bitmap met Vehicles
+             * trafficlightMap voor de voorgrond met de Trafficlights */
             bitmapMap = new BitmapControl(this.Size);
             trafficlightMap = new BitmapControl(this.Size);
             vehicleMap = new BitmapControl(this.Size);
+            //
             this.DoubleBuffered = true;
+            //
             this.Paint += this.Teken;
+            //
             this.Visible = true;
+            //Initialisatie van de array waarin alle Tiles worden opgeslagen
             tileList = new Tile[(this.Size.Height / 100) * (this.Size.Width / 100)];
+            //Nog niet zeker of deze nodig is, nu nog ongebruikt
             vehicleList = new List<Vehicle>();
+            //De simulatie zelf, hierin word ervoor gezorgd dat de simulatie daadwerkelijk loopt
             this.sim = new Simulation(this);
+            //tekenfunctie voor de Tiles (tijdelijke functie)
             DrawStartImages();
 
-            ////Begin test code
-            //NormalCar v1 = new NormalCar(new Point(this.Size.Width/2,this.Size.Height/2), new Point(300, 300), 10, 2, 1, 1);
-            //NormalCar v2 = new NormalCar(new Point(this.Size.Width/2,this.Size.Height/2), new Point(300, 300), 10, 2, 2, 1);
-            //NormalCar v3 = new NormalCar(new Point(this.Size.Width/2,this.Size.Height/2), new Point(300, 300), 10, 2, 3, 1);
-            //NormalCar v4 = new NormalCar(new Point(this.Size.Width/2,this.Size.Height/2), new Point(300, 300), 10, 2, 4, 1);
-            ////vehicleMap.AddObject(v.Bitmap, v.position.X, v.position.Y);
-            //vehicleList.Add(v1);
-            //vehicleList.Add(v2);
-            //vehicleList.Add(v3);
-            //vehicleList.Add(v4);
-            ////Einde test code
-
+            /* PictureBoxes waar de bitmaps in worden opgeslagen, 
+             * background voor de Tiles van de weg
+             * vehicle voor de Vehicles die op de weg rijden
+             * trafficlight voor de Trafficlights op de wegen */
             background = new PictureBox();
-            trafficlight = new PictureBox();
             vehicle = new PictureBox();
+            trafficlight = new PictureBox();
 
+            //mouseclick event, zorgt er nu voor dat de simulatie word gestart maar moet worden gebruikt om tiles op het veld te plaatsen
             vehicle.MouseUp += this.MouseUnclick;
         }
 
@@ -76,11 +83,6 @@ namespace TrafficSimulation
                 this.Controls.Add(background);
 
                 //moet in else komen, als de simulatie word gestart
-                //debug code, maakt een wit vierkantje
-                //Bitmap testObject = (Bitmap)Properties.Resources.ResourceManager.GetObject("car1");
-                //Object o = System.Resources.ResourceManager.GetObject(""); //rm = Properties.Resources.ResourceManager;
-                //Bitmap test = (Bitmap)rm.GetObject("car1");
-
                 this.vehicle.Image = vehicleMap.bitmap;
                 this.vehicle.BackColor = Color.Transparent;
                 this.vehicle.Location = new Point(0, 0);
@@ -89,11 +91,11 @@ namespace TrafficSimulation
             }
             else
             {
-                /*this.trafficlight.Image = trafficlightMap.bitmap;
+                this.trafficlight.Image = trafficlightMap.bitmap;
                 this.trafficlight.BackColor = Color.Transparent;
                 this.trafficlight.Location = new Point(0, 0);
                 this.trafficlight.Size = new Size(this.Width, this.Height);
-                this.vehicle.Controls.Add(trafficlight);*/
+                this.vehicle.Controls.Add(trafficlight);
             }
         }
 
@@ -131,6 +133,7 @@ namespace TrafficSimulation
         {
             return mouseY / 100 * tilesHorizontal + mouseX / 100;
         }
+
         //hele methode kan weer weg zo gauw er een interface is waar we mee kunnen testen.
         private void DrawStartImages()
         {
@@ -170,11 +173,9 @@ namespace TrafficSimulation
             bitmapMap.AddObject(tileImage, roadX * 100, roadY * 100);
         }
 
-        public void addVehicle(Vehicle v)
-        {
-            vehicleList.Add(v);
-        }
-
+        /*
+         * 
+         */
         private void SimControl_Load(object sender, EventArgs e)
         {
 

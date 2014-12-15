@@ -34,16 +34,14 @@ namespace TrafficSimulation
             initialize(lanesHighToLow + lanesLowToHigh);
         }
 
-        public void CarUpdate()
+        public void CarUpdate(SimControl sim)
         {
             foreach (List<Vehicle> list in vehicles)
             {
-                if (list != null)
+                foreach (Vehicle v in list)
                 {
-                    foreach (Vehicle v in list)
-                    {
-                        v.Update();
-                    }
+                    v.Update();
+                    sim.vehicleMap.AddObject(v.Bitmap, v.position.X, v.position.Y);
                 }
             }
         }
@@ -81,7 +79,7 @@ namespace TrafficSimulation
             vehicles[lane].Remove(v);
         }
 
-        public void AddVehicle(Vehicle v, int lane)
+        public virtual void AddVehicle(Vehicle v, int lane)
         {
             vehicles[lane].Add(v);
         }
@@ -146,8 +144,17 @@ namespace TrafficSimulation
             this.lanesOut = 1;
             this.spawnPerSec = 0.05;
 
-            spawnLane = 1;
+            spawnLane = 0;
             currentSpawn = 0;
+        }
+
+        public void Spawn(Vehicle v)
+        {
+            //nog onder voorbehoud, weet nog niet zeker of deze code werkt voor elke wegbreedte, werkt samen met Simulation.CreateVehicle
+            currentSpawn--;
+            vehicles[spawnLane].Add(v);
+            spawnLane++;
+            spawnLane = spawnLane % lanesOut;
         }
 
         public override Bitmap DrawImage()
@@ -163,13 +170,9 @@ namespace TrafficSimulation
             currentSpawn += spawnPerSec;
         }
 
-        public void Spawn()
-        {
-            currentSpawn--;
-        }
-
         public double CurrentSpawn { get { return currentSpawn; } }
         public int SpawnLane { get { return spawnLane; } }
+        public int LanesOut { get { return lanesOut; } }
 
         public override void Update(SimControl s, Road road, int direction)
         {

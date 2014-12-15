@@ -44,8 +44,6 @@ namespace TrafficSimulation
                 int start = Environment.TickCount;
                 UpdateVariables();
                 UpdateGame();
-                simControl.vehicle.Invalidate();
-                simControl.vehicle.Update();
                 //Sleep(Environment.TickCount - start);
             }
         }
@@ -62,16 +60,14 @@ namespace TrafficSimulation
                 Stop();
             }
 
+            UpdateSpawners();
             UpdateCars();
         }
 
         private void UpdateGame()
         {
-            foreach (Vehicle v in simControl.vehicleList)
-            {
-                simControl.vehicleMap.AddObject(v.Bitmap, v.position.X, v.position.Y);
-                v.Update();
-            }
+            simControl.vehicle.Invalidate();
+            simControl.vehicle.Update();
         }
 
         private void Sleep(int timePassed)
@@ -79,28 +75,37 @@ namespace TrafficSimulation
             System.Threading.Thread.Sleep(1000);//1000 / ticksPerSec - timePassed);
         }
 
-        private void UpdateCars()
+        private void UpdateSpawners()
         {
-
             foreach (Spawner spawn in spawnerList)
             {
                 spawn.Tick();
 
                 if (spawn.CurrentSpawn >= 1)
                 {
-                    Vehicle v = createVehicle(spawn);
+                    Vehicle v = CreateVehicle(spawn);
                     //spawn.AddVehicle(v, spawn.SpawnLane);
-                    simControl.vehicleList.Add(v);
-                    spawn.Spawn();
+                    spawn.Spawn(v);
                 }
             }
         }
 
-        private Vehicle createVehicle(Spawner spawn)
+        private void UpdateCars()
+        {
+            foreach (Tile t in simControl.tileList)
+            {
+                if (t != null)
+                {
+                    t.CarUpdate(simControl);
+                }
+            }
+        }
+
+        private Vehicle CreateVehicle(Spawner spawn)
         {
             //deze methode moet ingevuld worden, hier wordt een auto gegenereerd
-            return new NormalCar(new Point(spawn.position.X+30, spawn.position.Y+50-16*1+3//aantal rijbanen
-                ), new Point(spawn.position.X, spawn.position.Y), 10, spawn.maxSpeed, spawn.direction, 1);
+            return new NormalCar(new Point(spawn.position.X+30, spawn.position.Y+50+16*spawn.SpawnLane+3), 
+                new Point(spawn.position.X, spawn.position.Y), 10, spawn.maxSpeed, spawn.direction, 1);
         }
     }
 }
