@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Resources;
 using System.Windows.Forms;
+using System.Windows.Forms.Integration;
 
 namespace TrafficSimulation
 {
@@ -16,26 +17,40 @@ namespace TrafficSimulation
         BuildPanel buildPanel;
         ControlPanel controlPanel;
         string currentTileString;
-        Tile currentBuildTile;
         public BitmapControl trafficlightMap;
         public BitmapControl bitmapMap;
         public BitmapControl vehicleMap;
-        Boolean isBuildingMode;//moet veranderd worden als van het kaartbouwen wordt overgesprongen naar het "spelen" 
         Point mouseDownPoint;
         public Tile[] tileList;
         public List<Vehicle> vehicleList;
         public int tilesHorizontal;
         private Simulation sim;
         public PictureBox background, trafficlight, vehicle;
-
         public List<TrafficlightControl> controlList = new List<TrafficlightControl>();
+        public Tile currentBuildTile;
+        public bool eraser = false;
+        public bool selected = false;
+        public int TimeofDay = 1;
+        Boolean isBuildingMode; //moet veranderd worden als van het kaartbouwen wordt overgesprongen naar het "spelen" 
+        public ElementHost BovenHost, OnderHost, InfoHost;
+        public BovenScherm BovenScherm;
+        public InfoBalk InfoBalk;
+        public Boolean Simulatie, Day;
+        public Boolean InfoVisible;
+        //SimWindow simwindow;
 
-        public SimControl(Size size)
+        public SimControl(Size size, SimWindow sim)
         {
             mouseDownPoint = new Point(0,0);
             //grootte van de kaart
             this.Size = new Size(1600, 900);
             //buildingmode is true als er word gebouwd en false als de simulatie start
+            // Maak de infobalk, onderscherm en bovenscherm
+            InfoBalk InfoBalk = new InfoBalk(this);
+            OnderScherm OnderScherm = new OnderScherm(this);
+            BovenScherm BovenScherm = new BovenScherm(sim, this, InfoBalk);
+            int HoogteBovenBalk, HoogteOnderbalk, BreedteInfoBalk, HoogteInfobalk, BreedteScherm, HoogteScherm, YLocatieOnderbalk;
+            this.Size = new Size(2000, 1500);
             isBuildingMode = true;
             //
             tilesHorizontal = Size.Width / 100;
@@ -72,6 +87,47 @@ namespace TrafficSimulation
             trafficlight = new PictureBox();
             trafficlight.MouseDown += this.MouseClickDown;
             //mouseclick event, zorgt er nu voor dat de simulatie word gestart maar moet worden gebruikt om tileList op het veld te plaatsen
+            Simulatie = false;
+
+            //Variable om de elementhosten afhankelijk te maken van het scherm en andere elementhosten
+            BreedteScherm = Screen.PrimaryScreen.Bounds.Width;
+            HoogteScherm = Screen.PrimaryScreen.Bounds.Height;
+            HoogteBovenBalk = 100;
+            HoogteOnderbalk = 100;
+            YLocatieOnderbalk = (HoogteScherm - HoogteOnderbalk);
+            HoogteInfobalk = (HoogteScherm - (HoogteBovenBalk + HoogteOnderbalk));
+            BreedteInfoBalk = 300;
+
+            BovenHost = new ElementHost()
+            {
+                BackColor = Color.Transparent,
+                Height = HoogteBovenBalk,
+                Width = BreedteScherm,
+                Child = BovenScherm,
+            };
+            this.Controls.Add(BovenHost);
+
+            OnderHost = new ElementHost()
+            {
+                BackColor = Color.Transparent,
+                Location = new Point(0, YLocatieOnderbalk),
+                Height = HoogteOnderbalk,
+                Width = BreedteScherm,
+                Child = OnderScherm,
+            };
+            this.Controls.Add(OnderHost);
+
+            InfoHost = new ElementHost()
+            {
+                BackColor = Color.Transparent,
+                Location = new Point((BreedteScherm - BreedteInfoBalk), HoogteBovenBalk),
+                Height = HoogteInfobalk,
+                Width = BreedteInfoBalk,
+                Child = InfoBalk,
+            };
+            this.Controls.Add(InfoHost);
+
+            Invalidate();
         }
 
         private void Teken(object o, PaintEventArgs pea)
@@ -104,6 +160,7 @@ namespace TrafficSimulation
 
         private void MouseClickDown(object obj, MouseEventArgs mea)
         {
+            Bitmap tileImage;
             //mouseDownPoint wordt gebruikt voor het laten functioneren van het door slepen aanbrengen van wegen
             mouseDownPoint = new Point(mea.X/100*100,mea.Y/100*100);
             DrawTile(mea);
@@ -129,8 +186,41 @@ namespace TrafficSimulation
                     }
                 }
             }
+	if (selected == true) //als de select-tool is aangeklikt
+            {
+                Tile selectedTile = tileList[CalculateListPlace(mea.X, mea.Y)];
+
+                //Blauw randje om geselecteerde tile
+                tileImage = new Bitmap(100, 100);
+                Graphics gr = Graphics.FromImage(tileImage);
+                Pen selectPen = new Pen(Color.LightBlue, Width = 3);
+                gr.DrawRectangle(selectPen, (mea.X / 100 * 100), (mea.Y / 100 * 100), 100, 100);
+            }
+
+            else
+            {
+                if (eraser == false) //als de gum-tool niet is aangeklikt
+                {
+                    currentBuildTile.SetValues(this,mea.Location, CalculateListPlace(mea.X, mea.Y));
+                    tileImage = currentBuildTile.DrawImage();
+                    //currentBuildTile.Update(this, null, 0);
+                    tileList[CalculateListPlace(mea.X, mea.Y)] = currentBuildTile;
+                    //Dit zorgt ervoor dat de kaart geupdate wordt met de nieuwe tile.
+                    bitmapMap.AddObject(tileImage, mea.X/100*100, mea.Y/100*100);
+                }
+                else //alsde gum-tool is geselecteerd, wordt er een nieuwe bitmap gemaakt waarop een groen vlak 
+                //wordt getekend (oftewel, de geklikte tile wordt 'verwijderd')
+                {
+                    tileImage = new Bitmap(100, 100);
+                    Graphics gr = Graphics.FromImage(tileImage);
+                    gr.FillRectangle(Brushes.Green, (mea.X / 100 * 100), (mea.Y / 100 * 100), 100, 100);
+                    tileList[CalculateListPlace(mea.X, mea.Y)] = null;
+                }
+            
+                //host.BackColorTransparent = true;
             //tijdelijke sim.Start(), dit moet nog aan een knop verbonden worden
             sim.Start();
+        }
         }
         /*controleert of de tile een rechte weg is en checkt of de weg naar de goede kant doorloopt zodat je een hele weg kunt maken door rechtdoor te slepen
         *Hierdoor kun je alleen rechte wegen door slepen op de kaart aanbrengen. Dit verhoogt het gebruiksgemak omdat het wegen leggen zo een stuk sneller gaat.
@@ -166,6 +256,7 @@ namespace TrafficSimulation
             currentBuildTile = CopyCurrentTile();//hier wordt een nieuwe buildTile gemaakt met dezelfde waardes als daarvoor omdat er dan opnieuw een tile ingeklikt kan worden.
             Invalidate();
 	    }
+        
 
         //methode maakt een kopie van de huidige tile die net getekend is, zodat dezelfde tile nog een keer getekend kan worden.
         private Tile CopyCurrentTile() 
@@ -323,6 +414,13 @@ namespace TrafficSimulation
 
 
             
+
+            //tiles[600 / 100 * tilesHorizontal + 600 / 100] = currentBuildTile;
+            //currentBuildTile.SetValues(new Point(600, 600), 600 / 100 * tilesHorizontal + 600 / 100);
+            //bitmapMap.AddTile(tileImage, 6, 6);
+            //currentBuildTile = tiles[500 / 100 * tilesHorizontal + 700 / 100];
+            //currentBuildTile.setLanesHighToLow(1);
+            //currentBuildTile.Update(this, null, 0);
         }
     }
 }

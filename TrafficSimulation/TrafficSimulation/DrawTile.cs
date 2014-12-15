@@ -42,6 +42,7 @@ namespace TrafficSimulation
         {
             Graphics road = gr;
             road.SmoothingMode = SmoothingMode.AntiAlias;
+            road.FillRectangle(Brushes.Green, 0, 0, 100, 100);
 
             int sideTotal = sideIn + sideOut;
             int lanesTotal = lanesIn + lanesOut;
@@ -145,6 +146,7 @@ namespace TrafficSimulation
                 //bij 5 en 1 loopt de weg van kant 1 naar kant 4
                 else if (sideTotal == 5 && sideIn == 1)
                 {
+                    road.FillRectangle(Brushes.Green, 0, 0, 100, 100);
                     road.FillEllipse(Brushes.Gray, -1 * r2, -1 * r2, 2 * r2, 2 * r2);
                     road.FillEllipse(Brushes.Green, -1 * r3, -1 * r3, 2 * r3, 2 * r3); //groen ipv transparant
                     road.DrawArc(Pens.White, -1 * r3, -1 * r3, 2 * r3, 2 * r3, 0, 90);
@@ -238,6 +240,7 @@ namespace TrafficSimulation
         {
             Graphics fork = gr;
             fork.SmoothingMode = SmoothingMode.AntiAlias;
+            fork.FillRectangle(Brushes.Green, 0, 0, 100, 100);
 
             fork.FillRectangle(Brushes.Green, 0, 0, 100, 100);
 
@@ -378,6 +381,7 @@ namespace TrafficSimulation
             bmSpawner.FillRectangle(Brushes.Green, 0, 0, 100, 100);
             Pen stripesPen = strPen();
             int lanesTotal = lanesIn + lanesOut;
+            bmSpawner.FillRectangle(Brushes.Green, 0, 0, 100, 100);
 
             //variabelen voor mogelijke wegen
             int r = 50 - roadW * lanesOut;

@@ -1,0 +1,68 @@
+﻿<UserControl x:Class="TrafficSimulation.InfoBalk"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="800" d:DesignWidth="400" >
+
+
+    <Grid x:Name="BasicInfobalk" Background="Beige">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Grid.Row="0" Grid.Column="0" Text="Info over huidig geselecteerde tool" />
+        <TextBlock Grid.Row="3" Grid.Column="0" Text="Info over wereld" />
+        <Image x:Name="Afbeelding" Grid.Row="1" Grid.Column="0">
+        </Image>
+
+        <Grid Grid.Row="2" Grid.Column="0">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label x:Name="Roteren" Grid.Row="0" Grid.Column="0">
+                <TextBlock Text="Hoe geroteerd?" />
+            </Label>
+
+            <Label x:Name="HoeveelBanen" Grid.Row="1" Grid.Column="0">
+                <TextBlock Text="Hoeveel banen?" />
+            </Label>
+
+            <Label x:Name="Snelheid" Grid.Row="2" Grid.Column="0">
+                <TextBlock Text="Wat is de maximumsnelheid?" />
+            </Label>
+
+            <ComboBox x:Name="RoterenWeg" Grid.Row="0" Grid.Column="1" Height="20" Visibility="Hidden">
+                <ComboBoxItem Name="BovenBeneden">2,4</ComboBoxItem>
+                <ComboBoxItem Name="LinksRechts">1,3</ComboBoxItem>
+            </ComboBox>
+
+            <ComboBox x:Name="RoterenBocht" Grid.Row="0" Grid.Column="1" Height="20" Visibility="Hidden">
+                <ComboBoxItem Name="BovenRecht">2,4</ComboBoxItem>
+                <ComboBoxItem Name="BovenLinks">1,3</ComboBoxItem>
+                <ComboBoxItem Name="LinksBeneden">1,3</ComboBoxItem>
+                <ComboBoxItem Name="BenedenRechts">1,3</ComboBoxItem>
+            </ComboBox>
+
+        </Grid>
+    </Grid>
+
+</UserControl>

@@ -32,8 +32,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -42,17 +46,40 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BitmapControl.cs" />
+    <Compile Include="BovenScherm.xaml.cs">
+      <DependentUpon>BovenScherm.xaml</DependentUpon>
+    </Compile>
     <Compile Include="BuildPanel.cs" />
     <Compile Include="Simulation.cs" />
+    <Compile Include="ExtraButtonsOnderScherm.xaml.cs">
+      <DependentUpon>ExtraButtonsOnderScherm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="InfoBalk.xaml.cs">
+      <DependentUpon>InfoBalk.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DrawTile.cs" />
+    <Compile Include="InterfaceStart.xaml.cs">
+      <DependentUpon>InterfaceStart.xaml</DependentUpon>
+    </Compile>
     <Compile Include="LaneTrafficlight.cs" />
+    <Compile Include="OnderScherm.xaml.cs">
+      <DependentUpon>OnderScherm.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="StartControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="StartControl.Designer.cs">
+      <DependentUpon>StartControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Tile.cs" />
     <Compile Include="Trafficlight.cs" />
@@ -98,17 +125,59 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\Roads\bendLD.png" />
+    <Resource Include="Resources\Roads\bendLU.PNG" />
+    <Resource Include="Resources\Roads\bendRD.png" />
+    <Resource Include="Resources\Roads\bendUR.png" />
     <Content Include="Resources\car1.png" />
     <None Include="Resources\car1R.bmp" />
     <Content Include="Resources\car2.png" />
     <Content Include="Resources\car3.png" />
     <Content Include="Resources\car4.png" />
     <Content Include="Resources\car5.png" />
+    <Resource Include="Resources\Buttons\Home_button.png" />
+    <Resource Include="Resources\Buttons\info_button.png" />
+    <Resource Include="Resources\Buttons\pauze_button.png" />
+    <Resource Include="Resources\Buttons\play_button.png" />
+    <Resource Include="Resources\Crossroads\forkdown.PNG" />
+    <Resource Include="Resources\Crossroads\forkleft.png" />
+    <Resource Include="Resources\Crossroads\forkright.png" />
+    <Resource Include="Resources\Crossroads\forkup.png" />
+    <Resource Include="Resources\Crossroads\Crossroadstandaard.PNG" />
+    <Resource Include="Resources\Roads\roadhor.PNG" />
+    <Resource Include="Resources\Roads\roadver.png" />
+    <Resource Include="Resources\Roads\spawnerdown.PNG" />
+    <Resource Include="Resources\Roads\spawnerleft.png" />
+    <Resource Include="Resources\Roads\spawnerright.png" />
+    <Resource Include="Resources\Roads\spawnerup.png" />
     <Content Include="Resources\truck1.png" />
     <Content Include="Resources\truck2.png" />
     <Content Include="Resources\truck3.png" />
     <Content Include="Resources\truck4.png" />
     <Content Include="Resources\truck5.png" />
+    <Resource Include="Resources\Buttons\Vraagteken_button.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="BovenScherm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ExtraButtonsOnderScherm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="InfoBalk.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="InterfaceStart.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="OnderScherm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
