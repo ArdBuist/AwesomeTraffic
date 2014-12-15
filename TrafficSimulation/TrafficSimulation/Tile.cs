@@ -45,6 +45,28 @@ namespace TrafficSimulation
         //hierin worden in de andere klassen de bitmaps gemaakt voor de kaart
         public abstract Bitmap DrawImage();
 
+        //haalt andere tile uit de lijst. Vul direction in voor welke kant je op wilt.
+        public Tile GetOtherTile(SimControl s, int direction)
+        {
+            Tile tile = null;
+            try
+            {
+                switch (direction)
+                {
+                    case 1: tile = s.tiles[listPlace - s.tilesHorizontal];
+                        break;
+                    case 2: tile = s.tiles[listPlace + 1];
+                        break;
+                    case 3: tile = s.tiles[listPlace + s.tilesHorizontal];
+                        break;
+                    case 4: tile = s.tiles[listPlace - 1];
+                        break;
+                }
+            }
+            catch
+            { }
+            return tile;
+        }
         public void SetValues(SimControl s, Point position, int listPlace)
         {
             this.position = position;
@@ -54,6 +76,18 @@ namespace TrafficSimulation
                 Road thisTile = (Road)this;
                 thisTile.UpdateFromOtherTiles(s);
             }
+        }
+        public abstract void UpdateFromOtherTiles(SimControl s);
+
+        public abstract bool doesConnect(int side);
+
+        public virtual int getLanesHighToLow(int side)
+        {
+            return lanesHighToLow;
+        }
+        public virtual int getLanesLowToHigh(int side)
+        {
+            return lanesLowToHigh;
         }
         public bool doesConnect(Tile tile, int side)
         {
@@ -105,7 +139,7 @@ namespace TrafficSimulation
         }
 
         //Hierin worden verschillende variabelen van de tiles verandert en doorgegeven naar de aanliggende tiles.
-        public abstract void Update(SimControl s, Road road, int direction);
+        public abstract void Update(SimControl s, Tile tile, int direction);
 
         public void changeLane(Vehicle v, int begin, int eind)
         {
@@ -136,7 +170,6 @@ namespace TrafficSimulation
         private int spawnLane;//handigheid niet duidelijk voor mij
         private int currentSpawn;//baan waarop de volgende auto gespawnt gaat worden
         public int direction;//kant waarop de weg loopt
-        private int lanesOut, lanesIn;//aantal wegen van en naar de spawner
         private double carsPerSec;//auto's die per seconde gespawned worden
         private double numberOfCars;//opslag voor auto's die gespawned moeten worden voor als de weg vol is.
 
@@ -144,12 +177,25 @@ namespace TrafficSimulation
         {
             this.direction = direction;
             this.name = "Spawner";
-            this.lanesIn = 1;
-            this.lanesOut = 1;
             carsPerSec = 0.5;
             spawnLane = 1;
 
             initialize(spawnLane + 1);
+        }
+        public override bool doesConnect(int side)
+        {
+            int direction = side + 2;
+            if (direction > 4)
+                direction -= 4;
+            if (direction == this.direction)
+                return true;
+            return false;
+        }
+        public override void UpdateFromOtherTiles(SimControl s)
+        {
+            Tile tile = GetOtherTile(s,direction);
+            if(tile.name =="Road")
+                Update(s, (Road)tile, direction);
         }
         private void spawnVehicle()
         {
@@ -174,7 +220,7 @@ namespace TrafficSimulation
         {
             Bitmap image = new Bitmap(100, 100);
             DrawTile t = new DrawTile();
-            t.drawSpawner(Graphics.FromImage(image), direction, lanesOut, lanesIn);
+                t.drawSpawner(Graphics.FromImage(image), direction, lanesLowToHigh, lanesHighToLow);
             return image;
         }
 
@@ -183,84 +229,26 @@ namespace TrafficSimulation
             //deze methode moet ingevuld worden, hier wordt een auto gegenereerd
             return new Vehicle(new Point(), new Point(), 0, 0, 0, 0);
         }
-        public override void Update(SimControl s,Road road,int direction)
+        public override void Update(SimControl s,Tile tile,int direction)
         {
             if (direction == this.direction)
             {
+                Road road = (Road)tile;
                 //if's voor verschil in richtingen van de wegen.
                 if (direction < 3)
                 {
-                    this.lanesIn = road.getLaneLowToHigh();
-                    this.lanesOut = road.getLaneHighToLow();
+                    this.lanesHighToLow  = road.getLaneLowToHigh();
+                    this.lanesLowToHigh = road.getLaneHighToLow();
                 }
                 else
                 {
-                    this.lanesIn = road.getLaneHighToLow();
-                    this.lanesOut = road.getLaneLowToHigh();
+                    this.lanesHighToLow = road.getLaneHighToLow();
+                    this.lanesLowToHigh = road.getLaneLowToHigh();
                 }
 
                 this.maxSpeed = road.getMaxSpeed();
                 s.bitmapMap.AddTile(DrawImage(), position.X / 100, position.Y / 100);
             }
-        }
-        public Graphics drawSpawner(Graphics gr, int side, int lanesIn, int lanesOut)
-        {
-            Graphics bmSpawner = gr;
-
-            //aanmaken pen die in 1 lijn streepjes zet van 5 px per stuk
-            float[] stripesLine = new float[20];
-
-            for (int t = 0; t < stripesLine.Length; t++)
-            {
-                stripesLine[t] = 5;
-            }
-
-            Pen stripesPen = new Pen(Color.Black);
-            stripesPen.DashPattern = stripesLine;
-
-            //variabelen voor mogelijke wegen
-            int r = 50 - 10 * lanesOut;
-            int r2 = 50 + 10 * lanesOut;
-            int r3 = 50 - 10 * lanesIn;
-            int r4 = 50 + 10 * lanesIn;
-            int width = 10 * lanesIn + 10 * lanesOut + 10;
-
-            /*Verschillende plaatjes voor verschillende kanten. Spawner is 30 px hoog
-             * en 5px breder aan beide kanten van de wegen.
-             **/
-            if (side == 1)
-            {
-                bmSpawner.DrawLine(Pens.Black, r3, 0, r3, 70);
-                bmSpawner.DrawLine(stripesPen, 50, 0, 50, 70);
-                bmSpawner.DrawLine(Pens.Black, r2, 0, r2, 70);
-                bmSpawner.FillRectangle(Brushes.Black, r3 - 5, 70, width, 30);
-            }
-
-            else if (side == 2)
-            {
-                bmSpawner.DrawLine(Pens.Black, 30, r, 100, r);
-                bmSpawner.DrawLine(stripesPen, 30, 50, 100, 50);
-                bmSpawner.DrawLine(Pens.Black, 30, r4, 100, r4);
-                bmSpawner.FillRectangle(Brushes.Black, 0, r3 - 5, 30, width);
-            }
-
-            else if (side == 3)
-            {
-                bmSpawner.DrawLine(Pens.Black, r3, 30, r3, 100);
-                bmSpawner.DrawLine(stripesPen, 50, 30, 50, 100);
-                bmSpawner.DrawLine(Pens.Black, r2, 30, r2, 100);
-                bmSpawner.FillRectangle(Brushes.Black, r3 - 5, 0, width, 30);
-            }
-
-            else
-            {
-                bmSpawner.DrawLine(Pens.Black, 0, r, 70, r);
-                bmSpawner.DrawLine(stripesPen, 0, 50, 70, 50);
-                bmSpawner.DrawLine(Pens.Black, 0, r4, 70, r4);
-                bmSpawner.FillRectangle(Brushes.Black, 70, r - 5, 30, width);
-            }
-
-            return bmSpawner;
         }
     }
 
@@ -289,18 +277,55 @@ namespace TrafficSimulation
         {
             Bitmap image = new Bitmap(100, 100);
             DrawTile t = new DrawTile();
-            t.drawRoad(Graphics.FromImage(image),lanesLowToHigh,lanesHighToLow,startDirection,endDirection);
+            //if((startDirection+endDirection)%2==0 || startDirection + endDirection < 4)
+                t.drawRoad(Graphics.FromImage(image),lanesLowToHigh,lanesHighToLow,startDirection,endDirection);
+            //else
+               // t.drawRoad(Graphics.FromImage(image), lanesHighToLow, lanesLowToHigh, startDirection, endDirection);
             return image;
         }
 
-        //update de tilevariabelen en zorgt dat tiles eromheen aangeroepen gaan worden.
-        public override void Update(SimControl s,Road road, int direction)
+        public override bool doesConnect(int side)
         {
+            int direction = side + 2;
+            if (direction > 4)
+                direction -= 4;
+            if (direction == startDirection || direction == endDirection)
+                return true;
+            return false;
+        }
+
+        //update de tilevariabelen en zorgt dat tiles eromheen aangeroepen gaan worden.
+        public override void Update(SimControl s,Tile tile, int direction)
+        {
+            Road road = (Road)tile;
             //road is alleen maar null als dit de eerste methode update is die wordt aangeroepen na een verandering in de interface.
             if (road != null && (this.startDirection == direction || this.endDirection == direction))
             {
+                //if (direction > 2 && (road.startDirection+road.endDirection)%2!=0)
+                //{
+                //    this.lanesHighToLow = road.getLaneLowToHigh();
+                //    this.lanesLowToHigh = road.getLaneHighToLow();
+                //}
+                //else
                 this.lanesHighToLow = road.getLaneHighToLow();
                 this.lanesLowToHigh = road.getLaneLowToHigh();
+                if(doesConnect(startDirection))
+                if(road.startDirection == 1 && road.endDirection == 2)
+                {
+                    if (direction == 4)
+                    {
+                        this.lanesHighToLow = road.getLaneLowToHigh();
+                        this.lanesLowToHigh = road.getLaneHighToLow();
+                    }
+                }
+                if(road.startDirection == 3 && road.endDirection == 4)
+                {
+                    if (direction == 1)
+                    {
+                        this.lanesHighToLow = road.getLaneLowToHigh();
+                        this.lanesLowToHigh = road.getLaneHighToLow();
+                    }
+                }
                 this.maxSpeed = road.getMaxSpeed();
             }
             //als het een rechte weg is
@@ -339,52 +364,75 @@ namespace TrafficSimulation
             }
             s.bitmapMap.AddTile(DrawImage(),position.X/100,position.Y/100);
         }
-        public void UpdateFromOtherTiles(SimControl s)
+        public override void UpdateFromOtherTiles(SimControl s)
         {
             Tile tile;
             tile = this.GetOtherTile(s, startDirection);
-            if (tile != null && tile.name == "Road" && doesConnect(tile,startDirection))
+            if (tile != null && tile.doesConnect(startDirection)&&tile.name == "Road")
             {
                 Road otherRoad = (Road)tile;
-                if(otherRoad.startDirection == ( this.startDirection)) 
-                this.lanesHighToLow = otherRoad.getLaneHighToLow();
-                this.lanesLowToHigh = otherRoad.getLaneLowToHigh();
-                this.maxSpeed = otherRoad.getMaxSpeed();
-            }
-            else
-            {
-                tile = this.GetOtherTile(s, endDirection);
-                if (tile != null && tile.name == "Road" && doesConnect(tile,endDirection))
+                if((startDirection +endDirection)%2==0)
                 {
-                    Road otherRoad = (Road)tile;
                     this.lanesHighToLow = otherRoad.getLaneHighToLow();
                     this.lanesLowToHigh = otherRoad.getLaneLowToHigh();
-                    this.maxSpeed = otherRoad.getMaxSpeed();
                 }
-            }
-        }
-        //haalt andere tile uit de lijst. Vul direction in voor welke kant je op wilt.
-        public Tile GetOtherTile(SimControl s, int direction)
-        {
-            Tile tile = null;
-            try
-            {
-                switch (direction)
+                else if((startDirection == 1 && endDirection == 4) || (startDirection == 2 && endDirection == 3))
                 {
-                    case 1: tile = s.tiles[listPlace - s.tilesHorizontal];
-                        break;
-                    case 2: tile = s.tiles[listPlace + 1];
-                        break;
-                    case 3: tile = s.tiles[listPlace + s.tilesHorizontal];
-                        break;
-                    case 4: tile = s.tiles[listPlace - 1];
-                        break;
+                        this.lanesHighToLow = otherRoad.getLaneHighToLow();
+                        this.lanesLowToHigh = otherRoad.getLaneLowToHigh();
                 }
+                else if(startDirection == 1)
+                {
+                    this.lanesHighToLow = otherRoad.getLaneHighToLow();
+                    this.lanesLowToHigh = otherRoad.getLaneLowToHigh();
+                    //this.lanesLowToHigh = otherRoad.getLaneHighToLow();
+                    //this.lanesHighToLow = otherRoad.getLaneLowToHigh();
+                }
+                else if(startDirection == 3)
+                {
+                    this.lanesLowToHigh = otherRoad.getLaneHighToLow();
+                    this.lanesHighToLow = otherRoad.getLaneLowToHigh();
+                }
+
+                this.maxSpeed = otherRoad.getMaxSpeed();
             }
-            catch
-            { }
-            return tile;
+                tile = this.GetOtherTile(s, endDirection);
+                if (tile != null && tile.doesConnect(endDirection)&&tile.name == "Road")
+                {
+                    Road otherRoad = (Road)tile;
+                    if (otherRoad.lanesHighToLow + otherRoad.lanesLowToHigh > this.lanesLowToHigh + this.lanesHighToLow)
+                    {
+                        if ((startDirection + endDirection) % 2 == 0)
+                        {
+                            this.lanesHighToLow = otherRoad.getLaneHighToLow();
+                            this.lanesLowToHigh = otherRoad.getLaneLowToHigh();
+                        }
+                        else if ((startDirection == 1 && endDirection == 4) || (startDirection == 2 && endDirection == 3))
+                        {
+                            this.lanesHighToLow = otherRoad.getLaneHighToLow();
+                            this.lanesLowToHigh = otherRoad.getLaneLowToHigh();
+                        }
+                        else if (startDirection == 1)
+                        {
+                            //this.lanesHighToLow = otherRoad.getLaneHighToLow();
+                            //this.lanesLowToHigh = otherRoad.getLaneLowToHigh();
+                            this.lanesLowToHigh = otherRoad.getLaneHighToLow();
+                            this.lanesHighToLow = otherRoad.getLaneLowToHigh();
+                            
+                        }
+                        else if (startDirection == 3)
+                        {
+                            this.lanesHighToLow = otherRoad.getLaneHighToLow();
+                            this.lanesLowToHigh = otherRoad.getLaneLowToHigh();
+                        }
+
+                        this.maxSpeed = otherRoad.getMaxSpeed();
+                    }
+                }
+            
+            this.Update(s, null, 0);
         }
+        
         /*Deze methode zorgt ervoor dat van de tiles om deze tile heen de methode Update wordt aangeroepen.*/
         private void UpdateOtherTile(SimControl s, int direction)
         {
@@ -442,10 +490,24 @@ namespace TrafficSimulation
             int totalLanes = CountLanes(lanes);
                 initialize(totalLanes);
         }
-        public override void Update(SimControl s, Road road, int direction)
+        public override bool doesConnect(int side)
+        {
+            int direction = side + 2;
+            if (direction > 4)
+                direction -= 4;
+            if (direction != notDirection)
+                return true;
+            return false;
+        }
+        public override void UpdateFromOtherTiles(SimControl s)
+        {
+            throw new NotImplementedException();
+        }
+        public override void Update(SimControl s, Tile tile, int direction)
         {
             if (direction != notDirection)
             {
+                Road road = (Road)tile;
                 this.maxSpeed = road.getMaxSpeed();
                 if (direction < 3)
                 {
@@ -491,8 +553,22 @@ namespace TrafficSimulation
             int totalLanes = CountLanes(lanes);
             initialize(totalLanes);
         }
-        public override void Update(SimControl s,Road road,int direction)
+        public override bool doesConnect(int side)
         {
+            return true;
+        }
+        public override void UpdateFromOtherTiles(SimControl s)
+        {
+            for(int i = 1; i< 5 ;i++)
+            {
+                Tile tile = GetOtherTile(s, i);
+                if (tile.name == "Road")
+                { }
+            }
+        }
+        public override void Update(SimControl s,Tile tile,int direction)
+        {
+            Road road = (Road)tile;
             this.maxSpeed = road.getMaxSpeed();
             if (direction < 3)
             {
