@@ -25,9 +25,6 @@ namespace TrafficSimulation
         public BovenScherm(SimControl s)
         {
             this.s = s;
-
-
-
             InitializeComponent();
         }
 
@@ -49,7 +46,6 @@ namespace TrafficSimulation
 
         private void SimulatieOntwerp_Click(object sender, RoutedEventArgs e)
         {
-
             if (s.Simulatie == true)
             {
                 PlayPauze.IsEnabled = true;
@@ -102,7 +98,16 @@ namespace TrafficSimulation
 
         private void DayNight_Click(object sender, RoutedEventArgs e)
         {
-
+            if (s.Day == true)
+            {
+                DayNight.Content = "Day";
+                s.Day = false;
+            }
+            else
+            {
+                DayNight.Content = "Night";
+                s.Day = true;
+            }
         }
     }
 }

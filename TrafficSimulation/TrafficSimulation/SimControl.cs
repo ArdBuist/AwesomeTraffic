@@ -28,7 +28,7 @@ namespace TrafficSimulation
         public Boolean InfoVisible;
         public BovenScherm BovenScherm;
         public InfoBalk InfoBalk;
-        public Boolean Simulatie;
+        public Boolean Simulatie, Day;
 
         public SimControl(Size size)
         {

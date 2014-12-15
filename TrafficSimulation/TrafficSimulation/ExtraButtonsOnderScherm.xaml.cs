@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace TrafficSimulation
 {
     /// <summary>
-    /// Interaction logic for Interface.xaml
+    /// Interaction logic for ExtraButtonsOnderScherm.xaml
     /// </summary>
-    public partial class Interface : UserControl
+    public partial class ExtraButtonsOnderScherm : UserControl
     {
-        public Interface()
+        public ExtraButtonsOnderScherm()
         {
             InitializeComponent();
         }
