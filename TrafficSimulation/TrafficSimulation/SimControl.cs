@@ -37,9 +37,9 @@ namespace TrafficSimulation
         public SimControl(Size size, SimWindow sim)
         {
 
-	// Maak de infobalk, onderscherm en bovenscherm
+            // Maak de infobalk, onderscherm en bovenscherm
             InfoBalk InfoBalk = new InfoBalk(this);
-            OnderScherm OnderScherm = new OnderScherm();
+            OnderScherm OnderScherm = new OnderScherm(this);
             BovenScherm BovenScherm = new BovenScherm(sim, this, InfoBalk);
             int HoogteBovenBalk, HoogteOnderbalk, BreedteInfoBalk, HoogteInfobalk, BreedteScherm, HoogteScherm, YLocatieOnderbalk;
             this.Size = new Size(2000, 1500);
@@ -79,8 +79,8 @@ namespace TrafficSimulation
             OnderHost = new ElementHost()
             {
                 BackColor = Color.Transparent,
-                Location = new Point(0,YLocatieOnderbalk),
-                Height= HoogteOnderbalk,
+                Location = new Point(0, YLocatieOnderbalk),
+                Height = HoogteOnderbalk,
                 Width = BreedteScherm,
                 Child = OnderScherm,
             };
@@ -89,7 +89,7 @@ namespace TrafficSimulation
             InfoHost = new ElementHost()
             {
                 BackColor = Color.Transparent,
-		Location = new Point((BreedteScherm - BreedteInfoBalk), HoogteBovenBalk),
+                Location = new Point((BreedteScherm - BreedteInfoBalk), HoogteBovenBalk),
                 Height = HoogteInfobalk,
                 Width = BreedteInfoBalk,
                 Child = InfoBalk,
@@ -122,12 +122,10 @@ namespace TrafficSimulation
         {
             Bitmap tileImage;
 
-           /*currentBuildTile = new Crossroad();
-            currentBuildTile = new Fork(2);
-            currentBuildTile = new Road(4, 2);
-		*/
-            
-
+            /*currentBuildTile = new Crossroad();
+             currentBuildTile = new Fork(2);
+             currentBuildTile = new Road(4, 2);
+             */
 
             if (selected == true) //als de select-tool is aangeklikt
             {
@@ -136,7 +134,7 @@ namespace TrafficSimulation
                 //Blauw randje om geselecteerde tile
                 tileImage = new Bitmap(100, 100);
                 Graphics gr = Graphics.FromImage(tileImage);
-                Pen selectPen = new Pen(Color.LightBlue,Width = 3);
+                Pen selectPen = new Pen(Color.LightBlue, Width = 3);
                 gr.DrawRectangle(selectPen, (mea.X / 100 * 100), (mea.Y / 100 * 100), 100, 100);
             }
 

@@ -22,14 +22,14 @@ namespace TrafficSimulation
     {
         public Boolean InfoVisible = true;
         SimControl s;
-	    SimWindow simwindow;
+        SimWindow simwindow;
         InfoBalk Infobalk;
         //int daynightcount = 0;
-        
+
         public BovenScherm(SimWindow sim, SimControl s, InfoBalk info)
         {
             this.s = s;
-		    simwindow = sim;
+            simwindow = sim;
             Infobalk = info;
 
             InitializeComponent();
@@ -81,11 +81,11 @@ namespace TrafficSimulation
         {
 
         }
-	
-	//klikmethode voor het vertragen van de simulatie
+
+        //klikmethode voor het vertragen van de simulatie
         private void Vertragen_Click(object sender, RoutedEventArgs e)
         {
-		//hier moet de variabele van de sleep veranderd worden, zodat de simulatie langzamer gaat
+            //hier moet de variabele van de sleep veranderd worden, zodat de simulatie langzamer gaat
         }
 
         private void Home_Click(object sender, RoutedEventArgs e)
@@ -103,7 +103,7 @@ namespace TrafficSimulation
 
         }
 
-	//klikmethode voor dag- of nachtsimulatie
+        //klikmethode voor dag- of nachtsimulatie
         private void DayNight_Click(object sender, RoutedEventArgs e)
         {
             if (s.Day == true)
