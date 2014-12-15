@@ -21,6 +21,7 @@ namespace TrafficSimulation
     public partial class BovenScherm : UserControl
     {
         public Boolean InfoVisible = true;
+        private bool simulationStarted = false;
         SimControl s;
         SimWindow simwindow;
         InfoBalk Infobalk;
@@ -79,7 +80,16 @@ namespace TrafficSimulation
 
         private void PlayPauze_Click(object sender, RoutedEventArgs e)
         {
-
+            if (!simulationStarted)
+            {
+                s.sim.Start();
+                simulationStarted = true;
+            }
+            else
+            {
+                s.sim.Stop();
+                simulationStarted = false;
+            }
         }
 
         //klikmethode voor het vertragen van de simulatie

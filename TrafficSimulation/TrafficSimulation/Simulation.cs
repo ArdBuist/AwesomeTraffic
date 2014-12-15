@@ -8,7 +8,7 @@ using System.Resources;
 
 namespace TrafficSimulation
 {
-    class Simulation
+    public class Simulation : Thread
     {
         //begin test code
         private int testSpawn = 0;
