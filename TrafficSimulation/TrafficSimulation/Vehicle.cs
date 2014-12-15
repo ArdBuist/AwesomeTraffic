@@ -12,7 +12,7 @@ namespace TrafficSimulation
         public Point position;
         protected Point destination;
         protected Bitmap bitmap;
-        protected int length;
+        protected Size size;
         protected int width;
         protected int speed;
         protected int direction;
@@ -22,8 +22,7 @@ namespace TrafficSimulation
         {
             position = pos;
             destination = dest;
-            length = len;
-            width = 10;
+            size = new Size(10, len);
             this.speed = speed;
             this.direction = direction;
             this.lane = lane;
@@ -33,6 +32,13 @@ namespace TrafficSimulation
         public int Direction { get { return direction; } }
         public int Lane { get { return lane; } }
         public Bitmap Bitmap { get { return bitmap; } }
+        public Size Size { get { return size; } }
+        
+        public int Speed
+        {
+            get { return speed; }
+            set { speed = value; }
+        }
 
         public void Update()
         {

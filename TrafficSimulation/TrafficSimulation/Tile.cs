@@ -30,6 +30,7 @@ namespace TrafficSimulation
             this.lanesHighToLow = 1;
             this.lanesLowToHigh = 1;
             this.listPlace = 1;
+            this.size = new Size(100, 100);
 
             initialize(lanesHighToLow + lanesLowToHigh);
         }
@@ -40,8 +41,16 @@ namespace TrafficSimulation
             {
                 foreach (Vehicle v in list)
                 {
-                    v.Update();
-                    sim.vehicleMap.AddObject(v.Bitmap, v.position.X, v.position.Y);
+                    if (v.position.X - v.Speed >= this.position.X && v.position.X + v.Speed <= this.position.X + this.size.Width - v.Size.Width - v.Speed &&
+                        v.position.Y - v.Speed >= this.position.Y && v.position.Y + v.Speed <= this.position.Y + this.size.Height - v.Size.Height - v.Speed)
+                    {
+                        v.Update();
+                        sim.vehicleMap.AddObject(v.Bitmap, v.position.X, v.position.Y);
+                    }
+                    else
+                    {
+                        
+                    }
                 }
             }
         }
@@ -61,7 +70,8 @@ namespace TrafficSimulation
 
         public void SetValues(Point position, int listPlace)
         {
-            this.position = position;
+            this.position.X = (position.X / 100) * 100;
+            this.position.Y = (position.Y / 100) * 100;
             this.listPlace = listPlace;
         }
         public int CountLanes(int[] lanes)

@@ -145,7 +145,7 @@ namespace TrafficSimulation
             roadY = 1;
             tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
             tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
-            currentBuildTile.SetValues(new Point(roadX * 100, roadY * 100), roadY * tilesHorizontal + roadX);
+            currentBuildTile.SetValues(new Point((roadX * 100)+12, roadY * 100+50), roadY * tilesHorizontal + roadX);
             bitmapMap.AddObject(tileImage, roadX * 100, roadY * 100);
 
             currentBuildTile = new Road(2, 4);
