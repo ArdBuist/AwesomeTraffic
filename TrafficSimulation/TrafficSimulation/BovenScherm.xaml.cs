@@ -21,18 +21,29 @@ namespace TrafficSimulation
     public partial class BovenScherm : UserControl
     {
         SimWindow simwindow;
-        int daynightcount = 0;
+        InfoBalk infobalk;
+        int visiblecount = 0;
 
-        public BovenScherm(SimWindow sim)
+        public BovenScherm(SimWindow sim, InfoBalk info)
         {
             simwindow = sim;
+            infobalk = info;
 
             InitializeComponent();
         }
 
         public void Info_Click(object sender, RoutedEventArgs e)
         {
-            
+            if (visiblecount == 1)
+            {
+                infobalk.Visibility = Visibility.Visible;
+                visiblecount = 0;
+            }
+            else
+            {
+                infobalk.Visibility = Visibility.Hidden;
+                visiblecount = 1;
+            }
         }
 
         public void Home_Click(object sender, RoutedEventArgs e)

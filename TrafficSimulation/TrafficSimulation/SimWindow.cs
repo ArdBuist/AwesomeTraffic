@@ -16,7 +16,6 @@ namespace TrafficSimulation
         SimControl sim; 
         StartControl start;
 
-
         public SimWindow()
         {
             // Scherm maximaliseren
@@ -51,6 +50,11 @@ namespace TrafficSimulation
             this.BackColor = Color.Green;
             sim.Location = new Point(0, 0);
             this.Controls.Add(sim);
+        }
+
+        public void Options()
+        {
+
         }
 
         public void Save()

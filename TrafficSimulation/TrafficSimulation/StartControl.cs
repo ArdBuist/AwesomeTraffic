@@ -37,6 +37,11 @@ namespace TrafficSimulation
             simwindow.New();          
         }
 
+        public void Option_Click()
+        {
+            
+        }
+
         public void Exit_Click()
         {
             // Sluit applicatie

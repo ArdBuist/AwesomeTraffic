@@ -45,7 +45,7 @@
                 ?           
             </Button>
 
-            <Button x:Name="Info" Width="25" Height="25" Margin="5,0,0,0" Cursor="Hand">
+            <Button x:Name="Info" Width="25" Height="25" Margin="5,0,0,0" Cursor="Hand" Click="Info_Click">
                 i
             </Button>
 

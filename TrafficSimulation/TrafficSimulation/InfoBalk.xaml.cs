@@ -19,15 +19,10 @@ namespace TrafficSimulation
     /// Interaction logic for InfoBalk.xaml
     /// </summary>
     public partial class InfoBalk : UserControl
-    {
-        
+    {       
         public InfoBalk()
         {
-            
-            
             InitializeComponent();
-        }
-        
-    
+        }   
     }
 }

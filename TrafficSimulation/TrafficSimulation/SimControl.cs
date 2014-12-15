@@ -26,15 +26,13 @@ namespace TrafficSimulation
         public int tilesHorizontal;
         ElementHost BovenHost, OnderHost, InfoHost;
         public Boolean InfoVisible;
-        SimWindow simwindow;
-
-        // public static Boolean Infozichtbaar{Return }
 
         public SimControl(Size size, SimWindow sim)
         {
-            BovenScherm BovenScherm = new BovenScherm(sim);
-            OnderScherm OnderScherm = new OnderScherm();
+            // Maak de infobalk, onderscherm en bovenscherm
             InfoBalk InfoBalk = new InfoBalk();
+            OnderScherm OnderScherm = new OnderScherm();
+            BovenScherm BovenScherm = new BovenScherm(sim, InfoBalk);
 
             this.Size = new Size(2000, 1500);
             isBuildingMode = true;
@@ -54,7 +52,7 @@ namespace TrafficSimulation
             BovenHost = new ElementHost()
             {
                 BackColor = Color.Blue, // Boeit niet wat je hier zet..
-                Height= 35,
+                Height= 100,
                 Width = Screen.PrimaryScreen.Bounds.Width,
                 Child = BovenScherm,
             };
@@ -63,8 +61,8 @@ namespace TrafficSimulation
             OnderHost = new ElementHost()
             {
                 BackColor = Color.Transparent, // Boeit niet wat je hier zet
-                Location = new Point(0,(Screen.PrimaryScreen.Bounds.Height-80)),
-                Height= 80,
+                Location = new Point(0,(Screen.PrimaryScreen.Bounds.Height-100)),
+                Height= 100,
                 Width = Screen.PrimaryScreen.Bounds.Width,
                 Child = OnderScherm,
             };
@@ -73,10 +71,9 @@ namespace TrafficSimulation
             InfoHost = new ElementHost()
             {
                 BackColor = Color.Transparent,
-                Location = new Point(1600, 75),
-                Visible= InfoVisible,
+                Location = new Point(Screen.PrimaryScreen.Bounds.Width - 400, 80),
                 Height = 800,
-                Width = 300,
+                Width = 400,
                 Child = InfoBalk,
             };
             this.Controls.Add(InfoHost);

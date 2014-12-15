@@ -127,12 +127,6 @@
     <Content Include="Resources\car3.png" />
     <Content Include="Resources\car4.png" />
     <Content Include="Resources\car5.png" />
-    <Resource Include="Resources\DayIcon.png" />
-    <Resource Include="Resources\HelpIcon.png" />
-    <Resource Include="Resources\HomeIcon.png" />
-    <Resource Include="Resources\InfoIcon.png" />
-    <Resource Include="Resources\NightIcon.png" />
-    <Resource Include="Resources\SaveIcon.png" />
     <Content Include="Resources\truck1.png" />
     <Content Include="Resources\truck2.png" />
     <Content Include="Resources\truck3.png" />
