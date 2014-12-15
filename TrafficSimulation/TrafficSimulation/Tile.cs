@@ -399,7 +399,7 @@ namespace TrafficSimulation
     {
         private int notDirection;
         int[] lanes;
-        private TrafficlightControl control;
+        public TrafficlightControl control;
 
         public Fork(SimControl sim, int notDirection)
         {
@@ -449,7 +449,7 @@ namespace TrafficSimulation
     public class Crossroad : Tile
     {
         int[] lanes;
-        private TrafficlightControl control;
+        public TrafficlightControl control;
 
         public Crossroad(SimControl sim)
         {

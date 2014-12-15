@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace TrafficSimulation
 {
-    class TrafficlightControl
+    public class TrafficlightControl
     {
         List<LaneTrafficlight> trafficlightList;
         int NumberOfDirections;
@@ -49,13 +49,10 @@ namespace TrafficSimulation
             }
         }
 
-        private void Run()
+        public void Run()
         {
+            Update(turn % 2);
             turn++;
-            if (turn % 4 == 0)
-            {
-                Update(turn/4);
-            }
         }
 
         private void Update(int turn)
@@ -65,10 +62,14 @@ namespace TrafficSimulation
             {
                 Color kleur;
                 LaneTrafficlight laneTrafficlight = (LaneTrafficlight)trafficlightList[i];
-                if (i == turn)
+                if (i == turn || i - 2 == turn)
+                {
                     kleur = Color.Green;
+                }
                 else
+                {
                     kleur = Color.Red;
+                }
                 laneTrafficlight.ChangeColor(kleur);
             }
             //Geeft nog helemaal niks door aan omliggende tiles. Dat moet hier nog.
