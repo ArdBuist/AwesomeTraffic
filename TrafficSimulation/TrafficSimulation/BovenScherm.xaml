@@ -50,10 +50,6 @@
     </UserControl.Resources>
 
     <Grid x:Name="BasicBoven" Background="Green">
-
-
-
-
         <Border BorderBrush="Gray" BorderThickness="5" CornerRadius="10,0,10,0" Background="White" Grid.Row="0" Grid.Column="0">
             <Grid>
                 <Grid.RowDefinitions>
@@ -83,7 +79,7 @@
                 </StackPanel>
 
                 <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" >
-                   
+
                     <Button x:Name="DayNight" Style="{StaticResource Style1}" Click="DayNight_Click" >
                         <TextBlock Text="Day"/>
                     </Button>
@@ -107,7 +103,6 @@
 
             </Grid>
         </Border>
-
     </Grid>
 
 </UserControl>

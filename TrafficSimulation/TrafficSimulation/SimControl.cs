@@ -25,21 +25,17 @@ namespace TrafficSimulation
         public Tile[] tiles;
         public int tilesHorizontal;
         public ElementHost BovenHost, OnderHost, InfoHost;
-        public Boolean InfoVisible;
         public BovenScherm BovenScherm;
         public InfoBalk InfoBalk;
         public Boolean Simulatie, Day;
-        SimWindow simwindow;
-
         
-
+        //SimWindow simwindow;
 
         public SimControl(Size size, SimWindow sim)
         {
-<<<<<<< HEAD
-            BovenScherm BovenScherm = new BovenScherm(this);
-            OnderScherm OnderScherm = new OnderScherm();
             InfoBalk InfoBalk = new InfoBalk(this);
+            OnderScherm OnderScherm = new OnderScherm();
+            BovenScherm BovenScherm = new BovenScherm(sim, this, InfoBalk);
             int HoogteBovenBalk, HoogteOnderbalk, BreedteInfoBalk, HoogteInfobalk, BreedteScherm, HoogteScherm, YLocatieOnderbalk;
 
             this.Size = new Size(2000, 1500);

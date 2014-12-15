@@ -20,32 +20,33 @@ namespace TrafficSimulation
     /// </summary>
     public partial class BovenScherm : UserControl
     {
-
+        public Boolean InfoVisible = true;
         SimControl s;
-	SimWindow simwindow;
-        int daynightcount = 0;
+	    SimWindow simwindow;
+        InfoBalk Infobalk;
+        //int daynightcount = 0;
         
-        public BovenScherm(SimWindow sim)
+        public BovenScherm(SimWindow sim, SimControl s, InfoBalk info)
         {
-            	this.s = s;
-		simwindow = sim;
-          	 InitializeComponent();
+            this.s = s;
+		    simwindow = sim;
+            Infobalk = info;
+            InitializeComponent();
         }
 
         public void Info_Click(object sender, RoutedEventArgs e)
         {
-            if (s.InfoVisible == true)
+            if (InfoVisible)
             {
-                // s.InfoBalk.IsVisible = true;
-                s.InfoVisible = false;
-                s.Invalidate();
+                Infobalk.Visibility = Visibility.Visible;
+                InfoVisible = false;
             }
-            else if (s.InfoVisible == false)
+            else
             {
-                s.InfoVisible = true;
-                s.Invalidate();
+                Infobalk.Visibility = Visibility.Hidden;
+                InfoVisible = true;
             }
-
+            s.Invalidate();
         }
 
         private void SimulatieOntwerp_Click(object sender, RoutedEventArgs e)
@@ -87,7 +88,7 @@ namespace TrafficSimulation
 
         private void Home_Click(object sender, RoutedEventArgs e)
         {
-
+            simwindow.Start();
         }
 
         private void Save_Click(object sender, RoutedEventArgs e)
@@ -112,11 +113,6 @@ namespace TrafficSimulation
                 DayNight.Content = "Night";
                 s.Day = true;
             }
-        }
-
-        public void Home_Click(object sender, RoutedEventArgs e)
-        {
-            simwindow.Start();
         }
     }
 }

@@ -20,10 +20,10 @@ namespace TrafficSimulation
     /// </summary>
     public partial class InfoBalk : UserControl
     {
-        SimControl s;
+        //SimControl s;
         public InfoBalk(SimControl s)
         {
-            this.s = s;
+            /*this.s = s;
             s.InfoVisible = false;
             if (s.InfoVisible == true)
             {
@@ -34,7 +34,7 @@ namespace TrafficSimulation
                 this.Visibility = Visibility.Hidden;
             }
 
-            s.Invalidate();
+            s.Invalidate();*/
             InitializeComponent();
 
         }
