@@ -15,7 +15,7 @@ namespace TrafficSimulation
     {
         SimControl sim; 
         StartControl start;
-
+        // test of mijn branch het doet
         public SimWindow()
         {
             // Scherm maximaliseren
