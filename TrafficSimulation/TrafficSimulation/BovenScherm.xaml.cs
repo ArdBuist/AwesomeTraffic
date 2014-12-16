@@ -52,26 +52,31 @@ namespace TrafficSimulation
             s.Invalidate();
         }
 
-        private void SimulationDesign_Click(object sender, RoutedEventArgs e)
+        private void SimulatieOntwerp_Click(object sender, RoutedEventArgs e)
         {
-            if (s.Simulatie)
+            if (s.Simulatie == true)
             {
                 PlayPauze.IsEnabled = true;
-                SlowDown.IsEnabled = true;
-                SpeedUp.IsEnabled = true;
-                SimulationDesign.Content = "Simulation";
+                Vertragen.IsEnabled = true;
+                Versnellen.IsEnabled = true;
+                SimulatieOntwerp.Content = "Simulatie";
                 s.Simulatie = false;
 
             }
-            else 
+            else if (s.Simulatie == false)
             {
                 PlayPauze.IsEnabled = false;
-                SlowDown.IsEnabled = false;
-                SpeedUp.IsEnabled = false;
-                SimulationDesign.Content = "Design";
+                Vertragen.IsEnabled = false;
+                Versnellen.IsEnabled = false;
+                SimulatieOntwerp.Content = "Ontwerp";
                 s.Simulatie = true;
             }
             s.Invalidate();
+        }
+
+        private void Versnellen_Click(object sender, RoutedEventArgs e)
+        {
+
         }
 
         private void PlayPauze_Click(object sender, RoutedEventArgs e)
@@ -90,6 +95,13 @@ namespace TrafficSimulation
                 simulationStarted = false;
             }
         }
+
+        //klikmethode voor het vertragen van de simulatie
+        private void Vertragen_Click(object sender, RoutedEventArgs e)
+        {
+            //hier moet de variabele van de sleep veranderd worden, zodat de simulatie langzamer gaat
+        }
+
         private void Home_Click(object sender, RoutedEventArgs e)
         {
             //simwindow.Start();
@@ -118,16 +130,6 @@ namespace TrafficSimulation
                 DayNight.Content = "Night";
                 s.Day = true;
             }
-        }
-        //klikmethode voor het vertragen van de simulatie
-        private void SlowDown_Click(object sender, RoutedEventArgs e)
-        {
-            //hier moet de variabele van de sleep veranderd worden, zodat de simulatie langzamer gaat
-        }
-
-        private void SpeedUp_Click(object sender, RoutedEventArgs e)
-        {
-            //Hier moeten de variabele van de sleep veranderd worden, zodat de simulatie sneller gaat
         }
     }
 }

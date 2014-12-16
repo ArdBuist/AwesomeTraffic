@@ -38,11 +38,7 @@ namespace TrafficSimulation
         public List<TrafficlightControl> controlList = new List<TrafficlightControl>();
 
         public ElementHost BovenHost, OnderHost, InfoHost;
-
-        public BovenScherm BovenScherm;
-        public InfoBalk InfoBalk;
-        public Boolean Simulatie = true, Day = true, InfoVisible = true;
-        //SimWindow simwindow;
+        public Boolean InfoVisible;
 
         public Tile currentBuildTile;
         public bool eraser, selected;
