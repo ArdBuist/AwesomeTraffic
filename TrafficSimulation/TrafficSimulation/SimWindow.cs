@@ -16,6 +16,7 @@ namespace TrafficSimulation
         SimControl sim; 
         StartControl start;
         // test of mijn branch het doet
+        
         public SimWindow()
         {
             // Scherm maximaliseren
@@ -25,6 +26,7 @@ namespace TrafficSimulation
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 
             // Laad het beginscherm
+            //Size SchermGrootte = new Size(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
             Start();
         }
 
@@ -32,12 +34,14 @@ namespace TrafficSimulation
         {
             this.Controls.Remove(sim);
             Size Screensize = new Size(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
-
+            
             // Openen van het startscherm
             start = new StartControl(Screensize, this);
             this.BackColor = Color.Green;
+            this.Size = Screensize;
+            start.Location = new Point(0, 0);
             this.Controls.Add(start);
-
+            
 
             //start.Location = new Point(((WidthStartScreen-300)/2), ((HeightStartScreen -300)/2));
             //start.Left = ((WidthStartScreen - 300) / 2);
