@@ -25,20 +25,32 @@ namespace TrafficSimulation
 
         public OnderScherm(SimControl s)
         {
+            this.s = s; 
             InitializeComponent();
         }
 
-        private void RechtWeg_Click(object sender, RoutedEventArgs e)
+        private void Select_Checked(object sender, RoutedEventArgs e)
+        {
+            //s.selected = true;
+            //hierna moet dan een scherm verschijnen met info en aanpassingsmogelijkheden
+        }
+
+        private void Eraser_Checked(object sender, RoutedEventArgs e)
+        {
+            //s.eraser = true;
+        }
+
+        private void Road_Checked(object sender, RoutedEventArgs e)
         {
             /*
-             * s.eraser = false;
+            s.eraser = false;
             int start = 1; //=1 vervangen door variabele
             int end = 4;   //=4 vervangen door variabele
             s.currentBuildTile = new Road(start, end);
              */
         }
 
-        private void Bocht_Click(object sender, RoutedEventArgs e)
+        private void Bend_Checked(object sender, RoutedEventArgs e)
         {
             /*
             s.eraser = false;
@@ -48,13 +60,13 @@ namespace TrafficSimulation
             */
         }
 
-        private void Kruispunt_Click(object sender, RoutedEventArgs e)
+        private void CrossRoad_Checked(object sender, RoutedEventArgs e)
         {
             //s.eraser = false;
             //s.currentBuildTile = new Crossroad();
         }
 
-        private void Tsplitsing_Click(object sender, RoutedEventArgs e)
+        private void Fork_Checked(object sender, RoutedEventArgs e)
         {
             /*
             s.eraser = false;
@@ -63,20 +75,7 @@ namespace TrafficSimulation
              */
         }
 
-        private void Gum_Click(object sender, RoutedEventArgs e)
-        {
-            //s.eraser = true;
-        }
-
-        //klikmethode voor dag- of nachtsimulatie
-        private void Select_Click(object sender, RoutedEventArgs e)
-        {
-            //s.selected = true;
-            //hierna moet dan een scherm verschijnen met info en aanpassingsmogelijkheden
-        }
-
-
-        public void spawnerClick(Object obj, MouseEventArgs mea)
+        private void Spawner_Checked(object sender, RoutedEventArgs e)
         {
             /*
             s.eraser = false;
@@ -84,6 +83,7 @@ namespace TrafficSimulation
             s.currentBuildTile = new Spawner(direction);
             */
         }
+        
 
     }
 }

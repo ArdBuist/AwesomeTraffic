@@ -35,8 +35,7 @@ namespace TrafficSimulation
         public ElementHost BovenHost, OnderHost, InfoHost;
         public BovenScherm BovenScherm;
         public InfoBalk InfoBalk;
-        public Boolean Simulatie, Day;
-        public Boolean InfoVisible;
+        public Boolean Simulatie = true, Day = true, InfoVisible = true;
         //SimWindow simwindow;
 
         public SimControl(Size size, SimWindow sim)
