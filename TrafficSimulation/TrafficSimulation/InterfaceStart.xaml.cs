@@ -39,11 +39,10 @@ namespace TrafficSimulation
             startcontrol.Option_Click();
         }
 
-        public void About_Click(object sender, RoutedEventArgs e)
-        {
-            AboutWindow about = new AboutWindow();
-            about.Show();
-        }
+		public void About_Click(object sender, RoutedEventArgs e)
+		{
+			startcontrol.About_Click();
+		}
 
         private void Exit_Click(object sender, RoutedEventArgs e)
         {

@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -61,6 +62,9 @@
       <DependentUpon>BovenScherm.xaml</DependentUpon>
     </Compile>
     <Compile Include="BuildPanel.cs" />
+    <Compile Include="InterfaceAbout.xaml.cs">
+      <DependentUpon>InterfaceAbout.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Simulation.cs" />
     <Compile Include="ExtraButtonsOnderScherm.xaml.cs">
       <DependentUpon>ExtraButtonsOnderScherm.xaml</DependentUpon>
@@ -156,6 +160,7 @@
     <Resource Include="Resources\Roads\spawnerleft.png" />
     <Resource Include="Resources\Roads\spawnerright.png" />
     <Resource Include="Resources\Roads\spawnerup.png" />
+    <Resource Include="Resources\TrafficPicture.png" />
     <Content Include="Resources\truck1.png" />
     <Content Include="Resources\truck2.png" />
     <Content Include="Resources\truck3.png" />
@@ -173,6 +178,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="InfoBalk.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="InterfaceAbout.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

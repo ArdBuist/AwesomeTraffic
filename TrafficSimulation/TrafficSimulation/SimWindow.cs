@@ -33,11 +33,11 @@ namespace TrafficSimulation
             this.Controls.Remove(sim);
             int WidthStartScreen = Screen.PrimaryScreen.Bounds.Width,
                 HeightStartScreen = Screen.PrimaryScreen.Bounds.Height;
-            
-            Rectangle screensize = Screen.PrimaryScreen.WorkingArea;
+
+            Size screensize = new Size(WidthStartScreen, HeightStartScreen);
 
             // Openen van het startscherm
-            start = new StartControl(new Size(screensize.Width, screensize.Height), this);
+            start = new StartControl(screensize, this);
             this.BackColor = Color.Green;
 
             start.Left = ((WidthStartScreen - 300) / 2);

@@ -7,21 +7,34 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.Integration;
 
 namespace TrafficSimulation
 {
     public partial class AboutWindow : Form
     {
+		InterfaceAbout AboutScherm;
+		ElementHost AboutHost;
+
         public AboutWindow()
         {
             InitializeComponent();
 
-            MouseClick += AboutWindow_Click;
-        }
+            this.Size = new Size(400, 400);
+			this.MinimizeBox = false;
+			this.MaximizeBox = false;
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 
-        private void AboutWindow_Click(object sender, MouseEventArgs e)
-        {
+			AboutScherm = new InterfaceAbout();
 
+			AboutHost = new ElementHost()
+			{
+				Height = 400,
+				Width = 400,
+				Child = AboutScherm
+			};
+
+			this.Controls.Add(AboutHost);
         }
     }
 }
