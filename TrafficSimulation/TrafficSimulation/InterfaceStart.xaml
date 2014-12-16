@@ -54,9 +54,9 @@
         
         <StackPanel Orientation="Vertical" Grid.Column="1" VerticalAlignment="Center">
             <Button Style="{StaticResource StartSchermButtons}" Click="New_Click">New</Button>
-            <Button Style="{StaticResource StartSchermButtons}">Open</Button>
+            <Button Style="{StaticResource StartSchermButtons}" Click="Open_Click">Open</Button>
             <Button Style="{StaticResource StartSchermButtons}" Click="Options_Click">Options</Button>
-            <Button Style="{StaticResource StartSchermButtons}">How To</Button>
+            <Button Style="{StaticResource StartSchermButtons}" Click="HowTo_Click">How To</Button>
             <Button Style="{StaticResource StartSchermButtons}" Click="About_Click">About</Button>
             <Button Style="{StaticResource StartSchermButtons}" Click="Exit_Click">Exit</Button>
         </StackPanel>
