@@ -27,16 +27,16 @@ namespace TrafficSimulation
 
             StartHost = new ElementHost()
             {
-                Height = 350,
+                Height = 300,
                 Width = 300,
                 Child = StartScherm
             };
-            this.Controls.Add(StartHost);
 
+            this.Controls.Add(StartHost);
         }
 
         public void New_Click()
-        {
+        {   
             // Open simcontrol
             simwindow.New();
         }

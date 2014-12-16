@@ -57,7 +57,7 @@
             <Button Style="{StaticResource StartSchermButtons}">Open</Button>
             <Button Style="{StaticResource StartSchermButtons}" Click="Options_Click">Options</Button>
             <Button Style="{StaticResource StartSchermButtons}">How To</Button>
-            <Button Style="{StaticResource StartSchermButtons}" Click="Credit_Click">About</Button>
+            <Button Style="{StaticResource StartSchermButtons}" Click="About_Click">About</Button>
             <Button Style="{StaticResource StartSchermButtons}" Click="Exit_Click">Exit</Button>
         </StackPanel>
     </Grid>
