@@ -68,7 +68,7 @@ namespace TrafficSimulation
                     Tile tile = GetOtherTile(s, d);
                     if (tile != null && d != ForkDirection)
                     {
-                        UpdateLanes(d, tile.GetLanesIn(direction), tile.GetLanesOut(direction));
+                        UpdateLanes(s,d, tile.GetLanesIn(direction), tile.GetLanesOut(direction));
                         //Als aan de lange kant bij een Fork aan één kant de banen worden veranderd moet dat natuurlijk ook aan de andere kant gebeuren
                         if (name == "Fork")
                         {
@@ -77,7 +77,7 @@ namespace TrafficSimulation
                             if ((d == (fork.NotDirection + 2) % 4 + 1 || d == (fork.NotDirection) % 4 + 1))
                             {
                                 ForkDirection = (d + 1) % 4 + 1;
-                                UpdateLanes((d + 1) % 4 + 1, tile.GetLanesOut(direction), tile.GetLanesIn(direction));
+                                UpdateLanes(s,(d + 1) % 4 + 1, tile.GetLanesOut(direction), tile.GetLanesIn(direction));
                                 //Een verkorte versie van UpdateOtherTiles, hier hoeft namelijk alleen de andere kant van de lange kant geupdate worden.
                                 Tile tile1 = GetOtherTile(s, ForkDirection);
                                 if(tile1!= null)
@@ -96,12 +96,12 @@ namespace TrafficSimulation
                 {
                     if (tile.name == "Fork")
                     {
-                        UpdateLanes(notSide,  tile.GetLanesOut(direction),tile.GetLanesIn(direction));
+                        UpdateLanes(s,notSide,  tile.GetLanesOut(direction),tile.GetLanesIn(direction));
                         UpdateOtherTiles(s, notSide);
                     }
                     else
                     {
-                        UpdateLanes(notSide, tile.GetLanesIn(direction), tile.GetLanesOut(direction));
+                        UpdateLanes(s,notSide, tile.GetLanesIn(direction), tile.GetLanesOut(direction));
                         UpdateOtherTiles(s, notSide);
                     }
                     
@@ -143,7 +143,7 @@ namespace TrafficSimulation
             s.bitmapMap.AddObject(DrawImage(), position.X, position.Y);
         }
         //krijgt een aantal banen die binnenkomen en eruit moeten gaan voor een bepaald richting. Tile moet dat dan in zijn gegevens verwerken.
-        public abstract void UpdateLanes(int direction, int lanesIn, int lanesOut);
+        public abstract void UpdateLanes(SimControl s, int direction, int lanesIn, int lanesOut);
 
         //returnt de banan die er bij een bepaalde kant uitgaan.
         public abstract int GetLanesIn(int direction);
@@ -284,7 +284,7 @@ namespace TrafficSimulation
             return lanesIn;
         }
 
-        public override void UpdateLanes(int direction, int lanesIn, int lanesOut)
+        public override void UpdateLanes(SimControl s, int direction, int lanesIn, int lanesOut)
         {
             this.lanesIn = lanesOut;
             this.lanesOut = lanesIn;
@@ -366,7 +366,7 @@ namespace TrafficSimulation
                 return lanesHighToLow;
         }
 
-        public override void UpdateLanes(int direction, int lanesIn, int lanesOut)
+        public override void UpdateLanes(SimControl s, int direction, int lanesIn, int lanesOut)
         {
             if(direction == startDirection)
             {
@@ -435,10 +435,11 @@ namespace TrafficSimulation
             return lanes[thisSide * 2 - 2];
         }
 
-        public override void UpdateLanes(int direction, int lanesIn, int lanesOut)
+        public override void UpdateLanes(SimControl s, int direction, int lanesIn, int lanesOut)
         {
             lanes[direction * 2 - 1] = lanesOut;
             lanes[direction * 2 - 2] = lanesIn;
+            control = new TrafficlightControl(s, this, 3, notDirection, lanes, position);
         }
 
         public override bool doesConnect(int side)
@@ -451,6 +452,7 @@ namespace TrafficSimulation
        
         public override Bitmap DrawImage()
         {
+
             Bitmap image = new Bitmap(100, 100);
             DrawTile t = new DrawTile();
             t.drawForkroad(Graphics.FromImage(image), lanes);
@@ -498,10 +500,11 @@ namespace TrafficSimulation
             return lanes[thisSide * 2 - 2];
         }
 
-        public override void UpdateLanes(int direction, int lanesIn, int lanesOut)
+        public override void UpdateLanes(SimControl s, int direction, int lanesIn, int lanesOut)
         {
             lanes[direction * 2 - 1] = lanesOut;
             lanes[direction * 2 - 2] = lanesIn;
+            control = new TrafficlightControl(s, this, 4, 5, lanes, position);
         }
 
         public override bool doesConnect(int side)
