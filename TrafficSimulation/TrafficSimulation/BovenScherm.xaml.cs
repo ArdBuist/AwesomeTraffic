@@ -53,7 +53,7 @@ namespace TrafficSimulation
 
         private void SimulationDesign_Click(object sender, RoutedEventArgs e)
         {
-            if (s.Simulatie == true)
+            if (s.Simulatie)
             {
                 PlayPauze.IsEnabled = true;
                 SlowDown.IsEnabled = true;
@@ -62,7 +62,7 @@ namespace TrafficSimulation
                 s.Simulatie = false;
 
             }
-            else if (s.Simulatie == false)
+            else 
             {
                 PlayPauze.IsEnabled = false;
                 SlowDown.IsEnabled = false;
@@ -73,7 +73,7 @@ namespace TrafficSimulation
             s.Invalidate();
         }
 
-       private void PlayPauze_Click(object sender, RoutedEventArgs e)
+        private void PlayPauze_Click(object sender, RoutedEventArgs e)
         {
             if (!simulationStarted)
             {
