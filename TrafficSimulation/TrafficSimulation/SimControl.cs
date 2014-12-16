@@ -10,7 +10,6 @@ using System.Resources;
 using System.Windows.Forms;
 using System.Windows.Forms.Integration;
 
-//tester
 
 namespace TrafficSimulation
 {
@@ -24,6 +23,7 @@ namespace TrafficSimulation
         public BitmapControl vehicleMap;
         Point mouseDownPoint;
         public Tile[] tileList;
+        public Tile[] oldSelectList;
         public List<Vehicle> vehicleList;
         public int tilesHorizontal;
         public Simulation sim;
@@ -74,8 +74,9 @@ namespace TrafficSimulation
             };
             this.MouseUp += (object o, MouseEventArgs mea) => { mouseDownPoint = new Point(0, 0); };
             this.Visible = true;
-            //Initialisatie van de array waarin alle tileList worden opgeslagen
+            //Initialisatie van de array waarin alle tiles worden opgeslagen en van de array voor alle oldselected tiles
             tileList = new Tile[(this.Size.Height / 100) * (this.Size.Width / 100)];
+            oldSelectList = new Tile[(this.Size.Height / 100) * (this.Size.Width / 100)];
             //Nog niet zeker of deze nodig is, nu nog ongebruikt
             vehicleList = new List<Vehicle>();
             //De simulatie zelf, hierin word ervoor gezorgd dat de simulatie daadwerkelijk loopt
@@ -194,6 +195,7 @@ namespace TrafficSimulation
             if (selected == true) //als de select-tool is aangeklikt
             {
                 Tile selectedTile = tileList[CalculateListPlace(mea.X, mea.Y)];
+                Tile oldselectedTile = oldSelectList[CalculateListPlace(mea.X, mea.Y)];
 
                 //Blauw randje om geselecteerde tile
                 tileImage = new Bitmap(100, 100);
