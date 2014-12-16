@@ -42,7 +42,7 @@ namespace TrafficSimulation
         {
             mouseDownPoint = new Point(0, 0);
             //grootte van de kaart
-            this.Size = new Size(1600, 900);
+            //this.Size = new Size(1600, 900);
             //buildingmode is true als er word gebouwd en false als de simulatie start
             
             // Maak de infobalk, onderscherm en bovenscherm

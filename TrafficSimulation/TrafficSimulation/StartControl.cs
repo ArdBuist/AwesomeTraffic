@@ -27,7 +27,7 @@ namespace TrafficSimulation
             StartHost = new ElementHost()
             {
                 Location = new Point(((size.Width-300)/2), ((size.Height -300)/2)),
-                Height = 350,
+                Height = 300,
                 Width = 300,
                 BackColor = Color.Green,
                 Child = StartScherm

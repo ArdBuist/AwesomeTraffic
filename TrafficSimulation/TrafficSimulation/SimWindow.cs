@@ -26,19 +26,19 @@ namespace TrafficSimulation
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 
             // Laad het beginscherm
-            //Size SchermGrootte = new Size(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
             Start();
         }
 
         public void Start()
         {
             this.Controls.Remove(sim);
+            // Deze screensizing verkloot mijn scherm
             Size Screensize = new Size(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
             
             // Openen van het startscherm
             start = new StartControl(Screensize, this);
             this.BackColor = Color.Green;
-            this.Size = Screensize;
+            start.Size = Screensize;
             start.Location = new Point(0, 0);
             this.Controls.Add(start);
             
