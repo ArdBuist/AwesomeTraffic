@@ -30,7 +30,7 @@ namespace TrafficSimulation
         public PictureBox background, trafficlight, vehicle;
         public List<TrafficlightControl> controlList = new List<TrafficlightControl>();
         public Tile currentBuildTile;
-        public bool eraser = false;
+        public bool eraser;
         public bool selected = false;
         public int TimeofDay = 1;
         Boolean isBuildingMode; //moet veranderd worden als van het kaartbouwen wordt overgesprongen naar het "spelen" 
