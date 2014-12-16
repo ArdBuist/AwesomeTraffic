@@ -26,6 +26,7 @@ namespace TrafficSimulation
 
         public OnderScherm(SimControl s)
         {
+            //bool selected = s.selected;
             InitializeComponent();
         }
 
@@ -69,9 +70,10 @@ namespace TrafficSimulation
             //s.eraser = true;
         }
 
-        //klikmethode voor dag- of nachtsimulatie
+        //klikmethode voor selecteren tile
         private void Select_Click(object sender, RoutedEventArgs e)
         {
+            s.eraser = false;
             //s.selected = true;
             //hierna moet dan een scherm verschijnen met info en aanpassingsmogelijkheden
         }
