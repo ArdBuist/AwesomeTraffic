@@ -22,10 +22,14 @@ namespace TrafficSimulation
     public partial class OnderScherm : UserControl
     {
         SimControl s;
+        InfoBalk Infobalk;
+        ExtraButtonsOS ExtraButtonsOS;
 
-        public OnderScherm(SimControl s)
+        public OnderScherm(SimControl s, InfoBalk info, ExtraButtonsOS Extra)
         {
-            this.s = s; 
+            this.s = s;
+            Infobalk = info;
+            ExtraButtonsOS = Extra;
             InitializeComponent();
         }
 
@@ -42,6 +46,11 @@ namespace TrafficSimulation
 
         private void Road_Checked(object sender, RoutedEventArgs e)
         {
+            ExtraButtonsOS.Visibility = Visibility.Visible;
+            ExtraButtonsOS.Road_1_3.Visibility = Visibility.Visible;
+            ExtraButtonsOS.Road_2_4.Visibility = Visibility.Visible;
+          
+            
             /*
             s.eraser = false;
             int start = 1; //=1 vervangen door variabele
@@ -52,6 +61,12 @@ namespace TrafficSimulation
 
         private void Bend_Checked(object sender, RoutedEventArgs e)
         {
+            ExtraButtonsOS.Visibility = Visibility.Visible;
+            ExtraButtonsOS.Bend_1_2.Visibility = Visibility.Visible;
+            ExtraButtonsOS.Bend_2_3.Visibility = Visibility.Visible;
+            ExtraButtonsOS.Bend_3_4.Visibility = Visibility.Visible;
+            ExtraButtonsOS.Bend_4_1.Visibility = Visibility.Visible;
+            
             /*
             s.eraser = false;
             int start = 1; //=1 vervangen door variabele

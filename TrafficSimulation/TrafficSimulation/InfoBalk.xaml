@@ -4,65 +4,138 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="800" d:DesignWidth="400" >
+             d:DesignHeight="800" d:DesignWidth="300" >
+
+    <UserControl.Resources>
+        <!--
+     Hier moet nog een linear brush achtig komen zodat je en knoppen een mooie leuk overgang kan laten hebben.   
+     -->
+        <Style x:Key="StyleRadioButton" TargetType="Grid">
+            <Setter Property="Width" Value="70" />
+            <Setter Property="Height" Value="60" />
+            <Setter Property="Background" Value="Green"/>
+            <Setter Property="Margin" Value="5,0,5,0" />
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+        
+        <Style TargetType="{x:Type Button}" x:Key="Buttons">
+            <Setter Property="Width" Value="30" />
+            <Setter Property="Height" Value="30" />
+            <Setter Property="Margin" Value="5,0,5,0" />
+            <Setter Property="Background" Value="Green"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center" />
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="White" BorderBrush="Green" BorderThickness="3" CornerRadius="10,0,10,0" x:Name="BorderStyle">
+                            <ContentPresenter Margin="{TemplateBinding Padding}" 
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              ClipToBounds="True" 
+                                              >
+                            </ContentPresenter>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="BorderStyle" Property="Background" Value="LightGray"/>
+                                <Setter Property="Foreground" Value="Black" />
+                                <Setter Property="Cursor" Value="Hand" />
+                            </Trigger>
+                            
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </UserControl.Resources>
+
+    <Grid x:Name="BasicInfobalk" Background="Green" >
+        <Border BorderBrush="Gray" BorderThickness="3" CornerRadius="15,0,15,0" Background="LightGreen" >
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="100"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Border BorderBrush="Gray" BorderThickness="3" CornerRadius="15,0,15,0" Background="White" Grid.Row="0" Grid.Column="0">
+                    <TextBlock FontFamily="Verdana" FontSize="11" 
+                        FontWeight="Black" 
+                        VerticalAlignment="Center" 
+                        HorizontalAlignment="Center"
+                       Text="Info over huidig geselecteerde tool"/>
+                </Border>
+
+                <Border BorderBrush="Gray" BorderThickness="3" CornerRadius="15,0,15,0" Background="White" Grid.Row="3" Grid.Column="0">
+                    <TextBlock Text="Info over wereld" 
+                   FontFamily="Verdana" 
+                   FontSize="11" 
+                   FontWeight="Black" 
+                   VerticalAlignment="Center" 
+                   HorizontalAlignment="Center"/>
+                </Border>
+                <Grid Grid.Row="1" Grid.Column="0">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="40" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="50" />
+                    </Grid.ColumnDefinitions>
+
+                    <Image x:Name="ImageInfoBalk" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+                    <Button x:Name="RotateLeft"  Grid.Row="1" Grid.Column="1"  HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource Buttons}">
+                        <TextBlock Text="boe" />
+                    </Button>
+
+                    <Button x:Name="RotatedRight" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{StaticResource Buttons}">
+                        <TextBlock Text="boe1" />
+                    </Button>
+
+                </Grid>
+                <Grid Grid.Row="2" Grid.Column="0">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="60"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Label x:Name="Extra" Grid.Row="0" Grid.Column="0" FontFamily="Verdana" FontSize="8" FontWeight="Black" HorizontalContentAlignment="Left" VerticalContentAlignment="Center">
+                        <TextBlock Text="Onzin" />
+                    </Label>
+
+                    <Label x:Name="Lanes" Grid.Row="1" Grid.Column="0" FontFamily="Verdana" FontSize="8" FontWeight="Black" HorizontalContentAlignment="Left" VerticalContentAlignment="Center">
+                        <TextBlock Text="Hoeveel banen?" />
+                    </Label>
+
+                    <Label x:Name="Speed" Grid.Row="2" Grid.Column="0" FontFamily="Verdana" FontSize="8" FontWeight="Black" HorizontalContentAlignment="Left" VerticalContentAlignment="Center">
+                        <TextBlock Text="Wat is de maximumsnelheid?" />
+                    </Label>
 
 
-    <Grid x:Name="BasicInfobalk" Background="Beige">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="100"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-
-        <TextBlock Grid.Row="0" Grid.Column="0" Text="Info over huidig geselecteerde tool" />
-        <TextBlock Grid.Row="3" Grid.Column="0" Text="Info over wereld" />
-        <Image x:Name="Afbeelding" Grid.Row="1" Grid.Column="0">
-        </Image>
-
-        <Grid Grid.Row="2" Grid.Column="0">
-
-            <Grid.RowDefinitions>
-                <RowDefinition Height="50"/>
-                <RowDefinition Height="50"/>
-                <RowDefinition Height="50"/>
-                <RowDefinition Height="50"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-
-            <Label x:Name="Roteren" Grid.Row="0" Grid.Column="0">
-                <TextBlock Text="Hoe geroteerd?" />
-            </Label>
-
-            <Label x:Name="HoeveelBanen" Grid.Row="1" Grid.Column="0">
-                <TextBlock Text="Hoeveel banen?" />
-            </Label>
-
-            <Label x:Name="Snelheid" Grid.Row="2" Grid.Column="0">
-                <TextBlock Text="Wat is de maximumsnelheid?" />
-            </Label>
-
-            <ComboBox x:Name="RoterenWeg" Grid.Row="0" Grid.Column="1" Height="20" Visibility="Hidden">
-                <ComboBoxItem Name="BovenBeneden">2,4</ComboBoxItem>
-                <ComboBoxItem Name="LinksRechts">1,3</ComboBoxItem>
-            </ComboBox>
-
-            <ComboBox x:Name="RoterenBocht" Grid.Row="0" Grid.Column="1" Height="20" Visibility="Hidden">
-                <ComboBoxItem Name="BovenRecht">2,4</ComboBoxItem>
-                <ComboBoxItem Name="BovenLinks">1,3</ComboBoxItem>
-                <ComboBoxItem Name="LinksBeneden">1,3</ComboBoxItem>
-                <ComboBoxItem Name="BenedenRechts">1,3</ComboBoxItem>
-            </ComboBox>
-
-        </Grid>
+                </Grid>
+            </Grid>
+        </Border>
     </Grid>
 
 </UserControl>

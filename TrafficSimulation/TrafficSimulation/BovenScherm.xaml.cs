@@ -25,14 +25,15 @@ namespace TrafficSimulation
         SimControl s;
         SimWindow simwindow;
         InfoBalk Infobalk;
+        OnderScherm Onderscherm;
         //int daynightcount = 0;
 
-        public BovenScherm(SimWindow sim, SimControl s, InfoBalk info)
+        public BovenScherm(SimWindow sim, SimControl s, InfoBalk info, OnderScherm Onder)
         {
             this.s = s;
             simwindow = sim;
             Infobalk = info;
-
+            Onderscherm = Onder;
             InitializeComponent();
         }
 

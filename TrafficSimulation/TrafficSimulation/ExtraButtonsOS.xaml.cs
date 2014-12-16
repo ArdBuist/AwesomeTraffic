@@ -18,10 +18,16 @@ namespace TrafficSimulation
     /// <summary>
     /// Interaction logic for ExtraButtonsOnderScherm.xaml
     /// </summary>
-    public partial class ExtraButtonsOnderScherm : UserControl
+    public partial class ExtraButtonsOS : UserControl
     {
-        public ExtraButtonsOnderScherm()
+        SimControl s;
+        InfoBalk Infobalk;
+
+        public ExtraButtonsOS(SimControl s, InfoBalk info)
         {
+            this.s = s;
+            Infobalk = info;
+
             InitializeComponent();
         }
     }

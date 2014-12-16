@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="TrafficSimulation.ExtraButtonsOnderScherm"
+﻿<UserControl x:Class="TrafficSimulation.ExtraButtonsOS"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -59,39 +59,39 @@
     </UserControl.Resources>
     <Grid>
         <Border BorderBrush="Gray" BorderThickness="5" CornerRadius="10,0,10,0" Background="White" Grid.Row="0" Grid.Column="0">
-        <Grid>
-        
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" x:Name="Rij1"/>
-            <RowDefinition Height="*" x:Name="Rij2"/>
-            <RowDefinition Height="*" x:Name="Rij3"/>
-            <RowDefinition Height="*" x:Name="Rij4"/>
-        </Grid.RowDefinitions>
+            <Grid>
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" x:Name="Rij1"/>
+                    <RowDefinition Height="*" x:Name="Rij2"/>
+                    <RowDefinition Height="*" x:Name="Rij3"/>
+                    <RowDefinition Height="*" x:Name="Rij4"/>
+                </Grid.RowDefinitions>
 
-        <RadioButton x:Name="RechteWeg_1_3" Style="{StaticResource StyleRadioButton}" GroupName="Rechtweg" Grid.Column="0" Grid.Row="0">
-            <TextBlock Text="RechteWeg_1_3"/>
-        </RadioButton>
-        <RadioButton x:Name="RechteWeg_2_4" Style="{StaticResource StyleRadioButton}" GroupName="Rechtweg" Grid.Column="0" Grid.Row="1">
-            <TextBlock Text="RechteWeg_2_4"/>
-        </RadioButton>
-        <RadioButton x:Name="Bocht_1_2" Style="{StaticResource StyleRadioButton}" GroupName="Bocht" Grid.Column="0" Grid.Row="0">
-            <TextBlock Text="Bocht_1_2"/>
-        </RadioButton>
-        <RadioButton x:Name="Bocht_2_3" Style="{StaticResource StyleRadioButton}" GroupName="Bocht" Grid.Column="0" Grid.Row="1">
-            <TextBlock Text="Bocht_2_3"/>
-        </RadioButton>
-        <RadioButton x:Name="Bocht_3_4" Style="{StaticResource StyleRadioButton}" GroupName="Bocht" Grid.Column="0" Grid.Row="2">
-            <TextBlock Text="Bocht_3_4"/>
-        </RadioButton>
-        <RadioButton x:Name="Bocht_4_1" Style="{StaticResource StyleRadioButton}" GroupName="Bocht" Grid.Column="0" Grid.Row="3">
-            <TextBlock Text="Bocht_4_1"/>
-        </RadioButton>
-        
-        </Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <RadioButton x:Name="Road_1_3" Style="{StaticResource StyleRadioButton}" GroupName="Road" Grid.Column="0" Grid.Row="0">
+                    <TextBlock Text="Road_1_3"/>
+                </RadioButton>
+                <RadioButton x:Name="Road_2_4" Style="{StaticResource StyleRadioButton}" GroupName="Road" Grid.Column="0" Grid.Row="1">
+                    <TextBlock Text="RechteWeg_2_4"/>
+                </RadioButton>
+                <RadioButton x:Name="Bend_1_2" Style="{StaticResource StyleRadioButton}" GroupName="Bend" Grid.Column="0" Grid.Row="0">
+                    <TextBlock Text="Bend_1_2"/>
+                </RadioButton>
+                <RadioButton x:Name="Bend_2_3" Style="{StaticResource StyleRadioButton}" GroupName="Bend" Grid.Column="0" Grid.Row="1">
+                    <TextBlock Text="Bend_2_3"/>
+                </RadioButton>
+                <RadioButton x:Name="Bend_3_4" Style="{StaticResource StyleRadioButton}" GroupName="Bend" Grid.Column="0" Grid.Row="2">
+                    <TextBlock Text="Bend_3_4"/>
+                </RadioButton>
+                <RadioButton x:Name="Bend_4_1" Style="{StaticResource StyleRadioButton}" GroupName="Bend" Grid.Column="0" Grid.Row="3">
+                    <TextBlock Text="Bendt_4_1"/>
+                </RadioButton>
+
+            </Grid>
         </Border>
     </Grid>
 </UserControl>

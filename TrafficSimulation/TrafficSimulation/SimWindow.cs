@@ -33,7 +33,7 @@ namespace TrafficSimulation
         {
             this.Controls.Remove(sim);
             // Deze screensizing verkloot mijn scherm
-            Size Screensize = new Size(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
+            Size Screensize = new Size(1920,1080);
             
             // Openen van het startscherm
             start = new StartControl(Screensize, this);

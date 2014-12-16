@@ -32,9 +32,10 @@ namespace TrafficSimulation
         public bool selected = false;
         public int TimeofDay = 1;
         Boolean isBuildingMode; //moet veranderd worden als van het kaartbouwen wordt overgesprongen naar het "spelen" 
-        public ElementHost BovenHost, OnderHost, InfoHost;
+        public ElementHost BovenHost, OnderHost, InfoHost, ExtraButtonsHost;
         public BovenScherm BovenScherm;
         public InfoBalk InfoBalk;
+        public ExtraButtonsOS ExtraButtonsOS;
         public Boolean Simulatie = true, Day = true, InfoVisible = true;
         //SimWindow simwindow;
 
@@ -42,13 +43,14 @@ namespace TrafficSimulation
         {
             mouseDownPoint = new Point(0, 0);
             //grootte van de kaart
-            //this.Size = new Size(1600, 900);
+            this.Size = new Size(1600, 900);
             //buildingmode is true als er word gebouwd en false als de simulatie start
             
             // Maak de infobalk, onderscherm en bovenscherm
             InfoBalk InfoBalk = new InfoBalk(this);
-            OnderScherm OnderScherm = new OnderScherm(this);
-            BovenScherm BovenScherm = new BovenScherm(sim, this, InfoBalk);
+            ExtraButtonsOS ExtraButtonsOS = new ExtraButtonsOS(this, InfoBalk);
+            OnderScherm OnderScherm = new OnderScherm(this, InfoBalk, ExtraButtonsOS);
+            BovenScherm BovenScherm = new BovenScherm(sim, this, InfoBalk, OnderScherm);
             int HoogteBovenBalk, HoogteOnderbalk, BreedteInfoBalk, HoogteInfobalk, BreedteScherm, HoogteScherm, YLocatieOnderbalk;
             
             this.Size = new Size(2000, 1500);
@@ -120,6 +122,14 @@ namespace TrafficSimulation
                 Child = OnderScherm,
             };
             this.Controls.Add(OnderHost);
+
+            ExtraButtonsHost = new ElementHost()
+            {
+                Visible = false,
+                Location = new Point(200,200),
+                Child = ExtraButtonsOS,
+            };
+            this.Controls.Add(ExtraButtonsHost);
 
             InfoHost = new ElementHost()
             {

@@ -56,8 +56,8 @@
     </Compile>
     <Compile Include="BuildPanel.cs" />
     <Compile Include="Simulation.cs" />
-    <Compile Include="ExtraButtonsOnderScherm.xaml.cs">
-      <DependentUpon>ExtraButtonsOnderScherm.xaml</DependentUpon>
+    <Compile Include="ExtraButtonsOS.xaml.cs">
+      <DependentUpon>ExtraButtonsOS.xaml</DependentUpon>
     </Compile>
     <Compile Include="InfoBalk.xaml.cs">
       <DependentUpon>InfoBalk.xaml</DependentUpon>
@@ -162,7 +162,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ExtraButtonsOnderScherm.xaml">
+    <Page Include="ExtraButtonsOS.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
