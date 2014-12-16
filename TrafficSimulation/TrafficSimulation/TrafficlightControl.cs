@@ -14,6 +14,7 @@ namespace TrafficSimulation
         int NumberOfDirections;
         int turn = 0;
 
+        //constructor
         public TrafficlightControl(SimControl sim, Tile road, int Directions, int NotDirection, int[] NumberOfLanes)
         {
             trafficlightList = new List<LaneTrafficlight>();
@@ -29,6 +30,7 @@ namespace TrafficSimulation
             }
         }
 
+        //constructor
         public TrafficlightControl(SimControl sim, Tile road, int Directions, int NotDirection, int[] NumberOfLanes, Point position)
         {
             trafficlightList = new List<LaneTrafficlight>();
@@ -49,12 +51,18 @@ namespace TrafficSimulation
             }
         }
 
+        /*
+         * 
+         */
         public void Run()
         {
             Update(turn % 2);
             turn++;
         }
 
+        /*
+         * 
+         */
         private void Update(int turn)
         {
             //Zet nu telkens een andere kant op groen.
@@ -75,6 +83,9 @@ namespace TrafficSimulation
             //Geeft nog helemaal niks door aan omliggende tiles. Dat moet hier nog.
         }
 
+        /*
+         * 
+         */
         public void ChangeValues(Point position)
         {
             foreach (LaneTrafficlight lane in trafficlightList)

@@ -18,6 +18,18 @@ namespace TrafficSimulation
         protected int direction;
         protected int lane;
 
+        public Point Destination { get { return destination; } }
+        public int Direction { get { return direction; } }
+        public int Lane { get { return lane; } }
+        public Bitmap Bitmap { get { return bitmap; } }
+        public Size Size { get { return size; } }
+        public int Speed
+        {
+            get { return speed; }
+            set { speed = value; }
+        }
+        
+        //constructor
         public Vehicle(Point pos, Point dest, int len, int speed, int direction, int lane)
         {
             position = pos;
@@ -28,18 +40,9 @@ namespace TrafficSimulation
             this.lane = lane;
         }
 
-        public Point Destination { get { return destination; } }
-        public int Direction { get { return direction; } }
-        public int Lane { get { return lane; } }
-        public Bitmap Bitmap { get { return bitmap; } }
-        public Size Size { get { return size; } }
-        
-        public int Speed
-        {
-            get { return speed; }
-            set { speed = value; }
-        }
-
+        /*
+         * 
+         */
         public void Update()
         {
             switch (direction)
@@ -59,6 +62,9 @@ namespace TrafficSimulation
             }
         }
 
+        /*
+         * 
+         */
         protected void createBitmap(int bmDirection)
         {
             Graphics gr;
@@ -126,8 +132,10 @@ namespace TrafficSimulation
         }
     }
 
+    //
     public class NormalCar : Vehicle
     {
+        //constructor
         public NormalCar(Point pos, Point dest, int len, int speed, int direction, int lane)
             : base(pos, dest, len, speed, direction, lane)
         {
@@ -149,8 +157,10 @@ namespace TrafficSimulation
         }
     }
 
+    //
     public class Truck : Vehicle
     {
+        //constructor
         Truck(Point pos, Point dest, int len, int speed, int direction, int lane)
             : base(pos, dest, len, speed, direction, lane)
         {

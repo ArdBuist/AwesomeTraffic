@@ -13,8 +13,8 @@ namespace TrafficSimulation
 {
     public partial class SimWindow : Form
     {
-        SimControl sim; 
-        StartControl start;
+        SimControl simControl; 
+        StartControl startControl;
 
         public SimWindow()
         {
@@ -25,34 +25,35 @@ namespace TrafficSimulation
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 
             // Laad het beginscherm
-            Start();
+            simStart();
         }
 
-        public void Start()
+        public void simStart()
         {
-            this.Controls.Remove(sim);
+            //sim.oThread.Abort();
+            this.Controls.Remove(this.simControl);
             int WidthStartScreen = Screen.PrimaryScreen.Bounds.Width, HeightStartScreen = Screen.PrimaryScreen.Bounds.Height;
             Size screensize = new Size(WidthStartScreen, HeightStartScreen);
 
             // Openen van het startscherm
-            start = new StartControl(screensize, this);
+            startControl = new StartControl(screensize, this);
             this.BackColor = Color.Green;
 
-            start.Left = ((WidthStartScreen - 300) / 2);
-            start.Top = ((HeightStartScreen - 300) / 2);
-            this.Controls.Add(start);
+            startControl.Left = ((WidthStartScreen - 300) / 2);
+            startControl.Top = ((HeightStartScreen - 300) / 2);
+            this.Controls.Add(startControl);
         }
 
         public void New()
         {
             // Verwijder start menu
-            this.Controls.Remove(start);
+            this.Controls.Remove(startControl);
 
             // Open simcontrol
-            sim = new SimControl(this.ClientSize, this);
+            simControl = new SimControl(this.ClientSize, this);
             this.BackColor = Color.Green;
-            sim.Location = new Point(0, 0);
-            this.Controls.Add(sim);
+            simControl.Location = new Point(0, 0);
+            this.Controls.Add(simControl);
         }
 
         public void Options()

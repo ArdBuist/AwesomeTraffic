@@ -8,13 +8,13 @@ using System.Resources;
 
 namespace TrafficSimulation
 {
-    public class Simulation : Thread
+    public class Simulation
     {
         //begin test code
         private int testSpawn = 0;
         //einde test code
 
-        public const int ticksPerSec = 25;
+        public const int ticksPerSec = 10;
         private bool playing;
         private List<Spawner> spawnerList;
         private SimControl simControl;
@@ -26,7 +26,7 @@ namespace TrafficSimulation
             playing = false;
         }
 
-        public void Start()
+        public void Run()
         {
             //maakt een lijst met alle spawners zodat het spawnalgoritme makkelijk uitgevoerd kan worden
             spawnerList = new List<Spawner>();
@@ -38,29 +38,19 @@ namespace TrafficSimulation
                 }
             }
 
-            playing = true;
-
-            while (playing)
+            while (true)
             {
-                int start = Environment.TickCount;
+                //update de game
+                //int start = Environment.TickCount;
                 UpdateVariables();
                 UpdateGame();
                 //Sleep(Environment.TickCount - start);
             }
         }
 
-        public void Stop()
-        {
-            playing = false;
-        }
-
         private void UpdateVariables()
         {
             turn++;
-            if (false)//wanneer er op stop wordt geklikt
-            {
-                Stop();
-            }
             UpdateSpawners();
 
             if (turn % 50 == 0)
@@ -80,13 +70,13 @@ namespace TrafficSimulation
 
         private void UpdateGame()
         {
-            simControl.vehicle.Invalidate();
-            simControl.vehicle.Update();
+            //simControl.vehicle.Invalidate();
+            //simControl.vehicle.Update();
         }
 
         private void Sleep(int timePassed)
         {
-            System.Threading.Thread.Sleep(1000);//1000 / ticksPerSec - timePassed);
+            //System.Threading.Thread.Sleep(1000);//1000 / ticksPerSec - timePassed);
         }
 
         private void UpdateSpawners()
@@ -118,7 +108,7 @@ namespace TrafficSimulation
         private Vehicle CreateVehicle(Spawner spawn)
         {
             //deze methode moet ingevuld worden, hier wordt een auto gegenereerd
-            return new NormalCar(new Point(spawn.position.X+30, spawn.position.Y+50+16*spawn.SpawnLane+3), 
+            return new NormalCar(new Point(spawn.position.X + 30, spawn.position.Y + 50 + 16 * spawn.SpawnLane + 3),
                 new Point(spawn.position.X, spawn.position.Y), 10, spawn.maxSpeed, spawn.direction, 1);
         }
     }
