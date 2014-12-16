@@ -31,16 +31,18 @@ namespace TrafficSimulation
         public void Start()
         {
             this.Controls.Remove(sim);
-            int WidthStartScreen = Screen.PrimaryScreen.Bounds.Width, HeightStartScreen = Screen.PrimaryScreen.Bounds.Height;
-            Size screensize = new Size(WidthStartScreen, HeightStartScreen);
+            Size Screensize = new Size(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
 
             // Openen van het startscherm
-            start = new StartControl(screensize, this);
+            start = new StartControl(Screensize, this);
             this.BackColor = Color.Green;
-
-            start.Left = ((WidthStartScreen - 300) / 2);
-            start.Top = ((HeightStartScreen - 300) / 2);
             this.Controls.Add(start);
+
+
+            //start.Location = new Point(((WidthStartScreen-300)/2), ((HeightStartScreen -300)/2));
+            //start.Left = ((WidthStartScreen - 300) / 2);
+            //start.Top = ((HeightStartScreen - 300) / 2);
+            
         }
 
         public void New()
@@ -49,7 +51,7 @@ namespace TrafficSimulation
             this.Controls.Remove(start);
 
             // Open simcontrol
-            sim = new SimControl(this.ClientSize, this);
+            sim = new SimControl(Screen.PrimaryScreen.Bounds.Size, this);
             this.BackColor = Color.Green;
             sim.Location = new Point(0, 0);
             this.Controls.Add(sim);

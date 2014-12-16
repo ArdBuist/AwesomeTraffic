@@ -16,19 +16,20 @@ namespace TrafficSimulation
     {
         ElementHost StartHost;
         SimWindow simwindow;
-        InterfaceStart StartScherm;
+        
 
         public StartControl(Size size, SimWindow sim)
         {
+            InterfaceStart StartScherm = new InterfaceStart(this); 
             this.Size = size;
             simwindow = sim;
 
-            StartScherm = new InterfaceStart(this);
-
             StartHost = new ElementHost()
             {
+                Location = new Point(((size.Width-300)/2), ((size.Height -300)/2)),
                 Height = 350,
                 Width = 300,
+                BackColor = Color.Green,
                 Child = StartScherm
             };
             this.Controls.Add(StartHost);
