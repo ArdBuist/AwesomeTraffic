@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using System.Resources;
 using System.Windows.Forms;
 using System.Windows.Forms.Integration;
-using System.Threading;
 
 namespace TrafficSimulation
 {
@@ -17,66 +16,44 @@ namespace TrafficSimulation
     {
         BuildPanel buildPanel;
         ControlPanel controlPanel;
-
-        // Maak de infobalk, onderscherm en bovenscherm
-        private SimWindow simWindow;
-        private InfoBalk InfoBalk;
-        private OnderScherm OnderScherm;
-        private BovenScherm BovenScherm;
-        private int HoogteBovenBalk, HoogteOnderbalk, BreedteInfoBalk, HoogteInfobalk, BreedteScherm, HoogteScherm, YLocatieOnderbalk;
-
-        public Simulation simulation;
-        public Thread oThread;
-
-        public BitmapControl trafficlightMap, bitmapMap, vehicleMap;
-        public PictureBox background, trafficlight, vehicle;
-
-        private Point mouseDownPoint;
+        string currentTileString;
+        public BitmapControl trafficlightMap;
+        public BitmapControl bitmapMap;
+        public BitmapControl vehicleMap;
+        Point mouseDownPoint;
         public Tile[] tileList;
         public List<Vehicle> vehicleList;
         public int tilesHorizontal;
+        public Simulation sim;
+        public PictureBox background, trafficlight, vehicle;
         public List<TrafficlightControl> controlList = new List<TrafficlightControl>();
-
-        public ElementHost BovenHost, OnderHost, InfoHost;
-        public Boolean InfoVisible;
-
         public Tile currentBuildTile;
-        public bool eraser, selected;
+        public bool eraser = false;
+        public bool selected = false;
+        public int TimeofDay = 1;
+        Boolean isBuildingMode; //moet veranderd worden als van het kaartbouwen wordt overgesprongen naar het "spelen" 
+        public ElementHost BovenHost, OnderHost, InfoHost;
+        public BovenScherm BovenScherm;
+        public InfoBalk InfoBalk;
         public Boolean Simulatie, Day;
-        public int TimeofDay;
-        public Boolean isBuildingMode;
+        public Boolean InfoVisible;
+        //SimWindow simwindow;
 
-        public SimControl(Size size, SimWindow simWindow)
+        public SimControl(Size size, SimWindow sim)
         {
-            this.simWindow = simWindow;
-            createUI();
-
+            mouseDownPoint = new Point(0, 0);
             //grootte van de kaart
             this.Size = new Size(1600, 900);
-            mouseDownPoint = new Point(0, 0);
-            this.DoubleBuffered = true;
-            this.Visible = true;
-            /* PictureBoxes waar de bitmaps in worden opgeslagen, 
-             * background voor de tileList van de weg
-             * vehicle voor de Vehicles die op de weg rijden
-             * trafficlight voor de Trafficlights op de wegen */
-            background = new PictureBox();
-            vehicle = new PictureBox();
-            trafficlight = new PictureBox();
-
-            //De simulatie zelf, hierin word ervoor gezorgd dat de simulatie daadwerkelijk loopt
-            this.simulation = new Simulation(this);
-
             //buildingmode is true als er word gebouwd en false als de simulatie start
+            // Maak de infobalk, onderscherm en bovenscherm
+            InfoBalk InfoBalk = new InfoBalk(this);
+            OnderScherm OnderScherm = new OnderScherm(this);
+            BovenScherm BovenScherm = new BovenScherm(sim, this, InfoBalk);
+            int HoogteBovenBalk, HoogteOnderbalk, BreedteInfoBalk, HoogteInfobalk, BreedteScherm, HoogteScherm, YLocatieOnderbalk;
+            this.Size = new Size(2000, 1500);
             isBuildingMode = true;
-            eraser = false;
-            selected = false;
-            TimeofDay = 1;
+            //
             tilesHorizontal = Size.Width / 100;
-
-            //Initialisatie van de array waarin alle tileList worden opgeslagen
-            tileList = new Tile[(this.Size.Height / 100) * (this.Size.Width / 100)];
-
             /* De bitmapControlls waar de simulatie in word afgebeeld
              * bitmapMap voor de achtergrond met tileList
              * vehicleMap voor de middelste bitmap met Vehicles
@@ -84,31 +61,36 @@ namespace TrafficSimulation
             bitmapMap = new BitmapControl(this.Size);
             trafficlightMap = new BitmapControl(this.Size);
             vehicleMap = new BitmapControl(this.Size);
-
+            this.DoubleBuffered = true;
             this.Paint += this.Teken;
-            this.MouseMove += (object o, MouseEventArgs mea) =>
-                        {
-                            if (mouseDownPoint != new Point(0, 0))
-                                if (TileIsStraight(mouseDownPoint, mea.Location))
-                                    DrawTile(mea);
-                        };
-            this.MouseUp += (object o, MouseEventArgs mea) => { mouseDownPoint = new Point(0, 0); };
-            trafficlight.MouseDown += this.MouseClickDown;
 
+            this.MouseMove += (object o, MouseEventArgs mea) =>
+            {
+                if (mouseDownPoint != new Point(0, 0))
+                    if (TileIsStraight(mouseDownPoint, mea.Location))
+                        DrawTile(mea);
+            };
+            this.MouseUp += (object o, MouseEventArgs mea) => { mouseDownPoint = new Point(0, 0); };
+            this.Visible = true;
+            //Initialisatie van de array waarin alle tileList worden opgeslagen
+            tileList = new Tile[(this.Size.Height / 100) * (this.Size.Width / 100)];
+            //Nog niet zeker of deze nodig is, nu nog ongebruikt
+            vehicleList = new List<Vehicle>();
+            //De simulatie zelf, hierin word ervoor gezorgd dat de simulatie daadwerkelijk loopt
+            this.sim = new Simulation(this);
             //tekenfunctie voor de tileList (tijdelijke functie)
             DrawStartImages();
 
-
+            /* PictureBoxes waar de bitmaps in worden opgeslagen, 
+             * background voor de tileList van de weg
+             * vehicle voor de Vehicles die op de weg rijden
+             * trafficlight voor de Trafficlights op de wegen */
+            background = new PictureBox();
+            vehicle = new PictureBox();
+            trafficlight = new PictureBox();
+            trafficlight.MouseDown += this.MouseClickDown;
             //mouseclick event, zorgt er nu voor dat de simulatie word gestart maar moet worden gebruikt om tileList op het veld te plaatsen
             Simulatie = false;
-            Invalidate();
-        }
-
-        private void createUI()
-        {
-            InfoBalk = new InfoBalk(this);
-            OnderScherm = new OnderScherm(this);
-            BovenScherm = new BovenScherm(simWindow, this, InfoBalk);
 
             //Variable om de elementhosten afhankelijk te maken van het scherm en andere elementhosten
             BreedteScherm = Screen.PrimaryScreen.Bounds.Width;
@@ -147,6 +129,8 @@ namespace TrafficSimulation
                 Child = InfoBalk,
             };
             this.Controls.Add(InfoHost);
+
+            Invalidate();
         }
 
         private void Teken(object o, PaintEventArgs pea)
@@ -160,9 +144,7 @@ namespace TrafficSimulation
                 this.background.Location = new Point(0, 0);
                 this.background.Size = new Size(this.Width, this.Height);
                 this.Controls.Add(background);
-            }
-            else
-            {
+                //moet in else komen, als de simulatie word gestart
                 this.vehicle.Image = vehicleMap.bitmap;
                 this.vehicle.BackColor = Color.Transparent;
                 this.vehicle.Location = new Point(0, 0);
@@ -173,6 +155,9 @@ namespace TrafficSimulation
                 this.trafficlight.Location = new Point(0, 0);
                 this.trafficlight.Size = new Size(this.Width, this.Height);
                 this.vehicle.Controls.Add(trafficlight);
+            }
+            else
+            {
             }
         }
 
@@ -412,13 +397,13 @@ namespace TrafficSimulation
             currentBuildTile.SetValues(this, new Point(roadX * 100, roadY * 100), roadY * tilesHorizontal + roadX);
             bitmapMap.AddObject(tileImage, roadX * 100, roadY * 100);
 
-            //currentBuildTile = new Road(2, 4);
-            //roadX = 13;
-            //roadY = 1;
-            //tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
-            //tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
-            //currentBuildTile.SetValues(this, new Point(roadX * 100, roadY * 100), roadY * tilesHorizontal + roadX);
-            //bitmapMap.AddObject(tileImage, roadX * 100, roadY * 100);
+            currentBuildTile = new Road(2, 4);
+            roadX = 13;
+            roadY = 1;
+            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
+            tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
+            currentBuildTile.SetValues(this, new Point(roadX * 100, roadY * 100), roadY * tilesHorizontal + roadX);
+            bitmapMap.AddObject(tileImage, roadX * 100, roadY * 100);
 
         }
 

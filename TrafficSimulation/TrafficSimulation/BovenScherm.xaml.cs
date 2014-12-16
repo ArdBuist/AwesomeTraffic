@@ -12,7 +12,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Threading;
 
 namespace TrafficSimulation
 {
@@ -83,15 +82,12 @@ namespace TrafficSimulation
         {
             if (!simulationStarted)
             {
-                s.isBuildingMode = false;
-                s.oThread = new Thread(new ThreadStart(s.simulation.Run));
-                s.oThread.SetApartmentState(ApartmentState.STA);
-                s.oThread.Start();
+                s.sim.Start();
                 simulationStarted = true;
             }
             else
             {
-                s.oThread.Abort();
+                s.sim.Stop();
                 simulationStarted = false;
             }
         }
@@ -104,7 +100,7 @@ namespace TrafficSimulation
 
         private void Home_Click(object sender, RoutedEventArgs e)
         {
-            //simwindow.Start();
+            simwindow.Start();
         }
 
         private void Save_Click(object sender, RoutedEventArgs e)
