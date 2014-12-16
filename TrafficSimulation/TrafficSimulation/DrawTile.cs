@@ -242,8 +242,6 @@ namespace TrafficSimulation
             fork.SmoothingMode = SmoothingMode.AntiAlias;
             fork.FillRectangle(Brushes.Green, 0, 0, 100, 100);
 
-            fork.FillRectangle(Brushes.Green, 0, 0, 100, 100);
-
             int upIn = lanes[0]; int upOut = lanes[1];
             int rightIn = lanes[2]; int rightOut = lanes[3];
             int downIn = lanes[4]; int downOut = lanes[5];
@@ -381,7 +379,7 @@ namespace TrafficSimulation
             bmSpawner.FillRectangle(Brushes.Green, 0, 0, 100, 100);
             Pen stripesPen = strPen();
             int lanesTotal = lanesIn + lanesOut;
-            bmSpawner.FillRectangle(Brushes.Green, 0, 0, 100, 100);
+            //bmSpawner.FillRectangle(Brushes.Green, 0, 0, 100, 100);
 
             //variabelen voor mogelijke wegen
             int r = 50 - roadW * lanesOut;
