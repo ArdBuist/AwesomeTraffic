@@ -23,7 +23,7 @@ namespace TrafficSimulation
         public BitmapControl vehicleMap;
         Point mouseDownPoint;
         public Tile[] tileList;
-        public Tile[] oldSelectList;
+        public Tile oldselectedTile;
         public List<Vehicle> vehicleList;
         public int tilesHorizontal;
         public Simulation sim;
@@ -74,9 +74,8 @@ namespace TrafficSimulation
             };
             this.MouseUp += (object o, MouseEventArgs mea) => { mouseDownPoint = new Point(0, 0); };
             this.Visible = true;
-            //Initialisatie van de array waarin alle tiles worden opgeslagen en van de array voor alle oldselected tiles
+            //Initialisatie van de array waarin alle tiles worden opgeslagen
             tileList = new Tile[(this.Size.Height / 100) * (this.Size.Width / 100)];
-            oldSelectList = new Tile[(this.Size.Height / 100) * (this.Size.Width / 100)];
             //Nog niet zeker of deze nodig is, nu nog ongebruikt
             vehicleList = new List<Vehicle>();
             //De simulatie zelf, hierin word ervoor gezorgd dat de simulatie daadwerkelijk loopt
@@ -195,18 +194,33 @@ namespace TrafficSimulation
             if (selected == true) //als de select-tool is aangeklikt
             {
                 Tile selectedTile = tileList[CalculateListPlace(mea.X, mea.Y)];
-                Tile oldselectedTile = oldSelectList[CalculateListPlace(mea.X, mea.Y)];
+                
+                //de eerder geselecteerde tile wordt opnieuw getekend en verwijderd zo de blauwe rand
+                if (oldselectedTile != null)
+                {
+                    tileImage = oldselectedTile.DrawImage();
+                }
 
-                //Blauw randje om geselecteerde tile
+                //Er wordt een blauw randje getekend om de geselecteerde tile
                 tileImage = new Bitmap(100, 100);
                 Graphics gr = Graphics.FromImage(tileImage);
                 Pen selectPen = new Pen(Color.LightBlue, Width = 3);
                 gr.DrawRectangle(selectPen, (mea.X / 100 * 100), (mea.Y / 100 * 100), 100, 100);
+
+                //de huidige selectedTile wordt de oude selectedtile voor de volgende keer
+                oldselectedTile = selectedTile;
             }
 
             else
             {
-                if (eraser == false) //als de gum-tool niet is aangeklikt
+                //de blauwe rand van de oude selectedtile wordt verwijderd
+                if (oldselectedTile != null)
+                {
+                    tileImage = oldselectedTile.DrawImage();
+                }
+
+                //als de gum-tool niet is aangeklikt
+                if (eraser == false) 
                 {
                     currentBuildTile.SetValues(this, mea.Location, CalculateListPlace(mea.X, mea.Y));
                     tileImage = currentBuildTile.DrawImage();
