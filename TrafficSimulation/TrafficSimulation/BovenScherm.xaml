@@ -61,20 +61,20 @@
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left">
 
-                    <Button x:Name="Vertragen" Style="{StaticResource Style1}"  Click="Vertragen_Click" >
-                        <TextBlock Text="Vertragen"/>
+                    <Button x:Name="SlowDown" Style="{StaticResource Style1}"  Click="SlowDown_Click" >
+                        <TextBlock Text="SlowDown"/>
                     </Button>
 
                     <Button x:Name="PlayPauze" Style="{StaticResource Style1}" Click="PlayPauze_Click" >
                         <Image Source="Resources/Buttons/Play_button.png" Height="40" Width="40"/>
                     </Button>
 
-                    <Button x:Name="Versnellen" Style="{StaticResource Style1}"  Click="Versnellen_Click" >
-                        <TextBlock Text="vernellen"/>
+                    <Button x:Name="SpeedUp" Style="{StaticResource Style1}"  Click="SpeedUp_Click" >
+                        <TextBlock Text="SpeedUp"/>
                     </Button>
 
-                    <Button x:Name="SimulatieOntwerp" Style="{StaticResource Style1}" Click="SimulatieOntwerp_Click" >
-                        <TextBlock Text="sim/ont"/>
+                    <Button x:Name="SimulationDesign" Style="{StaticResource Style1}" Click="SimulationDesign_Click" >
+                        <TextBlock Text="SimulationDesign"/>
                     </Button>
                 </StackPanel>
 
