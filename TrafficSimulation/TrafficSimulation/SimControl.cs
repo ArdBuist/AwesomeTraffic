@@ -168,7 +168,7 @@ namespace TrafficSimulation
             Bitmap tileImage;
             //mouseDownPoint wordt gebruikt voor het laten functioneren van het door slepen aanbrengen van wegen
             mouseDownPoint = new Point(mea.X / 100 * 100, mea.Y / 100 * 100);
-            DrawTile(mea);
+           // DrawTile(mea);
             foreach (Tile t in tileList)
             {
                 if (t != null)
@@ -191,11 +191,12 @@ namespace TrafficSimulation
                     }
                 }
             }
+
             if (selected == true) //als de select-tool is aangeklikt
             {
                 Tile selectedTile = tileList[CalculateListPlace(mea.X, mea.Y)];
                 
-                //de eerder geselecteerde tile wordt opnieuw getekend en verwijderd zo de blauwe rand
+                //de eerder geselecteerde tile wordt opnieuw getekend en verwijdert zo de blauwe rand
                 if (oldselectedTile != null)
                 {
                     tileImage = oldselectedTile.DrawImage();
@@ -207,7 +208,7 @@ namespace TrafficSimulation
                 Pen selectPen = new Pen(Color.LightBlue, Width = 3);
                 gr.DrawRectangle(selectPen, (mea.X / 100 * 100), (mea.Y / 100 * 100), 100, 100);
                 //de huidige selectedTile wordt de oude selectedtile voor de volgende keer
-                oldselectedTile = selectedTile;
+                oldselectedTile = selectedTile; 
             }
 
             else
