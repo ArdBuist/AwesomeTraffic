@@ -27,6 +27,7 @@ namespace TrafficSimulation
         public OnderScherm(SimControl s)
         {
             //bool selected = s.selected;
+            this.s = s;
             InitializeComponent();
         }
 
@@ -74,7 +75,7 @@ namespace TrafficSimulation
         private void Select_Click(object sender, RoutedEventArgs e)
         {
             s.eraser = false;
-            //s.selected = true;
+            s.selected = true;
             //hierna moet dan een scherm verschijnen met info en aanpassingsmogelijkheden
         }
 

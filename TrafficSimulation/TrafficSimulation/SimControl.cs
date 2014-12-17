@@ -206,7 +206,6 @@ namespace TrafficSimulation
                 Graphics gr = Graphics.FromImage(tileImage);
                 Pen selectPen = new Pen(Color.LightBlue, Width = 3);
                 gr.DrawRectangle(selectPen, (mea.X / 100 * 100), (mea.Y / 100 * 100), 100, 100);
-
                 //de huidige selectedTile wordt de oude selectedtile voor de volgende keer
                 oldselectedTile = selectedTile;
             }
