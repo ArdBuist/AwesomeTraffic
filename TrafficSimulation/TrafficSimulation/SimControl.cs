@@ -195,8 +195,9 @@ namespace TrafficSimulation
                 Tile selectedTile = tileList[CalculateListPlace(mea.X, mea.Y)];
                 //Blauw randje om geselecteerde tile
                 //tileImage = new Bitmap(100, 100);
-                selectedTile.LanesLowToHigh = 2;
+                selectedTile.UpdateLanes(this, 3, 2, 1);//tilename mag nu niet gelijk zijn aan Fork of Crossroad, dat hoeft geen mogelijkheid te worden.
                 selectedTile.UpdateOtherTiles(this, 0);
+
                 //Graphics gr = Graphics.FromImage(tileImage);
                 //Pen selectPen = new Pen(Color.LightBlue, Width = 3);
                 //gr.DrawRectangle(selectPen, (mea.X / 100 * 100), (mea.Y / 100 * 100), 100, 100);

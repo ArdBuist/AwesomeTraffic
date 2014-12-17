@@ -286,8 +286,11 @@ namespace TrafficSimulation
 
         public override void UpdateLanes(SimControl s, int direction, int lanesIn, int lanesOut)
         {
-            this.lanesIn = lanesOut;
-            this.lanesOut = lanesIn;
+            if (direction == this.direction)
+            {
+                this.lanesIn = lanesIn;
+                this.lanesOut = lanesOut;
+            }
         }
    
         public void Tick()
@@ -319,7 +322,7 @@ namespace TrafficSimulation
         {
             Bitmap image = new Bitmap(100, 100);
             DrawTile t = new DrawTile();
-            t.drawSpawner(Graphics.FromImage(image), direction, lanesIn, lanesOut);
+            t.drawSpawner(Graphics.FromImage(image), direction, lanesOut, lanesIn);
             return image;
         }
 
@@ -373,7 +376,7 @@ namespace TrafficSimulation
                 this.lanesLowToHigh = lanesIn;
                 this.lanesHighToLow = lanesOut;
             }
-            else
+            if(direction == endDirection)
             {
                 this.lanesLowToHigh = lanesOut;
                 this.lanesHighToLow = lanesIn;
@@ -437,9 +440,12 @@ namespace TrafficSimulation
 
         public override void UpdateLanes(SimControl s, int direction, int lanesIn, int lanesOut)
         {
-            lanes[direction * 2 - 1] = lanesOut;
-            lanes[direction * 2 - 2] = lanesIn;
-            control = new TrafficlightControl(s, this, 3, notDirection, lanes, position);
+            if (directions.Contains(direction))
+            {
+                lanes[direction * 2 - 1] = lanesOut;
+                lanes[direction * 2 - 2] = lanesIn;
+                control = new TrafficlightControl(s, this, 3, notDirection, lanes, position);
+            }
         }
 
         public override bool doesConnect(int side)
@@ -502,9 +508,12 @@ namespace TrafficSimulation
 
         public override void UpdateLanes(SimControl s, int direction, int lanesIn, int lanesOut)
         {
-            lanes[direction * 2 - 1] = lanesOut;
-            lanes[direction * 2 - 2] = lanesIn;
-            control = new TrafficlightControl(s, this, 4, 5, lanes, position);
+            if (directions.Contains(direction))
+            {
+                lanes[direction * 2 - 1] = lanesOut;
+                lanes[direction * 2 - 2] = lanesIn;
+                control = new TrafficlightControl(s, this, 4, 5, lanes, position);
+            }
         }
 
         public override bool doesConnect(int side)
