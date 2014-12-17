@@ -32,7 +32,7 @@ namespace TrafficSimulation
 
         private void Select_Checked(object sender, RoutedEventArgs e)
         {
-           s.eraser = false;
+            s.eraser = false;
             s.selected = true;
             //hierna moet dan een scherm verschijnen met info en aanpassingsmogelijkheden
         }
@@ -40,12 +40,14 @@ namespace TrafficSimulation
         private void Eraser_Checked(object sender, RoutedEventArgs e)
         {
             //s.eraser = true;
+            s.selected = false;
         }
 
         private void Road_Checked(object sender, RoutedEventArgs e)
         {
             /*
             s.eraser = false;
+            s.selected = false;
             int start = 1; //=1 vervangen door variabele
             int end = 4;   //=4 vervangen door variabele
             s.currentBuildTile = new Road(start, end);
@@ -56,6 +58,7 @@ namespace TrafficSimulation
         {
             /*
             s.eraser = false;
+            s.selected = false;
             int start = 1; //=1 vervangen door variabele
             int end = 4;   //=4 vervangen door variabele
             s.currentBuildTile = new Road(start, end);
@@ -65,6 +68,7 @@ namespace TrafficSimulation
         private void CrossRoad_Checked(object sender, RoutedEventArgs e)
         {
             //s.eraser = false;
+            s.selected = false;
             //s.currentBuildTile = new Crossroad();
         }
 
@@ -74,6 +78,7 @@ namespace TrafficSimulation
             s.eraser = false;
             int notdirection = 1; //=1 vervangen door variabele, variabele waar geen weg naartoe loopt
             s.currentBuildTile = new Fork(notdirection);
+            s.selected = false;
              */
         }
 
@@ -84,6 +89,7 @@ namespace TrafficSimulation
             s.eraser = false;
             int direction = 4; //=4 vervangen door variabele, de kant waar de weg heen loopt
             s.currentBuildTile = new Spawner(direction);
+            s.selected = false;
             */
         }
         
