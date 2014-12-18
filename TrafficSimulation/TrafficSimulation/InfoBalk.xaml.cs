@@ -22,22 +22,13 @@ namespace TrafficSimulation
 
     {
         SimControl s;
-        public InfoBalk(SimControl s)
-        {
-            this.s = s;
-            /* 
-            s.InfoVisible = false;
-            if (s.InfoVisible == true)
-            {
-                this.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                this.Visibility = Visibility.Hidden;
-            }
+        SimWindow simwindow;
 
-            s.Invalidate();
-            */
+        public InfoBalk(SimWindow sim)
+        {
+            simwindow = sim;
+            s = simwindow.sim; ;
+            
             InitializeComponent();
 
         }

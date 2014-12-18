@@ -22,6 +22,7 @@ namespace TrafficSimulation
     {
         public Boolean InfoVisible = true;
         private bool simulationStarted = false;
+        
         SimControl s;
         SimWindow simwindow;
         InfoBalk Infobalk;
@@ -35,6 +36,7 @@ namespace TrafficSimulation
             s = simwindow.sim;
             Infobalk = info;
             Onderscherm = Onder;
+            
             InitializeComponent();
         }
 
@@ -42,12 +44,12 @@ namespace TrafficSimulation
         {
             if (InfoVisible)
             {
-                Infobalk.Visibility = Visibility.Visible;
+                simwindow.Infobalk.Visibility = Visibility.Visible;
                 InfoVisible = false;
             }
             else
             {
-                Infobalk.Visibility = Visibility.Hidden;
+                simwindow.Infobalk.Visibility = Visibility.Hidden;
                 InfoVisible = true;
             }
             s.Invalidate();
@@ -56,6 +58,11 @@ namespace TrafficSimulation
 
         private void Home_Click(object sender, RoutedEventArgs e)
         {
+            
+            simwindow.OnderHost.Visible = false;
+            simwindow.BovenHostLinks.Visible = false;
+            simwindow.BovenHostRechts.Visible = false;
+            simwindow.InfoHost.Visible = false;
             simwindow.Start();
         }
 

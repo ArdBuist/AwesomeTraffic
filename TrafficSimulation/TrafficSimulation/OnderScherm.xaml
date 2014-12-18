@@ -19,7 +19,7 @@
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="HorizontalContentAlignment" Value="center"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
-            
+
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type RadioButton}">
@@ -30,7 +30,7 @@
                                               ClipToBounds="True" 
                                               >
                             </ContentPresenter>
-                            
+
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
@@ -50,13 +50,10 @@
                                 <Setter Property="Cursor" Value="Hand"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
-                        
                     </ControlTemplate>
-                    
                 </Setter.Value>
             </Setter>
         </Style>
-
     </UserControl.Resources>
     
     <Grid x:Name="BasicOnder" Background="Green" >
@@ -71,31 +68,31 @@
             
             <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" >
 
-                <RadioButton x:Name="Select" Style="{StaticResource StyleRadioButton}" Checked="Select_Checked" GroupName="ButtonsBelow">
+                <RadioButton x:Name="SelectButton" Style="{StaticResource RadioButton}" GroupName="ButtonsBelow" Checked="SelectButton_Checked" >
                     Select
                 </RadioButton>
 
-                <RadioButton x:Name="Eraser"  Style="{StaticResource StyleRadioButton}"  Checked="Eraser_Checked" GroupName="ButtonsBelow" >
+                <RadioButton x:Name="EraserButton"  Style="{StaticResource RadioButton}" GroupName="ButtonsBelow" Checked="EraserButton_Checked" >
                     <TextBlock Text="Eraser"/>
                 </RadioButton>
 
-                <RadioButton x:Name="Road" Style="{StaticResource StyleRadioButton}"  Checked="Road_Checked" GroupName="ButtonsBelow" IsChecked="True">
+                <RadioButton x:Name="RoadButton" Style="{StaticResource RadioButton}" GroupName="ButtonsBelow" Checked="RoadButton_Checked" >
                     <Image Source="Resources/Roads/roadhor.png" Height="40" Width="40"/>
                 </RadioButton>
 
-                <RadioButton x:Name="Bend" Style="{StaticResource StyleRadioButton}" Checked="Bend_Checked" GroupName="ButtonsBelow">
+                <RadioButton x:Name="BendButton" Style="{StaticResource RadioButton}" GroupName="ButtonsBelow" Checked="BendButton_Checked">
                     <Image Source="Resources/Roads/bendUR.png" Height="40" Width="40"/>
                 </RadioButton>
 
-                <RadioButton x:Name="CrossRoad" Style="{StaticResource StyleRadioButton}" Checked="CrossRoad_Checked" GroupName="ButtonsBelow">
+                <RadioButton x:Name="CrossRoadButton" Style="{StaticResource RadioButton}" GroupName="ButtonsBelow" Checked="CrossRoadButton_Checked" >
                     <Image Source="Resources/Crossroads/Crossroadstandaard.png" Height="40" Width="40"/>
                 </RadioButton>
 
-                <RadioButton x:Name="Fork" Style="{StaticResource StyleRadioButton}" Checked="Fork_Checked" GroupName="ButtonsBelow">
+                <RadioButton x:Name="ForkButton" Style="{StaticResource RadioButton}" GroupName="ButtonsBelow" Checked="ForkButton_Checked">
                     <Image Source="Resources/Crossroads/forkup.png" Height="40" Width="40"/>
                 </RadioButton>
 
-                <RadioButton x:Name="Spawner" Style="{StaticResource StyleRadioButton}" Checked="Spawner_Checked" GroupName="ButtonsBelow">
+                <RadioButton x:Name="SpawnerButton" Style="{StaticResource RadioButton}" GroupName="ButtonsBelow" Checked="SpawnerButton_Checked" >
                     <Image Source="Resources/Roads/spawnerright.png" Height="40" Width="40"/>
                 </RadioButton>
             </StackPanel>

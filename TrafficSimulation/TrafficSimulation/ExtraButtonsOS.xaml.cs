@@ -21,13 +21,19 @@ namespace TrafficSimulation
     public partial class ExtraButtonsOS : UserControl
     {
         SimControl s;
+        SimWindow simwindow;
         InfoBalk Infobalk;
+        public Boolean bend, road, spawner, fork;
 
-        public ExtraButtonsOS(SimControl s, InfoBalk info)
+        public ExtraButtonsOS(SimWindow sim, InfoBalk info)
         {
-            this.s = s;
+            simwindow = sim;
+            s = simwindow.sim; ;
             Infobalk = info;
 
+            this.Visibility = Visibility.Hidden;
+
+            
             InitializeComponent();
         }
     }

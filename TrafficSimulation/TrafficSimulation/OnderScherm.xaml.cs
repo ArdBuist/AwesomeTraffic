@@ -22,36 +22,48 @@ namespace TrafficSimulation
     public partial class OnderScherm : UserControl
     {
         SimControl s;
+        SimWindow simwindow;
         InfoBalk Infobalk;
-        ExtraButtonsOS ExtraButtonsOS;
+        ExtraButtonsOS ExtrabuttonsOS;
+        public Boolean bend = false, road = false, spawner = false, fork = false;
+        
 
-        public OnderScherm(SimControl s, InfoBalk info, ExtraButtonsOS Extra)
+        public OnderScherm(SimWindow sim, InfoBalk info, ExtraButtonsOS Extra)
         {
-            this.s = s;
+            simwindow = sim;
+            s = simwindow.sim;
             Infobalk = info;
-            ExtraButtonsOS = Extra;
+            ExtrabuttonsOS = Extra;
             InitializeComponent();
         }
 
-        private void Select_Checked(object sender, RoutedEventArgs e)
+        private void SelectButton_Checked(object sender, RoutedEventArgs e)
         {
             //s.selected = true;
             //hierna moet dan een scherm verschijnen met info en aanpassingsmogelijkheden
         }
 
-        private void Eraser_Checked(object sender, RoutedEventArgs e)
+        private void EraserButton_Checked(object sender, RoutedEventArgs e)
         {
             //s.eraser = true;
         }
 
-        private void Road_Checked(object sender, RoutedEventArgs e)
+        private void RoadButton_Checked(object sender, RoutedEventArgs e)
         {
-            
-            //ExtraButtonsOS.Height = 100;
-            //ExtraButtonsOS.Road_1_3.Visibility = Visibility.Visible;
-            //ExtraButtonsOS.Road_2_4.Visibility = Visibility.Visible;
-            ExtraButtonsOS.Visibility = Visibility.Visible;
-            
+            if (road)
+            {
+                ExtrabuttonsOS.Visibility = Visibility.Visible;
+                ExtrabuttonsOS.Road_1_3.Visibility = Visibility.Visible;
+                ExtrabuttonsOS.Road_2_4.Visibility = Visibility.Visible;
+                road = false;
+            }
+            else
+            { 
+                ExtrabuttonsOS.Visibility = Visibility.Hidden;
+                ExtrabuttonsOS.Road_1_3.Visibility = Visibility.Hidden;
+                ExtrabuttonsOS.Road_2_4.Visibility = Visibility.Hidden;
+                road = true;
+            }
             /*
             s.eraser = false;
             int start = 1; //=1 vervangen door variabele
@@ -60,14 +72,35 @@ namespace TrafficSimulation
              */
         }
 
-        private void Bend_Checked(object sender, RoutedEventArgs e)
+        private void BendButton_Check(object sender, RoutedEventArgs e)
         {
-            ExtraButtonsOS.Visibility = Visibility.Visible;
-            ExtraButtonsOS.Bend_1_2.Visibility = Visibility.Visible;
-            ExtraButtonsOS.Bend_2_3.Visibility = Visibility.Visible;
-            ExtraButtonsOS.Bend_3_4.Visibility = Visibility.Visible;
-            ExtraButtonsOS.Bend_4_1.Visibility = Visibility.Visible;
-            
+            if (bend)
+            {
+                ExtrabuttonsOS.Visibility = Visibility.Visible;
+                ExtrabuttonsOS.Bend_1_2.Visibility = Visibility.Visible;
+                ExtrabuttonsOS.Bend_2_3.Visibility = Visibility.Visible;
+                ExtrabuttonsOS.Bend_3_4.Visibility = Visibility.Visible;
+                ExtrabuttonsOS.Bend_4_1.Visibility = Visibility.Visible;
+                bend = false;
+            }
+            else
+            {
+                ExtrabuttonsOS.Visibility = Visibility.Hidden;
+                ExtrabuttonsOS.Bend_1_2.Visibility = Visibility.Hidden;
+                ExtrabuttonsOS.Bend_2_3.Visibility = Visibility.Hidden;
+                ExtrabuttonsOS.Bend_3_4.Visibility = Visibility.Hidden;
+                ExtrabuttonsOS.Bend_4_1.Visibility = Visibility.Hidden;
+                bend = true;
+            }
+
+
+
+
+            //simwindow.ExtrabuttonsOS.Bend_1_2.Visibility = Visibility.Visible;
+            //simwindow.ExtrabuttonsOS.Bend_2_3.Visibility = Visibility.Visible;
+            //simwindow.ExtrabuttonsOS.Bend_3_4.Visibility = Visibility.Visible;
+            //simwindow.ExtrabuttonsOS.Bend_4_1.Visibility = Visibility.Visible;
+
             /*
             s.eraser = false;
             int start = 1; //=1 vervangen door variabele
@@ -76,14 +109,26 @@ namespace TrafficSimulation
             */
         }
 
-        private void CrossRoad_Checked(object sender, RoutedEventArgs e)
+        private void CrossRoadButton_Checked(object sender, RoutedEventArgs e)
         {
             //s.eraser = false;
             //s.currentBuildTile = new Crossroad();
         }
 
-        private void Fork_Checked(object sender, RoutedEventArgs e)
+        private void ForkButton_Checked(object sender, RoutedEventArgs e)
         {
+            if (fork)
+            {
+                ExtrabuttonsOS.Visibility = Visibility.Visible;
+                ExtrabuttonsOS.Road_1_3.Visibility = Visibility.Visible;
+                ExtrabuttonsOS.Road_2_4.Visibility = Visibility.Visible;
+                fork = false;
+            }
+            else
+            {
+                ExtrabuttonsOS.Visibility = Visibility.Hidden;
+                fork = true;
+            }
             /*
             s.eraser = false;
             int notdirection = 1; //=1 vervangen door variabele, variabele waar geen weg naartoe loopt
@@ -91,15 +136,24 @@ namespace TrafficSimulation
              */
         }
 
-        private void Spawner_Checked(object sender, RoutedEventArgs e)
+        private void SpawnerButton_Checked(object sender, RoutedEventArgs e)
         {
+            if (spawner)
+            {
+                ExtrabuttonsOS.Visibility = Visibility.Visible;
+                spawner = false;
+            }
+            else
+            {
+                ExtrabuttonsOS.Visibility = Visibility.Hidden;
+                spawner = true;
+            }
+
             /*
             s.eraser = false;
             int direction = 4; //=4 vervangen door variabele, de kant waar de weg heen loopt
             s.currentBuildTile = new Spawner(direction);
             */
         }
-        
-
     }
 }

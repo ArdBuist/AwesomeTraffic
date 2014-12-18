@@ -36,6 +36,7 @@ namespace TrafficSimulation
 
        //kaartverslepen
         public Boolean Simulatie = true, Day = true, InfoVisible = true;
+        
         //SimWindow simwindow;
 
         public SimControl(Size size, SimWindow sim)
