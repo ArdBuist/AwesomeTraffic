@@ -32,6 +32,7 @@ namespace TrafficSimulation
         {
             
             simwindow = sim;
+            s = simwindow.sim;
             Infobalk = info;
             Onderscherm = Onder;
             InitializeComponent();

@@ -229,7 +229,7 @@ namespace TrafficSimulation
             {
                 Rectangle moveGround = new Rectangle(new Point(Screen.PrimaryScreen.Bounds.X - background.Size.Width, Screen.PrimaryScreen.Bounds.Y - background.Size.Height), new Size(background.Size.Width - Screen.PrimaryScreen.Bounds.X, background.Size.Height - Screen.PrimaryScreen.Bounds.Y));
                 Point newPosition = new Point(background.Location.X + (mea.X - mouseMovePoint.X), background.Location.Y + (mea.Y - mouseMovePoint.Y));
-                if (moveGround.Contains(newPosition))
+                //if (moveGround.Contains(newPosition))
                     background.Location = newPosition;
                 this.Update();
             }

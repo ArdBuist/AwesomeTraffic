@@ -13,7 +13,7 @@ namespace TrafficSimulation
 {
     public partial class SimWindow : Form
     {
-        SimControl sim; 
+        public SimControl sim; 
         public ElementHost BovenHostLinks, BovenHostRechts, OnderHost, InfoHost, ExtraButtonsHost;
        	public BovenSchermLinks Bovenschermlinks;
         public BovenSchermRechts Bovenschermrechts;
@@ -41,8 +41,8 @@ namespace TrafficSimulation
             Infobalk = new InfoBalk(sim);
             ExtrabuttonsOS = new ExtraButtonsOS(sim, Infobalk);
             Onderscherm = new OnderScherm(sim, Infobalk, ExtrabuttonsOS);
-            Bovenschermlinks = new BovenSchermLinks(sim, Infobalk, Onderscherm);
-            Bovenschermrechts = new BovenSchermRechts(sim, Infobalk, Onderscherm);
+            Bovenschermlinks = new BovenSchermLinks(this, Infobalk, Onderscherm);
+            Bovenschermrechts = new BovenSchermRechts(this, Infobalk, Onderscherm);
 
 
             int HoogteBovenBalk, HoogteOnderbalk, BreedteInfoBalk, HoogteInfobalk, BreedteScherm, HoogteScherm, YLocatieOnderbalk, BreedteSchermLink, BreedteSchermRechts;
