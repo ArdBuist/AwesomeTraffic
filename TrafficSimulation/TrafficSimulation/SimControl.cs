@@ -30,8 +30,9 @@ namespace TrafficSimulation
         public PictureBox background, trafficlight, vehicle;
         public List<TrafficlightControl> controlList = new List<TrafficlightControl>();
         public Tile currentBuildTile;
-        public bool eraser;
+        public bool eraser = false;
         public bool selected = false;
+        public bool building = true;
         public int TimeofDay = 1;
         Boolean isBuildingMode; //moet veranderd worden als van het kaartbouwen wordt overgesprongen naar het "spelen" 
         public ElementHost BovenHost, OnderHost, InfoHost;
@@ -193,40 +194,39 @@ namespace TrafficSimulation
                 }
             }
 
-                //de eerder geselecteerde tile wordt opnieuw getekend en verwijdert zo de blauwe rand
-                if (oldselectedTile != null)
-                {
-                    tileImage = oldselectedTile.DrawImage();
-                }
-
-            if (tileList[CalculateListPlace(mea.X, mea.Y)] != null && selected == true) //als de select-tool is aangeklikt
+            //de eerder geselecteerde tile wordt opnieuw getekend en verwijdert zo de blauwe rand
+            if (oldselectedTile != null)
             {
-                Tile selectedTile = new SelectTile();               
-                             
-                //Er wordt een blauw randje getekend om de geselecteerde tile
-                selectedTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), CalculateListPlace(mea.X, mea.Y));
-                tileImage = selectedTile.DrawImage();
-                //de huidige selectedTile wordt de oude selectedtile voor de volgende keer
-                oldselectedTile = tileList[CalculateListPlace(mea.X, mea.Y)];
+                // Bitmap removeSelect;
+                // removeSelect = oldselectedTile.DrawImage();
             }
 
-            else
-            {               
-                //als de gum-tool niet is aangeklikt
-                if (eraser == false) 
+            if (selected == true) //als de select-tool is aangeklikt
+            {
+                if (tileList[CalculateListPlace(mea.X, mea.Y)] != null)
                 {
-                    DrawTile(mea);
+                   DrawSelectLine(mea);
                 }
-                else //alsde gum-tool is geselecteerd, wordt er een nieuwe bitmap gemaakt waarop een groen vlak 
-                //wordt getekend (oftewel, de geklikte tile wordt 'verwijderd')
-                {
-                    tileImage = new Bitmap(100, 100);
-                    Graphics gr = Graphics.FromImage(tileImage);
-                    gr.FillRectangle(Brushes.Green, (mea.X / 100 * 100), (mea.Y / 100 * 100), 100, 100);
-                    tileList[CalculateListPlace(mea.X, mea.Y)] = null;
-                }
-                //host.BackColorTransparent = true;
             }
+           
+             //als de gum-tool is aangeklikt
+            if (eraser == true) 
+            {
+                    //als er op de geklikte plek een weg of kruispunt ligt
+                if (tileList[CalculateListPlace(mea.X, mea.Y)] != null)
+                {
+                    removeTile(mea);
+                }
+             }
+
+            //als je een weg wil bouwen
+            if (building == true)
+            {
+                DrawTile(mea);
+            }
+               
+                //host.BackColorTransparent = true;
+            
         }
         /*controleert of de tile een rechte weg is en checkt of de weg naar de goede kant doorloopt zodat je een hele weg kunt maken door rechtdoor te slepen
         *Hierdoor kun je alleen rechte wegen door slepen op de kaart aanbrengen. Dit verhoogt het gebruiksgemak omdat het wegen leggen zo een stuk sneller gaat.
@@ -247,13 +247,41 @@ namespace TrafficSimulation
             return false;
         }
 
+        //tekent een blauwe lijn om de geselecteerde tile
+        private void DrawSelectLine(MouseEventArgs mea)
+        {
+            Bitmap tileImage;
+            Tile selectedTile = new SelectTile();
+
+            //Er wordt een blauw randje getekend om de geselecteerde tile
+            selectedTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), CalculateListPlace(mea.X, mea.Y));
+            tileImage = selectedTile.DrawImage();
+            //de huidige selectedTile wordt de oude selectedtile voor de volgende keer
+            oldselectedTile = tileList[CalculateListPlace(mea.X, mea.Y)];
+        }
+
+        //"verwijdert" een tile (d.m.v. tekenen groen vlak)
+        private void removeTile(MouseEventArgs mea)
+        {
+            Bitmap tileImage;
+            Tile selectedTile = new removeTile();
+            selectedTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), CalculateListPlace(mea.X, mea.Y));
+            tileImage = selectedTile.DrawImage();
+
+            tileList[CalculateListPlace(mea.X, mea.Y)] = null;
+
+            //Invalidate();
+            //hier moet nog bij dat de trafficlights ook worden verwijderd
+            
+        }
+
         private void DrawTile(MouseEventArgs mea)
         {
             Bitmap tileImage;
-            currentBuildTile = new Crossroad(this);
-            currentBuildTile = new Fork(this, 1);
-            currentBuildTile = new Road(4, 2);
-            //currentBuildTile = new Spawner(3);
+            //currentBuildTile = new Crossroad(this);
+            //currentBuildTile = new Fork(this, 1);
+            //currentBuildTile = new Road(4, 2);
+            currentBuildTile = new Spawner(3);
             currentBuildTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), CalculateListPlace(mea.X, mea.Y));
             tileImage = currentBuildTile.DrawImage();
             tileList[CalculateListPlace(mea.X, mea.Y)] = currentBuildTile;

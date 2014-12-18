@@ -551,16 +551,6 @@ namespace TrafficSimulation
             return image;
         }
 
-        /*
-        public Bitmap removeImage()
-        { // hier wordt een bitmap gemaakt en getekend door de andere methode. 
-            Bitmap image = new Bitmap(100, 100);
-            DrawTile t = new DrawTile();
-            t.removeSelectTile(Graphics.FromImage(image));
-            return image;
-        }
-         **/
-
         //returnt de banen die er bij een bepaalde kant uitgaan.
         public override int GetLanesIn(int direction)
         {
@@ -584,6 +574,46 @@ namespace TrafficSimulation
 
         public override void UpdateLanes(SimControl s, int direction, int lanesIn, int lanesOut)
         {            
+        }
+    }
+
+    public class removeTile : Tile
+    {
+        public removeTile()
+        {
+        }
+
+        public override Bitmap DrawImage()
+        { // hier wordt een bitmap gemaakt en getekend door de andere methode. 
+            Bitmap image = new Bitmap(100, 100);
+            DrawTile t = new DrawTile();
+            t.drawRemoveTile(Graphics.FromImage(image));
+            return image;
+        }
+
+        //returnt de banen die er bij een bepaalde kant uitgaan.
+        public override int GetLanesIn(int direction)
+        {
+            int noLanes = 0;
+            return noLanes;
+        }
+
+        //returnt de banen die er bij een bepaald kant ingaan.
+        public override int GetLanesOut(int direction)
+        {
+            int noLanes = 0;
+            return noLanes;
+        }
+
+        //controleert of aan de aangegeven zijkant ook echt een weg ligt.
+        public override bool doesConnect(int side)
+        {
+            bool noLanes = false;
+            return noLanes;
+        }
+
+        public override void UpdateLanes(SimControl s, int direction, int lanesIn, int lanesOut)
+        {
         }
     }
 }
