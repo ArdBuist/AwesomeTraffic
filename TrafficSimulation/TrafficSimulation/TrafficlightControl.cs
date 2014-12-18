@@ -22,7 +22,7 @@ namespace TrafficSimulation
 
             for (int i = 0; i < 4; i++)
             {
-                if (i != NotDirection)
+                if (i != NotDirection - 1)
                 {
                     trafficlightList.Add(new LaneTrafficlight(sim, road, i, NumberOfLanes[i * 2]));
                 }
