@@ -51,8 +51,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BitmapControl.cs" />
-    <Compile Include="BovenScherm.xaml.cs">
-      <DependentUpon>BovenScherm.xaml</DependentUpon>
+    <Compile Include="BovenSchermRechts.xaml.cs">
+      <DependentUpon>BovenSchermRechts.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BovenSchermLinks.xaml.cs">
+      <DependentUpon>BovenSchermLinks.xaml</DependentUpon>
     </Compile>
     <Compile Include="BuildPanel.cs" />
     <Compile Include="Simulation.cs" />
@@ -158,7 +161,11 @@
     <Resource Include="Resources\Buttons\Vraagteken_button.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="BovenScherm.xaml">
+    <Page Include="BovenSchermRechts.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="BovenSchermLinks.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -32,8 +32,9 @@ namespace TrafficSimulation
         public bool selected = false;
         public int TimeofDay = 1;
         Boolean isBuildingMode; //moet veranderd worden als van het kaartbouwen wordt overgesprongen naar het "spelen" 
-        public ElementHost BovenHost, OnderHost, InfoHost, ExtraButtonsHost;
-        public BovenScherm BovenScherm;
+        public ElementHost BovenHostLinks, BovenHostRechts, OnderHost, InfoHost, ExtraButtonsHost;
+        public BovenSchermLinks BovenSchermLinks;
+        public BovenSchermRechts BovenSchermRechts;
         public InfoBalk InfoBalk;
         public ExtraButtonsOS ExtraButtonsOS;
         public Boolean Simulatie = true, Day = true, InfoVisible = true;
@@ -50,8 +51,9 @@ namespace TrafficSimulation
             InfoBalk InfoBalk = new InfoBalk(this);
             ExtraButtonsOS ExtraButtonsOS = new ExtraButtonsOS(this, InfoBalk);
             OnderScherm OnderScherm = new OnderScherm(this, InfoBalk, ExtraButtonsOS);
-            BovenScherm BovenScherm = new BovenScherm(sim, this, InfoBalk, OnderScherm);
-            int HoogteBovenBalk, HoogteOnderbalk, BreedteInfoBalk, HoogteInfobalk, BreedteScherm, HoogteScherm, YLocatieOnderbalk;
+            BovenSchermLinks BovenSchermLinks = new BovenSchermLinks(sim, this, InfoBalk, OnderScherm);
+            BovenSchermRechts BovenSchermRechts = new BovenSchermRechts(sim, this, InfoBalk, OnderScherm);
+            int HoogteBovenBalk, HoogteOnderbalk, BreedteInfoBalk, HoogteInfobalk, BreedteScherm, HoogteScherm, YLocatieOnderbalk, BreedteSchermLink, BreedteSchermRechts;
             
             this.Size = new Size(2000, 1500);
             isBuildingMode = true;
@@ -98,20 +100,33 @@ namespace TrafficSimulation
             //Variable om de elementhosten afhankelijk te maken van het scherm en andere elementhosten
             BreedteScherm = Screen.PrimaryScreen.Bounds.Width;
             HoogteScherm = Screen.PrimaryScreen.Bounds.Height;
+            BreedteSchermLink = (BreedteScherm / 4);
+            BreedteSchermRechts = (BreedteScherm / 4);
             HoogteBovenBalk = 100;
             HoogteOnderbalk = 100;
             YLocatieOnderbalk = (HoogteScherm - HoogteOnderbalk);
             HoogteInfobalk = (HoogteScherm - (HoogteBovenBalk + HoogteOnderbalk));
             BreedteInfoBalk = 300;
 
-            BovenHost = new ElementHost()
+            BovenHostLinks = new ElementHost()
             {
                 BackColor = Color.Transparent,
                 Height = HoogteBovenBalk,
-                Width = BreedteScherm,
-                Child = BovenScherm,
+                Width = BreedteSchermRechts,
+                Location = new Point(0,0),
+                Child = BovenSchermLinks,
             };
-            this.Controls.Add(BovenHost);
+            this.Controls.Add(BovenHostLinks);
+
+            BovenHostRechts = new ElementHost()
+            {
+                BackColor = Color.Transparent,
+                Height = HoogteBovenBalk,
+                Width = BreedteSchermLink,
+                Location = new Point((BreedteScherm - BreedteSchermLink), 0),
+                Child = BovenSchermRechts,
+            };
+            this.Controls.Add(BovenHostRechts);
 
             OnderHost = new ElementHost()
             {
@@ -125,6 +140,8 @@ namespace TrafficSimulation
 
             ExtraButtonsHost = new ElementHost()
             {
+                Height = 200,
+                Width = 200,
                 Visible = false,
                 Location = new Point(200,200),
                 Child = ExtraButtonsOS,

@@ -25,6 +25,7 @@ namespace TrafficSimulation
         public InfoBalk(SimControl s)
         {
             this.s = s;
+            /* 
             s.InfoVisible = false;
             if (s.InfoVisible == true)
             {
@@ -36,6 +37,7 @@ namespace TrafficSimulation
             }
 
             s.Invalidate();
+            */
             InitializeComponent();
 
         }

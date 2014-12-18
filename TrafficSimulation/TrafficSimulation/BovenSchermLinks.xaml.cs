@@ -18,7 +18,7 @@ namespace TrafficSimulation
     /// <summary>
     /// Interaction logic for BovenScherm.xaml
     /// </summary>
-    public partial class BovenScherm : UserControl
+    public partial class BovenSchermLinks : UserControl
     {
         public Boolean InfoVisible = true;
         private bool simulationStarted = false;
@@ -28,28 +28,13 @@ namespace TrafficSimulation
         OnderScherm Onderscherm;
         //int daynightcount = 0;
 
-        public BovenScherm(SimWindow sim, SimControl s, InfoBalk info, OnderScherm Onder)
+        public BovenSchermLinks(SimWindow sim, SimControl s, InfoBalk info, OnderScherm Onder)
         {
             this.s = s;
             simwindow = sim;
             Infobalk = info;
             Onderscherm = Onder;
             InitializeComponent();
-        }
-
-        public void Info_Click(object sender, RoutedEventArgs e)
-        {
-            if (InfoVisible)
-            {
-                Infobalk.Visibility = Visibility.Visible;
-                InfoVisible = false;
-            }
-            else
-            {
-                Infobalk.Visibility = Visibility.Hidden;
-                InfoVisible = true;
-            }
-            s.Invalidate();
         }
 
         private void SimulationDesign_Click(object sender, RoutedEventArgs e)
@@ -61,9 +46,8 @@ namespace TrafficSimulation
                 SpeedUp.IsEnabled = true;
                 SimulationDesign.Content = "Simulation";
                 s.Simulatie = false;
-
             }
-            else 
+            else
             {
                 PlayPauze.IsEnabled = false;
                 SlowDown.IsEnabled = false;
@@ -87,35 +71,7 @@ namespace TrafficSimulation
                 simulationStarted = false;
             }
         }
-        private void Home_Click(object sender, RoutedEventArgs e)
-        {
-            simwindow.Start();
-        }
 
-        private void Save_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void Help_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        //klikmethode voor dag- of nachtsimulatie
-        private void DayNight_Click(object sender, RoutedEventArgs e)
-        {
-            if (s.Day == true)
-            {
-                DayNight.Content = "Day";
-                s.Day = false;
-            }
-            else
-            {
-                DayNight.Content = "Night";
-                s.Day = true;
-            }
-        }
         //klikmethode voor het vertragen van de simulatie
         private void SlowDown_Click(object sender, RoutedEventArgs e)
         {

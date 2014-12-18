@@ -46,10 +46,11 @@ namespace TrafficSimulation
 
         private void Road_Checked(object sender, RoutedEventArgs e)
         {
+            
+            //ExtraButtonsOS.Height = 100;
+            //ExtraButtonsOS.Road_1_3.Visibility = Visibility.Visible;
+            //ExtraButtonsOS.Road_2_4.Visibility = Visibility.Visible;
             ExtraButtonsOS.Visibility = Visibility.Visible;
-            ExtraButtonsOS.Road_1_3.Visibility = Visibility.Visible;
-            ExtraButtonsOS.Road_2_4.Visibility = Visibility.Visible;
-          
             
             /*
             s.eraser = false;
