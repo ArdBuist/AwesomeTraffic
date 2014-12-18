@@ -21,6 +21,7 @@ namespace TrafficSimulation
         public BitmapControl bitmapMap;
         public BitmapControl vehicleMap;
         Point mouseDownPoint;
+        Point mouseMovePoint;
         public Tile[] tileList;
         public List<Vehicle> vehicleList;
         public int tilesHorizontal;
@@ -32,24 +33,47 @@ namespace TrafficSimulation
         public bool selected = false;
         public int TimeofDay = 1;
         Boolean isBuildingMode; //moet veranderd worden als van het kaartbouwen wordt overgesprongen naar het "spelen" 
-        public ElementHost BovenHost, OnderHost, InfoHost;
-        public BovenScherm BovenScherm;
-        public InfoBalk InfoBalk;
+       
         public Boolean Simulatie = true, Day = true, InfoVisible = true;
         //SimWindow simwindow;
 
         public SimControl(Size size, SimWindow sim)
         {
-            mouseDownPoint = new Point(0, 0);
-            //grootte van de kaart
             this.Size = new Size(1600, 900);
+            this.Size = new Size(2000, 1500);
+            bitmapMap = new BitmapControl(this.Size);
+            trafficlightMap = new BitmapControl(this.Size);
+            vehicleMap = new BitmapControl(this.Size);
+            background = new PictureBox();
+            background.SizeMode = PictureBoxSizeMode.Normal;
+            vehicle = new PictureBox();
+            trafficlight = new PictureBox();
+            this.background.Image = bitmapMap.bitmap;
+            this.background.BackColor = Color.Transparent;
+            this.background.Location = new Point(0, 0);
+            this.background.Size = new Size(this.Width, this.Height);
+            this.Controls.Add(background);
+            //moet in else komen, als de simulatie word gestart
+            this.vehicle.Image = vehicleMap.bitmap;
+            this.vehicle.BackColor = Color.Transparent;
+            this.vehicle.Location = new Point(0, 0);
+            this.vehicle.Size = new Size(this.Width, this.Height);
+            this.background.Controls.Add(vehicle);
+            this.trafficlight.Image = trafficlightMap.bitmap;
+            this.trafficlight.BackColor = Color.Transparent;
+            this.trafficlight.Location = new Point(0, 0);
+            this.trafficlight.Size = new Size(this.Width, this.Height);
+            this.vehicle.Controls.Add(trafficlight);
+
+            mouseDownPoint = new Point(0, 0);
+            mouseMovePoint = new Point(0, 0);
+            //grootte van de kaart
+
             //buildingmode is true als er word gebouwd en false als de simulatie start
             // Maak de infobalk, onderscherm en bovenscherm
-            InfoBalk InfoBalk = new InfoBalk(this);
-            OnderScherm OnderScherm = new OnderScherm(this);
-            BovenScherm BovenScherm = new BovenScherm(sim, this, InfoBalk);
-            int HoogteBovenBalk, HoogteOnderbalk, BreedteInfoBalk, HoogteInfobalk, BreedteScherm, HoogteScherm, YLocatieOnderbalk;
-            this.Size = new Size(2000, 1500);
+
+
+            
             isBuildingMode = true;
             //
             tilesHorizontal = Size.Width / 100;
@@ -57,11 +81,9 @@ namespace TrafficSimulation
              * bitmapMap voor de achtergrond met tileList
              * vehicleMap voor de middelste bitmap met Vehicles
              * trafficlightMap voor de voorgrond met de Trafficlights */
-            bitmapMap = new BitmapControl(this.Size);
-            trafficlightMap = new BitmapControl(this.Size);
-            vehicleMap = new BitmapControl(this.Size);
+
             this.DoubleBuffered = true;
-            this.Paint += this.Teken;
+            //this.Paint += this.Teken;
             this.Visible = true;
             this.selected = true;//testcode
             //Initialisatie van de array waarin alle tileList worden opgeslagen
@@ -77,60 +99,28 @@ namespace TrafficSimulation
              * background voor de tileList van de weg
              * vehicle voor de Vehicles die op de weg rijden
              * trafficlight voor de Trafficlights op de wegen */
-            background = new PictureBox();
-            vehicle = new PictureBox();
-            trafficlight = new PictureBox();
+
             trafficlight.MouseDown += this.MouseClickDown;
             trafficlight.MouseMove += (object o, MouseEventArgs mea) =>
             {
                 if (mouseDownPoint != new Point(0, 0))
+                {
                     if (TileIsStraight(mouseDownPoint, mea.Location))
                         DrawTile(mea);
+                    if (selected == true)
+                        MoveMap(mea);
+                }
             };
-            trafficlight.MouseUp += (object o, MouseEventArgs mea) => { mouseDownPoint = new Point(0, 0); };
+            trafficlight.MouseUp += (object o, MouseEventArgs mea) => { mouseDownPoint = new Point(0, 0); mouseMovePoint = new Point(0, 0); };
             //mouseclick event, zorgt er nu voor dat de simulatie word gestart maar moet worden gebruikt om tileList op het veld te plaatsen
             Simulatie = false;
-
-            //Variable om de elementhosten afhankelijk te maken van het scherm en andere elementhosten
-            BreedteScherm = Screen.PrimaryScreen.Bounds.Width;
-            HoogteScherm = Screen.PrimaryScreen.Bounds.Height;
-            HoogteBovenBalk = 100;
-            HoogteOnderbalk = 100;
-            YLocatieOnderbalk = (HoogteScherm - HoogteOnderbalk);
-            HoogteInfobalk = (HoogteScherm - (HoogteBovenBalk + HoogteOnderbalk));
-            BreedteInfoBalk = 300;
-
-            BovenHost = new ElementHost()
-            {
-                BackColor = Color.Transparent,
-                Height = HoogteBovenBalk,
-                Width = BreedteScherm,
-                Child = BovenScherm,
-            };
-            this.Controls.Add(BovenHost);
-
-            OnderHost = new ElementHost()
-            {
-                BackColor = Color.Transparent,
-                Location = new Point(0, YLocatieOnderbalk),
-                Height = HoogteOnderbalk,
-                Width = BreedteScherm,
-                Child = OnderScherm,
-            };
-            this.Controls.Add(OnderHost);
-
-            InfoHost = new ElementHost()
-            {
-                BackColor = Color.Transparent,
-                Location = new Point((BreedteScherm - BreedteInfoBalk), HoogteBovenBalk),
-                Height = HoogteInfobalk,
-                Width = BreedteInfoBalk,
-                Child = InfoBalk,
-            };
-            this.Controls.Add(InfoHost);
-
-            Invalidate();
         }
+
+            
+
+
+
+
 
         private void Teken(object o, PaintEventArgs pea)
         {
@@ -138,22 +128,7 @@ namespace TrafficSimulation
             //dit hoeft alleen maar gebeuren wanneer er nog aan de kaart gewerkt wordt.
             if (isBuildingMode == true)
             {
-                this.background.Image = bitmapMap.bitmap;
-                this.background.BackColor = Color.Transparent;
-                this.background.Location = new Point(0, 0);
-                this.background.Size = new Size(this.Width, this.Height);
-                this.Controls.Add(background);
-                //moet in else komen, als de simulatie word gestart
-                this.vehicle.Image = vehicleMap.bitmap;
-                this.vehicle.BackColor = Color.Transparent;
-                this.vehicle.Location = new Point(0, 0);
-                this.vehicle.Size = new Size(this.Width, this.Height);
-                this.background.Controls.Add(vehicle);
-                this.trafficlight.Image = trafficlightMap.bitmap;
-                this.trafficlight.BackColor = Color.Transparent;
-                this.trafficlight.Location = new Point(0, 0);
-                this.trafficlight.Size = new Size(this.Width, this.Height);
-                this.vehicle.Controls.Add(trafficlight);
+                
             }
             else
             {
@@ -165,6 +140,7 @@ namespace TrafficSimulation
             Bitmap tileImage;
             //mouseDownPoint wordt gebruikt voor het laten functioneren van het door slepen aanbrengen van wegen
             mouseDownPoint = new Point(mea.X / 100 * 100, mea.Y / 100 * 100);
+            mouseMovePoint = mea.Location;
             /*deze code moet worden gedaan zo als de simulatie wordt gestart.*/
             foreach (Tile t in tileList)
             {
@@ -194,8 +170,8 @@ namespace TrafficSimulation
                 Tile selectedTile = tileList[CalculateListPlace(mea.X, mea.Y)];
                 //Blauw randje om geselecteerde tile
                 //tileImage = new Bitmap(100, 100);
-                selectedTile.UpdateLanes(this, 3, 2, 1);//tilename mag nu niet gelijk zijn aan Fork of Crossroad, dat hoeft geen mogelijkheid te worden.
-                selectedTile.UpdateOtherTiles(this, 0);
+                //selectedTile.UpdateLanes(this, 3, 2, 1);//tilename mag nu niet gelijk zijn aan Fork of Crossroad, dat hoeft geen mogelijkheid te worden.
+                //selectedTile.UpdateOtherTiles(this, 0);
 
                 //Graphics gr = Graphics.FromImage(tileImage);
                 //Pen selectPen = new Pen(Color.LightBlue, Width = 3);
@@ -255,6 +231,17 @@ namespace TrafficSimulation
             Invalidate();
         }
 
+        private void MoveMap(MouseEventArgs mea)
+        {
+            if (Math.Abs(mea.X - mouseMovePoint.X) > 5 || Math.Abs(mea.Y - mouseMovePoint.Y) > 5)
+            {
+                Rectangle moveGround = new Rectangle(new Point(Screen.PrimaryScreen.Bounds.X - background.Size.Width, Screen.PrimaryScreen.Bounds.Y - background.Size.Height), new Size(background.Size.Width - Screen.PrimaryScreen.Bounds.X, background.Size.Height - Screen.PrimaryScreen.Bounds.Y));
+                Point newPosition = new Point(background.Location.X + (mea.X - mouseMovePoint.X), background.Location.Y + (mea.Y - mouseMovePoint.Y));
+                if (moveGround.Contains(newPosition))
+                    background.Location = newPosition;
+                this.Update();
+            }
+        }
         //methode maakt een kopie van de huidige tile die net getekend is, zodat dezelfde tile nog een keer getekend kan worden.
         private Tile CopyCurrentTile()
         {
