@@ -27,7 +27,7 @@ namespace TrafficSimulation
             simwindow = sim;
 
             StartScherm = new InterfaceStart(this);
-
+			
             StartHost = new ElementHost()
             {
                 Height = 300,
@@ -48,33 +48,7 @@ namespace TrafficSimulation
 		// Klik op "Open"
 		public void Open_Click()
 		{
-			// De hierop volgende code is grotendeels van http://msdn.microsoft.com/en-us/library/system.io.stream%28v=vs.110%29.aspx
-
-			Stream myStream = null;
-			OpenFileDialog openFileDialog1 = new OpenFileDialog();
-
-			openFileDialog1.InitialDirectory = "c:\\";
-			openFileDialog1.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
-			openFileDialog1.FilterIndex = 2;
-			openFileDialog1.RestoreDirectory = true;
-
-			if (openFileDialog1.ShowDialog() == DialogResult.OK)
-			{
-				try
-				{
-					if ((myStream = openFileDialog1.OpenFile()) != null)
-					{
-						using (myStream)
-						{
-							// Insert code to read the stream here.
-						}
-					}
-				}
-				catch (Exception ex)
-				{
-					MessageBox.Show("Error: Could not read file from disk. Original error: " + ex.Message);
-				}
-			}
+			
 		}
 
 		// Klik op "Option"
@@ -108,20 +82,38 @@ namespace TrafficSimulation
 		// Klik op "How To"
 		public void HowTo_Click()
 		{
-			// Bij deze code ga ik er nog vanuit dat iedereen acrobat reader heeft geïnstaleerd.
-
-			// path van de file
-			string path = Path.Combine(Directory.GetCurrentDirectory(), @"Resources\Projectdocument.pdf");
-
-			// Start nieuw process voor acrobat reader en open de path
-			Process P = new Process
+			// Adobe Acrobat is geïnstaleerd
+			try
 			{
-				StartInfo = { FileName = "AcroRd32.exe", Arguments = path }		
-			};
+				// path van de file
+				string path = Path.Combine(Directory.GetCurrentDirectory(), @"Resources\Projectdocument.pdf");
 
-			// Zet process op fullscreen en open acrobat reader met het bestand
-			P.StartInfo.WindowStyle = ProcessWindowStyle.Maximized;
-			P.Start();
+				// Start nieuw process voor acrobat reader en open de path
+				Process P = new Process
+				{
+					StartInfo = { FileName = "AcroRd32.exe", Arguments = path }
+				};
+
+				// Zet process op fullscreen en open acrobat reader met het bestand
+				P.StartInfo.WindowStyle = ProcessWindowStyle.Maximized;
+				P.Start();
+			}
+
+			// Acrobat reader is niet geïnstaleerd, selecteer programma dat wel pdf kan openen
+			catch
+			{
+				string path = Path.Combine(Directory.GetCurrentDirectory(), @"Resources\Projectdocument.pdf");
+				string args = "shell32.dll,OpenAs_RunDLL " + path;
+
+				// Start nieuw process voor acrobat reader en open de path
+				Process P = new Process
+				{
+					StartInfo = { FileName = "rundll32.exe", Arguments = args }
+				};
+
+				// Zet process op fullscreen en open acrobat reader met het bestand
+				P.Start();
+			}
 
 		}
 

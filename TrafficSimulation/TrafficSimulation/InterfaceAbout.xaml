@@ -4,31 +4,25 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="380" d:DesignWidth="380">
+             d:DesignHeight="600" d:DesignWidth="400">
 	<Grid Background="White">
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="*"/>
-		</Grid.ColumnDefinitions>
 		<Grid.RowDefinitions>
-			<RowDefinition Height="160"/>
+			<RowDefinition Height="448"/>
 			<RowDefinition Height="*"/>
 		</Grid.RowDefinitions>
-		<Grid Grid.Column="0" Name="root">
+		<Grid Grid.Row="0" Name="root">
 			<Rectangle>
 				<Rectangle.Fill>
 					<LinearGradientBrush StartPoint="1,1" EndPoint="1,0">
 						<GradientStop Color="WhiteSmoke" Offset="0.0" />
-						<GradientStop Color="White" Offset="0.5" />
+						<GradientStop Color="White" Offset="0.6" />
 					</LinearGradientBrush>
 				</Rectangle.Fill>
 			</Rectangle>
-			<Image Source="/Resources/TrafficPicture.png" Width="300"/>
-			<Line Stroke="Gray" X1="40" Y1="160" X2="340" Y2="160"/>
+			<Image Source="/Resources/TrafficExpertLogo.png"/>
 		</Grid>
-		<TextBlock Grid.Column="0"  Margin="10" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="12" FontWeight="Bold" FontFamily="Segoe UI">
-			Traffic Expert
-		</TextBlock>
-		<TextBlock Grid.Row="1" HorizontalAlignment="Center" FontSize="12" TextAlignment="Center" Margin="0,40,0,0">
+		<Separator Grid.Row="1" VerticalAlignment="Top" Height="1"/>
+		<TextBlock Grid.Row="1" HorizontalAlignment="Center" FontSize="12" TextAlignment="Center" VerticalAlignment="Center">
 			(c) 2014 Stop and Go					<LineBreak/>
 			The name Traffic Expert and logo, are	<LineBreak/>
 			trademark of Stop and Go				<LineBreak/>

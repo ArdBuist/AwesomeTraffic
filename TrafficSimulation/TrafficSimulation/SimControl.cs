@@ -124,6 +124,7 @@ namespace TrafficSimulation
                 Location = new Point((BreedteScherm - BreedteInfoBalk), HoogteBovenBalk),
                 Height = HoogteInfobalk,
                 Width = BreedteInfoBalk,
+				Visible = false,
                 Child = InfoBalk,
             };
             this.Controls.Add(InfoHost);

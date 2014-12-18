@@ -38,7 +38,7 @@ namespace TrafficSimulation
 
             // Openen van het startscherm
             start = new StartControl(screensize, this);
-            this.BackColor = Color.Green;
+			this.BackColor = Color.Green;
 
             start.Left = ((WidthStartScreen - 300) / 2);
             start.Top = ((HeightStartScreen - 300) / 2);

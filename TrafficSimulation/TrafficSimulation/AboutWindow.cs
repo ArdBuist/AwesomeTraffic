@@ -20,7 +20,7 @@ namespace TrafficSimulation
         {
             InitializeComponent();
 
-            this.Size = new Size(400, 400);
+            this.Size = new Size(400, 600);
 			this.MinimizeBox = false;
 			this.MaximizeBox = false;
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -29,7 +29,7 @@ namespace TrafficSimulation
 
 			AboutHost = new ElementHost()
 			{
-				Height = 400,
+				Height = 600,
 				Width = 400,
 				Child = AboutScherm
 			};

@@ -138,6 +138,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\TrafficExpertLogo.png" />
+    <Content Include="TrafficExpertLogo.png" />
     <Resource Include="Resources\Roads\bendLD.png" />
     <Resource Include="Resources\Roads\bendLU.PNG" />
     <Resource Include="Resources\Roads\bendRD.png" />
@@ -163,7 +165,6 @@
     <Resource Include="Resources\Roads\spawnerleft.png" />
     <Resource Include="Resources\Roads\spawnerright.png" />
     <Resource Include="Resources\Roads\spawnerup.png" />
-    <Resource Include="Resources\TrafficPicture.png" />
     <Content Include="Resources\truck1.png" />
     <Content Include="Resources\truck2.png" />
     <Content Include="Resources\truck3.png" />
