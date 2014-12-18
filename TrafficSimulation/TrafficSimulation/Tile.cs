@@ -145,7 +145,7 @@ namespace TrafficSimulation
         //krijgt een aantal banen die binnenkomen en eruit moeten gaan voor een bepaald richting. Tile moet dat dan in zijn gegevens verwerken.
         public abstract void UpdateLanes(SimControl s, int direction, int lanesIn, int lanesOut);
 
-        //returnt de banan die er bij een bepaalde kant uitgaan.
+        //returnt de banen die er bij een bepaalde kant uitgaan.
         public abstract int GetLanesIn(int direction);
 
         //returnt de banen die er bij een bepaald kant ingaan.
@@ -534,6 +534,56 @@ namespace TrafficSimulation
             base.SetValues(s, position, listPlace);
 
             control.ChangeValues(position);
+        }
+    }
+
+    public class SelectTile : Tile
+    {
+        public SelectTile()
+        {
+        }
+
+        public override Bitmap DrawImage()
+        { // hier wordt een bitmap gemaakt en getekend door de andere methode. 
+            Bitmap image = new Bitmap(100, 100);
+            DrawTile t = new DrawTile();
+            t.drawSelectTile(Graphics.FromImage(image));
+            return image;
+        }
+
+        /*
+        public Bitmap removeImage()
+        { // hier wordt een bitmap gemaakt en getekend door de andere methode. 
+            Bitmap image = new Bitmap(100, 100);
+            DrawTile t = new DrawTile();
+            t.removeSelectTile(Graphics.FromImage(image));
+            return image;
+        }
+         **/
+
+        //returnt de banen die er bij een bepaalde kant uitgaan.
+        public override int GetLanesIn(int direction)
+        {
+        int noLanes = 0;
+        return noLanes;
+        }
+
+        //returnt de banen die er bij een bepaald kant ingaan.
+        public override int GetLanesOut(int direction)
+        {
+            int noLanes = 0;
+            return noLanes;
+        }
+
+        //controleert of aan de aangegeven zijkant ook echt een weg ligt.
+        public override bool doesConnect(int side)
+        {
+            bool noLanes = false;
+            return noLanes;
+        }
+
+        public override void UpdateLanes(SimControl s, int direction, int lanesIn, int lanesOut)
+        {            
         }
     }
 }

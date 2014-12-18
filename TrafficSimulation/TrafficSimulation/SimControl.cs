@@ -193,33 +193,25 @@ namespace TrafficSimulation
                 }
             }
 
-            if (selected == true) //als de select-tool is aangeklikt
-            {
-                Tile selectedTile = tileList[CalculateListPlace(mea.X, mea.Y)];
-                
                 //de eerder geselecteerde tile wordt opnieuw getekend en verwijdert zo de blauwe rand
                 if (oldselectedTile != null)
                 {
                     tileImage = oldselectedTile.DrawImage();
                 }
 
+            if (tileList[CalculateListPlace(mea.X, mea.Y)] != null && selected == true) //als de select-tool is aangeklikt
+            {
+                Tile selectedTile = new SelectTile();               
+                             
                 //Er wordt een blauw randje getekend om de geselecteerde tile
-                tileImage = new Bitmap(100, 100);
-                Graphics gr = Graphics.FromImage(tileImage);
-                Pen selectPen = new Pen(Color.LightBlue, Width = 3);
-                gr.DrawRectangle(selectPen, (mea.X / 100 * 100), (mea.Y / 100 * 100), 100, 100);
+                selectedTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), CalculateListPlace(mea.X, mea.Y));
+                tileImage = selectedTile.DrawImage();
                 //de huidige selectedTile wordt de oude selectedtile voor de volgende keer
-                oldselectedTile = selectedTile; 
+                oldselectedTile = tileList[CalculateListPlace(mea.X, mea.Y)];
             }
 
             else
-            {
-                //de blauwe rand van de oude selectedtile wordt verwijderd
-                if (oldselectedTile != null)
-                {
-                    tileImage = oldselectedTile.DrawImage();
-                }
-
+            {               
                 //als de gum-tool niet is aangeklikt
                 if (eraser == false) 
                 {
