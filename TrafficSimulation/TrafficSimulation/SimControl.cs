@@ -34,8 +34,7 @@ namespace TrafficSimulation
         public int TimeofDay = 1;
         Boolean isBuildingMode; //moet veranderd worden als van het kaartbouwen wordt overgesprongen naar het "spelen" 
 
-       
->>>>>>> origin/kaartverslepen
+       //kaartverslepen
         public Boolean Simulatie = true, Day = true, InfoVisible = true;
         //SimWindow simwindow;
 

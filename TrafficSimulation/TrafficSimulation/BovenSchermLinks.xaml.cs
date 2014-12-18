@@ -28,9 +28,9 @@ namespace TrafficSimulation
         OnderScherm Onderscherm;
         //int daynightcount = 0;
 
-        public BovenSchermLinks(SimWindow sim, SimControl s, InfoBalk info, OnderScherm Onder)
+        public BovenSchermLinks(SimWindow sim, InfoBalk info, OnderScherm Onder)
         {
-            this.s = s;
+            
             simwindow = sim;
             Infobalk = info;
             Onderscherm = Onder;

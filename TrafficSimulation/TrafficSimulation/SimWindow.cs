@@ -15,11 +15,11 @@ namespace TrafficSimulation
     {
         SimControl sim; 
         public ElementHost BovenHostLinks, BovenHostRechts, OnderHost, InfoHost, ExtraButtonsHost;
-       	public BovenSchermLinks BovenSchermLinks;
-        public BovenSchermRechts BovenSchermRechts;
-        public InfoBalk InfoBalk;
-	public ExtraButtonsOS ExtraButtonsOS;
-	public Onderscherm Onderscherm
+       	public BovenSchermLinks Bovenschermlinks;
+        public BovenSchermRechts Bovenschermrechts;
+        public InfoBalk Infobalk;
+	    public ExtraButtonsOS ExtrabuttonsOS;
+        public OnderScherm Onderscherm;
 
         StartControl start;
         
@@ -38,17 +38,17 @@ namespace TrafficSimulation
 	
 		// Maak de infobalk, onderscherm en bovenscherm
 
-            InfoBalk InfoBalk = new InfoBalk(this);
-            ExtraButtonsOS ExtraButtonsOS = new ExtraButtonsOS(this, InfoBalk);
-            OnderScherm OnderScherm = new OnderScherm(this, InfoBalk, ExtraButtonsOS);
-            BovenSchermLinks BovenSchermLinks = new BovenSchermLinks(sim, this, InfoBalk, OnderScherm);
-            BovenSchermRechts BovenSchermRechts = new BovenSchermRechts(sim, this, InfoBalk, OnderScherm);
-            
+            Infobalk = new InfoBalk(sim);
+            ExtrabuttonsOS = new ExtraButtonsOS(sim, Infobalk);
+            Onderscherm = new OnderScherm(sim, Infobalk, ExtrabuttonsOS);
+            Bovenschermlinks = new BovenSchermLinks(sim, Infobalk, Onderscherm);
+            Bovenschermrechts = new BovenSchermRechts(sim, Infobalk, Onderscherm);
 
-            int HoogteBovenBalk, HoogteOnderbalk, BreedteInfoBalk, HoogteInfobalk, BreedteScherm, HoogteScherm, YLocatieOnderbalk;
+
+            int HoogteBovenBalk, HoogteOnderbalk, BreedteInfoBalk, HoogteInfobalk, BreedteScherm, HoogteScherm, YLocatieOnderbalk, BreedteSchermLink, BreedteSchermRechts;
             //Variable om de elementhosten afhankelijk te maken van het scherm en andere elementhosten
             
-		BreedteScherm = Screen.PrimaryScreen.Bounds.Width;
+		    BreedteScherm = Screen.PrimaryScreen.Bounds.Width;
             HoogteScherm = Screen.PrimaryScreen.Bounds.Height;
             BreedteSchermLink = (BreedteScherm / 4);
             BreedteSchermRechts = (BreedteScherm / 4);
@@ -64,7 +64,7 @@ namespace TrafficSimulation
                 Height = HoogteBovenBalk,
                 Width = BreedteSchermRechts,
                 Location = new Point(0,0),
-                Child = BovenSchermLinks,
+                Child = Bovenschermlinks,
             };
             this.Controls.Add(BovenHostLinks);
 
@@ -74,7 +74,7 @@ namespace TrafficSimulation
                 Height = HoogteBovenBalk,
                 Width = BreedteSchermLink,
                 Location = new Point((BreedteScherm - BreedteSchermLink), 0),
-                Child = BovenSchermRechts,
+                Child = Bovenschermrechts,
             };
             this.Controls.Add(BovenHostRechts);
 
@@ -84,7 +84,7 @@ namespace TrafficSimulation
                 Location = new Point(0, YLocatieOnderbalk),
                 Height = HoogteOnderbalk,
                 Width = BreedteScherm,
-                Child = OnderScherm,
+                Child = Onderscherm,
             };
             this.Controls.Add(OnderHost);
 
@@ -94,7 +94,7 @@ namespace TrafficSimulation
                 Width = 200,
                 Visible = false,
                 Location = new Point(200,200),
-                Child = ExtraButtonsOS,
+                Child = ExtrabuttonsOS,
             };
             this.Controls.Add(ExtraButtonsHost);
 
@@ -104,7 +104,7 @@ namespace TrafficSimulation
                 Location = new Point((BreedteScherm - BreedteInfoBalk), HoogteBovenBalk),
                 Height = HoogteInfobalk,
                 Width = BreedteInfoBalk,
-                Child = InfoBalk,
+                Child = Infobalk,
             };
             this.Controls.Add(InfoHost);
 
