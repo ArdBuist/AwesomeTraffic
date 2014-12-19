@@ -12,16 +12,16 @@ using System.Windows.Forms.Integration;
 
 namespace TrafficSimulation
 {
-    public partial class StartControl : UserControl
+    public partial class StartWindow : UserControl
     {
         ElementHost StartHost;
-        SimWindow simwindow;
+        WindowSelect windowselect;
         InterfaceStart StartScherm;
 
-        public StartControl(Size size, SimWindow sim)
+        public StartWindow(Size size, WindowSelect sim)
         {
             this.Size = size;
-            simwindow = sim;
+            windowselect = sim;
 
             StartScherm = new InterfaceStart(this);
 
@@ -38,7 +38,7 @@ namespace TrafficSimulation
         public void New_Click()
         {
             // Open simcontrol
-            simwindow.New();
+            windowselect.New();
         }
 
         public void Option_Click()

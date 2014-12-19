@@ -55,6 +55,12 @@
       <DependentUpon>BovenScherm.xaml</DependentUpon>
     </Compile>
     <Compile Include="BuildPanel.cs" />
+    <Compile Include="WindowSelect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WindowSelect.Designer.cs">
+      <DependentUpon>WindowSelect.cs</DependentUpon>
+    </Compile>
     <Compile Include="Simulation.cs" />
     <Compile Include="ExtraButtonsOnderScherm.xaml.cs">
       <DependentUpon>ExtraButtonsOnderScherm.xaml</DependentUpon>
@@ -75,11 +81,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="StartControl.cs">
+    <Compile Include="StartWindow.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="StartControl.Designer.cs">
-      <DependentUpon>StartControl.cs</DependentUpon>
+    <Compile Include="StartWindow.Designer.cs">
+      <DependentUpon>StartWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Tile.cs" />
     <Compile Include="Trafficlight.cs" />
@@ -92,7 +98,7 @@
       <DependentUpon>SimControl.cs</DependentUpon>
     </Compile>
     <Compile Include="SimWindow.cs">
-      <SubType>Form</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="SimWindow.Designer.cs">
       <DependentUpon>SimWindow.cs</DependentUpon>

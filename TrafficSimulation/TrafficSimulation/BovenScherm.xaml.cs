@@ -23,14 +23,14 @@ namespace TrafficSimulation
         public Boolean InfoVisible = true;
         private bool simulationStarted = false;
         SimControl s;
-        SimWindow simwindow;
+        WindowSelect windowselect;
         InfoBalk Infobalk;
         //int daynightcount = 0;
 
-        public BovenScherm(SimWindow sim, SimControl s, InfoBalk info)
+        public BovenScherm(WindowSelect sim, SimControl s, InfoBalk info)
         {
             this.s = s;
-            simwindow = sim;
+            windowselect = sim;
             Infobalk = info;
 
             InitializeComponent();
@@ -88,7 +88,7 @@ namespace TrafficSimulation
         }
         private void Home_Click(object sender, RoutedEventArgs e)
         {
-            simwindow.Start();
+            windowselect.Start();
         }
 
         private void Save_Click(object sender, RoutedEventArgs e)

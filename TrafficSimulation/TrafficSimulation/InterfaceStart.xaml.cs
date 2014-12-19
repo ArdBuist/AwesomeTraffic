@@ -20,9 +20,9 @@ namespace TrafficSimulation
     /// </summary>
     public partial class InterfaceStart : UserControl
     {
-        StartControl startcontrol;
+        StartWindow startcontrol;
 
-        public InterfaceStart(StartControl start)
+        public InterfaceStart(StartWindow start)
         {
             InitializeComponent();
 

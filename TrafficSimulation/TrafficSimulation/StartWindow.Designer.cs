@@ -1,6 +1,6 @@
 ﻿namespace TrafficSimulation
 {
-    partial class StartControl
+    partial class StartWindow
     {
         /// <summary> 
         /// Required designer variable.
