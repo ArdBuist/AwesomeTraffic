@@ -68,12 +68,9 @@ namespace TrafficSimulation
             mouseDownPoint = new Point(0, 0);
             mouseMovePoint = new Point(0, 0);
             //grootte van de kaart
-
             //buildingmode is true als er word gebouwd en false als de simulatie start
             // Maak de infobalk, onderscherm en bovenscherm
 
-
-            
             isBuildingMode = true;
             //
             tilesHorizontal = Size.Width / 100;
@@ -115,12 +112,6 @@ namespace TrafficSimulation
             //mouseclick event, zorgt er nu voor dat de simulatie word gestart maar moet worden gebruikt om tileList op het veld te plaatsen
             Simulatie = false;
         }
-
-            
-
-
-
-
 
         private void Teken(object o, PaintEventArgs pea)
         {

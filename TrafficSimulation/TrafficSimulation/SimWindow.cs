@@ -67,7 +67,6 @@ namespace TrafficSimulation
             };
             this.Controls.Add(InfoHost);
             this.Controls.Add(sim);
-            // Laad het beginscherm
         }
 
         public void Options()
