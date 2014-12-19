@@ -20,8 +20,11 @@ namespace TrafficSimulation
     /// </summary>
     public partial class ExtraButtonsOnderScherm : UserControl
     {
-        public ExtraButtonsOnderScherm()
+        SimControl s;
+
+        public ExtraButtonsOnderScherm(SimControl s)
         {
+            this.s = s;
             InitializeComponent();
         }
 

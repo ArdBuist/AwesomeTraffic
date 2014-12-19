@@ -30,6 +30,7 @@ namespace TrafficSimulation
             InitializeComponent();
         }
 
+        //klikmethode selecttool
         private void Select_Checked(object sender, RoutedEventArgs e)
         {
             s.eraser = false;
@@ -38,6 +39,7 @@ namespace TrafficSimulation
             //hierna moet dan een scherm verschijnen met info en aanpassingsmogelijkheden
         }
 
+        //klikmethode gum
         private void Eraser_Checked(object sender, RoutedEventArgs e)
         {
             s.eraser = true;
@@ -45,45 +47,43 @@ namespace TrafficSimulation
             s.building = false;
         }
 
-        //klikmethode weg
+        //klikmethode weg (verwijzing naar extrabuttonsonderscherm)
         private void Road_Checked(object sender, RoutedEventArgs e)
         {                      
         }
-      
 
-        //deze methode mag weg, want hij wordt vervangen door de vier methodes hierboven
+        //klikmethode bocht (verwijzing naar extrabuttonsonderscherm)
         private void Bend_Checked(object sender, RoutedEventArgs e)
         {
         }
 
+        //klikmethode kruispunt
         private void CrossRoad_Checked(object sender, RoutedEventArgs e)
         {
-            //s.eraser = false;
+            s.eraser = false;
             s.selected = false;
-            //s.currentBuildTile = new Crossroad();
+            s.building = true;
+            s.currentBuildTile = new Crossroad(s);
         }
 
+        //klikmethode fork
         private void Fork_Checked(object sender, RoutedEventArgs e)
         {
-            /*
             s.eraser = false;
-            int notdirection = 1; //=1 vervangen door variabele, variabele waar geen weg naartoe loopt
-            s.currentBuildTile = new Fork(notdirection);
             s.selected = false;
-             */
+            s.building = true;
+            int notDirection = 1;
+            s.currentBuildTile = new Fork(s,notDirection); //notdirection is nu  1
         }
 
-
+        //klikmethode spawner
         private void Spawner_Checked(object sender, RoutedEventArgs e)
-        {
-            /*
+        {            
             s.eraser = false;
-            int direction = 4; //=4 vervangen door variabele, de kant waar de weg heen loopt
-            s.currentBuildTile = new Spawner(direction);
             s.selected = false;
-            */
-        }
-        
-
+            s.building = true;
+            int direction = 4; //=4 vervangen door variabele, de kant waar de weg heen loopt
+            s.currentBuildTile = new Spawner(direction);           
+        }        
     }
 }
