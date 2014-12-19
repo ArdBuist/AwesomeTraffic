@@ -20,9 +20,9 @@ namespace TrafficSimulation
     /// </summary>
     public partial class InterfaceStart : UserControl
     {
-        StartControl startcontrol;
+        StartWindow startcontrol;
 
-        public InterfaceStart(StartControl start)
+        public InterfaceStart(StartWindow start)
         {
             InitializeComponent();
 
@@ -34,10 +34,25 @@ namespace TrafficSimulation
             startcontrol.New_Click();
         }
 
+		public void Open_Click(object sender, RoutedEventArgs e)
+		{
+			startcontrol.Open_Click();
+		}
+
         public void Options_Click(object sender, RoutedEventArgs e)
         {
             startcontrol.Option_Click();
         }
+
+		public void HowTo_Click(object sender, RoutedEventArgs e)
+		{
+			startcontrol.HowTo_Click();
+		}
+
+		public void About_Click(object sender, RoutedEventArgs e)
+		{
+			startcontrol.About_Click();
+		}
 
         private void Exit_Click(object sender, RoutedEventArgs e)
         {

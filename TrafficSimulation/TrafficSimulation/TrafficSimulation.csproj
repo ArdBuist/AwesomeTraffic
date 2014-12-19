@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -50,11 +51,26 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AboutWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AboutWindow.Designer.cs">
+      <DependentUpon>AboutWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="BitmapControl.cs" />
     <Compile Include="BovenScherm.xaml.cs">
       <DependentUpon>BovenScherm.xaml</DependentUpon>
     </Compile>
     <Compile Include="BuildPanel.cs" />
+    <Compile Include="WindowSelect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WindowSelect.Designer.cs">
+      <DependentUpon>WindowSelect.cs</DependentUpon>
+    </Compile>
+    <Compile Include="InterfaceAbout.xaml.cs">
+      <DependentUpon>InterfaceAbout.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Simulation.cs" />
     <Compile Include="ExtraButtonsOnderScherm.xaml.cs">
       <DependentUpon>ExtraButtonsOnderScherm.xaml</DependentUpon>
@@ -75,11 +91,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="StartControl.cs">
+    <Compile Include="StartWindow.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="StartControl.Designer.cs">
-      <DependentUpon>StartControl.cs</DependentUpon>
+    <Compile Include="StartWindow.Designer.cs">
+      <DependentUpon>StartWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Tile.cs" />
     <Compile Include="Trafficlight.cs" />
@@ -92,7 +108,7 @@
       <DependentUpon>SimControl.cs</DependentUpon>
     </Compile>
     <Compile Include="SimWindow.cs">
-      <SubType>Form</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="SimWindow.Designer.cs">
       <DependentUpon>SimWindow.cs</DependentUpon>
@@ -120,11 +136,16 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Resources\Projectdocument.pdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\TrafficExpertLogo.png" />
+    <Content Include="TrafficExpertLogo.png" />
     <Resource Include="Resources\Roads\bendLD.png" />
     <Resource Include="Resources\Roads\bendLU.PNG" />
     <Resource Include="Resources\Roads\bendRD.png" />
@@ -167,6 +188,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="InfoBalk.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="InterfaceAbout.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

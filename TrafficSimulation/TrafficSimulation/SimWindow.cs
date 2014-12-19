@@ -11,47 +11,61 @@ using System.Windows.Forms.Integration;
 
 namespace TrafficSimulation
 {
-    public partial class SimWindow : Form
+    public partial class SimWindow : UserControl
     {
-        SimControl sim; 
-        StartControl start;
+        SimControl sim;
+        WindowSelect windowselect;
+         public ElementHost BovenHost, OnderHost, InfoHost;
+        public BovenScherm BovenScherm;
+        public InfoBalk InfoBalk;
         // test of mijn branch het doet
-        public SimWindow()
+        public SimWindow(Size size, WindowSelect windowselect)
         {
-            // Scherm maximaliseren
-            this.WindowState = FormWindowState.Maximized;
-
-            // Alle schermranden weghalen
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-
-            // Laad het beginscherm
-            Start();
-        }
-
-        public void Start()
-        {
-            this.Controls.Remove(sim);
-            int WidthStartScreen = Screen.PrimaryScreen.Bounds.Width, HeightStartScreen = Screen.PrimaryScreen.Bounds.Height;
-            Size screensize = new Size(WidthStartScreen, HeightStartScreen);
-
-            // Openen van het startscherm
-            start = new StartControl(screensize, this);
-            this.BackColor = Color.Green;
-
-            start.Left = ((WidthStartScreen - 300) / 2);
-            start.Top = ((HeightStartScreen - 300) / 2);
-            this.Controls.Add(start);
-        }
-
-        public void New()
-        {
-            // Verwijder start menu
-            this.Controls.Remove(start);
-
-            // Open simcontrol
+            this.Size = size;
+            this.windowselect = windowselect;
             sim = new SimControl(this.ClientSize, this);
-            this.BackColor = Color.Green;
             sim.Location = new Point(0, 0);
+             InfoBalk InfoBalk = new InfoBalk(sim);
+            OnderScherm OnderScherm = new OnderScherm(sim);
+            BovenScherm BovenScherm = new BovenScherm(windowselect, sim, InfoBalk);
+            int HoogteBovenBalk, HoogteOnderbalk, BreedteInfoBalk, HoogteInfobalk, BreedteScherm, HoogteScherm, YLocatieOnderbalk;
+                        //Variable om de elementhosten afhankelijk te maken van het scherm en andere elementhosten
+            BreedteScherm = Screen.PrimaryScreen.Bounds.Width;
+            HoogteScherm = Screen.PrimaryScreen.Bounds.Height;
+            HoogteBovenBalk = 100;
+            HoogteOnderbalk = 100;
+            YLocatieOnderbalk = (HoogteScherm - HoogteOnderbalk);
+            HoogteInfobalk = (HoogteScherm - (HoogteBovenBalk + HoogteOnderbalk));
+            BreedteInfoBalk = 300;
+
+            BovenHost = new ElementHost()
+            {
+                BackColor = Color.Transparent,
+                Height = HoogteBovenBalk,
+                Width = BreedteScherm,
+                Child = BovenScherm,
+            };
+            this.Controls.Add(BovenHost);
+
+            OnderHost = new ElementHost()
+            {
+                BackColor = Color.Transparent,
+                Location = new Point(0, YLocatieOnderbalk),
+                Height = HoogteOnderbalk,
+                Width = BreedteScherm,
+                Child = OnderScherm,
+            };
+            this.Controls.Add(OnderHost);
+
+            InfoHost = new ElementHost()
+            {
+                BackColor = Color.Transparent,
+                Location = new Point((BreedteScherm - BreedteInfoBalk), HoogteBovenBalk),
+                Height = HoogteInfobalk,
+                Width = BreedteInfoBalk,
+                Child = InfoBalk,
+            };
+            this.Controls.Add(InfoHost);
             this.Controls.Add(sim);
         }
 
@@ -66,16 +80,6 @@ namespace TrafficSimulation
         }
 
         public void Open()
-        {
-
-        }
-
-        private void Close()
-        {
-            this.Close();
-        }
-
-        private void SimWindow_Load(object sender, EventArgs e)
         {
 
         }
