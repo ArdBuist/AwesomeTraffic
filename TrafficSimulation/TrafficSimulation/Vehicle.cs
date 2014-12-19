@@ -94,7 +94,9 @@ namespace TrafficSimulation
             }
             else
             {
-                carBitmap = (Bitmap)Properties.Resources.ResourceManager.GetObject("car1");
+                Random rnd = new Random();
+                string carName = "car" + rnd.Next(1,5);
+                carBitmap = (Bitmap)Properties.Resources.ResourceManager.GetObject(carName);
                 bitmap = new Bitmap(carBitmap.Width + speed, carBitmap.Height);
                 trailBitmap = new Bitmap(speed, carBitmap.Height);
                 gr = Graphics.FromImage(bitmap);
