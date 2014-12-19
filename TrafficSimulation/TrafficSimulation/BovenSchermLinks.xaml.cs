@@ -46,7 +46,7 @@ namespace TrafficSimulation
                 SlowDown.IsEnabled = true;
                 SpeedUp.IsEnabled = true;
                 SimulationDesign.Content = "Simulation";
-                s.Simulatie = false;
+                simulationStarted = false;
             }
             else
             {
@@ -54,7 +54,7 @@ namespace TrafficSimulation
                 SlowDown.IsEnabled = false;
                 SpeedUp.IsEnabled = false;
                 SimulationDesign.Content = "Design";
-                s.Simulatie = true;
+                simulationStarted = true;
             }
             s.Invalidate();
         }

@@ -63,23 +63,55 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <Button x:Name="Road_1_3" Style="{StaticResource Extrabuttons}" Grid.Column="0" Grid.Row="2" Visibility="Hidden">
-                    <TextBlock Text="Road_1_3"/>
+                <Button x:Name="Road_1_3" Style="{StaticResource Extrabuttons}" Grid.Column="0" Grid.Row="2" Visibility="Hidden" >
+                    <Image Source="Resources/Roads/roadhor.png" Height="40" Width="40"/>
                 </Button>
                 <Button x:Name="Road_2_4" Style="{StaticResource Extrabuttons}" Grid.Column="0" Grid.Row="3" Visibility="Hidden">
-                    <TextBlock Text="Road_2_4"/>
+                    <Image Source="Resources/Roads/roadver.png" Height="40" Width="40"/>
                 </Button>
                 <Button x:Name="Bend_1_2" Style="{StaticResource Extrabuttons}" Grid.Column="0" Grid.Row="0" Visibility="Hidden">
-                    <TextBlock Text="Bend_1_2"/>
+                    <Image Source="Resources/Roads/bendLD.png" Height="40" Width="40"/>
                 </Button>
                 <Button x:Name="Bend_2_3" Style="{StaticResource Extrabuttons}" Grid.Column="0" Grid.Row="1" Visibility="Hidden">
-                    <TextBlock Text="Bend_2_3"/>
+                    <Image Source="Resources/Roads/bendLU.png" Height="40" Width="40"/>
                 </Button>
                 <Button x:Name="Bend_3_4" Style="{StaticResource Extrabuttons}" Grid.Column="0" Grid.Row="2" Visibility="Hidden">
-                    <TextBlock Text="Bend_3_4"/>
+                    <Image Source="Resources/Roads/bendRD.png" Height="40" Width="40"/>
                 </Button>
                 <Button x:Name="Bend_4_1" Style="{StaticResource Extrabuttons}" Grid.Column="0" Grid.Row="3" Visibility="Hidden">
-                    <TextBlock Text="Bendt_4_1"/>
+                    <Image Source="Resources/Roads/bendUR.png" Height="40" Width="40"/>
+                </Button>
+               
+                <Button x:Name="Fork_1_2" Style="{StaticResource Extrabuttons}" Grid.Column="0" Grid.Row="0" Visibility="Hidden">
+                    <Image Source="Resources/Crossroads/forkleft.png" Height="40" Width="40"/>
+                </Button>
+
+                <Button x:Name="Fork_2_3" Style="{StaticResource Extrabuttons}" Grid.Column="0" Grid.Row="1" Visibility="Hidden">
+                    <Image Source="Resources/Crossroads/forkdown.png" Height="40" Width="40"/>
+                </Button>
+
+                <Button x:Name="Fork_3_4" Style="{StaticResource Extrabuttons}" Grid.Column="0" Grid.Row="2" Visibility="Hidden">
+                    <Image Source="Resources/Crossroads/forkright.png" Height="40" Width="40"/>
+                </Button>
+
+                <Button x:Name="Fork_4_1" Style="{StaticResource Extrabuttons}" Grid.Column="0" Grid.Row="3" Visibility="Hidden">
+                    <Image Source="Resources/Crossroads/forkup.png" Height="40" Width="40"/>
+                </Button>
+
+                <Button x:Name="Spawner_1" Style="{StaticResource Extrabuttons}" Grid.Column="0" Grid.Row="0" Visibility="Hidden">
+                    <Image Source="Resources/Roads/spawnerleft.png" Height="40" Width="40"/>
+                </Button>
+
+                <Button x:Name="Spawner_2" Style="{StaticResource Extrabuttons}" Grid.Column="0" Grid.Row="1" Visibility="Hidden">
+                    <Image Source="Resources/Roads/spawnerdown.png" Height="40" Width="40"/>
+                </Button>
+
+                <Button x:Name="Spawner_3" Style="{StaticResource Extrabuttons}" Grid.Column="0" Grid.Row="2" Visibility="Hidden">
+                    <Image Source="Resources/Roads/spawnerright.png" Height="40" Width="40"/>
+                </Button>
+
+                <Button x:Name="Spawner_4" Style="{StaticResource Extrabuttons}" Grid.Column="0" Grid.Row="3" Visibility="Hidden">
+                    <Image Source="Resources/Roads/spawnerup.png" Height="40" Width="40"/>
                 </Button>
 
             </Grid>

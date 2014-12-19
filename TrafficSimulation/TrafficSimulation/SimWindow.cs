@@ -20,7 +20,7 @@ namespace TrafficSimulation
         public InfoBalk Infobalk;
         public ExtraButtonsOS ExtrabuttonsOS;
         public OnderScherm Onderscherm;
-        
+        private int HoogteBovenBalk, HoogteOnderbalk, BreedteInfoBalk, HoogteInfobalk, BreedteScherm, HoogteScherm, YLocatieOnderbalk, BreedteSchermLink, BreedteSchermRechts, XLocatieOnderbalk, BreedteOnderbalk;
         StartControl start;
 
 
@@ -40,12 +40,11 @@ namespace TrafficSimulation
 
             Infobalk = new InfoBalk(this);
             ExtrabuttonsOS = new ExtraButtonsOS(this, Infobalk);
-            Onderscherm = new OnderScherm(this, Infobalk, ExtrabuttonsOS);
+            Onderscherm = new OnderScherm(this, Infobalk, ExtrabuttonsOS, ExtraButtonsHost);
             Bovenschermlinks = new BovenSchermLinks(this, Infobalk, Onderscherm);
             Bovenschermrechts = new BovenSchermRechts(this, Infobalk, Onderscherm);
-
-
-            int HoogteBovenBalk, HoogteOnderbalk, BreedteInfoBalk, HoogteInfobalk, BreedteScherm, HoogteScherm, YLocatieOnderbalk, BreedteSchermLink, BreedteSchermRechts,XLocatieOnderbalk, BreedteOnderbalk;
+           
+           
             //Variable om de elementhosten afhankelijk te maken van het scherm en andere elementhosten
 
             BreedteScherm = Screen.PrimaryScreen.Bounds.Width;
@@ -81,6 +80,16 @@ namespace TrafficSimulation
                 Child = Bovenschermrechts,
             };
             this.Controls.Add(BovenHostRechts);
+           
+            ExtraButtonsHost = new ElementHost()
+            {
+                Height = 200,
+                Width = 200,
+
+                Location = new Point(200, 200),
+                Child = ExtrabuttonsOS,
+            };
+            this.Controls.Add(ExtraButtonsHost);
 
             OnderHost = new ElementHost()
             {
@@ -93,16 +102,6 @@ namespace TrafficSimulation
             };
             this.Controls.Add(OnderHost);
 
-            ExtraButtonsHost = new ElementHost()
-            {
-                Height = 200,
-                Width = 200,
-                Visible = false,
-                Location = new Point(200, 200),
-                Child = ExtrabuttonsOS,
-            };
-            this.Controls.Add(ExtraButtonsHost);
-
             InfoHost = new ElementHost()
             {
                 BackColor = Color.Transparent,
@@ -114,6 +113,8 @@ namespace TrafficSimulation
             };
             this.Controls.Add(InfoHost);
 
+
+            
             Invalidate();
 
             // Laad het beginscherm
