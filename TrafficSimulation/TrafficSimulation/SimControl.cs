@@ -42,14 +42,13 @@ namespace TrafficSimulation
         {
             mouseDownPoint = new Point(0, 0);
             //grootte van de kaart
-            this.Size = new Size(1600, 900);
+            this.Size = new Size(1600,900);
             //buildingmode is true als er word gebouwd en false als de simulatie start
             // Maak de infobalk, onderscherm en bovenscherm
             InfoBalk InfoBalk = new InfoBalk(this);
             OnderScherm OnderScherm = new OnderScherm(this);
             BovenScherm BovenScherm = new BovenScherm(sim, this, InfoBalk);
             int HoogteBovenBalk, HoogteOnderbalk, BreedteInfoBalk, HoogteInfobalk, BreedteScherm, HoogteScherm, YLocatieOnderbalk;
-            this.Size = new Size(2000, 1500);
             isBuildingMode = true;
             //
             tilesHorizontal = Size.Width / 100;
@@ -125,6 +124,7 @@ namespace TrafficSimulation
                 Location = new Point((BreedteScherm - BreedteInfoBalk), HoogteBovenBalk),
                 Height = HoogteInfobalk,
                 Width = BreedteInfoBalk,
+				Visible = false,
                 Child = InfoBalk,
             };
             this.Controls.Add(InfoHost);

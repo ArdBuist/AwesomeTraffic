@@ -20,7 +20,7 @@ namespace TrafficSimulation
         {
             // Scherm maximaliseren
             this.WindowState = FormWindowState.Maximized;
-
+            
             // Alle schermranden weghalen
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 
@@ -31,12 +31,14 @@ namespace TrafficSimulation
         public void Start()
         {
             this.Controls.Remove(sim);
-            int WidthStartScreen = Screen.PrimaryScreen.Bounds.Width, HeightStartScreen = Screen.PrimaryScreen.Bounds.Height;
+            int WidthStartScreen = Screen.PrimaryScreen.Bounds.Width,
+                HeightStartScreen = Screen.PrimaryScreen.Bounds.Height;
+
             Size screensize = new Size(WidthStartScreen, HeightStartScreen);
 
             // Openen van het startscherm
             start = new StartControl(screensize, this);
-            this.BackColor = Color.Green;
+			this.BackColor = Color.Green;
 
             start.Left = ((WidthStartScreen - 300) / 2);
             start.Top = ((HeightStartScreen - 300) / 2);
