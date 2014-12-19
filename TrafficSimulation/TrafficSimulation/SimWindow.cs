@@ -23,7 +23,7 @@ namespace TrafficSimulation
         public ExtraButtonsOS ExtrabuttonsOS;
         public OnderScherm Onderscherm;
         private int HoogteBovenBalk, HoogteOnderbalk, BreedteInfoBalk, HoogteInfobalk, BreedteScherm, HoogteScherm, YLocatieOnderbalk, BreedteSchermLink, BreedteSchermRechts, XLocatieOnderbalk, BreedteOnderbalk;
-        StartControl start;
+        StartWindow start;
 
         public SimWindow(Size size, WindowSelect windowselect)
         {
@@ -31,9 +31,9 @@ namespace TrafficSimulation
             this.windowselect = windowselect;
             sim = new SimControl(this.ClientSize, this);
             sim.Location = new Point(0, 0);
-            
-	InfoBalk InfoBalk = new InfoBalk(sim);
-            OnderScherm OnderScherm = new OnderScherm(sim);
+
+            InfoBalk InfoBalk = new InfoBalk(windowselect);
+            OnderScherm OnderScherm = new OnderScherm(windowselect);
             BovenScherm BovenScherm = new BovenScherm(windowselect, sim, InfoBalk);
             int HoogteBovenBalk, HoogteOnderbalk, BreedteInfoBalk, HoogteInfobalk, BreedteScherm, HoogteScherm, YLocatieOnderbalk;
                         //Variable om de elementhosten afhankelijk te maken van het scherm en andere elementhosten
