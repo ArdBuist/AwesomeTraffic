@@ -23,12 +23,15 @@ namespace TrafficSimulation
         SimControl s;
         SimWindow simwindow;
         InfoBalk Infobalk;
+        WindowSelect windowselect;
         public Boolean bend, road, spawner, fork;
 
-        public ExtraButtonsOS(SimWindow sim, InfoBalk info)
+        public ExtraButtonsOS(WindowSelect ws, InfoBalk info)
         {
-            simwindow = sim;
-            s = simwindow.sim; ;
+            windowselect = ws;
+            
+            //simwindow = sim;
+            //s = simwindow.sim; ;
             Infobalk = info;
 
             this.Visibility = Visibility.Hidden;

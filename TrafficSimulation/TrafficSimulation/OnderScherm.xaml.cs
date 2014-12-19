@@ -26,15 +26,18 @@ namespace TrafficSimulation
     {
         SimControl s;
         SimWindow simwindow;
+        WindowSelect windowselect;
         InfoBalk Infobalk;
         ExtraButtonsOS ExtrabuttonsOS;
         ElementHost ExtraButtonsHost;
        // public Boolean bend = false, road = false, spawner = false, fork = false;
 
-        public OnderScherm(SimWindow sim, InfoBalk info, ExtraButtonsOS Extra, ElementHost ExtraHost)
+        public OnderScherm( WindowSelect ws, InfoBalk info, ExtraButtonsOS Extra, ElementHost ExtraHost)
         {
-            simwindow = sim;
-            s = simwindow.sim;
+            windowselect = ws;
+            
+            //simwindow = sim;
+            //s = simwindow.sim;
             ExtraButtonsHost = ExtraHost;
             Infobalk = info;
             ExtrabuttonsOS = Extra;
@@ -132,7 +135,7 @@ namespace TrafficSimulation
             ExtrabuttonsOS.Spawner_2.Visibility = Visibility.Visible;
             ExtrabuttonsOS.Spawner_3.Visibility = Visibility.Visible;
             ExtrabuttonsOS.Spawner_4.Visibility = Visibility.Visible;
-            
+        }    
 
         private void SpawnerButton_MouseLeave(object sender, MouseEventArgs e)
         {

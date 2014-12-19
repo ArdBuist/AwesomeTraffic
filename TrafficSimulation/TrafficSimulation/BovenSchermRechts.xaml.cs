@@ -27,13 +27,14 @@ namespace TrafficSimulation
         SimWindow simwindow;
         InfoBalk Infobalk;
         OnderScherm Onderscherm;
+        WindowSelect windowselect;
         //int daynightcount = 0;
 
-        public BovenSchermRechts(SimWindow sim,  InfoBalk info, OnderScherm Onder)
+        public BovenSchermRechts(WindowSelect ws,  InfoBalk info, OnderScherm Onder)
         {
-            
-            simwindow = sim;
-            s = simwindow.sim;
+            windowselect = ws;
+            //simwindow = sim;
+            //s = simwindow.sim;
             Infobalk = info;
             Onderscherm = Onder;
             

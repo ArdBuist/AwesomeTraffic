@@ -23,18 +23,18 @@ namespace TrafficSimulation
         public Boolean InfoVisible = true;
         private bool simulationStarted = false;
         SimControl s;
-        WindowSelect windowselect;
         InfoBalk Infobalk;
-        OnderScherm Onderscherm;
-        //int daynightcount = 0;
+        OnderScherm onderscherm;
+        WindowSelect windowselect;
+       //int daynightcount = 0;
 
 
-        public BovenScherm(WindowSelect sim, SimControl s, InfoBalk info)
+        public BovenSchermLinks(WindowSelect ws, InfoBalk info, OnderScherm onder)
         {
-            this.s = s;
-            windowselect = sim;
+            //this.s = s;
+            windowselect = ws;
             Infobalk = info;
-            Onderscherm = Onder;
+            onderscherm = onder;
             InitializeComponent();
         }
 

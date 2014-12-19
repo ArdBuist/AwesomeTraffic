@@ -23,11 +23,13 @@ namespace TrafficSimulation
     {
         SimControl s;
         SimWindow simwindow;
+        WindowSelect windowselect;
 
-        public InfoBalk(SimWindow sim)
+        public InfoBalk(WindowSelect ws)
         {
-            simwindow = sim;
-            s = simwindow.sim; ;
+            windowselect = ws;
+            //simwindow = sim;
+            //s = simwindow.sim; ;
             
             InitializeComponent();
 

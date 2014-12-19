@@ -15,7 +15,6 @@ namespace TrafficSimulation
     {
        SimControl sim;
         WindowSelect windowselect;
-         public ElementHost BovenHost, OnderHost, InfoHost;
         public ElementHost BovenHostLinks, BovenHostRechts, OnderHost, InfoHost, ExtraButtonsHost;
         public BovenSchermLinks Bovenschermlinks;
         public BovenSchermRechts Bovenschermrechts;
@@ -32,10 +31,13 @@ namespace TrafficSimulation
             sim = new SimControl(this.ClientSize, this);
             sim.Location = new Point(0, 0);
 
-            InfoBalk InfoBalk = new InfoBalk(windowselect);
-            OnderScherm OnderScherm = new OnderScherm(windowselect);
-            BovenScherm BovenScherm = new BovenScherm(windowselect, sim, InfoBalk);
-            int HoogteBovenBalk, HoogteOnderbalk, BreedteInfoBalk, HoogteInfobalk, BreedteScherm, HoogteScherm, YLocatieOnderbalk;
+            Infobalk = new InfoBalk(windowselect);
+            ExtrabuttonsOS = new ExtraButtonsOS(windowselect, Infobalk);
+            Onderscherm = new OnderScherm(windowselect, Infobalk, ExtrabuttonsOS, ExtraButtonsHost);
+            Bovenschermlinks = new BovenSchermLinks(windowselect, Infobalk, Onderscherm);
+            Bovenschermrechts = new BovenSchermRechts(windowselect, Infobalk, Onderscherm);
+
+           
                         //Variable om de elementhosten afhankelijk te maken van het scherm en andere elementhosten
             BreedteScherm = Screen.PrimaryScreen.Bounds.Width;
             HoogteScherm = Screen.PrimaryScreen.Bounds.Height;
@@ -44,7 +46,8 @@ namespace TrafficSimulation
             YLocatieOnderbalk = (HoogteScherm - HoogteOnderbalk);
             HoogteInfobalk = (HoogteScherm - (HoogteBovenBalk + HoogteOnderbalk));
             BreedteInfoBalk = 300;
-	BovenHostLinks = new ElementHost()
+	        
+            BovenHostLinks = new ElementHost()
             {
                 BackColor = Color.Transparent,
                 Height = HoogteBovenBalk,
@@ -114,7 +117,7 @@ namespace TrafficSimulation
             Size Screensize = new Size(1920, 1080);
 
             // Openen van het startscherm
-            start = new StartControl(Screensize, this);
+            start = new StartWindow(Screensize, windowselect);
             this.BackColor = Color.Green;
             start.Size = Screensize;
             start.Location = new Point(0, 0);
