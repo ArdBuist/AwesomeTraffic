@@ -16,7 +16,7 @@ namespace TrafficSimulation
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new SimWindow());
+            Application.Run(new WindowSelect());
         }
     }
 }

@@ -23,16 +23,16 @@ namespace TrafficSimulation
         public Boolean InfoVisible = true;
         private bool simulationStarted = false;
         SimControl s;
-        SimWindow simwindow;
+        WindowSelect windowselect;
         InfoBalk Infobalk;
         OnderScherm Onderscherm;
         //int daynightcount = 0;
 
-        public BovenSchermLinks(SimWindow sim, InfoBalk info, OnderScherm Onder)
+
+        public BovenScherm(WindowSelect sim, SimControl s, InfoBalk info)
         {
-            
-            simwindow = sim;
-            s = sim.sim;
+            this.s = s;
+            windowselect = sim;
             Infobalk = info;
             Onderscherm = Onder;
             InitializeComponent();
@@ -72,6 +72,12 @@ namespace TrafficSimulation
                 simulationStarted = false;
             }
         }
+
+        private void Home_Click(object sender, RoutedEventArgs e)
+        {
+            windowselect.Start();
+        }
+
 
         //klikmethode voor het vertragen van de simulatie
         private void SlowDown_Click(object sender, RoutedEventArgs e)

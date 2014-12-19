@@ -503,6 +503,22 @@ namespace TrafficSimulation
 
             return bmSpawner;
         }
-    }
-}     
 
+        public Graphics drawSelectTile(Graphics gr)
+        {
+            Graphics selectedTile = gr;           
+            Pen selectPen = new Pen(Color.LightBlue, 8);
+            gr.DrawRectangle(selectPen, 5,5, 90, 90);
+            return selectedTile;
+        }
+
+        
+        public Graphics drawRemoveTile(Graphics gr)
+        {
+            Graphics selectedTile = gr;
+            gr.FillRectangle(Brushes.Green, 0, 0, 100, 100);
+            return selectedTile;
+        }
+         
+    }
+}

@@ -10,6 +10,7 @@ using System.Resources;
 using System.Windows.Forms;
 using System.Windows.Forms.Integration;
 
+
 namespace TrafficSimulation
 {
     public partial class SimControl : UserControl
@@ -23,6 +24,7 @@ namespace TrafficSimulation
         Point mouseDownPoint;
         Point mouseMovePoint;
         public Tile[] tileList;
+        public Tile oldselectedTile;
         public List<Vehicle> vehicleList;
         public int tilesHorizontal;
         public Simulation sim;
@@ -31,11 +33,14 @@ namespace TrafficSimulation
         public Tile currentBuildTile;
         public bool eraser = false;
         public bool selected = false;
+        public bool building = true;
         public int TimeofDay = 1;
         Boolean isBuildingMode; //moet veranderd worden als van het kaartbouwen wordt overgesprongen naar het "spelen" 
 
+
        //kaartverslepen
-        public Boolean Simulatie = true, Day = true, InfoVisible = true;
+
+       public Boolean Simulatie = true, Day = true, InfoVisible = true;
         
         //SimWindow simwindow;
 
@@ -84,7 +89,7 @@ namespace TrafficSimulation
             this.DoubleBuffered = true;
             //this.Paint += this.Teken;
             this.Visible = true;
-            this.selected = true;//testcode
+
             //Initialisatie van de array waarin alle tileList worden opgeslagen
             tileList = new Tile[(this.Size.Height / 100) * (this.Size.Width / 100)];
             //Nog niet zeker of deze nodig is, nu nog ongebruikt
@@ -113,7 +118,8 @@ namespace TrafficSimulation
             trafficlight.MouseUp += (object o, MouseEventArgs mea) => { mouseDownPoint = new Point(0, 0); mouseMovePoint = new Point(0, 0); };
             //mouseclick event, zorgt er nu voor dat de simulatie word gestart maar moet worden gebruikt om tileList op het veld te plaatsen
             Simulatie = false;
-        }      
+
+        }
 
         private void Teken(object o, PaintEventArgs pea)
         {
@@ -134,7 +140,9 @@ namespace TrafficSimulation
             //mouseDownPoint wordt gebruikt voor het laten functioneren van het door slepen aanbrengen van wegen
             mouseDownPoint = new Point(mea.X / 100 * 100, mea.Y / 100 * 100);
             mouseMovePoint = mea.Location;
+
             /*deze code moet worden gedaan zo als de simulatie wordt gestart.*/
+
             foreach (Tile t in tileList)
             {
                 if (t != null)
@@ -157,36 +165,35 @@ namespace TrafficSimulation
                     }
                 }
             }
-             
+
+            //de eerder geselecteerde tile wordt opnieuw getekend en verwijdert zo de blauwe rand
+            if (oldselectedTile != null)
+            {
+
+                bitmapMap.AddObject(oldselectedTile.DrawImage(), oldselectedTile.position.X, oldselectedTile.position.Y);
+            }
+
+
+
             if (selected == true) //als de select-tool is aangeklikt
             {
-                Tile selectedTile = tileList[CalculateListPlace(mea.X, mea.Y)];
-                //Blauw randje om geselecteerde tile
-                //tileImage = new Bitmap(100, 100);
-                //selectedTile.UpdateLanes(this, 3, 2, 1);//tilename mag nu niet gelijk zijn aan Fork of Crossroad, dat hoeft geen mogelijkheid te worden.
-                //selectedTile.UpdateOtherTiles(this, 0);
-
-                //Graphics gr = Graphics.FromImage(tileImage);
-                //Pen selectPen = new Pen(Color.LightBlue, Width = 3);
-                //gr.DrawRectangle(selectPen, (mea.X / 100 * 100), (mea.Y / 100 * 100), 100, 100);
+                DrawSelectLine(mea);                
             }
-
-            else
+           
+             //als de gum-tool is aangeklikt
+            if (eraser == true) 
             {
-                if (eraser == false) //als de gum-tool niet is aangeklikt
-                {
-                    DrawTile(mea);
-                }
-                else //alsde gum-tool is geselecteerd, wordt er een nieuwe bitmap gemaakt waarop een groen vlak 
-                //wordt getekend (oftewel, de geklikte tile wordt 'verwijderd')
-                {
-                    tileImage = new Bitmap(100, 100);
-                    Graphics gr = Graphics.FromImage(tileImage);
-                    gr.FillRectangle(Brushes.Green, (mea.X / 100 * 100), (mea.Y / 100 * 100), 100, 100);
-                    tileList[CalculateListPlace(mea.X, mea.Y)] = null;
-                }
-                //host.BackColorTransparent = true;
+                removeTile(mea);
+             }
+
+            //als je een weg wil bouwen
+            if (building == true)
+            {
+                DrawTile(mea);
             }
+               
+                //host.BackColorTransparent = true;
+            
         }
         /*controleert of de tile een rechte weg is en checkt of de weg naar de goede kant doorloopt zodat je een hele weg kunt maken door rechtdoor te slepen
         *Hierdoor kun je alleen rechte wegen door slepen op de kaart aanbrengen. Dit verhoogt het gebruiksgemak omdat het wegen leggen zo een stuk sneller gaat.
@@ -207,12 +214,43 @@ namespace TrafficSimulation
             return false;
         }
 
+        //tekent een blauwe lijn om de geselecteerde tile
+        private void DrawSelectLine(MouseEventArgs mea)
+        {
+            if (tileList[CalculateListPlace(mea.X, mea.Y)] != null)
+            {
+                Bitmap tileImage;
+                Tile selectedTile = new SelectTile();
+
+                //Er wordt een blauw randje getekend om de geselecteerde tile
+                selectedTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), CalculateListPlace(mea.X, mea.Y));
+                tileImage = selectedTile.DrawImage();
+                //de huidige selectedTile wordt de oude selectedtile voor de volgende keer
+                oldselectedTile = tileList[CalculateListPlace(mea.X, mea.Y)];
+            }
+        }
+
+        //"verwijdert" een tile (d.m.v. tekenen groen vlak)
+        private void removeTile(MouseEventArgs mea)
+        {
+            if (tileList[CalculateListPlace(mea.X, mea.Y)] != null)
+            {
+                Bitmap tileImage;
+                Tile selectedTile = new removeTile();
+                selectedTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), CalculateListPlace(mea.X, mea.Y));
+                tileImage = selectedTile.DrawImage();
+                tileList[CalculateListPlace(mea.X, mea.Y)] = null;
+
+                //hier moet nog bij dat de trafficlights ook worden verwijderd
+            }            
+        }
+
         private void DrawTile(MouseEventArgs mea)
         {
             Bitmap tileImage;
-            currentBuildTile = new Crossroad(this);
-            currentBuildTile = new Fork(this, 1);
-            currentBuildTile = new Road(4, 2);
+            //currentBuildTile = new Crossroad(this);
+            //currentBuildTile = new Fork(this, 1);
+            //currentBuildTile = new Road(4, 2);
             //currentBuildTile = new Spawner(3);
             currentBuildTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), CalculateListPlace(mea.X, mea.Y));
             tileImage = currentBuildTile.DrawImage();
@@ -230,7 +268,9 @@ namespace TrafficSimulation
             {
                 Rectangle moveGround = new Rectangle(new Point(Screen.PrimaryScreen.Bounds.X - background.Size.Width, Screen.PrimaryScreen.Bounds.Y - background.Size.Height), new Size(background.Size.Width - Screen.PrimaryScreen.Bounds.X, background.Size.Height - Screen.PrimaryScreen.Bounds.Y));
                 Point newPosition = new Point(background.Location.X + (mea.X - mouseMovePoint.X), background.Location.Y + (mea.Y - mouseMovePoint.Y));
-                //if (moveGround.Contains(newPosition))
+
+                if (moveGround.Contains(newPosition))
+
                     background.Location = newPosition;
                 this.Update();
             }

@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 using System.Windows.Forms.Integration;
 
 
+
 namespace TrafficSimulation
 {
     /// <summary>
@@ -42,15 +43,19 @@ namespace TrafficSimulation
 
         private void SelectButton_Checked(object sender, RoutedEventArgs e)
         {
-           
-            //s.selected = true;
+            s.eraser = false;
+            s.selected = true;
+            s.building = false;
             //hierna moet dan een scherm verschijnen met info en aanpassingsmogelijkheden
+            
         }
 
         private void EraserButton_Checked(object sender, RoutedEventArgs e)
         {
             
-            //s.eraser = true;
+            s.eraser = true;
+            s.selected = false;
+            s.building = false;
         }
 
         private void RoadButton_Checked(object sender, RoutedEventArgs e)
@@ -60,12 +65,7 @@ namespace TrafficSimulation
             ExtrabuttonsOS.Road_1_3.Visibility = Visibility.Visible;
             ExtrabuttonsOS.Road_2_4.Visibility = Visibility.Visible;
 
-            /*
-            s.eraser = false;
-            int start = 1; //=1 vervangen door variabele
-            int end = 4;   //=4 vervangen door variabele
-            s.currentBuildTile = new Road(start, end);
-             */
+            
         }
         private void RoadButton_MouseLeave(object sender, MouseEventArgs e)
         {
@@ -82,12 +82,7 @@ namespace TrafficSimulation
             ExtrabuttonsOS.Bend_3_4.Visibility = Visibility.Visible;
             ExtrabuttonsOS.Bend_4_1.Visibility = Visibility.Visible;
 
-            /*
-            s.eraser = false;
-            int start = 1; //=1 vervangen door variabele
-            int end = 4;   //=4 vervangen door variabele
-            s.currentBuildTile = new Road(start, end);
-            */
+            
         }
         private void BendButton_MouseLeave(object sender, MouseEventArgs e)
         {
@@ -100,10 +95,13 @@ namespace TrafficSimulation
         private void CrossRoadButton_Checked(object sender, RoutedEventArgs e)
         {
 
-           
+            s.eraser = false;
+            s.selected = false;
+            s.building = true;
+            s.currentBuildTile = new Crossroad(s);
+
             ExtrabuttonsOS.Visibility = Visibility.Hidden;
-            //s.eraser = false;
-            //s.currentBuildTile = new Crossroad();
+            
         }
 
         private void ForkButton_Checked(object sender, RoutedEventArgs e)
@@ -115,11 +113,7 @@ namespace TrafficSimulation
             ExtrabuttonsOS.Fork_2_3.Visibility = Visibility.Visible;
             ExtrabuttonsOS.Fork_3_4.Visibility = Visibility.Visible;
             ExtrabuttonsOS.Fork_4_1.Visibility = Visibility.Visible;
-            /*
-             s.eraser = false;
-             int notdirection = 1; //=1 vervangen door variabele, variabele waar geen weg naartoe loopt
-             s.currentBuildTile = new Fork(notdirection);
-              */
+           
         }
         private void ForkButton_MouseLeave(object sender, MouseEventArgs e)
         {
@@ -138,12 +132,7 @@ namespace TrafficSimulation
             ExtrabuttonsOS.Spawner_2.Visibility = Visibility.Visible;
             ExtrabuttonsOS.Spawner_3.Visibility = Visibility.Visible;
             ExtrabuttonsOS.Spawner_4.Visibility = Visibility.Visible;
-            /*
-            s.eraser = false;
-            int direction = 4; //=4 vervangen door variabele, de kant waar de weg heen loopt
-            s.currentBuildTile = new Spawner(direction);
-            */
-        }
+            
 
         private void SpawnerButton_MouseLeave(object sender, MouseEventArgs e)
         {
@@ -152,7 +141,7 @@ namespace TrafficSimulation
             ExtrabuttonsOS.Spawner_2.Visibility = Visibility.Hidden;
             ExtrabuttonsOS.Spawner_3.Visibility = Visibility.Hidden;
             ExtrabuttonsOS.Spawner_4.Visibility = Visibility.Hidden;
-        }
-
+                      
+        }        
     }
 }

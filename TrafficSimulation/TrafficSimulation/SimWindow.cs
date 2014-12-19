@@ -11,9 +11,11 @@ using System.Windows.Forms.Integration;
 
 namespace TrafficSimulation
 {
-    public partial class SimWindow : Form
+    public partial class SimWindow : UserControl
     {
-        public SimControl sim;
+       SimControl sim;
+        WindowSelect windowselect;
+         public ElementHost BovenHost, OnderHost, InfoHost;
         public ElementHost BovenHostLinks, BovenHostRechts, OnderHost, InfoHost, ExtraButtonsHost;
         public BovenSchermLinks Bovenschermlinks;
         public BovenSchermRechts Bovenschermrechts;
@@ -23,43 +25,26 @@ namespace TrafficSimulation
         private int HoogteBovenBalk, HoogteOnderbalk, BreedteInfoBalk, HoogteInfobalk, BreedteScherm, HoogteScherm, YLocatieOnderbalk, BreedteSchermLink, BreedteSchermRechts, XLocatieOnderbalk, BreedteOnderbalk;
         StartControl start;
 
-
-
-        public SimWindow()
+        public SimWindow(Size size, WindowSelect windowselect)
         {
+            this.Size = size;
+            this.windowselect = windowselect;
             sim = new SimControl(this.ClientSize, this);
-            // Scherm maximaliseren
-            this.WindowState = FormWindowState.Maximized;
-
-            // Alle schermranden weghalen
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-
-            //test
-
-            // Maak de infobalk, onderscherm en bovenscherm
-
-            Infobalk = new InfoBalk(this);
-            ExtrabuttonsOS = new ExtraButtonsOS(this, Infobalk);
-            Onderscherm = new OnderScherm(this, Infobalk, ExtrabuttonsOS, ExtraButtonsHost);
-            Bovenschermlinks = new BovenSchermLinks(this, Infobalk, Onderscherm);
-            Bovenschermrechts = new BovenSchermRechts(this, Infobalk, Onderscherm);
-           
-           
-            //Variable om de elementhosten afhankelijk te maken van het scherm en andere elementhosten
-
+            sim.Location = new Point(0, 0);
+            
+	InfoBalk InfoBalk = new InfoBalk(sim);
+            OnderScherm OnderScherm = new OnderScherm(sim);
+            BovenScherm BovenScherm = new BovenScherm(windowselect, sim, InfoBalk);
+            int HoogteBovenBalk, HoogteOnderbalk, BreedteInfoBalk, HoogteInfobalk, BreedteScherm, HoogteScherm, YLocatieOnderbalk;
+                        //Variable om de elementhosten afhankelijk te maken van het scherm en andere elementhosten
             BreedteScherm = Screen.PrimaryScreen.Bounds.Width;
             HoogteScherm = Screen.PrimaryScreen.Bounds.Height;
-            BreedteSchermLink = (BreedteScherm / 4);
-            BreedteSchermRechts = (BreedteScherm / 4);
             HoogteBovenBalk = 100;
             HoogteOnderbalk = 100;
-            XLocatieOnderbalk = (BreedteScherm / 4);
             YLocatieOnderbalk = (HoogteScherm - HoogteOnderbalk);
-            BreedteOnderbalk = ((BreedteScherm / 4)*2);
             HoogteInfobalk = (HoogteScherm - (HoogteBovenBalk + HoogteOnderbalk));
             BreedteInfoBalk = 300;
-
-            BovenHostLinks = new ElementHost()
+	BovenHostLinks = new ElementHost()
             {
                 BackColor = Color.Transparent,
                 Height = HoogteBovenBalk,
@@ -120,8 +105,9 @@ namespace TrafficSimulation
             // Laad het beginscherm
             Start();
         }
-
-        public void Start()
+            
+           
+	public void Start()
         {
             this.Controls.Remove(sim);
             // Deze screensizing verkloot mijn scherm
@@ -141,7 +127,7 @@ namespace TrafficSimulation
 
         }
 
-        public void New()
+		public void New()
         {
             // Verwijder start menu
             this.Controls.Remove(start);
@@ -157,7 +143,7 @@ namespace TrafficSimulation
             BovenHostRechts.Visible = true;
             InfoHost.Visible = true;
             ExtraButtonsHost.Visible = true;
-            this.Controls.Add(sim);
+		this.Controls.Add(sim);
         }
 
         public void Options()
@@ -171,16 +157,6 @@ namespace TrafficSimulation
         }
 
         public void Open()
-        {
-
-        }
-
-        private void Close()
-        {
-            this.Close();
-        }
-
-        private void SimWindow_Load(object sender, EventArgs e)
         {
 
         }
