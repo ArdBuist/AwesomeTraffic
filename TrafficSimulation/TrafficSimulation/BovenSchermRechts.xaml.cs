@@ -22,9 +22,6 @@ namespace TrafficSimulation
     {
         public Boolean InfoVisible = true;
         private bool simulationStarted = false;
-        
-        SimControl s;
-        SimWindow simwindow;
         InfoBalk Infobalk;
         OnderScherm Onderscherm;
         WindowSelect windowselect;
@@ -33,8 +30,6 @@ namespace TrafficSimulation
         public BovenSchermRechts(WindowSelect ws,  InfoBalk info, OnderScherm Onder)
         {
             windowselect = ws;
-            //simwindow = sim;
-            //s = simwindow.sim;
             Infobalk = info;
             Onderscherm = Onder;
             
@@ -45,26 +40,20 @@ namespace TrafficSimulation
         {
             if (InfoVisible)
             {
-                simwindow.Infobalk.Visibility = Visibility.Visible;
+                windowselect.simwindow.InfoHost.Location = new System.Drawing.Point(0, 0);//moeten nog de goede coordinaten komen
                 InfoVisible = false;
             }
             else
             {
-                simwindow.Infobalk.Visibility = Visibility.Hidden;
+                windowselect.simwindow.InfoHost.Location = new System.Drawing.Point(windowselect.simwindow.Size);
                 InfoVisible = true;
             }
-            s.Invalidate();
         }
 
 
         private void Home_Click(object sender, RoutedEventArgs e)
         {
-            
-            simwindow.OnderHost.Visible = false;
-            simwindow.BovenHostLinks.Visible = false;
-            simwindow.BovenHostRechts.Visible = false;
-            simwindow.InfoHost.Visible = false;
-            simwindow.Start();
+            windowselect.Start();
         }
 
         private void Save_Click(object sender, RoutedEventArgs e)
@@ -80,16 +69,16 @@ namespace TrafficSimulation
         //klikmethode voor dag- of nachtsimulatie
         private void DayNight_Click(object sender, RoutedEventArgs e)
         {
-            if (s.Day == true)
-            {
-                DayNight.Content = "Day";
-                s.Day = false;
-            }
-            else
-            {
-                DayNight.Content = "Night";
-                s.Day = true;
-            }
+            //if (windowselect.simwindow.Day == true)
+            //{
+            //    DayNight.Content = "Day";
+            //    s.Day = false;
+            //}
+            //else
+            //{
+            //    DayNight.Content = "Night";
+            //    s.Day = true;
+            //}
         }
 
     }

@@ -13,7 +13,7 @@ namespace TrafficSimulation
 {
     public partial class SimWindow : UserControl
     {
-       SimControl sim;
+        SimControl sim;
         WindowSelect windowselect;
         public ElementHost BovenHostLinks, BovenHostRechts, OnderHost, InfoHost, ExtraButtonsHost;
         public BovenSchermLinks Bovenschermlinks;
@@ -22,7 +22,6 @@ namespace TrafficSimulation
         public ExtraButtonsOS ExtrabuttonsOS;
         public OnderScherm Onderscherm;
         private int HoogteBovenBalk, HoogteOnderbalk, BreedteInfoBalk, HoogteInfobalk, BreedteScherm, HoogteScherm, YLocatieOnderbalk, BreedteSchermLink, BreedteSchermRechts, XLocatieOnderbalk, BreedteOnderbalk;
-        StartWindow start;
 
         public SimWindow(Size size, WindowSelect windowselect)
         {
@@ -37,8 +36,9 @@ namespace TrafficSimulation
             Bovenschermlinks = new BovenSchermLinks(windowselect, Infobalk, Onderscherm);
             Bovenschermrechts = new BovenSchermRechts(windowselect, Infobalk, Onderscherm);
 
+            
            
-                        //Variable om de elementhosten afhankelijk te maken van het scherm en andere elementhosten
+            //Variable om de elementhosten afhankelijk te maken van het scherm en andere elementhosten
             BreedteScherm = Screen.PrimaryScreen.Bounds.Width;
             HoogteScherm = Screen.PrimaryScreen.Bounds.Height;
             HoogteBovenBalk = 100;
@@ -46,6 +46,10 @@ namespace TrafficSimulation
             YLocatieOnderbalk = (HoogteScherm - HoogteOnderbalk);
             HoogteInfobalk = (HoogteScherm - (HoogteBovenBalk + HoogteOnderbalk));
             BreedteInfoBalk = 300;
+            BreedteSchermLink = (BreedteScherm / 4);
+            BreedteSchermRechts = (BreedteScherm / 4);
+            XLocatieOnderbalk = (BreedteScherm / 4);
+            BreedteOnderbalk = ((BreedteScherm / 4) * 2);
 	        
             BovenHostLinks = new ElementHost()
             {
@@ -53,7 +57,6 @@ namespace TrafficSimulation
                 Height = HoogteBovenBalk,
                 Width = BreedteSchermRechts,
                 Location = new Point(0, 0),
-                Visible = false,
                 Child = Bovenschermlinks,
             };
             this.Controls.Add(BovenHostLinks);
@@ -64,7 +67,6 @@ namespace TrafficSimulation
                 Height = HoogteBovenBalk,
                 Width = BreedteSchermLink,
                 Location = new Point((BreedteScherm - BreedteSchermLink), 0),
-                Visible = false,
                 Child = Bovenschermrechts,
             };
             this.Controls.Add(BovenHostRechts);
@@ -73,8 +75,7 @@ namespace TrafficSimulation
             {
                 Height = 200,
                 Width = 200,
-
-                Location = new Point(200, 200),
+                Location = new Point(this.Size),
                 Child = ExtrabuttonsOS,
             };
             this.Controls.Add(ExtraButtonsHost);
@@ -85,7 +86,6 @@ namespace TrafficSimulation
                 Location = new Point(XLocatieOnderbalk, YLocatieOnderbalk),
                 Height = HoogteOnderbalk,
                 Width = BreedteOnderbalk,
-                Visible = false,
                 Child = Onderscherm,
             };
             this.Controls.Add(OnderHost);
@@ -93,75 +93,16 @@ namespace TrafficSimulation
             InfoHost = new ElementHost()
             {
                 BackColor = Color.Transparent,
-                Location = new Point((BreedteScherm - BreedteInfoBalk), HoogteBovenBalk),
+                //Location = new Point((BreedteScherm - BreedteInfoBalk), HoogteBovenBalk),
+                Location = new Point(this.Size),
                 Height = HoogteInfobalk,
                 Width = BreedteInfoBalk,
-                Visible = false,
                 Child = Infobalk,
             };
             this.Controls.Add(InfoHost);
-
-
+            this.Controls.Add(sim);
             
-            Invalidate();
-
-            // Laad het beginscherm
-            Start();
         }
-            
-           
-	public void Start()
-        {
-            this.Controls.Remove(sim);
-            // Deze screensizing verkloot mijn scherm
-            Size Screensize = new Size(1920, 1080);
-
-            // Openen van het startscherm
-            start = new StartWindow(Screensize, windowselect);
-            this.BackColor = Color.Green;
-            start.Size = Screensize;
-            start.Location = new Point(0, 0);
-            this.Controls.Add(start);
-
-
-            //start.Location = new Point(((WidthStartScreen-300)/2), ((HeightStartScreen -300)/2));
-            //start.Left = ((WidthStartScreen - 300) / 2);
-            //start.Top = ((HeightStartScreen - 300) / 2);
-
-        }
-
-		public void New()
-        {
-            // Verwijder start menu
-            this.Controls.Remove(start);
-
-            // Open simcontrol
-
-            sim = new SimControl(Screen.PrimaryScreen.Bounds.Size, this);
-
-            this.BackColor = Color.Green;
-            sim.Location = new Point(0, 0);
-            OnderHost.Visible = true;
-            BovenHostLinks.Visible = true;
-            BovenHostRechts.Visible = true;
-            InfoHost.Visible = true;
-            ExtraButtonsHost.Visible = true;
-		this.Controls.Add(sim);
-        }
-
-        public void Options()
-        {
-
-        }
-
-        public void Save()
-        {
-
-        }
-
-        public void Open()
-        {
-
-        }
+        public SimControl simcontrol { get { return sim; } }
     }
 }

@@ -34,8 +34,6 @@ namespace TrafficSimulation
             //s = simwindow.sim; ;
             Infobalk = info;
 
-            this.Visibility = Visibility.Hidden;
-
             
             InitializeComponent();
         }

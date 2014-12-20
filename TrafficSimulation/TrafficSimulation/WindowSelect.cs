@@ -17,7 +17,7 @@ namespace TrafficSimulation
 
         public WindowSelect()
         {
-            Start();
+            
             // Scherm maximaliseren
             this.WindowState = FormWindowState.Maximized;
 
@@ -27,6 +27,7 @@ namespace TrafficSimulation
             int WidthStartScreen = Screen.PrimaryScreen.Bounds.Width, HeightStartScreen = Screen.PrimaryScreen.Bounds.Height;
             Size screensize = new Size(WidthStartScreen, HeightStartScreen);
             simwindow = new SimWindow(screensize, this);
+            Start();
 
         }
 
@@ -50,7 +51,6 @@ namespace TrafficSimulation
             this.Controls.Remove(startwindow);
             
             // Open simwindow
-
             simwindow.BackColor = Color.Green;
             //simwindow.Location = new Point(0, 0);
             this.Controls.Add(simwindow);

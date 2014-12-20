@@ -32,10 +32,11 @@ namespace TrafficSimulation
         public List<TrafficlightControl> controlList = new List<TrafficlightControl>();
         public Tile currentBuildTile;
         public bool eraser = false;
-        public bool selected = false;
-        public bool building = true;
+        public bool selected = true;
+        public bool building = false;
         public int TimeofDay = 1;
         Boolean isBuildingMode; //moet veranderd worden als van het kaartbouwen wordt overgesprongen naar het "spelen" 
+        Boolean isMoved;
 
 
        //kaartverslepen
@@ -74,12 +75,9 @@ namespace TrafficSimulation
 
             mouseDownPoint = new Point(0, 0);
             mouseMovePoint = new Point(0, 0);
-            //grootte van de kaart
-
             //buildingmode is true als er word gebouwd en false als de simulatie start
-
             isBuildingMode = true;
-            //
+            //aantal tiles die horizontaal in de bitmap passen
             tilesHorizontal = Size.Width / 100;
             /* De bitmapControlls waar de simulatie in word afgebeeld
              * bitmapMap voor de achtergrond met tileList
@@ -87,7 +85,6 @@ namespace TrafficSimulation
              * trafficlightMap voor de voorgrond met de Trafficlights */
 
             this.DoubleBuffered = true;
-            //this.Paint += this.Teken;
             this.Visible = true;
 
             //Initialisatie van de array waarin alle tileList worden opgeslagen
@@ -104,7 +101,11 @@ namespace TrafficSimulation
              * vehicle voor de Vehicles die op de weg rijden
              * trafficlight voor de Trafficlights op de wegen */
 
-            trafficlight.MouseDown += this.MouseClickDown;
+            trafficlight.MouseDown += (object o, MouseEventArgs mea) =>
+            {
+                mouseDownPoint = new Point(mea.X / 100 * 100, mea.Y / 100 * 100);
+                mouseMovePoint = mea.Location;
+            };
             trafficlight.MouseMove += (object o, MouseEventArgs mea) =>
             {
                 if (mouseDownPoint != new Point(0, 0))
@@ -112,34 +113,21 @@ namespace TrafficSimulation
                     if (TileIsStraight(mouseDownPoint, mea.Location))
                         DrawTile(mea);
                     if (selected == true)
+                    {
                         MoveMap(mea);
+                        
+                    }
                 }
             };
-            trafficlight.MouseUp += (object o, MouseEventArgs mea) => { mouseDownPoint = new Point(0, 0); mouseMovePoint = new Point(0, 0); };
-            //mouseclick event, zorgt er nu voor dat de simulatie word gestart maar moet worden gebruikt om tileList op het veld te plaatsen
+            trafficlight.MouseUp += MouseClickUp;
             Simulatie = false;
 
         }
 
-        private void Teken(object o, PaintEventArgs pea)
-        {
-            //dit zorgt ervoor dat de kaart op het scherm wordt weergegeven.
-            //dit hoeft alleen maar gebeuren wanneer er nog aan de kaart gewerkt wordt.
-            if (isBuildingMode == true)
-            {
-                
-            }
-            else
-            {
-            }
-        }
-
-        private void MouseClickDown(object obj, MouseEventArgs mea)
+        private void MouseClickUp(object obj, MouseEventArgs mea)
         {
             Bitmap tileImage;
-            //mouseDownPoint wordt gebruikt voor het laten functioneren van het door slepen aanbrengen van wegen
-            mouseDownPoint = new Point(mea.X / 100 * 100, mea.Y / 100 * 100);
-            mouseMovePoint = mea.Location;
+            mouseDownPoint = new Point(0, 0); mouseMovePoint = new Point(0, 0);
 
             /*deze code moet worden gedaan zo als de simulatie wordt gestart.*/
 
@@ -227,6 +215,7 @@ namespace TrafficSimulation
                 tileImage = selectedTile.DrawImage();
                 //de huidige selectedTile wordt de oude selectedtile voor de volgende keer
                 oldselectedTile = tileList[CalculateListPlace(mea.X, mea.Y)];
+                this.Invalidate();
             }
         }
 
@@ -270,8 +259,10 @@ namespace TrafficSimulation
                 Point newPosition = new Point(background.Location.X + (mea.X - mouseMovePoint.X), background.Location.Y + (mea.Y - mouseMovePoint.Y));
 
                 if (moveGround.Contains(newPosition))
-
+                {
                     background.Location = newPosition;
+                    isMoved = false;
+                }
                 this.Update();
             }
         }
