@@ -22,7 +22,6 @@ namespace TrafficSimulation
     {
         public Boolean InfoVisible = true;
         private bool simulationStarted = false;
-        SimControl s;
         InfoBalk Infobalk;
         OnderScherm onderscherm;
         WindowSelect windowselect;
@@ -61,16 +60,7 @@ namespace TrafficSimulation
 
         private void PlayPauze_Click(object sender, RoutedEventArgs e)
         {
-            if (!simulationStarted)
-            {
-                s.sim.Start();
-                simulationStarted = true;
-            }
-            else
-            {
-                s.sim.Stop();
-                simulationStarted = false;
-            }
+            windowselect.simwindow.simcontrol.simulation.StartSim();
         }
 
         private void Home_Click(object sender, RoutedEventArgs e)

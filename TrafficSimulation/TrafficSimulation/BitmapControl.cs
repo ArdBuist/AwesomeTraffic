@@ -23,11 +23,6 @@ namespace TrafficSimulation
             get { return Graphics.FromImage(bitmap); }
         }
 
-        private void DrawBitmap()
-        {
-
-        }
-
         public void AddObject(Bitmap bitmap, int x, int y)
         {//zorgt ervoor dat de nieuwe tile op de kaart komt in het grid.
             Graphics gr = GetBitmapGraphics;

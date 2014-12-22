@@ -62,7 +62,6 @@ namespace TrafficSimulation
 		{
 			// Niewe form met info over 't programma
 			about = new AboutWindow();
-
 			about.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 
 			// Sluit form als dit niet de active form is
@@ -98,7 +97,6 @@ namespace TrafficSimulation
 				P.StartInfo.WindowStyle = ProcessWindowStyle.Maximized;
 				P.Start();
 			}
-
 			// Acrobat reader is niet geïnstaleerd, selecteer programma dat wel pdf kan openen
 			catch
 			{
@@ -114,7 +112,6 @@ namespace TrafficSimulation
 				// Zet process op fullscreen en open acrobat reader met het bestand
 				P.Start();
 			}
-
 		}
 
 		// Klik op "Exit"

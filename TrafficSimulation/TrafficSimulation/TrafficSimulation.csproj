@@ -64,7 +64,6 @@
     <Compile Include="BovenSchermLinks.xaml.cs">
       <DependentUpon>BovenSchermLinks.xaml</DependentUpon>
     </Compile>
-    <Compile Include="BuildPanel.cs" />
     <Compile Include="WindowSelect.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -103,7 +102,6 @@
     <Compile Include="Tile.cs" />
     <Compile Include="Trafficlight.cs" />
     <Compile Include="TrafficlightControl.cs" />
-    <Compile Include="ControlPanel.cs" />
     <Compile Include="SimControl.cs">
       <SubType>UserControl</SubType>
     </Compile>

@@ -37,7 +37,7 @@ namespace TrafficSimulation
 
         public void DrawTrafficlight(Color kleur)
         {
-            Graphics gr = sc.trafficlightMap.GetBitmapGraphics;
+            Graphics gr = sc.trafficlightBC.GetBitmapGraphics;
             gr.SmoothingMode = SmoothingMode.AntiAlias;
 
             //daadwerkelijke positie stoplichten

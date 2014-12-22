@@ -157,7 +157,6 @@ namespace TrafficSimulation
             : base(pos, dest, len, speed, direction, lane)
         {
             Bitmap tempBitmap = (Bitmap)Properties.Resources.ResourceManager.GetObject("truck1");
-
         }
     }
 }

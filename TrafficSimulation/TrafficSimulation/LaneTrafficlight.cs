@@ -17,7 +17,6 @@ namespace TrafficSimulation
             trafficlights = new List<Trafficlight>();
             this.road = road;
 
-
             for (int i = 0; i < Lanes; i++)
             {
                 Point Position = GetPosition(Direction, i);
@@ -59,6 +58,7 @@ namespace TrafficSimulation
                     Position.Y = 53 + (NumberTrafficlight * 16);
                     break;
             }
+
             return Position;
         }
 
