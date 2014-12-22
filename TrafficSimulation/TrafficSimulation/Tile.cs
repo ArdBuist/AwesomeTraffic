@@ -332,7 +332,20 @@ namespace TrafficSimulation
 
         public Vehicle createVehicle()
         {
-            return new NormalCar(this.position, this.position, 10, this.maxSpeed, this.direction, this.spawnLane);
+            switch (direction)
+            {
+                case 1:
+                    return new NormalCar(new Point(this.position.X+50+(spawnLane-1)*16+8), this.position, 10, this.maxSpeed, this.direction, this.spawnLane);
+                case 2:
+                    return new NormalCar(this.position, this.position, 10, this.maxSpeed, this.direction, this.spawnLane);
+                case 3:
+                    return new NormalCar(this.position, this.position, 10, this.maxSpeed, this.direction, this.spawnLane);
+                case 4:
+                    return new NormalCar(this.position, this.position, 10, this.maxSpeed, this.direction, this.spawnLane);
+            }
+
+            //als het geen van de vier directions is dan is er iets fout gegaan.
+            return null;
         }
 
         public override bool doesConnect(int side)

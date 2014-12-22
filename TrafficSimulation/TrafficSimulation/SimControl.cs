@@ -19,7 +19,6 @@ namespace TrafficSimulation
         public BitmapControl backgroundBC, trafficlightBC, vehicleBC;
         //PictureBox 
         public PictureBox backgroundPB, trafficlightPB, vehiclePB;
-
         //
         Point mouseDownPoint;
         Point mouseMovePoint;
@@ -84,7 +83,7 @@ namespace TrafficSimulation
 
             //aantal tiles die horizontaal in de bitmap passen
             tilesHorizontal = Size.Width / 100; //nutteloos
-
+            
             //
             this.DoubleBuffered = true;
             this.Visible = true;
