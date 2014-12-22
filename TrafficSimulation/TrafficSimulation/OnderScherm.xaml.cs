@@ -25,23 +25,23 @@ namespace TrafficSimulation
     public partial class OnderScherm : UserControl
     {
         WindowSelect windowselect;
-        InfoBalk Infobalk;
-        ExtraButtonsOS ExtrabuttonsOS;
-        ElementHost ExtraButtonsHost;
-        int breedteonderbalk, ylocatieonderbalk, xlocatieonderbalk;
+        InfoBalk infoBalk;
+        ExtraButtonsOS extraButtonsOS;
+        ElementHost extraButtonsHost;
+        int breedteOnderBalk, yLocatieOnderBalk, xLocatieOnderBalk;
 
-        public OnderScherm(WindowSelect ws, InfoBalk info, ExtraButtonsOS Extra, ElementHost ExtraHost, int bob, int ylob, int xlob)
+        public OnderScherm(WindowSelect ws, InfoBalk info, ExtraButtonsOS extra, ElementHost extraHost, int bob, int ylob, int xlob)
         {
             windowselect = ws;
             
             //simwindow = sim;
             //s = simwindow.sim;
-            ExtraButtonsHost = ExtraHost;
-            Infobalk = info;
-            ExtrabuttonsOS = Extra;
-            breedteonderbalk = bob;
-            ylocatieonderbalk = ylob;
-            xlocatieonderbalk = xlob;
+            extraButtonsHost = extraHost;
+            infoBalk = info;
+            extraButtonsOS = extra;
+            breedteOnderBalk = bob;
+            yLocatieOnderBalk = ylob;
+            xLocatieOnderBalk = xlob;
             InitializeComponent();
         }
 
@@ -64,40 +64,40 @@ namespace TrafficSimulation
 
         private void RoadButton_Checked(object sender, RoutedEventArgs e)
         {
-            int xlocationroadmenu = (((breedteonderbalk / 7) * 2) + xlocatieonderbalk), ylocationroadmenu = 500;
-            windowselect.simwindow.ExtraButtonsHost.Location = new System.Drawing.Point(xlocationroadmenu, ylocationroadmenu);
-            
-            ExtrabuttonsOS.Visibility = Visibility.Visible;         
-            ExtrabuttonsOS.Road_1_3.Visibility = Visibility.Visible;
-            ExtrabuttonsOS.Road_2_4.Visibility = Visibility.Visible;
+            int xlocationroadmenu = (((breedteOnderBalk / 7) * 2) + xLocatieOnderBalk), ylocationroadmenu = 500;
+            windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(xlocationroadmenu, ylocationroadmenu);
+
+            extraButtonsOS.Visibility = Visibility.Visible;
+            extraButtonsOS.Road_1_3.Visibility = Visibility.Visible;
+            extraButtonsOS.Road_2_4.Visibility = Visibility.Visible;
 
         }
         private void RoadButton_MouseLeave(object sender, MouseEventArgs e)
         {
-            windowselect.simwindow.ExtraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.Size);
-            ExtrabuttonsOS.Road_1_3.Visibility = Visibility.Hidden;
-            ExtrabuttonsOS.Road_2_4.Visibility = Visibility.Hidden;
+            windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.Size);
+            extraButtonsOS.Road_1_3.Visibility = Visibility.Hidden;
+            extraButtonsOS.Road_2_4.Visibility = Visibility.Hidden;
         }
 
         
         private void BendButton_Checked(object sender, RoutedEventArgs e)
         {
-            int xlocationbendmenu = (((breedteonderbalk / 7) * 3) + xlocatieonderbalk), ylocationbendmenu = 500;
-            windowselect.simwindow.ExtraButtonsHost.Location = new System.Drawing.Point(xlocationbendmenu, ylocationbendmenu);
-            ExtrabuttonsOS.Bend_1_2.Visibility = Visibility.Visible;
-            ExtrabuttonsOS.Bend_2_3.Visibility = Visibility.Visible;
-            ExtrabuttonsOS.Bend_3_4.Visibility = Visibility.Visible;
-            ExtrabuttonsOS.Bend_4_1.Visibility = Visibility.Visible;
+            int xlocationbendmenu = (((breedteOnderBalk / 7) * 3) + xLocatieOnderBalk), ylocationbendmenu = 500;
+            windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(xlocationbendmenu, ylocationbendmenu);
+            extraButtonsOS.Bend_1_2.Visibility = Visibility.Visible;
+            extraButtonsOS.Bend_2_3.Visibility = Visibility.Visible;
+            extraButtonsOS.Bend_3_4.Visibility = Visibility.Visible;
+            extraButtonsOS.Bend_4_1.Visibility = Visibility.Visible;
        }
 
         private void BendButton_MouseLeave(object sender, MouseEventArgs e)
         {
-            windowselect.simwindow.ExtraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.Size);
-            ExtrabuttonsOS.Bend_1_2.Visibility = Visibility.Hidden;
-            ExtrabuttonsOS.Bend_2_3.Visibility = Visibility.Hidden;
-            ExtrabuttonsOS.Bend_3_4.Visibility = Visibility.Hidden;
-            ExtrabuttonsOS.Bend_4_1.Visibility = Visibility.Hidden;
-            windowselect.simwindow.ExtraButtonsHost.BackColor = System.Drawing.Color.Transparent;
+            windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.Size);
+            extraButtonsOS.Bend_1_2.Visibility = Visibility.Hidden;
+            extraButtonsOS.Bend_2_3.Visibility = Visibility.Hidden;
+            extraButtonsOS.Bend_3_4.Visibility = Visibility.Hidden;
+            extraButtonsOS.Bend_4_1.Visibility = Visibility.Hidden;
+            windowselect.simwindow.extraButtonsHost.BackColor = System.Drawing.Color.Transparent;
         }
 
         private void CrossRoadButton_Checked(object sender, RoutedEventArgs e)
@@ -111,42 +111,42 @@ namespace TrafficSimulation
 
         private void ForkButton_Checked(object sender, RoutedEventArgs e)
         {
-            int xlocationforkmenu = (((breedteonderbalk / 7) * 4) + xlocatieonderbalk), ylocationforkmenu = 500;
-            windowselect.simwindow.ExtraButtonsHost.Location = new System.Drawing.Point(xlocationforkmenu, ylocationforkmenu);
-            windowselect.simwindow.ExtraButtonsHost.BackColor = System.Drawing.Color.Transparent;
-            ExtrabuttonsOS.Height = 100;
-            ExtrabuttonsOS.Fork_1_2.Visibility = Visibility.Visible;
-            ExtrabuttonsOS.Fork_2_3.Visibility = Visibility.Visible;
-            ExtrabuttonsOS.Fork_3_4.Visibility = Visibility.Visible;
-            ExtrabuttonsOS.Fork_4_1.Visibility = Visibility.Visible;
+            int xlocationforkmenu = (((breedteOnderBalk / 7) * 4) + xLocatieOnderBalk), ylocationforkmenu = 500;
+            windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(xlocationforkmenu, ylocationforkmenu);
+            windowselect.simwindow.extraButtonsHost.BackColor = System.Drawing.Color.Transparent;
+            extraButtonsOS.Height = 100;
+            extraButtonsOS.Fork_1_2.Visibility = Visibility.Visible;
+            extraButtonsOS.Fork_2_3.Visibility = Visibility.Visible;
+            extraButtonsOS.Fork_3_4.Visibility = Visibility.Visible;
+            extraButtonsOS.Fork_4_1.Visibility = Visibility.Visible;
            
         }
         private void ForkButton_MouseLeave(object sender, MouseEventArgs e)
         {
-            windowselect.simwindow.ExtraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.Size);
-            ExtrabuttonsOS.Fork_1_2.Visibility = Visibility.Hidden;
-            ExtrabuttonsOS.Fork_2_3.Visibility = Visibility.Hidden;
-            ExtrabuttonsOS.Fork_3_4.Visibility = Visibility.Hidden;
-            ExtrabuttonsOS.Fork_4_1.Visibility = Visibility.Hidden;
+            windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.Size);
+            extraButtonsOS.Fork_1_2.Visibility = Visibility.Hidden;
+            extraButtonsOS.Fork_2_3.Visibility = Visibility.Hidden;
+            extraButtonsOS.Fork_3_4.Visibility = Visibility.Hidden;
+            extraButtonsOS.Fork_4_1.Visibility = Visibility.Hidden;
         }
 
         private void SpawnerButton_Checked(object sender, RoutedEventArgs e)
         {
-            int xlocationspawnermenu = (((breedteonderbalk / 7) * 5) + xlocatieonderbalk), ylocationspawnermenu = 600;
-            windowselect.simwindow.ExtraButtonsHost.Location = new System.Drawing.Point(xlocationspawnermenu, ylocationspawnermenu);
-            ExtrabuttonsOS.Spawner_1.Visibility = Visibility.Visible;
-            ExtrabuttonsOS.Spawner_2.Visibility = Visibility.Visible;
-            ExtrabuttonsOS.Spawner_3.Visibility = Visibility.Visible;
-            ExtrabuttonsOS.Spawner_4.Visibility = Visibility.Visible;
+            int xlocationspawnermenu = (((breedteOnderBalk / 7) * 5) + xLocatieOnderBalk), ylocationspawnermenu = 600;
+            windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(xlocationspawnermenu, ylocationspawnermenu);
+            extraButtonsOS.Spawner_1.Visibility = Visibility.Visible;
+            extraButtonsOS.Spawner_2.Visibility = Visibility.Visible;
+            extraButtonsOS.Spawner_3.Visibility = Visibility.Visible;
+            extraButtonsOS.Spawner_4.Visibility = Visibility.Visible;
         }    
 
         private void SpawnerButton_MouseLeave(object sender, MouseEventArgs e)
         {
-            windowselect.simwindow.ExtraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.Size);
-            ExtrabuttonsOS.Spawner_1.Visibility = Visibility.Hidden;
-            ExtrabuttonsOS.Spawner_2.Visibility = Visibility.Hidden;
-            ExtrabuttonsOS.Spawner_3.Visibility = Visibility.Hidden;
-            ExtrabuttonsOS.Spawner_4.Visibility = Visibility.Hidden;
+            windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.Size);
+            extraButtonsOS.Spawner_1.Visibility = Visibility.Hidden;
+            extraButtonsOS.Spawner_2.Visibility = Visibility.Hidden;
+            extraButtonsOS.Spawner_3.Visibility = Visibility.Hidden;
+            extraButtonsOS.Spawner_4.Visibility = Visibility.Hidden;
                       
         }
 

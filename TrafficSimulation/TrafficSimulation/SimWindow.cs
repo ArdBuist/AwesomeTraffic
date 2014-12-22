@@ -15,14 +15,14 @@ namespace TrafficSimulation
     {
         SimControl sim;
         WindowSelect windowselect;
-        public ElementHost BovenHostLinks, BovenHostRechts, OnderHost, InfoHost, ExtraButtonsHost;
-        public BovenSchermLinks Bovenschermlinks;
-        public BovenSchermRechts Bovenschermrechts;
-        public InfoBalk Infobalk;
-        public ExtraButtonsOS ExtrabuttonsOS;
-        public OnderScherm Onderscherm;
-        public int hoogtebovenbalk, hoogteonderbalk, breedteinfobalk, hoogteinfobalk, breedtescherm, hoogtescherm, ylocatieonderbalk, breedteschermlink, breedteschermrechts, xlocatieonderbalk, breedteonderbalk, breedtesonderbalk;
-
+        public ElementHost bovenHostLinks, bovenHostRechts, onderHost, infoHost, extraButtonsHost;
+        public BovenSchermLinks BovenSchermLinks;
+        public BovenSchermRechts BovenSchermRechts;
+        public InfoBalk InfoBalk;
+        public ExtraButtonsOS ExtraButtonsOS;
+        public OnderScherm OnderScherm;
+        public int hoogteBovenBalk, hoogteOnderBalk, hoogteInfoBalk,  hoogteScherm, yLocatieOnderBalk, xLocatieOnderBalk;
+        public int breedteInfoBalk, breedteScherm, breedteSchermLink, breedteSchermRechts, breedteOnderBalk;
         public SimWindow(Size size, WindowSelect windowselect)
         {
             this.Size = size;
@@ -31,73 +31,73 @@ namespace TrafficSimulation
             sim.Location = new Point(0, 0);
           
             //Variable om de elementhosten afhankelijk te maken van het scherm en andere elementhosten
-            breedtescherm = Screen.PrimaryScreen.Bounds.Width;
-            hoogtescherm = Screen.PrimaryScreen.Bounds.Height;
-            hoogtebovenbalk = 100;
-            hoogteonderbalk = 100;
-            hoogteinfobalk = (hoogtescherm - (hoogtebovenbalk + hoogteonderbalk));
-            ylocatieonderbalk = (hoogtescherm - hoogteonderbalk);
-            xlocatieonderbalk = (breedtescherm / 4);
-            breedteinfobalk = breedtescherm/6;
-            breedteschermlink = (breedtescherm / 4);
-            breedteschermrechts = (breedtescherm / 4);
-            breedteonderbalk = ((breedtescherm / 4) * 2);
+            breedteScherm = Screen.PrimaryScreen.Bounds.Width;
+            hoogteScherm = Screen.PrimaryScreen.Bounds.Height;
+            hoogteBovenBalk = 100;
+            hoogteOnderBalk = 100;
+            hoogteInfoBalk = (hoogteScherm - (hoogteBovenBalk + hoogteOnderBalk));
+            yLocatieOnderBalk = (hoogteScherm - hoogteOnderBalk);
+            xLocatieOnderBalk = (breedteScherm / 4);
+            breedteInfoBalk = breedteScherm/6;
+            breedteSchermLink = (breedteScherm / 4);
+            breedteSchermRechts = (breedteScherm / 4);
+            breedteOnderBalk = ((breedteScherm / 4) * 2);
 
-            Infobalk = new InfoBalk(windowselect);
-            ExtrabuttonsOS = new ExtraButtonsOS(windowselect, Infobalk);
-            Onderscherm = new OnderScherm(windowselect, Infobalk, ExtrabuttonsOS, ExtraButtonsHost, breedteonderbalk, ylocatieonderbalk, xlocatieonderbalk);
-            Bovenschermlinks = new BovenSchermLinks(windowselect, Infobalk, Onderscherm);
-            Bovenschermrechts = new BovenSchermRechts(windowselect, Infobalk, Onderscherm);
+            InfoBalk = new InfoBalk(windowselect);
+            ExtraButtonsOS = new ExtraButtonsOS(windowselect, InfoBalk);
+            OnderScherm = new OnderScherm(windowselect, InfoBalk, ExtraButtonsOS, extraButtonsHost, breedteOnderBalk, yLocatieOnderBalk, xLocatieOnderBalk);
+            BovenSchermLinks = new BovenSchermLinks(windowselect, InfoBalk, OnderScherm);
+            BovenSchermRechts = new BovenSchermRechts(windowselect, InfoBalk, OnderScherm);
 
-            BovenHostLinks = new ElementHost()
+            bovenHostLinks = new ElementHost()
             {
                 BackColor = Color.Transparent,
-                Height = hoogtebovenbalk,
-                Width = breedteschermrechts,
+                Height = hoogteBovenBalk,
+                Width = breedteSchermRechts,
                 Location = new Point(0, 0),
-                Child = Bovenschermlinks,
+                Child = BovenSchermLinks,
             };
-            this.Controls.Add(BovenHostLinks);
+            this.Controls.Add(bovenHostLinks);
 
-            BovenHostRechts = new ElementHost()
+            bovenHostRechts = new ElementHost()
             {
                 BackColor = Color.Transparent,
-                Height = hoogtebovenbalk,
-                Width = breedteschermlink,
-                Location = new Point((breedtescherm - breedteschermlink), 0),
-                Child = Bovenschermrechts,
+                Height = hoogteBovenBalk,
+                Width = breedteSchermLink,
+                Location = new Point((breedteScherm - breedteSchermLink), 0),
+                Child = BovenSchermRechts,
             };
-            this.Controls.Add(BovenHostRechts);
+            this.Controls.Add(bovenHostRechts);
            
-            ExtraButtonsHost = new ElementHost()
+            extraButtonsHost = new ElementHost()
             {
                 Height = 200,
                 Width = 200,
                 Location = new Point(this.Size),
-                Child = ExtrabuttonsOS,
+                Child = ExtraButtonsOS,
             };
-            this.Controls.Add(ExtraButtonsHost);
+            this.Controls.Add(extraButtonsHost);
 
-            OnderHost = new ElementHost()
+            onderHost = new ElementHost()
             {
                 BackColor = Color.Transparent,
-                Location = new Point(xlocatieonderbalk, ylocatieonderbalk),
-                Height = hoogteonderbalk,
-                Width = breedteonderbalk,
-                Child = Onderscherm,
+                Location = new Point(xLocatieOnderBalk, yLocatieOnderBalk),
+                Height = hoogteOnderBalk,
+                Width = breedteOnderBalk,
+                Child = OnderScherm,
             };
-            this.Controls.Add(OnderHost);
+            this.Controls.Add(onderHost);
 
-            InfoHost = new ElementHost()
+            infoHost = new ElementHost()
             {
                 BackColor = Color.Transparent,
                 //Location = new Point((BreedteScherm - BreedteInfoBalk), HoogteBovenBalk),
                 Location = new Point(this.Size),
-                Height = hoogteinfobalk,
-                Width = breedteinfobalk,
-                Child = Infobalk,
+                Height = hoogteInfoBalk,
+                Width = breedteInfoBalk,
+                Child = InfoBalk,
             };
-            this.Controls.Add(InfoHost);
+            this.Controls.Add(infoHost);
             this.Controls.Add(sim);
             
         }

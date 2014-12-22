@@ -22,16 +22,16 @@ namespace TrafficSimulation
     {
         public Boolean InfoVisible = true;
         private bool simulationStarted = false;
-        InfoBalk Infobalk;
-        OnderScherm Onderscherm;
+        InfoBalk infoBalk;
+        OnderScherm onderScherm;
         WindowSelect windowselect;
         //int daynightcount = 0;
 
         public BovenSchermRechts(WindowSelect ws,  InfoBalk info, OnderScherm Onder)
         {
             windowselect = ws;
-            Infobalk = info;
-            Onderscherm = Onder;
+            infoBalk = info;
+            onderScherm = Onder;
             
             InitializeComponent();
         }
@@ -40,12 +40,12 @@ namespace TrafficSimulation
         {
             if (InfoVisible)
             {
-                windowselect.simwindow.InfoHost.Location = new System.Drawing.Point(0, 0);//moeten nog de goede coordinaten komen
+                windowselect.simwindow.infoHost.Location = new System.Drawing.Point(0, 0);//moeten nog de goede coordinaten komen
                 InfoVisible = false;
             }
             else
             {
-                windowselect.simwindow.InfoHost.Location = new System.Drawing.Point(windowselect.simwindow.Size);
+                windowselect.simwindow.infoHost.Location = new System.Drawing.Point(windowselect.simwindow.Size);
                 InfoVisible = true;
             }
         }
