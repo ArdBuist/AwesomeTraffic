@@ -10,7 +10,7 @@
         <!--
      Hier moet nog een linear brush achtig komen zodat je en knoppen een mooie leuk overgang kan laten hebben.   
      -->
-        <Style x:Key="StyleRadioButton" TargetType="RadioButton">
+        <Style x:Key="styleRadioButton" TargetType="RadioButton">
             <Setter Property="Width" Value="70" />
             <Setter Property="Height" Value="60" />
             <Setter Property="Background" Value="Green"/>
@@ -69,31 +69,31 @@
             
             <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" >
 
-                <RadioButton x:Name="SelectButton" Style="{StaticResource StyleRadioButton}" GroupName="ButtonsBelow" Checked="SelectButton_Checked" >
+                <RadioButton x:Name="selectButton" Style="{StaticResource styleRadioButton}" GroupName="buttonsBelow" Checked="SelectButton_Checked"  >
                     Select
                 </RadioButton>
 
-                <RadioButton x:Name="EraserButton"  Style="{StaticResource StyleRadioButton}" GroupName="ButtonsBelow" Checked="EraserButton_Checked" >
+                <RadioButton x:Name="eraserButton"  Style="{StaticResource styleRadioButton}" GroupName="buttonsBelow" Checked="EraserButton_Checked" >
                     <TextBlock Text="Eraser"/>
                 </RadioButton>
 
-                <RadioButton x:Name="RoadButton" Style="{StaticResource StyleRadioButton}" GroupName="ButtonsBelow" MouseMove="RoadButton_Checked" MouseLeave="RoadButton_MouseLeave" >
+                <RadioButton x:Name="roadButton" Style="{StaticResource styleRadioButton}" GroupName="buttonsBelow" Checked="RoadButton_Checked" Click="RoadButton_Checked">
                     <Image Source="Resources/Roads/roadhor.png" Height="40" Width="40"/>
                 </RadioButton>
 
-                <RadioButton x:Name="BendButton" Style="{StaticResource StyleRadioButton}" GroupName="ButtonsBelow" MouseMove="BendButton_Checked" MouseLeave="BendButton_MouseLeave">
+                <RadioButton x:Name="bendButton" Style="{StaticResource styleRadioButton}" GroupName="buttonsBelow" Checked="BendButton_Checked" Click="BendButton_Checked">
                     <Image Source="Resources/Roads/bendUR.png" Height="40" Width="40"/>
                 </RadioButton>
 
-                <RadioButton x:Name="CrossRoadButton" Style="{StaticResource StyleRadioButton}" GroupName="ButtonsBelow" Checked="CrossRoadButton_Checked" >
+                <RadioButton x:Name="crossRoadButton" Style="{StaticResource styleRadioButton}" GroupName="buttonsBelow" Checked="CrossRoadButton_Checked" >
                     <Image Source="Resources/Crossroads/Crossroadstandaard.png" Height="40" Width="40"/>
                 </RadioButton>
 
-                <RadioButton x:Name="ForkButton" Style="{StaticResource StyleRadioButton}" GroupName="ButtonsBelow" MouseMove="ForkButton_Checked" MouseLeave="ForkButton_MouseLeave">
+                <RadioButton x:Name="forkButton" Style="{StaticResource styleRadioButton}" GroupName="buttonsBelow" Checked="ForkButton_Checked" Click="ForkButton_Checked">
                     <Image Source="Resources/Crossroads/forkup.png" Height="40" Width="40"/>
                 </RadioButton>
 
-                <RadioButton x:Name="SpawnerButton" Style="{StaticResource StyleRadioButton}" GroupName="ButtonsBelow" MouseMove="SpawnerButton_Checked" MouseLeave="SpawnerButton_MouseLeave">
+                <RadioButton x:Name="spawnerButton" Style="{StaticResource styleRadioButton}" GroupName="buttonsBelow" Checked="SpawnerButton_Checked" Click="SpawnerButton_Checked">
                     <Image Source="Resources/Roads/spawnerright.png" Height="40" Width="40"/>
                 </RadioButton>
             </StackPanel>
