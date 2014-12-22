@@ -34,10 +34,11 @@ namespace TrafficSimulation
             return stripesPen;
         }
 
-        /*Deze methode tekent een rechte of een kromme weg. De parameters zijn: sideIn(welke kant de weg binnenkomt), 
-        * sideOut(welke kant de weg uitgaat), lanesIn(hoeveel wegen er in gaan bij sideIn),
-        * lanesOut(hoeveel wegen er uit gaan bij sideIn). sideIn is altijd het laagste getal, sideOut het hoogste.
-        **/
+        /*
+         * Deze methode tekent een rechte of een kromme weg. De parameters zijn: sideIn(welke kant de weg binnenkomt), 
+         * sideOut(welke kant de weg uitgaat), lanesIn(hoeveel wegen er in gaan bij sideIn),
+         * lanesOut(hoeveel wegen er uit gaan bij sideIn). sideIn is altijd het laagste getal, sideOut het hoogste.
+         */
         public Graphics drawRoad(Graphics gr, int lanesIn, int lanesOut, int sideIn, int sideOut)
         {
             Graphics road = gr;
@@ -83,7 +84,6 @@ namespace TrafficSimulation
                             road.DrawLine(stripesPen, 50 + i * roadW, 0, 50 + i * roadW, 100);
                         }
                     }
-
                 }
                 //horizontale weg
                 else
@@ -127,7 +127,6 @@ namespace TrafficSimulation
                     {
                         road.DrawArc(stripesPen, 50, -50, 100, 100, 90, 90);
                     }
-
                     else
                     {
                         road.DrawArc(Pens.White, 50, -50, 100, 100, 90, 90);
@@ -152,12 +151,10 @@ namespace TrafficSimulation
                     road.DrawArc(Pens.White, -1 * r3, -1 * r3, 2 * r3, 2 * r3, 0, 90);
                     road.DrawArc(Pens.White, -1 * r2, -1 * r2, 2 * r2, 2 * r2, 0, 90);
 
-
                     if (lanesIn == 1 && lanesOut == 1)
                     {
                         road.DrawArc(stripesPen, -50, -50, 100, 100, 0, 90);
                     }
-
                     else
                     {
                         road.DrawArc(Pens.White, -50, -50, 100, 100, 0, 90);
@@ -215,7 +212,6 @@ namespace TrafficSimulation
                     {
                         road.DrawArc(stripesPen, -50, 50, 100, 100, 270, 90);
                     }
-
                     else
                     {
                         road.DrawArc(Pens.White, -50, 50, 100, 100, 270, 90);
@@ -293,7 +289,6 @@ namespace TrafficSimulation
                 fork.DrawArc(Pens.White, lineLDx, lineLDy, lineLDwidth, lineLDheight, 270, 90);
                 fork.DrawLine(Pens.White, 0, (50 - roadW * leftOut), 100, (50 - roadW * rightIn));
             }
-
             else if (count == 2)
             {
                 fork.FillRectangle(Brushes.Gray, 0, 0, 50 + upOut * roadW, 100);
@@ -303,7 +298,6 @@ namespace TrafficSimulation
                 fork.DrawArc(Pens.White, lineLUx, lineLUy, lineLUwidth, lineLUheight, 0, 90);
                 fork.DrawLine(Pens.White, (50 + roadW * upOut), 0, (50 + roadW * downIn), 100);
             }
-
             else if (count == 3)
             {
                 fork.FillRectangle(Brushes.Gray, 0, 0, 100, 50 + leftIn * roadW);
@@ -313,7 +307,6 @@ namespace TrafficSimulation
                 fork.DrawArc(Pens.White, lineRUx, lineRUy, lineRUwidth, lineRUheight, 90, 90);
                 fork.DrawLine(Pens.White, 0, (50 + roadW * leftIn), 100, (50 + roadW * rightOut));
             }
-
             else
             {
                 fork.FillRectangle(Brushes.Gray, 50 - upIn * roadW, 0, 50 + upIn * roadW, 100);
@@ -418,7 +411,6 @@ namespace TrafficSimulation
 
                 bmSpawner.FillRectangle(Brushes.Black, r3 - 5, 0, width, 30);
             }
-
             else if (side == 4)
             {
                 bmSpawner.FillRectangle(Brushes.Gray, 0, r3, 100, lanesTotal * roadW);
@@ -444,7 +436,6 @@ namespace TrafficSimulation
                 }
                 bmSpawner.FillRectangle(Brushes.Black, 70, r3 - 5, 30, width);
             }
-
             else if (side == 1)
             {
                 bmSpawner.FillRectangle(Brushes.Gray, r, 0, lanesTotal * roadW, 100);
@@ -455,7 +446,6 @@ namespace TrafficSimulation
                 {
                     bmSpawner.DrawLine(stripesPen, 50, 0, 50, 100);
                 }
-
                 else
                 {
                     bmSpawner.DrawLine(Pens.White, 50, 0, 50, 100);
@@ -469,11 +459,9 @@ namespace TrafficSimulation
                     }
                 }
 
-
                 bmSpawner.FillRectangle(Brushes.Black, r - 5, 70, width, 30);
 
             }
-
             else
             {
 
