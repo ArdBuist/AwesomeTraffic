@@ -24,6 +24,8 @@ namespace TrafficSimulation
         Point mouseDownPoint;
         Point mouseMovePoint;
         public Tile[] tileList;
+        public Tile[] greenZoneList;
+        private int countGreenZone;
         public Tile oldselectedTile;
         public List<Vehicle> vehicleList;
         public int tilesHorizontal;
@@ -87,8 +89,10 @@ namespace TrafficSimulation
             this.DoubleBuffered = true;
             this.Visible = true;
 
-            //Initialisatie van de array waarin alle tileList worden opgeslagen
+            //Initialisatie van de array waarin alle tiles worden opgeslagen
             tileList = new Tile[(this.Size.Height / 100) * (this.Size.Width / 100)];
+            //Initialisatie van de array waarin alle geselecteerde tiles voor de groene zone in worden opgeslagen
+            greenZoneList = new Tile[(this.Size.Height / 100) * (this.Size.Width / 100)];
             //Nog niet zeker of deze nodig is, nu nog ongebruikt
             vehicleList = new List<Vehicle>();
             //De simulatie zelf, hierin word ervoor gezorgd dat de simulatie daadwerkelijk loopt
@@ -157,13 +161,10 @@ namespace TrafficSimulation
             //de eerder geselecteerde tile wordt opnieuw getekend en verwijdert zo de blauwe rand
             if (oldselectedTile != null)
             {
-
                 bitmapMap.AddObject(oldselectedTile.DrawImage(), oldselectedTile.position.X, oldselectedTile.position.Y);
             }
 
-
-
-            if (selected == true) //als de select-tool is aangeklikt
+            if (selected == false) //als de select-tool is aangeklikt
             {
                 DrawSelectLine(mea);                
             }
@@ -178,6 +179,12 @@ namespace TrafficSimulation
             if (building == true)
             {
                 DrawTile(mea);
+            }
+
+            //als je een route wil aanklikken voor een groene golf
+            if(selected == true) // deze aanpassen, zodat het nummer overeenkomt met nummer voor het selecteren van de groene golf
+            {
+                DrawGreenZone(mea);
             }
                
                 //host.BackColorTransparent = true;
@@ -253,6 +260,56 @@ namespace TrafficSimulation
             Invalidate();
         }
 
+        //methode om een groene zone te selecteren
+        private void DrawGreenZone(MouseEventArgs mea)
+        {
+            Bitmap tileImage;
+
+            //checken 
+            if(ValidSelect() == true)
+            {
+                for()
+                {}
+            }
+            Tile selectedTile = new SelectTile();
+
+            //Er wordt een blauw randje getekend om de geselecteerde tile
+            selectedTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), CalculateListPlace(mea.X, mea.Y));
+            tileImage = selectedTile.DrawImage();
+            selectedTile = greenZoneList[countGreenZone];
+            countGreenZone++;
+
+            this.Invalidate();
+        }
+
+        //check of er een groene zone is, bij ja: alle wegen overtekenen
+        private void RemoveGreenZone()
+        {
+            if (greenZoneList[0] != null)
+            {
+                for (int i = 0; i < greenZoneList.Length;i++)
+                {
+                    if(greenZoneList[i] == tileList[i])
+                    {
+                        Bitmap tileImage = tileList[i].DrawImage();
+                        //?????hoe weet ik van een tile de x- en y-positie?
+                        //bitmapMap.AddObject(tileImage, tileList[i].X / 100 * 100 , tileList[i].Y / 100 * 100);
+                    }
+                }
+            }
+        }
+
+
+        //kijk of 
+        private bool ValidSelect()
+        {
+           // if (countGreenZone != null)
+            
+                return true;
+            
+        }
+        
+         
         private void MoveMap(MouseEventArgs mea)
         {
             if (Math.Abs(mea.X - mouseMovePoint.X) > 5 || Math.Abs(mea.Y - mouseMovePoint.Y) > 5)
