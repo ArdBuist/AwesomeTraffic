@@ -230,6 +230,8 @@ namespace TrafficSimulation
                 tileImage = selectedTile.DrawImage();
                 tileList[CalculateListPlace(mea.X, mea.Y)] = null;
 
+                this.Invalidate();
+
                 //hier moet nog bij dat de trafficlights ook worden verwijderd
             }            
         }
