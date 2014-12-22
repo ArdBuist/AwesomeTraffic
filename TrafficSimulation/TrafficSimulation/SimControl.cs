@@ -39,10 +39,10 @@ namespace TrafficSimulation
         Boolean isMoved;
 
 
-       //kaartverslepen
+        //kaartverslepen
 
-       public Boolean Simulatie = true, Day = true, InfoVisible = true;
-        
+        public Boolean Simulatie = true, Day = true, InfoVisible = true;
+
         //SimWindow simwindow;
 
         public SimControl(Size size, SimWindow sim)
@@ -115,7 +115,7 @@ namespace TrafficSimulation
                     if (selected == true)
                     {
                         MoveMap(mea);
-                        
+
                     }
                 }
             };
@@ -165,23 +165,23 @@ namespace TrafficSimulation
 
             if (selected == true) //als de select-tool is aangeklikt
             {
-                DrawSelectLine(mea);                
+                DrawSelectLine(mea);
             }
-           
-             //als de gum-tool is aangeklikt
-            if (eraser == true) 
+
+            //als de gum-tool is aangeklikt
+            if (eraser == true)
             {
                 removeTile(mea);
-             }
+            }
 
             //als je een weg wil bouwen
             if (building == true)
             {
                 DrawTile(mea);
             }
-               
-                //host.BackColorTransparent = true;
-            
+
+            //host.BackColorTransparent = true;
+
         }
         /*controleert of de tile een rechte weg is en checkt of de weg naar de goede kant doorloopt zodat je een hele weg kunt maken door rechtdoor te slepen
         *Hierdoor kun je alleen rechte wegen door slepen op de kaart aanbrengen. Dit verhoogt het gebruiksgemak omdat het wegen leggen zo een stuk sneller gaat.
@@ -233,7 +233,7 @@ namespace TrafficSimulation
                 this.Invalidate();
 
                 //hier moet nog bij dat de trafficlights ook worden verwijderd
-            }            
+            }
         }
 
         private void DrawTile(MouseEventArgs mea)
@@ -249,7 +249,7 @@ namespace TrafficSimulation
             //Dit zorgt ervoor dat de kaart geupdate wordt met de nieuwe tile.
             bitmapMap.AddObject(tileImage, mea.X / 100 * 100, mea.Y / 100 * 100);
             currentBuildTile = CopyCurrentTile();//hier wordt een nieuwe buildTile gemaakt met dezelfde waardes als daarvoor omdat er dan opnieuw een tile ingeklikt kan worden.
-            
+
             Invalidate();
         }
 
@@ -338,14 +338,14 @@ namespace TrafficSimulation
             currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
             tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
             bitmapMap.AddObject(tileImage, roadX * 100, roadY * 100);
-            currentBuildTile = new Road(1,2);
+            currentBuildTile = new Road(1, 2);
             roadX = 5;
             roadY = 3;
             tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
             currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
             tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
             bitmapMap.AddObject(tileImage, roadX * 100, roadY * 100);
-            currentBuildTile = new Road(2,3);
+            currentBuildTile = new Road(2, 3);
             roadX = 5;
             roadY = 4;
             tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
@@ -366,14 +366,14 @@ namespace TrafficSimulation
             currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
             tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
             bitmapMap.AddObject(tileImage, roadX * 100, roadY * 100);
-            currentBuildTile = new Road(2,3);
+            currentBuildTile = new Road(2, 3);
             roadX = 6;
             roadY = 2;
             tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
             currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
             tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
             bitmapMap.AddObject(tileImage, roadX * 100, roadY * 100);
-            currentBuildTile = new Fork(this,3);
+            currentBuildTile = new Fork(this, 3);
             roadX = 6;
             roadY = 3;
             tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
@@ -408,28 +408,28 @@ namespace TrafficSimulation
             currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
             tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
             bitmapMap.AddObject(tileImage, roadX * 100, roadY * 100);
-            currentBuildTile = new Road(1,4);
+            currentBuildTile = new Road(1, 4);
             roadX = 6;
             roadY = 9;
             tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
             currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
             tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
             bitmapMap.AddObject(tileImage, roadX * 100, roadY * 100);
-            currentBuildTile = new Road(2,4);
+            currentBuildTile = new Road(2, 4);
             roadX = 7;
             roadY = 2;
             tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
             currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
             tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
             bitmapMap.AddObject(tileImage, roadX * 100, roadY * 100);
-            currentBuildTile = new Road(2,4);
+            currentBuildTile = new Road(2, 4);
             roadX = 7;
             roadY = 3;
             tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
             currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
             tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
             bitmapMap.AddObject(tileImage, roadX * 100, roadY * 100);
-            currentBuildTile = new Fork(this,1);
+            currentBuildTile = new Fork(this, 1);
             roadX = 7;
             roadY = 4;
             tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
@@ -485,7 +485,7 @@ namespace TrafficSimulation
             currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
             tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
             bitmapMap.AddObject(tileImage, roadX * 100, roadY * 100);
-            currentBuildTile = new Fork(this,3);
+            currentBuildTile = new Fork(this, 3);
             roadX = 8;
             roadY = 6;
             tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
@@ -499,7 +499,7 @@ namespace TrafficSimulation
             currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
             tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
             bitmapMap.AddObject(tileImage, roadX * 100, roadY * 100);
-            currentBuildTile = new Road(2,4);
+            currentBuildTile = new Road(2, 4);
             roadX = 9;
             roadY = 2;
             tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
@@ -527,7 +527,7 @@ namespace TrafficSimulation
             currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
             tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
             bitmapMap.AddObject(tileImage, roadX * 100, roadY * 100);
-            currentBuildTile = new Road(2,4);
+            currentBuildTile = new Road(2, 4);
             roadX = 9;
             roadY = 6;
             tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
@@ -583,7 +583,7 @@ namespace TrafficSimulation
             currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
             tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
             bitmapMap.AddObject(tileImage, roadX * 100, roadY * 100);
-            currentBuildTile = new Road(1,4);
+            currentBuildTile = new Road(1, 4);
             roadX = 10;
             roadY = 7;
             tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
@@ -613,7 +613,7 @@ namespace TrafficSimulation
             bitmapMap.AddObject(tileImage, roadX * 100, roadY * 100);
             currentBuildTile.LanesHighToLow = 2;
             currentBuildTile.UpdateOtherTiles(this, 0);
-            currentBuildTile = new Fork(this,2);
+            currentBuildTile = new Fork(this, 2);
             roadX = 11;
             roadY = 8;
             tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
