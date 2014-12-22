@@ -27,9 +27,10 @@ namespace TrafficSimulation
         //list for all the tiles made in the simulation
         public Tile[] tileList;
 
+        //lijst voor geselecteerde tiles voor de groene zone en counter daarvoor
         public Tile[] greenZoneList;
         private int countGreenZone;
-        //
+        //de oude geselecteerde tile
         public Tile oldselectedTile;
         //list for all vehicles needs to be removed
         public List<Vehicle> vehicleList;
@@ -43,11 +44,10 @@ namespace TrafficSimulation
         //
         public Tile currentBuildTile;
 
-        //
+        //variabelen voor klikmethodes (later samenvoegen via nummers)
         public bool eraser = false;
         public bool selected = true;
         public bool building = false;
-        //
         public int TimeofDay = 1;
         //
         bool isMoved;
@@ -100,7 +100,7 @@ namespace TrafficSimulation
             //Nog niet zeker of deze nodig is, nu nog ongebruikt
             vehicleList = new List<Vehicle>();
             //De simulatie zelf, hierin word ervoor gezorgd dat de simulatie daadwerkelijk loopt
-            this.sim = new Simulation(this);
+            this.simulation = new Simulation(this);
 
             //tekenfunctie voor de tileList (tijdelijke functie)
             InitializeComponent();
@@ -143,7 +143,7 @@ namespace TrafficSimulation
             //de eerder geselecteerde tile wordt opnieuw getekend en verwijdert zo de blauwe rand
             if (oldselectedTile != null)
             {
-                bitmapMap.AddObject(oldselectedTile.DrawImage(), oldselectedTile.position.X, oldselectedTile.position.Y);
+                backgroundBC.AddObject(oldselectedTile.DrawImage(), oldselectedTile.position.X, oldselectedTile.position.Y);
             }
 
             if (selected == false) //als de select-tool is aangeklikt
@@ -173,8 +173,9 @@ namespace TrafficSimulation
             
         }
 
-        /*controleert of de tile een rechte weg is en checkt of de weg naar de goede kant doorloopt zodat je een hele weg kunt maken door rechtdoor te slepen
-        *Hierdoor kun je alleen rechte wegen door slepen op de kaart aanbrengen. Dit verhoogt het gebruiksgemak omdat het wegen leggen zo een stuk sneller gaat.
+        /*controleert of de tile een rechte weg is en checkt of de weg naar de goede kant doorloopt zodat je een hele weg kunt 
+         * maken door rechtdoor te slepen. Hierdoor kun je alleen rechte wegen door slepen op de kaart aanbrengen. Dit verhoogt 
+         * het gebruiksgemak omdat het wegen leggen zo een stuk sneller gaat.
         */
         private bool TileIsStraight(Point mouseDown, Point mousePoint)
         {
@@ -236,7 +237,7 @@ namespace TrafficSimulation
             currentBuildTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), CalculateListPlace(mea.X, mea.Y));
             tileImage = currentBuildTile.DrawImage();
             tileList[CalculateListPlace(mea.X, mea.Y)] = currentBuildTile;
-            //Dit zorgt ervoor dat de kaart geupdate wordt met de nieuwe tile.
+            //Dit zorgt ervoor dat de kaart geupdate wordt met de nieuwe tile
             backgroundBC.AddObject(tileImage, mea.X / 100 * 100, mea.Y / 100 * 100);
             currentBuildTile = CopyCurrentTile();//hier wordt een nieuwe buildTile gemaakt met dezelfde waardes als daarvoor omdat er dan opnieuw een tile ingeklikt kan worden.
 
@@ -275,8 +276,7 @@ namespace TrafficSimulation
                     if(greenZoneList[i] == tileList[i])
                     {
                         Bitmap tileImage = tileList[i].DrawImage();
-                        //?????hoe weet ik van een tile de x- en y-positie?
-                        //bitmapMap.AddObject(tileImage, tileList[i].X / 100 * 100 , tileList[i].Y / 100 * 100);
+                        backgroundBC.AddObject(tileImage, tileList[i].position.X / 100 * 100 , tileList[i].position.Y / 100 * 100);
                     }
                 }
             }
