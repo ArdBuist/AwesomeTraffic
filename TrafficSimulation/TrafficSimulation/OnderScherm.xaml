@@ -77,7 +77,7 @@
                     <TextBlock Text="Eraser"/>
                 </RadioButton>
 
-                <RadioButton x:Name="RoadButton" Style="{StaticResource StyleRadioButton}" GroupName="ButtonsBelow" MouseMove="RoadButton_Checked" MouseLeave="RoadButton_MouseLeave">
+                <RadioButton x:Name="RoadButton" Style="{StaticResource StyleRadioButton}" GroupName="ButtonsBelow" MouseMove="RoadButton_Checked" MouseLeave="RoadButton_MouseLeave" >
                     <Image Source="Resources/Roads/roadhor.png" Height="40" Width="40"/>
                 </RadioButton>
 

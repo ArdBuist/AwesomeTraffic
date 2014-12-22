@@ -21,8 +21,8 @@ namespace TrafficSimulation
     public partial class InfoBalk : UserControl
 
     {
-        SimControl s;
-        SimWindow simwindow;
+        //SimControl s;
+        //SimWindow simwindow;
         WindowSelect windowselect;
 
         public InfoBalk(WindowSelect ws)

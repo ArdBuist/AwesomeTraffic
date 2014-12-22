@@ -28,9 +28,9 @@ namespace TrafficSimulation
         InfoBalk Infobalk;
         ExtraButtonsOS ExtrabuttonsOS;
         ElementHost ExtraButtonsHost;
-       // public Boolean bend = false, road = false, spawner = false, fork = false;
+        int breedteonderbalk, ylocatieonderbalk, xlocatieonderbalk;
 
-        public OnderScherm( WindowSelect ws, InfoBalk info, ExtraButtonsOS Extra, ElementHost ExtraHost)
+        public OnderScherm(WindowSelect ws, InfoBalk info, ExtraButtonsOS Extra, ElementHost ExtraHost, int bob, int ylob, int xlob)
         {
             windowselect = ws;
             
@@ -39,6 +39,9 @@ namespace TrafficSimulation
             ExtraButtonsHost = ExtraHost;
             Infobalk = info;
             ExtrabuttonsOS = Extra;
+            breedteonderbalk = bob;
+            ylocatieonderbalk = ylob;
+            xlocatieonderbalk = xlob;
             InitializeComponent();
         }
 
@@ -61,12 +64,13 @@ namespace TrafficSimulation
 
         private void RoadButton_Checked(object sender, RoutedEventArgs e)
         {
-            windowselect.simwindow.ExtraButtonsHost.Location = new System.Drawing.Point(400, 500);//deze moet nog aangepast worden zodat het direct boven de button komt
+            int xlocationroadmenu = (((breedteonderbalk / 7) * 2) + xlocatieonderbalk), ylocationroadmenu = 500;
+            windowselect.simwindow.ExtraButtonsHost.Location = new System.Drawing.Point(xlocationroadmenu, ylocationroadmenu);
+            
             ExtrabuttonsOS.Visibility = Visibility.Visible;         
             ExtrabuttonsOS.Road_1_3.Visibility = Visibility.Visible;
             ExtrabuttonsOS.Road_2_4.Visibility = Visibility.Visible;
 
-            
         }
         private void RoadButton_MouseLeave(object sender, MouseEventArgs e)
         {
@@ -74,16 +78,18 @@ namespace TrafficSimulation
             ExtrabuttonsOS.Road_1_3.Visibility = Visibility.Hidden;
             ExtrabuttonsOS.Road_2_4.Visibility = Visibility.Hidden;
         }
+
+        
         private void BendButton_Checked(object sender, RoutedEventArgs e)
         {
-            windowselect.simwindow.ExtraButtonsHost.Location = new System.Drawing.Point(400, 500);//deze moet nog aangepast worden zodat het direct boven de button komt
+            int xlocationbendmenu = (((breedteonderbalk / 7) * 3) + xlocatieonderbalk), ylocationbendmenu = 500;
+            windowselect.simwindow.ExtraButtonsHost.Location = new System.Drawing.Point(xlocationbendmenu, ylocationbendmenu);
             ExtrabuttonsOS.Bend_1_2.Visibility = Visibility.Visible;
             ExtrabuttonsOS.Bend_2_3.Visibility = Visibility.Visible;
             ExtrabuttonsOS.Bend_3_4.Visibility = Visibility.Visible;
             ExtrabuttonsOS.Bend_4_1.Visibility = Visibility.Visible;
+       }
 
-            
-        }
         private void BendButton_MouseLeave(object sender, MouseEventArgs e)
         {
             windowselect.simwindow.ExtraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.Size);
@@ -93,6 +99,7 @@ namespace TrafficSimulation
             ExtrabuttonsOS.Bend_4_1.Visibility = Visibility.Hidden;
             windowselect.simwindow.ExtraButtonsHost.BackColor = System.Drawing.Color.Transparent;
         }
+
         private void CrossRoadButton_Checked(object sender, RoutedEventArgs e)
         {
             windowselect.simwindow.simcontrol.eraser = false;
@@ -104,7 +111,8 @@ namespace TrafficSimulation
 
         private void ForkButton_Checked(object sender, RoutedEventArgs e)
         {
-            windowselect.simwindow.ExtraButtonsHost.Location = new System.Drawing.Point(400, 500);//deze moet nog aangepast worden zodat het direct boven de button komt
+            int xlocationforkmenu = (((breedteonderbalk / 7) * 4) + xlocatieonderbalk), ylocationforkmenu = 500;
+            windowselect.simwindow.ExtraButtonsHost.Location = new System.Drawing.Point(xlocationforkmenu, ylocationforkmenu);
             windowselect.simwindow.ExtraButtonsHost.BackColor = System.Drawing.Color.Transparent;
             ExtrabuttonsOS.Height = 100;
             ExtrabuttonsOS.Fork_1_2.Visibility = Visibility.Visible;
@@ -124,7 +132,8 @@ namespace TrafficSimulation
 
         private void SpawnerButton_Checked(object sender, RoutedEventArgs e)
         {
-            windowselect.simwindow.ExtraButtonsHost.Location = new System.Drawing.Point(400, 500);//deze moet nog aangepast worden zodat het direct boven de button komt
+            int xlocationspawnermenu = (((breedteonderbalk / 7) * 5) + xlocatieonderbalk), ylocationspawnermenu = 600;
+            windowselect.simwindow.ExtraButtonsHost.Location = new System.Drawing.Point(xlocationspawnermenu, ylocationspawnermenu);
             ExtrabuttonsOS.Spawner_1.Visibility = Visibility.Visible;
             ExtrabuttonsOS.Spawner_2.Visibility = Visibility.Visible;
             ExtrabuttonsOS.Spawner_3.Visibility = Visibility.Visible;
@@ -139,6 +148,8 @@ namespace TrafficSimulation
             ExtrabuttonsOS.Spawner_3.Visibility = Visibility.Hidden;
             ExtrabuttonsOS.Spawner_4.Visibility = Visibility.Hidden;
                       
-        }        
+        }
+
+             
     }
 }

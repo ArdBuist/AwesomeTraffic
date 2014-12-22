@@ -24,7 +24,14 @@ namespace TrafficSimulation
             // Alle schermranden weghalen
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 
-            int WidthStartScreen = Screen.PrimaryScreen.Bounds.Width, HeightStartScreen = Screen.PrimaryScreen.Bounds.Height;
+            int WidthStartScreen;
+            int HeightStartScreen;
+            using (Graphics graphics = this.CreateGraphics()) 
+            {
+                WidthStartScreen = (Screen.PrimaryScreen.Bounds.Width * (int)graphics.DpiX) / 96;
+                HeightStartScreen = (Screen.PrimaryScreen.Bounds.Height * (int) graphics.DpiY) / 96;
+            }
+            
             Size screensize = new Size(WidthStartScreen, HeightStartScreen);
             simwindow = new SimWindow(screensize, this);
             Start();
@@ -34,15 +41,15 @@ namespace TrafficSimulation
         public void Start()
         {
             this.Controls.Remove(simwindow);
-            int WidthStartScreen = Screen.PrimaryScreen.Bounds.Width, HeightStartScreen = Screen.PrimaryScreen.Bounds.Height;
-            Size screensize = new Size(WidthStartScreen, HeightStartScreen);
+            int widthstartscreen = Screen.PrimaryScreen.Bounds.Width, heightstartscreen = Screen.PrimaryScreen.Bounds.Height;
+            Size screensize = new Size(widthstartscreen, heightstartscreen);
 
             // Openen van het startscherm
             startwindow = new StartWindow(screensize, this);
             this.BackColor = Color.Green;
 
-            startwindow.Left = ((WidthStartScreen - 300) / 2);
-            startwindow.Top = ((HeightStartScreen - 300) / 2);
+            startwindow.Left = ((widthstartscreen - 300) / 2);
+            startwindow.Top = ((heightstartscreen - 300) / 2);
             this.Controls.Add(startwindow);
         }
         public void New()

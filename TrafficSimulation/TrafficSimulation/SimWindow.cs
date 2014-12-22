@@ -21,7 +21,7 @@ namespace TrafficSimulation
         public InfoBalk Infobalk;
         public ExtraButtonsOS ExtrabuttonsOS;
         public OnderScherm Onderscherm;
-        private int HoogteBovenBalk, HoogteOnderbalk, BreedteInfoBalk, HoogteInfobalk, BreedteScherm, HoogteScherm, YLocatieOnderbalk, BreedteSchermLink, BreedteSchermRechts, XLocatieOnderbalk, BreedteOnderbalk;
+        public int hoogtebovenbalk, hoogteonderbalk, breedteinfobalk, hoogteinfobalk, breedtescherm, hoogtescherm, ylocatieonderbalk, breedteschermlink, breedteschermrechts, xlocatieonderbalk, breedteonderbalk, breedtesonderbalk;
 
         public SimWindow(Size size, WindowSelect windowselect)
         {
@@ -29,33 +29,31 @@ namespace TrafficSimulation
             this.windowselect = windowselect;
             sim = new SimControl(this.ClientSize, this);
             sim.Location = new Point(0, 0);
+          
+            //Variable om de elementhosten afhankelijk te maken van het scherm en andere elementhosten
+            breedtescherm = Screen.PrimaryScreen.Bounds.Width;
+            hoogtescherm = Screen.PrimaryScreen.Bounds.Height;
+            hoogtebovenbalk = 100;
+            hoogteonderbalk = 100;
+            hoogteinfobalk = (hoogtescherm - (hoogtebovenbalk + hoogteonderbalk));
+            ylocatieonderbalk = (hoogtescherm - hoogteonderbalk);
+            xlocatieonderbalk = (breedtescherm / 4);
+            breedteinfobalk = breedtescherm/6;
+            breedteschermlink = (breedtescherm / 4);
+            breedteschermrechts = (breedtescherm / 4);
+            breedteonderbalk = ((breedtescherm / 4) * 2);
 
             Infobalk = new InfoBalk(windowselect);
             ExtrabuttonsOS = new ExtraButtonsOS(windowselect, Infobalk);
-            Onderscherm = new OnderScherm(windowselect, Infobalk, ExtrabuttonsOS, ExtraButtonsHost);
+            Onderscherm = new OnderScherm(windowselect, Infobalk, ExtrabuttonsOS, ExtraButtonsHost, breedteonderbalk, ylocatieonderbalk, xlocatieonderbalk);
             Bovenschermlinks = new BovenSchermLinks(windowselect, Infobalk, Onderscherm);
             Bovenschermrechts = new BovenSchermRechts(windowselect, Infobalk, Onderscherm);
 
-            
-           
-            //Variable om de elementhosten afhankelijk te maken van het scherm en andere elementhosten
-            BreedteScherm = Screen.PrimaryScreen.Bounds.Width;
-            HoogteScherm = Screen.PrimaryScreen.Bounds.Height;
-            HoogteBovenBalk = 100;
-            HoogteOnderbalk = 100;
-            YLocatieOnderbalk = (HoogteScherm - HoogteOnderbalk);
-            HoogteInfobalk = (HoogteScherm - (HoogteBovenBalk + HoogteOnderbalk));
-            BreedteInfoBalk = 300;
-            BreedteSchermLink = (BreedteScherm / 4);
-            BreedteSchermRechts = (BreedteScherm / 4);
-            XLocatieOnderbalk = (BreedteScherm / 4);
-            BreedteOnderbalk = ((BreedteScherm / 4) * 2);
-	        
             BovenHostLinks = new ElementHost()
             {
                 BackColor = Color.Transparent,
-                Height = HoogteBovenBalk,
-                Width = BreedteSchermRechts,
+                Height = hoogtebovenbalk,
+                Width = breedteschermrechts,
                 Location = new Point(0, 0),
                 Child = Bovenschermlinks,
             };
@@ -64,9 +62,9 @@ namespace TrafficSimulation
             BovenHostRechts = new ElementHost()
             {
                 BackColor = Color.Transparent,
-                Height = HoogteBovenBalk,
-                Width = BreedteSchermLink,
-                Location = new Point((BreedteScherm - BreedteSchermLink), 0),
+                Height = hoogtebovenbalk,
+                Width = breedteschermlink,
+                Location = new Point((breedtescherm - breedteschermlink), 0),
                 Child = Bovenschermrechts,
             };
             this.Controls.Add(BovenHostRechts);
@@ -83,9 +81,9 @@ namespace TrafficSimulation
             OnderHost = new ElementHost()
             {
                 BackColor = Color.Transparent,
-                Location = new Point(XLocatieOnderbalk, YLocatieOnderbalk),
-                Height = HoogteOnderbalk,
-                Width = BreedteOnderbalk,
+                Location = new Point(xlocatieonderbalk, ylocatieonderbalk),
+                Height = hoogteonderbalk,
+                Width = breedteonderbalk,
                 Child = Onderscherm,
             };
             this.Controls.Add(OnderHost);
@@ -95,8 +93,8 @@ namespace TrafficSimulation
                 BackColor = Color.Transparent,
                 //Location = new Point((BreedteScherm - BreedteInfoBalk), HoogteBovenBalk),
                 Location = new Point(this.Size),
-                Height = HoogteInfobalk,
-                Width = BreedteInfoBalk,
+                Height = hoogteinfobalk,
+                Width = breedteinfobalk,
                 Child = Infobalk,
             };
             this.Controls.Add(InfoHost);
