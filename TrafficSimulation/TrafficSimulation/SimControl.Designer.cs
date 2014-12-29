@@ -147,6 +147,13 @@ namespace TrafficSimulation
             {
                 DrawTile(mea);
             }
+
+            //als je een route wil aanklikken voor een groene golf
+            if (state == "greenzone") // deze aanpassen, zodat het nummer overeenkomt met nummer voor het selecteren van de groene golf
+            {
+                DrawGreenZone(mea);
+            }
+
             //host.BackColorTransparent = true;
         }
             #endregion

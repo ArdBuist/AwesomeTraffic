@@ -112,69 +112,6 @@ namespace TrafficSimulation
             this.simulation = new Simulation(this);
         }
 
-        private void MouseClickUp(object obj, MouseEventArgs mea)
-        {
-            Bitmap tileImage;
-            mouseDownPoint = new Point(0, 0); mouseMovePoint = new Point(0, 0);
-
-            /*deze code moet worden gedaan zo als de simulatie wordt gestart.*/
-
-            foreach (Tile t in tileList)
-            {
-                if (t != null)
-                {
-                    if (t.name == "Crossroad")
-                    {
-                        Crossroad Cr = (Crossroad)t;
-                        if (Cr.control != null)
-                        {
-                            controlList.Add(Cr.control);
-                        }
-                    }
-                    if (t.name == "Fork")
-                    {
-                        Fork f = (Fork)t;
-                        if (f.control != null)
-                        {
-                            controlList.Add(f.control);
-                        }
-                    }
-                }
-            }
-
-            //de eerder geselecteerde tile wordt opnieuw getekend en verwijdert zo de blauwe rand
-            if (oldselectedTile != null)
-            {
-                backgroundBC.AddObject(oldselectedTile.DrawImage(), oldselectedTile.position.X, oldselectedTile.position.Y);
-            }
-
-            if (state == "selected") //als de select-tool is aangeklikt
-            {
-                DrawSelectLine(mea);                
-            }
-           
-             //als de gum-tool is aangeklikt
-            if (state == "eraser") 
-            {
-                removeTile(mea);
-             }
-
-            //als je een weg wil bouwen
-            if (state == "building")
-            {
-                DrawTile(mea);
-            }
-
-            //als je een route wil aanklikken voor een groene golf
-            if(state == "greenzone") // deze aanpassen, zodat het nummer overeenkomt met nummer voor het selecteren van de groene golf
-            {
-                DrawGreenZone(mea);
-            }
-               
-                //host.BackColorTransparent = true;
-            
-        }
-
         /*controleert of de tile een rechte weg is en checkt of de weg naar de goede kant doorloopt zodat je een hele weg kunt 
          * maken door rechtdoor te slepen. Hierdoor kun je alleen rechte wegen door slepen op de kaart aanbrengen. Dit verhoogt 
          * het gebruiksgemak omdat het wegen leggen zo een stuk sneller gaat.
