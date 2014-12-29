@@ -94,7 +94,7 @@ namespace TrafficSimulation
             {
                 if (TileIsStraight(mouseDownPoint, mea.Location))
                     DrawTile(mea);
-                if (selected == true)
+                if (state == "selected")
                 {
                     MoveMap(mea);
                 }
@@ -133,17 +133,17 @@ namespace TrafficSimulation
             {
                 backgroundBC.AddObject(oldselectedTile.DrawImage(), oldselectedTile.position.X, oldselectedTile.position.Y);
             }
-            if (selected == true) //als de select-tool is aangeklikt
+            if (state == "selected") //als de select-tool is aangeklikt
             {
                 DrawSelectLine(mea);
             }
             //als de gum-tool is aangeklikt
-            if (eraser == true)
+            if (state == "eraser")
             {
                 removeTile(mea);
             }
             //als je een weg wil bouwen
-            if (building == true)
+            if (state == "building")
             {
                 DrawTile(mea);
             }

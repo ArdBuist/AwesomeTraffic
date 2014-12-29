@@ -48,10 +48,8 @@ namespace TrafficSimulation
         //
         public Tile currentBuildTile;
 
-        //variabelen voor klikmethodes (later samenvoegen via nummers)
-        public bool eraser = false;
-        public bool selected = true;
-        public bool building = false;
+        //variabelen voor klikmethodes: state geeft aan op welke knop er is geklikt en dus wat voor actie de klikmethode moet uitvoeren
+        public String state = "selected";
         public int TimeofDay = 1;
         //
         bool isMoved;
@@ -150,25 +148,25 @@ namespace TrafficSimulation
                 backgroundBC.AddObject(oldselectedTile.DrawImage(), oldselectedTile.position.X, oldselectedTile.position.Y);
             }
 
-            if (selected == false) //als de select-tool is aangeklikt
+            if (state == "selected") //als de select-tool is aangeklikt
             {
                 DrawSelectLine(mea);                
             }
            
              //als de gum-tool is aangeklikt
-            if (eraser == true) 
+            if (state == "eraser") 
             {
                 removeTile(mea);
              }
 
             //als je een weg wil bouwen
-            if (building == true)
+            if (state == "building")
             {
                 DrawTile(mea);
             }
 
             //als je een route wil aanklikken voor een groene golf
-            if(selected == true) // deze aanpassen, zodat het nummer overeenkomt met nummer voor het selecteren van de groene golf
+            if(state == "greenzone") // deze aanpassen, zodat het nummer overeenkomt met nummer voor het selecteren van de groene golf
             {
                 DrawGreenZone(mea);
             }

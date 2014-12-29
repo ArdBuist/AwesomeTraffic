@@ -47,19 +47,15 @@ namespace TrafficSimulation
 
         private void SelectButton_Checked(object sender, RoutedEventArgs e)
         {
-            windowselect.simwindow.simcontrol.eraser = false;
-            windowselect.simwindow.simcontrol.selected = true;
-            windowselect.simwindow.simcontrol.building = false;
+            windowselect.simwindow.simcontrol.state = "selected";
             //hierna moet dan een scherm verschijnen met info en aanpassingsmogelijkheden
             
         }
 
         private void EraserButton_Checked(object sender, RoutedEventArgs e)
         {
-            
-            windowselect.simwindow.simcontrol.eraser = true;
-            windowselect.simwindow.simcontrol.selected = false;
-            windowselect.simwindow.simcontrol.building = false;
+
+            windowselect.simwindow.simcontrol.state = "eraser";
         }
 
         private void RoadButton_Checked(object sender, RoutedEventArgs e)
@@ -102,9 +98,7 @@ namespace TrafficSimulation
 
         private void CrossRoadButton_Checked(object sender, RoutedEventArgs e)
         {
-            windowselect.simwindow.simcontrol.eraser = false;
-            windowselect.simwindow.simcontrol.selected = false;
-            windowselect.simwindow.simcontrol.building = true;
+            windowselect.simwindow.simcontrol.state = "building";
             windowselect.simwindow.simcontrol.currentBuildTile = new Crossroad(windowselect.simwindow.simcontrol);
             
         }
