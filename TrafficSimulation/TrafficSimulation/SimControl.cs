@@ -27,9 +27,13 @@ namespace TrafficSimulation
         //list for all the tiles made in the simulation
         public Tile[] tileList;
 
-        //lijst voor geselecteerde tiles voor de groene zone en counter daarvoor
+        //lijst voor geselecteerde tiles voor de groene zone
         public Tile[] greenZoneList;
+        //lijst voor verwijderen geselcteerde tiles voor de groene zone
+        public Tile[] gzRemoveList;
+        //counter voor groene zone
         private int countGreenZone;
+
         //de oude geselecteerde tile
         public Tile oldselectedTile;
         //list for all vehicles needs to be removed
@@ -250,35 +254,47 @@ namespace TrafficSimulation
             Bitmap tileImage;
 
             //checken 
-            if(ValidSelect() == true)
+            /*if(ValidSelect() == true)
             {
                 for()
                 {}
             }
+             * */
             Tile selectedTile = new SelectTile();
 
             //Er wordt een blauw randje getekend om de geselecteerde tile
             selectedTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), CalculateListPlace(mea.X, mea.Y));
             tileImage = selectedTile.DrawImage();
-            selectedTile = greenZoneList[countGreenZone];
+            //de geselecteerde tile wordt toegevoegd aan de lijst om de groene zone te verwijderen
+            gzRemoveList[CalculateListPlace(mea.X, mea.Y)] = selectedTile;
+            //de geselecteerde tile wordt toegevoegd aan de lijst met de groene zone tiles
+            greenZoneList[countGreenZone] = selectedTile;
             countGreenZone++;
+            
 
             this.Invalidate();
         }
 
-        //check of er een groene zone is, bij ja: alle wegen overtekenen
+        //methode om de groene zone te verwijderen
         private void RemoveGreenZone()
         {
-            if (greenZoneList[0] != null)
-            {
-                for (int i = 0; i < greenZoneList.Length;i++)
+            //als er een groene zone is, dan worden alle groene zone tiles overgetekend
+                for (int i = 0; i < gzRemoveList.Length;i++)
                 {
-                    if(greenZoneList[i] == tileList[i])
+                    if(gzRemoveList[i] == tileList[i] && gzRemoveList[i] != null)
                     {
                         Bitmap tileImage = tileList[i].DrawImage();
                         backgroundBC.AddObject(tileImage, tileList[i].position.X / 100 * 100 , tileList[i].position.Y / 100 * 100);
                     }
                 }
+
+            //counter voor de green zone komt op 0 voor een volgende groene zone
+            countGreenZone = 0;
+
+            //de lijst van groene zone tiles wordt leeggemaakt
+            for(int t = 0; t < greenZoneList.Length; t++)
+            {
+                greenZoneList[t] = null;
             }
         }
 
@@ -286,7 +302,7 @@ namespace TrafficSimulation
         //kijk of 
         private bool ValidSelect()
         {
-           // if (countGreenZone != null)
+           // if (countGreenZone != 0)
             
                 return true;
             
