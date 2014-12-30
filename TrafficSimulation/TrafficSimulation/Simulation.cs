@@ -36,7 +36,7 @@ namespace TrafficSimulation
         {
             if (simStarted == false)
             {
-                ThreadStart threadDelegate = new ThreadStart(UpdateVehicles);
+                ThreadStart threadDelegate = new ThreadStart(Update);
                 thread = new Thread(threadDelegate);
                 thread.Start();
                 simStarted = true;
@@ -48,34 +48,50 @@ namespace TrafficSimulation
             }
         }
 
-        public void UpdateVehicles()
+        public void Update()
         {
             while (true)
             {
-                foreach (Tile t in simControl.tileList)
-                {
-                    if (t != null)
-                    {
-                        foreach (List<Vehicle> list in t.vehicles)
-                        {
-                            foreach (Vehicle v in list)
-                            {
-                                v.Update();
-                                simControl.vehicleBC.AddObject(v.Bitmap, v.position.X, v.position.Y);
-
-                                if (simControl.InvokeRequired)
-                                    simControl.Invoke(new MethodInvoker(simControl.Invalidate));
-                                else
-                                    simControl.Invalidate();
-                            }
-                        }
-                    }
-                }
+                if (simControl.InvokeRequired)
+                    simControl.Invoke(new MethodInvoker(UpdateGame));
+                else
+                    UpdateGame();
+                
                 foreach (Spawner spawn in spawnerList)
                 {
                     spawn.Tick();
                 }
+                //standaardtijd ingebouwd voor een mooiere weergave.
+                Thread.Sleep(1000/60);
             }
+        }
+        public void UpdateGame()
+        {
+            //de vehiclemap wordt weer helemaal leeg gemaakt zodat de auto's maar 1 keer getekend worden
+            Graphics g = Graphics.FromImage((Image)simControl.vehicleBC.bitmap);
+            g.Clear(Color.Transparent);
+            //alle auto's updaten en weer tekenen
+            foreach (Tile t in simControl.tileList)
+            {
+
+                if (t != null)
+                {
+                    foreach (List<Vehicle> list in t.vehicles)
+                    {
+                        foreach (Vehicle v in list)
+                        {
+                            v.Update();
+                            simControl.vehicleBC.AddObject(v.Bitmap, v.position.X, v.position.Y);
+                        }
+                    }
+                }
+            }
+            //updaten van de trafficlights
+            foreach(TrafficlightControl tL in simControl.controlList)
+            {
+                tL.Run();
+            }
+            simControl.Invalidate();
         }
     }
 }

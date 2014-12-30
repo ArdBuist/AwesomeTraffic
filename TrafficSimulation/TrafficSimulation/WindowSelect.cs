@@ -64,6 +64,7 @@ namespace TrafficSimulation
         }
         private void Close()
         {
+            simwindow.simcontrol.simulation.StartSim();
             this.Close();
         }
     }
