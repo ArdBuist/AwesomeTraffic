@@ -21,18 +21,21 @@ namespace TrafficSimulation
     public partial class BovenSchermRechts : UserControl
     {
         public Boolean InfoVisible = true;
-        private bool simulationStarted = false;
+        //private bool simulationStarted = false;
         InfoBalk infoBalk;
         OnderScherm onderScherm;
         WindowSelect windowselect;
+        int breedteScherm, breedteInfoBalk, hoogteBovenBalk;
         //int daynightcount = 0;
 
-        public BovenSchermRechts(WindowSelect ws,  InfoBalk info, OnderScherm Onder)
+        public BovenSchermRechts(WindowSelect ws,  InfoBalk info, OnderScherm Onder, int bs, int bib, int hbb)
         {
             windowselect = ws;
             infoBalk = info;
             onderScherm = Onder;
-            
+            breedteScherm = bs;
+            breedteInfoBalk = bib;
+            hoogteBovenBalk = hbb;
             InitializeComponent();
         }
 
@@ -40,7 +43,7 @@ namespace TrafficSimulation
         {
             if (InfoVisible)
             {
-                windowselect.simwindow.infoHost.Location = new System.Drawing.Point(0, 0);//moeten nog de goede coordinaten komen
+                windowselect.simwindow.infoHost.Location = new System.Drawing.Point((breedteScherm - breedteInfoBalk), hoogteBovenBalk);
                 InfoVisible = false;
             }
             else

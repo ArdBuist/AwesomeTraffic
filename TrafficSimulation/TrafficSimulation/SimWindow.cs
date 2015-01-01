@@ -37,25 +37,25 @@ namespace TrafficSimulation
             hoogteOnderBalk = 100;
             hoogteInfoBalk = (hoogteScherm - (hoogteBovenBalk + hoogteOnderBalk));
             yLocatieOnderBalk = (hoogteScherm - hoogteOnderBalk);
-            xLocatieOnderBalk = (breedteScherm / 4);
+            xLocatieOnderBalk = (breedteScherm / 7)*2;
             breedteInfoBalk = breedteScherm/6;
-            breedteSchermLink = (breedteScherm / 4);
-            breedteSchermRechts = (breedteScherm / 4);
-            breedteOnderBalk = ((breedteScherm / 4) * 2);
+            breedteSchermLink = (breedteScherm / 6);
+            breedteSchermRechts = (breedteScherm / 5);
+            breedteOnderBalk = ((breedteScherm / 3) );
             
             
             InfoBalk = new InfoBalk(windowselect);
             ExtraButtonsOS = new ExtraButtonsOS(windowselect, InfoBalk);
             OnderScherm = new OnderScherm(windowselect, InfoBalk, ExtraButtonsOS, extraButtonsHost, breedteOnderBalk, yLocatieOnderBalk, xLocatieOnderBalk, hoogteOnderBalk);
             BovenSchermLinks = new BovenSchermLinks(windowselect, InfoBalk, OnderScherm);
-            BovenSchermRechts = new BovenSchermRechts(windowselect, InfoBalk, OnderScherm);
+            BovenSchermRechts = new BovenSchermRechts(windowselect, InfoBalk, OnderScherm, breedteScherm, breedteInfoBalk, hoogteBovenBalk);
 
             bovenHostLinks = new ElementHost()
             {
                 BackColor = Color.Transparent,
                 Height = hoogteBovenBalk,
-                Width = breedteSchermRechts,
-                Location = new Point(0, 0),
+                Width = breedteSchermLink,
+                Location = new Point(10, 10),
                 Child = BovenSchermLinks,
             };
             this.Controls.Add(bovenHostLinks);
@@ -64,8 +64,8 @@ namespace TrafficSimulation
             {
                 BackColor = Color.Transparent,
                 Height = hoogteBovenBalk,
-                Width = breedteSchermLink,
-                Location = new Point((breedteScherm - breedteSchermLink), 0),
+                Width = breedteSchermRechts,
+                Location = new Point((breedteScherm - breedteSchermRechts), 0),
                 Child = BovenSchermRechts,
             };
             this.Controls.Add(bovenHostRechts);
@@ -73,7 +73,7 @@ namespace TrafficSimulation
             extraButtonsHost = new ElementHost()
             {
                 Height = 200,
-                Width = 200,
+                Width = 100,
                 Location = new Point(this.Size),
                 Child = ExtraButtonsOS,
             };

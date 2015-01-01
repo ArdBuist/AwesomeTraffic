@@ -48,8 +48,15 @@
         </Style>
 
     </UserControl.Resources>
-    <Grid x:Name="GridExtraButtonsOS" LostFocus="GridExtraButtonsOS_LostFocus" >
-        <Border BorderBrush="Gray" BorderThickness="5" CornerRadius="10,0,10,0" Background="White" Grid.Row="0" Grid.Column="0">
+    <Grid x:Name="GridExtraButtonsOS" LostFocus="GridExtraButtonsOS_LostFocus" Background="Green">
+        
+        <Border BorderBrush="White" 
+                BorderThickness="2" 
+                CornerRadius="10,0,10,0" 
+                Background="Transparent" 
+                Grid.Row="0" 
+                Grid.Column="0">
+            
             <Grid>
 
                 <Grid.RowDefinitions>
@@ -63,57 +70,134 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <Button x:Name="roadhor" Style="{StaticResource Extrabuttons}" Grid.Column="0" Grid.Row="2" Visibility="Hidden" Click="Roadhor_Checked" >
+                <Button x:Name="roadhor" 
+                        Style="{StaticResource Extrabuttons}" 
+                        Grid.Column="0" 
+                        Grid.Row="2" 
+                        Visibility="Hidden" 
+                        Click="Roadhor_Checked" >
                     <Image Source="Resources/Roads/roadhor.png" Height="40" Width="40"/>
                 </Button>
-                <Button x:Name="roadver" Style="{StaticResource Extrabuttons}" Grid.Column="0" Grid.Row="3" Visibility="Hidden" Click="Roadver_Checked">
+                
+                <Button x:Name="roadver" 
+                        Style="{StaticResource Extrabuttons}" 
+                        Grid.Column="0" 
+                        Grid.Row="3" 
+                        Visibility="Hidden" 
+                        Click="Roadver_Checked">
                     <Image Source="Resources/Roads/roadver.png" Height="40" Width="40"/>
                 </Button>
-                <Button x:Name="bend_1_2" Style="{StaticResource Extrabuttons}" Grid.Column="0" Grid.Row="0" Visibility="Hidden" Click="Curve12_Checked">
-                    <Image Source="Resources/Roads/bendLD.png" Height="40" Width="40"/>
-                </Button>
-                <Button x:Name="bend_2_3" Style="{StaticResource Extrabuttons}" Grid.Column="0" Grid.Row="1" Visibility="Hidden" Click="Curve23_Checked">
-                    <Image Source="Resources/Roads/bendLU.png" Height="40" Width="40"/>
-                </Button>
-                <Button x:Name="bend_3_4" Style="{StaticResource Extrabuttons}" Grid.Column="0" Grid.Row="2" Visibility="Hidden" Click="Curve34_Checked">
-                    <Image Source="Resources/Roads/bendRD.png" Height="40" Width="40"/>
-                </Button>
-                <Button x:Name="bend_4_1" Style="{StaticResource Extrabuttons}" Grid.Column="0" Grid.Row="3" Visibility="Hidden" Click="Curve14_Checked">
+                
+                <Button x:Name="bend12" 
+                        Style="{StaticResource Extrabuttons}" 
+                        Grid.Column="0" 
+                        Grid.Row="0" 
+                        Visibility="Hidden" 
+                        Click="Curve12_Checked">
                     <Image Source="Resources/Roads/bendUR.png" Height="40" Width="40"/>
                 </Button>
+                
+                <Button x:Name="bend23" 
+                        Style="{StaticResource Extrabuttons}"
+                        Grid.Column="0" 
+                        Grid.Row="1" 
+                        Visibility="Hidden" 
+                        Click="Curve23_Checked">
+                    <Image Source="Resources/Roads/bendRD.png" Height="40" Width="40"/>
+                </Button>
+                
+                <Button x:Name="bend34" 
+                        Style="{StaticResource Extrabuttons}" 
+                        Grid.Column="0" 
+                        Grid.Row="2" 
+                        Visibility="Hidden" 
+                        Click="Curve34_Checked">
+                    <Image Source="Resources/Roads/bendLD.png" Height="40" Width="40"/>
+                </Button>
+                
+                <Button x:Name="bend14" 
+                        Style="{StaticResource Extrabuttons}" 
+                        Grid.Column="0" 
+                        Grid.Row="3" 
+                        Visibility="Hidden" 
+                        Click="Curve14_Checked">
+                    <Image Source="Resources/Roads/bendLU.png" Height="40" Width="40"/>
+                </Button>
 
-                <Button x:Name="fork_1_2" Style="{StaticResource Extrabuttons}" Grid.Column="0" Grid.Row="0" Visibility="Hidden" >
+                <Button x:Name="fork12" 
+                        Style="{StaticResource Extrabuttons}" 
+                        Grid.Column="0" 
+                        Grid.Row="0" 
+                        Visibility="Hidden" 
+                        Click="Fork12_Click">
                     <Image Source="Resources/Crossroads/forkleft.png" Height="40" Width="40"/>
                 </Button>
 
-                <Button x:Name="fork_2_3" Style="{StaticResource Extrabuttons}" Grid.Column="0" Grid.Row="1" Visibility="Hidden" >
+                <Button x:Name="fork23" 
+                        Style="{StaticResource Extrabuttons}" 
+                        Grid.Column="0" 
+                        Grid.Row="1" 
+                        Visibility="Hidden" 
+                        Click="Fork23_Click">
                     <Image Source="Resources/Crossroads/forkdown.png" Height="40" Width="40"/>
                 </Button>
 
-                <Button x:Name="fork_3_4" Style="{StaticResource Extrabuttons}" Grid.Column="0" Grid.Row="2" Visibility="Hidden" >
+                <Button x:Name="fork34" 
+                        Style="{StaticResource Extrabuttons}" 
+                        Grid.Column="0" 
+                        Grid.Row="2" 
+                        Visibility="Hidden" 
+                        Click="Fork34_Click">
                     <Image Source="Resources/Crossroads/forkright.png" Height="40" Width="40"/>
                 </Button>
 
-                <Button x:Name="fork_4_1" Style="{StaticResource Extrabuttons}" Grid.Column="0" Grid.Row="3" Visibility="Hidden" >
+                <Button x:Name="fork14" 
+                        Style="{StaticResource Extrabuttons}" 
+                        Grid.Column="0" 
+                        Grid.Row="3" 
+                        Visibility="Hidden" 
+                        Click="Fork14_Click">
                     <Image Source="Resources/Crossroads/forkup.png" Height="40" Width="40"/>
                 </Button>
 
-                <Button x:Name="spawner_1" Style="{StaticResource Extrabuttons}" Grid.Column="0" Grid.Row="0" Visibility="Hidden" >
-                    <Image Source="Resources/Roads/spawnerleft.png" Height="40" Width="40"/>
-                </Button>
-
-                <Button x:Name="spawner_2" Style="{StaticResource Extrabuttons}" Grid.Column="0" Grid.Row="1" Visibility="Hidden" >
+                <Button x:Name="spawnerdown" 
+                        Style="{StaticResource Extrabuttons}" 
+                        Grid.Column="0" 
+                        Grid.Row="0" 
+                        Visibility="Hidden" 
+                        Click="Spawnerdown_Click">
                     <Image Source="Resources/Roads/spawnerdown.png" Height="40" Width="40"/>
                 </Button>
 
-                <Button x:Name="spawner_3" Style="{StaticResource Extrabuttons}" Grid.Column="0" Grid.Row="2" Visibility="Hidden" >
-                    <Image Source="Resources/Roads/spawnerright.png" Height="40" Width="40"/>
+                <Button x:Name="spawnerleft" 
+                        Style="{StaticResource Extrabuttons}" 
+                        Grid.Column="0" 
+                        Grid.Row="1" 
+                        Visibility="Hidden" 
+                        Click="Spawnerleft_Click">
+                    <Image Source="Resources/Roads/spawnerleft.png" Height="40" Width="40"/>
                 </Button>
 
-                <Button x:Name="spawner_4" Style="{StaticResource Extrabuttons}" Grid.Column="0" Grid.Row="3" Visibility="Hidden" >
+                <Button x:Name="spawnerup" 
+                        Style="{StaticResource Extrabuttons}" 
+                        Grid.Column="0" 
+                        Grid.Row="2" 
+                        Visibility="Hidden" 
+                        Click="Spawnerup_Click">
                     <Image Source="Resources/Roads/spawnerup.png" Height="40" Width="40"/>
                 </Button>
+
+                <Button x:Name="spawnerright" 
+                        Style="{StaticResource Extrabuttons}" 
+                        Grid.Column="0" 
+                        Grid.Row="3" 
+                        Visibility="Hidden" 
+                        Click="Spawnerright_Click">
+                    <Image Source="Resources/Roads/spawnerright.png" Height="40" Width="40"/>
+                </Button>
+                
             </Grid>
         </Border>
+        
     </Grid>
 </UserControl>

@@ -20,57 +20,54 @@ namespace TrafficSimulation
     /// </summary>
     public partial class BovenSchermLinks : UserControl
     {
-        public Boolean InfoVisible = true;
-        private bool simulationStarted = false;
-        SimControl s;
+        Boolean simulation = false;
+
         InfoBalk Infobalk;
         OnderScherm onderscherm;
         WindowSelect windowselect;
-       //int daynightcount = 0;
+        //int daynightcount = 0;
 
 
         public BovenSchermLinks(WindowSelect ws, InfoBalk info, OnderScherm onder)
         {
-            //this.s = s;
+
             windowselect = ws;
             Infobalk = info;
             onderscherm = onder;
+
             InitializeComponent();
         }
 
         private void SimulationDesign_Click(object sender, RoutedEventArgs e)
         {
-            if (simulationStarted)
+            
+            if (simulation)
             {
-                PlayPauze.IsEnabled = true;
-                SlowDown.IsEnabled = true;
-                SpeedUp.IsEnabled = true;
-                SimulationDesign.Content = "Simulation";
-                simulationStarted = false;
+                play.IsEnabled = true;
+                slowDown.IsEnabled = true;
+                speedUp.IsEnabled = true;
+                stop.IsEnabled = true;
+                pauze.IsEnabled = true;
+
+                simulationDesign.Content = "Simulation";
+                simulation = false;
             }
             else
             {
-                PlayPauze.IsEnabled = false;
-                SlowDown.IsEnabled = false;
-                SpeedUp.IsEnabled = false;
-                SimulationDesign.Content = "Design";
-                simulationStarted = true;
+                play.IsEnabled = false;
+                slowDown.IsEnabled = false;
+                speedUp.IsEnabled = false;
+                stop.IsEnabled = false;
+                pauze.IsEnabled = false;
+                simulationDesign.Content = "Design";
+                simulation = true;
             }
             windowselect.Invalidate();
         }
 
         private void PlayPauze_Click(object sender, RoutedEventArgs e)
         {
-            if (!simulationStarted)
-            {
-                s.sim.Start();
-                simulationStarted = true;
-            }
-            else
-            {
-                s.sim.Stop();
-                simulationStarted = false;
-            }
+
         }
 
         private void Home_Click(object sender, RoutedEventArgs e)

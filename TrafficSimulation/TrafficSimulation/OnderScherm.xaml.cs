@@ -65,36 +65,39 @@ namespace TrafficSimulation
 
         private void RoadButton_Checked(object sender, RoutedEventArgs e)
         {
-            int hoogteExtraButtonOSRoad = 200;
-            int xLocationRoadMenu = (((breedteOnderBalk / 7) * 2) + xLocatieOnderBalk);
+            int hoogteExtraButtonOSRoad = 100 ;
+            int xLocationRoadMenu = (60 + xLocatieOnderBalk);
             int yLocationRoadMenu = yLocatieOnderBalk - hoogteExtraButtonOSRoad;
-
+            windowselect.simwindow.extraButtonsHost.Height = hoogteExtraButtonOSRoad;
             windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(xLocationRoadMenu, yLocationRoadMenu);
 
             extraButtonsOS.Visibility = Visibility.Visible;
-            //extraButtonsHost.Height = hoogteExtraButtonOSRoad;
             extraButtonsOS.roadhor.Visibility = Visibility.Visible;
             extraButtonsOS.roadver.Visibility = Visibility.Visible;
 
+            windowselect.simwindow.simcontrol.eraser = false;
+            windowselect.simwindow.simcontrol.selected = false;
+            windowselect.simwindow.simcontrol.building = false;
             windowselect.simwindow.extraButtonsHost.BackColor = System.Drawing.Color.Transparent;
         }
         
         private void BendButton_Checked(object sender, RoutedEventArgs e)
         {
             int hoogteExtraButtonOSBend = 200;
-            int xLocationBendMenu = (((breedteOnderBalk / 7) * 3) + xLocatieOnderBalk);
+            int xLocationBendMenu = (60 + (100) + xLocatieOnderBalk);
             int yLocationBendMenu = yLocatieOnderBalk - hoogteExtraButtonOSBend;
-
+            windowselect.simwindow.extraButtonsHost.Height = hoogteExtraButtonOSBend;
             windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(xLocationBendMenu, yLocationBendMenu);
 
             extraButtonsOS.Visibility = Visibility.Visible;
-            //extraButtonsHost.Height = hoogteExtraButtonOSBend;
+            extraButtonsOS.bend12.Visibility = Visibility.Visible;
+            extraButtonsOS.bend23.Visibility = Visibility.Visible;
+            extraButtonsOS.bend34.Visibility = Visibility.Visible;
+            extraButtonsOS.bend14.Visibility = Visibility.Visible;
 
-            extraButtonsOS.bend_1_2.Visibility = Visibility.Visible;
-            extraButtonsOS.bend_2_3.Visibility = Visibility.Visible;
-            extraButtonsOS.bend_3_4.Visibility = Visibility.Visible;
-            extraButtonsOS.bend_4_1.Visibility = Visibility.Visible;
-
+            windowselect.simwindow.simcontrol.eraser = false;
+            windowselect.simwindow.simcontrol.selected = false;
+            windowselect.simwindow.simcontrol.building = false;
             windowselect.simwindow.extraButtonsHost.BackColor = System.Drawing.Color.Transparent;
        }
 
@@ -105,44 +108,45 @@ namespace TrafficSimulation
             windowselect.simwindow.simcontrol.building = true;
 
             windowselect.simwindow.simcontrol.currentBuildTile = new Crossroad(windowselect.simwindow.simcontrol);
-            
         }
 
         private void ForkButton_Checked(object sender, RoutedEventArgs e)
         {
             int hoogteExtraButtonOSFork = 200;
-            int xLocationForkMenu = (((breedteOnderBalk / 7) * 4) + xLocatieOnderBalk);
+            int xLocationForkMenu = (60 + (100 * 3) + xLocatieOnderBalk);
             int yLocationForkMenu = yLocatieOnderBalk - hoogteExtraButtonOSFork;
-
+            windowselect.simwindow.extraButtonsHost.Height = hoogteExtraButtonOSFork;
             windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(xLocationForkMenu, yLocationForkMenu);
-            
+
             extraButtonsOS.Visibility = Visibility.Visible;
-            //extraButtonsHost.Height = hoogteExtraButtonOSFork;
+            extraButtonsOS.fork12.Visibility = Visibility.Visible;
+            extraButtonsOS.fork23.Visibility = Visibility.Visible;
+            extraButtonsOS.fork34.Visibility = Visibility.Visible;
+            extraButtonsOS.fork14.Visibility = Visibility.Visible;
 
-            extraButtonsOS.fork_1_2.Visibility = Visibility.Visible;
-            extraButtonsOS.fork_2_3.Visibility = Visibility.Visible;
-            extraButtonsOS.fork_3_4.Visibility = Visibility.Visible;
-            extraButtonsOS.fork_4_1.Visibility = Visibility.Visible;
-
+            windowselect.simwindow.simcontrol.eraser = false;
+            windowselect.simwindow.simcontrol.selected = false;
+            windowselect.simwindow.simcontrol.building = false;
             windowselect.simwindow.extraButtonsHost.BackColor = System.Drawing.Color.Transparent;
         }
         
         private void SpawnerButton_Checked(object sender, RoutedEventArgs e)
         {
             int hoogteExtraButtonOSSpawner = 200;
-            int xLocationSpawnerMenu = (((breedteOnderBalk / 7) * 5) + xLocatieOnderBalk);
+            int xLocationSpawnerMenu = (60 + (100 * 4) + xLocatieOnderBalk);
             int yLocationSpawnerMenu = yLocatieOnderBalk - hoogteExtraButtonOSSpawner;
-
+            windowselect.simwindow.extraButtonsHost.Height = hoogteExtraButtonOSSpawner;
             windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(xLocationSpawnerMenu, yLocationSpawnerMenu);
 
             extraButtonsOS.Visibility = Visibility.Visible;
-            //extraButtonsHost.Height = hoogteExtraButtonOSSpawner;
+            extraButtonsOS.spawnerdown.Visibility = Visibility.Visible;
+            extraButtonsOS.spawnerleft.Visibility = Visibility.Visible;
+            extraButtonsOS.spawnerup.Visibility = Visibility.Visible;
+            extraButtonsOS.spawnerright.Visibility = Visibility.Visible;
 
-            extraButtonsOS.spawner_1.Visibility = Visibility.Visible;
-            extraButtonsOS.spawner_2.Visibility = Visibility.Visible;
-            extraButtonsOS.spawner_3.Visibility = Visibility.Visible;
-            extraButtonsOS.spawner_4.Visibility = Visibility.Visible;
-
+            windowselect.simwindow.simcontrol.eraser = false;
+            windowselect.simwindow.simcontrol.selected = false;
+            windowselect.simwindow.simcontrol.building = false;
             windowselect.simwindow.extraButtonsHost.BackColor = System.Drawing.Color.Transparent;
         }              
     }

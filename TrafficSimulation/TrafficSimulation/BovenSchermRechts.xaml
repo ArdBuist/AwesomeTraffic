@@ -10,28 +10,31 @@
      Hier moet nog een linear brush achtig komen zodat je en knoppen een mooie leuk overgang kan laten hebben.   
      -->
         <Style TargetType="{x:Type Button}" x:Key="Style1">
-            <Setter Property="Width" Value="70" />
-            <Setter Property="Height" Value="60" />
-            <Setter Property="Margin" Value="5,0,5,0" />
+            <Setter Property="Width" Value="50" />
+            <Setter Property="Height" Value="50" />
+            <Setter Property="Margin" Value="1,1,1,1" />
             <Setter Property="Background" Value="Green"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center" />
-
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
-                        <Border Background="LightGreen" BorderBrush="Green" BorderThickness="5" CornerRadius="10,0,10,0" x:Name="BorderStyle">
+                        <Border x:Name="BorderStyle"
+                                Background="LightGreen" 
+                                BorderBrush="Green" 
+                                BorderThickness="0" 
+                                CornerRadius="15,15,15,15" >
+                            
                             <ContentPresenter Margin="{TemplateBinding Padding}" 
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                              ClipToBounds="True" 
-                                              >
+                                              ClipToBounds="True">
                             </ContentPresenter>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter TargetName="BorderStyle" Property="Background" Value="LightGray"/>
-                                <Setter Property="Foreground" Value="Red" />
+                                <Setter Property="Foreground" Value="Black" />
                                 <Setter Property="Cursor" Value="Hand" />
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="false">
@@ -50,40 +53,63 @@
     </UserControl.Resources>
 
     <Grid x:Name="BasicBoven" Background="Green">
-        <Border BorderBrush="Gray" BorderThickness="5" CornerRadius="10,0,10,0" Background="White" Grid.Row="0" Grid.Column="0">
+        <Border BorderBrush="Transparent" 
+                BorderThickness="0" 
+                Background="Transparent" 
+                Grid.Row="0" 
+                Grid.Column="0">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-
+                    <ColumnDefinition Width="60"/>
+                    <ColumnDefinition Width="60"/>
+                    <ColumnDefinition Width="60"/>
+                    <ColumnDefinition Width="60"/>
+                    <ColumnDefinition Width="60"/>
                 </Grid.ColumnDefinitions>
 
-                <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" >
-
-                    <Button x:Name="DayNight" Style="{StaticResource Style1}" Click="DayNight_Click" >
+                    <Button x:Name="dayNight"
+                            Style="{StaticResource Style1}" 
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Click="DayNight_Click" >
                         <TextBlock Text="Day"/>
                     </Button>
 
-                    <Button x:Name="Help" Style="{StaticResource Style1}"  Click="Help_Click" >
+                    <Button x:Name="help" 
+                            Style="{StaticResource Style1}" 
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Click="Help_Click" >
                         <Image Source="Resources/Buttons/Vraagteken_button.jpg" Height="40" Width="40"/>
                     </Button>
 
-                    <Button x:Name="Info" Style="{StaticResource Style1}" Click="Info_Click" >
+                    <Button x:Name="info" 
+                            Style="{StaticResource Style1}" 
+                            Grid.Row="0"
+                            Grid.Column="2"
+                            Click="Info_Click" >
                         <Image Source="Resources/Buttons/info_button.png" Height="40" Width="40"/>
                     </Button>
 
-                    <Button x:Name="Save" Style="{StaticResource Style1}" Click="Save_Click" >
+                    <Button x:Name="save" 
+                            Style="{StaticResource Style1}"
+                            Grid.Row="0"
+                            Grid.Column="3"
+                            Click="Save_Click" >
                         <TextBlock Text="Save"/>
                     </Button>
 
-                    <Button x:Name="Home" Style="{StaticResource Style1}" Click="Home_Click" >
+                    <Button x:Name="home" 
+                            Style="{StaticResource Style1}" 
+                            Grid.Row="0"
+                            Grid.Column="4"
+                            Click="Home_Click" >
                         <Image Source="Resources/Buttons/Home_button.png" Height="40" Width="40"/>
                     </Button>
-                </StackPanel>
-
-            </Grid>
+                </Grid>
         </Border>
     </Grid>
 
