@@ -92,7 +92,7 @@ namespace TrafficSimulation
                     Tile tile = GetOtherTile(s, d);
                     if (tile != null && d != ForkDirection)
                     {
-                        UpdateLanes(s, d, tile.GetLanesIn(direction), tile.GetLanesOut(direction));
+                        UpdateLanes(s, d, tile.GetLanesIn(d), tile.GetLanesOut(d));
                         //Als aan de lange kant bij een Fork aan één kant de banen worden veranderd moet dat natuurlijk ook aan de andere kant gebeuren
                         if (name == "Fork")
                         {
@@ -101,7 +101,7 @@ namespace TrafficSimulation
                             if ((d == (fork.NotDirection + 2) % 4 + 1 || d == (fork.NotDirection) % 4 + 1))
                             {
                                 ForkDirection = (d + 1) % 4 + 1;
-                                UpdateLanes(s, (d + 1) % 4 + 1, tile.GetLanesOut(direction), tile.GetLanesIn(direction));
+                                UpdateLanes(s, (d + 1) % 4 + 1, tile.GetLanesOut(d), tile.GetLanesIn(d));
                                 //Een verkorte versie van UpdateOtherTiles, hier hoeft namelijk alleen de andere kant van de lange kant geupdate worden.
                                 Tile tile1 = GetOtherTile(s, ForkDirection);
                                 if (tile1 != null)
@@ -125,7 +125,7 @@ namespace TrafficSimulation
                     }
                     else
                     {
-                        UpdateLanes(s, notSide, tile.GetLanesIn(direction), tile.GetLanesOut(direction));
+                        UpdateLanes(s, notSide, tile.GetLanesIn(notSide), tile.GetLanesOut(notSide));
                         UpdateOtherTiles(s, notSide);
                     }
 
@@ -293,12 +293,18 @@ namespace TrafficSimulation
 
         public override int GetLanesIn(int direction)
         {
-            return lanesOut;
+            if (this.direction == (direction + 1) % 4 + 1)
+                return lanesOut;
+            else
+                return 1;
         }
 
         public override int GetLanesOut(int direction)
         {
-            return lanesIn;
+            if (this.direction == (direction + 1) % 4 + 1)
+                return lanesIn;
+            else
+                return 1;
         }
 
         public override void UpdateLanes(SimControl s, int direction, int lanesIn, int lanesOut)
@@ -393,18 +399,21 @@ namespace TrafficSimulation
 
         public override int GetLanesIn(int direction)
         {
-            if (direction == startDirection)
+            if ((direction + 1) % 4 + 1 == startDirection)
                 return lanesHighToLow;
-            else
+            else if ((direction + 1) % 4 + 1 == endDirection)
                 return lanesLowToHigh;
+            else return 1;
         }
 
         public override int GetLanesOut(int direction)
         {
-            if (direction == startDirection)
+            if ((direction + 1) % 4 + 1 == startDirection)
                 return lanesLowToHigh;
-            else
+            else if ((direction + 1) % 4 + 1 == endDirection)
                 return lanesHighToLow;
+            else
+                return 1;
         }
 
         public override void UpdateLanes(SimControl s, int direction, int lanesIn, int lanesOut)
@@ -416,6 +425,8 @@ namespace TrafficSimulation
             }
             if (direction == endDirection)
             {
+                
+                
                 this.lanesLowToHigh = lanesOut;
                 this.lanesHighToLow = lanesIn;
             }
@@ -466,14 +477,24 @@ namespace TrafficSimulation
 
         public override int GetLanesIn(int direction)
         {
+            int value;
             int thisSide = (direction + 1) % 4 + 1;
-            return lanes[thisSide * 2 - 1];
+            value = lanes[thisSide * 2 - 1];
+            if (value != 0)
+                return value;
+            else
+                return 1;
         }
 
         public override int GetLanesOut(int direction)
         {
+            int value;
             int thisSide = (direction + 1) % 4 + 1;
-            return lanes[thisSide * 2 - 2];
+            value = lanes[thisSide * 2 - 2];
+            if (value != 0)
+                return value;
+            else
+                return 1;
         }
 
         public override void UpdateLanes(SimControl s, int direction, int lanesIn, int lanesOut)
