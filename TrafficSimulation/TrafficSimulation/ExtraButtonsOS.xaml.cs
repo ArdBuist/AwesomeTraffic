@@ -64,25 +64,22 @@ namespace TrafficSimulation
         //klikmethode rechte weg 1 naar 3 (verticaal)
         private void Roadver_Checked(object sender, RoutedEventArgs e)
         {
-            windowselect.simwindow.simcontrol.eraser = false;
-            windowselect.simwindow.simcontrol.selected = false;
-            windowselect.simwindow.simcontrol.building = true;
-            windowselect.simwindow.simcontrol.currentBuildTile = new Road(1, 3);
+            //windowselect.simwindow.simcontrol.currentBuildTile = new Road(1, 3);
+		s.currentBuildTile = new Road(1, 3);
             
             this.Visibility = Visibility.Hidden;
             this.roadhor.Visibility = Visibility.Hidden;
             this.roadver.Visibility = Visibility.Hidden;
             windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.ClientSize);
             
+            s.state = "building";
             
         }
 
         //klikmethode rechte weg 2 naar 4 (horizontaal)
         private void Roadhor_Checked(object sender, RoutedEventArgs e)
         {
-            windowselect.simwindow.simcontrol.eraser = false;
-            windowselect.simwindow.simcontrol.selected = false;
-            windowselect.simwindow.simcontrol.building = true;
+
             windowselect.simwindow.simcontrol.currentBuildTile = new Road(2, 4);
             
             this.Visibility = Visibility.Hidden;
@@ -92,14 +89,14 @@ namespace TrafficSimulation
             this.bend14.Visibility = Visibility.Hidden;
             windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.ClientSize);
             windowselect.simwindow.extraButtonsHost.BackColor = System.Drawing.Color.Transparent;
+            s.state = "building";
+            s.currentBuildTile = new Road(2, 4);
+
         }
 
         //klikmethode bocht 1 naar 2
         private void Curve12_Checked(object sender, RoutedEventArgs e)
         {
-            windowselect.simwindow.simcontrol.eraser = false;
-            windowselect.simwindow.simcontrol.selected = false;
-            windowselect.simwindow.simcontrol.building = true;
             windowselect.simwindow.simcontrol.currentBuildTile = new Road(1, 2);
 
             this.Visibility = Visibility.Hidden;
@@ -109,14 +106,13 @@ namespace TrafficSimulation
             this.bend14.Visibility = Visibility.Hidden;
             windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.ClientSize);
             windowselect.simwindow.extraButtonsHost.BackColor = System.Drawing.Color.Transparent;
+            s.state = "building";
+            s.currentBuildTile = new Road(1, 2);
         }
 
         //klikmethode bocht 2 naar 3
         private void Curve23_Checked(object sender, RoutedEventArgs e)
         {
-            windowselect.simwindow.simcontrol.eraser = false;
-            windowselect.simwindow.simcontrol.selected = false;
-            windowselect.simwindow.simcontrol.building = true;
             windowselect.simwindow.simcontrol.currentBuildTile = new Road(2, 3);
 
             this.Visibility = Visibility.Hidden;
@@ -126,14 +122,14 @@ namespace TrafficSimulation
             this.bend14.Visibility = Visibility.Hidden;
             windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.ClientSize);
             windowselect.simwindow.extraButtonsHost.BackColor = System.Drawing.Color.Transparent;
+
+            s.state = "building";
+            s.currentBuildTile = new Road(2, 3);
         }
 
         //klikmethode bocht 3 naar 4
         private void Curve34_Checked(object sender, RoutedEventArgs e)
         {
-            windowselect.simwindow.simcontrol.eraser = false;
-            windowselect.simwindow.simcontrol.selected = false;
-            windowselect.simwindow.simcontrol.building = true;
             windowselect.simwindow.simcontrol.currentBuildTile = new Road(3, 4);
 
             this.Visibility = Visibility.Hidden;
@@ -143,15 +139,16 @@ namespace TrafficSimulation
             this.bend14.Visibility = Visibility.Hidden;
             windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.ClientSize);
             windowselect.simwindow.extraButtonsHost.BackColor = System.Drawing.Color.Transparent;
+            s.state = "building";
+            s.currentBuildTile = new Road(3, 4);
         }
 
         //klikmethode bocht 1 naar 4
         private void Curve14_Checked(object sender, RoutedEventArgs e)
         {
-            windowselect.simwindow.simcontrol.eraser = false;
-            windowselect.simwindow.simcontrol.selected = false;
-            windowselect.simwindow.simcontrol.building = true;
             windowselect.simwindow.simcontrol.currentBuildTile = new Road(1, 4);
+		s.state = "building";
+            s.currentBuildTile = new Road(1, 4);
 
             this.Visibility = Visibility.Hidden;
             this.bend12.Visibility = Visibility.Hidden;
@@ -164,9 +161,7 @@ namespace TrafficSimulation
 
         private void Fork12_Click(object sender, RoutedEventArgs e)
         {
-            windowselect.simwindow.simcontrol.eraser = false;
-            windowselect.simwindow.simcontrol.selected = false;
-            windowselect.simwindow.simcontrol.building = true;
+            s.state = "building";
             windowselect.simwindow.simcontrol.currentBuildTile = new Fork(windowselect.simwindow.simcontrol, 4);
 
 
@@ -181,9 +176,7 @@ namespace TrafficSimulation
 
         private void Fork23_Click(object sender, RoutedEventArgs e)
         {
-            windowselect.simwindow.simcontrol.eraser = false;
-            windowselect.simwindow.simcontrol.selected = false;
-            windowselect.simwindow.simcontrol.building = true;
+            s.state = "building";
             windowselect.simwindow.simcontrol.currentBuildTile = new Fork(windowselect.simwindow.simcontrol,3);
 
 
@@ -198,9 +191,7 @@ namespace TrafficSimulation
 
         private void Fork34_Click(object sender, RoutedEventArgs e)
         {
-            windowselect.simwindow.simcontrol.eraser = false;
-            windowselect.simwindow.simcontrol.selected = false;
-            windowselect.simwindow.simcontrol.building = true;
+            s.state = "building";
             windowselect.simwindow.simcontrol.currentBuildTile = new Fork(windowselect.simwindow.simcontrol, 2);
 
 
@@ -215,9 +206,7 @@ namespace TrafficSimulation
 
         private void Fork14_Click(object sender, RoutedEventArgs e)
         {
-            windowselect.simwindow.simcontrol.eraser = false;
-            windowselect.simwindow.simcontrol.selected = false;
-            windowselect.simwindow.simcontrol.building = true;
+            s.state = "building";
             windowselect.simwindow.simcontrol.currentBuildTile = new Fork(windowselect.simwindow.simcontrol, 1);
 
 
@@ -232,9 +221,7 @@ namespace TrafficSimulation
 
         private void Spawnerdown_Click(object sender, RoutedEventArgs e)
         {
-            windowselect.simwindow.simcontrol.eraser = false;
-            windowselect.simwindow.simcontrol.selected = false;
-            windowselect.simwindow.simcontrol.building = true;
+           s.state = "building";
             windowselect.simwindow.simcontrol.currentBuildTile = new Spawner(1);
 
 
@@ -249,9 +236,7 @@ namespace TrafficSimulation
 
         private void Spawnerleft_Click(object sender, RoutedEventArgs e)
         {
-            windowselect.simwindow.simcontrol.eraser = false;
-            windowselect.simwindow.simcontrol.selected = false;
-            windowselect.simwindow.simcontrol.building = true;
+            s.state = "building";
             windowselect.simwindow.simcontrol.currentBuildTile = new Spawner(2);
 
 
@@ -266,9 +251,7 @@ namespace TrafficSimulation
 
         private void Spawnerup_Click(object sender, RoutedEventArgs e)
         {
-            windowselect.simwindow.simcontrol.eraser = false;
-            windowselect.simwindow.simcontrol.selected = false;
-            windowselect.simwindow.simcontrol.building = true;
+            s.state = "building";
             windowselect.simwindow.simcontrol.currentBuildTile = new Spawner(3);
 
 
@@ -283,9 +266,7 @@ namespace TrafficSimulation
 
         private void Spawnerright_Click(object sender, RoutedEventArgs e)
         {
-            windowselect.simwindow.simcontrol.eraser = false;
-            windowselect.simwindow.simcontrol.selected = false;
-            windowselect.simwindow.simcontrol.building = true;
+            s.state = "building";
             windowselect.simwindow.simcontrol.currentBuildTile = new Spawner(4);
             
 
@@ -297,6 +278,9 @@ namespace TrafficSimulation
             windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.ClientSize);
             
             
+
+            
+
         }
 
                

@@ -49,9 +49,7 @@ namespace TrafficSimulation
 
         private void SelectButton_Checked(object sender, RoutedEventArgs e)
         {
-            windowselect.simwindow.simcontrol.eraser = false;
-            windowselect.simwindow.simcontrol.selected = true;
-            windowselect.simwindow.simcontrol.building = false;
+            windowselect.simwindow.simcontrol.state = "selected";
             extraButtonsOS.Visibility = Visibility.Hidden;
             windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.ClientSize);
             //hierna moet dan een scherm verschijnen met info en aanpassingsmogelijkheden
@@ -61,9 +59,7 @@ namespace TrafficSimulation
         private void EraserButton_Checked(object sender, RoutedEventArgs e)
         {
             
-            windowselect.simwindow.simcontrol.eraser = true;
-            windowselect.simwindow.simcontrol.selected = false;
-            windowselect.simwindow.simcontrol.building = false;
+            windowselect.simwindow.simcontrol.state = "eraser";
             extraButtonsOS.Visibility = Visibility.Hidden;
             windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.ClientSize);
         }
@@ -133,9 +129,7 @@ namespace TrafficSimulation
 
        private void CrossRoadButton_Checked(object sender, RoutedEventArgs e)
         {
-            windowselect.simwindow.simcontrol.eraser = false;
-            windowselect.simwindow.simcontrol.selected = false;
-            windowselect.simwindow.simcontrol.building = true;
+            windowselect.simwindow.simcontrol.state = "building";
             extraButtonsOS.Visibility = Visibility.Hidden;
             windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.ClientSize);
             windowselect.simwindow.simcontrol.currentBuildTile = new Crossroad(windowselect.simwindow.simcontrol);

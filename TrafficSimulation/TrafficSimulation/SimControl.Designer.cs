@@ -94,7 +94,7 @@ namespace TrafficSimulation
             {
                 if (TileIsStraight(mouseDownPoint, mea.Location))
                     DrawTile(mea);
-                if (selected == true)
+                if (state == "selected")
                 {
                     MoveMap(mea);
                 }
@@ -134,20 +134,29 @@ namespace TrafficSimulation
                 backgroundBC.AddObject(oldselectedTile.DrawImage(), oldselectedTile.position.X, oldselectedTile.position.Y);
                 oldselectedTile = null;
             }
-            if (selected == true) //als de select-tool is aangeklikt
+            if (state == "selected") //als de select-tool is aangeklikt
             {
                 DrawSelectLine(mea);
             }
             //als de gum-tool is aangeklikt
-            else if (eraser == true)
+
+            if (state == "eraser")
             {
                 removeTile(mea);
             }
             //als je een weg wil bouwen
-            else if (building == true)
+
+            if (state == "building")
             {
                 DrawTile(mea);
             }
+
+            //als je een route wil aanklikken voor een groene golf
+            if (state == "greenzone") // deze aanpassen, zodat het nummer overeenkomt met nummer voor het selecteren van de groene golf
+            {
+                DrawGreenZone(mea);
+            }
+
             //host.BackColorTransparent = true;
         }
             #endregion
