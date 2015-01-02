@@ -84,7 +84,7 @@ namespace TrafficSimulation
             tilesHorizontal = Size.Width / 100; //nutteloos
             
             //
-            this.DoubleBuffered = true;
+            //this.DoubleBuffered = true;
             this.Visible = true;
 
             //tekenfunctie voor de tileList (tijdelijke functie)

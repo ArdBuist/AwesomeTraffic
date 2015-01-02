@@ -22,7 +22,7 @@ namespace TrafficSimulation
         //is true if vehicles can enter the specific lane
         protected bool[] access;
         //size of the tile, (100,100)
-        protected Size size;
+        public Size size;
         //name of the type of tile
         public string name;
         //number of lanes from the lowest direction to the highest direction
@@ -30,7 +30,7 @@ namespace TrafficSimulation
         //number of lanes from the highest direction to the lowest direction
         protected int lanesHighToLow;
         //place the tile is on the TileList in SimControl
-        protected int listPlace;
+        public int listPlace;
         //
         protected List<int> directions;
         //
@@ -262,6 +262,11 @@ namespace TrafficSimulation
                     }
                 }
             }
+        }
+
+        internal void changeDirection(Vehicle v)
+        {
+            throw new NotImplementedException();
         }
     }
 

@@ -23,20 +23,22 @@ namespace TrafficSimulation
             this.simStarted = false;
             spawnerList = new List<Spawner>();
 
-            foreach (Tile t in simControl.tileList)
-            {
-                if (t != null && t.name.Equals("Spawner"))
-                {
-                    spawnerList.Add((Spawner)t);
-                }
-            }
+            
         }
 
         public void StartSim()
         {
             if (simStarted == false)
             {
-                ThreadStart threadDelegate = new ThreadStart(UpdateVehicles);
+                spawnerList.Clear();
+                foreach (Tile t in simControl.tileList)
+                {
+                    if (t != null && t.name.Equals("Spawner"))
+                    {
+                        spawnerList.Add((Spawner)t);
+                    }
+                }
+                ThreadStart threadDelegate = new ThreadStart(Update);
                 thread = new Thread(threadDelegate);
                 thread.Start();
                 simStarted = true;
@@ -48,34 +50,70 @@ namespace TrafficSimulation
             }
         }
 
-        public void UpdateVehicles()
+        public void Update()
         {
             while (true)
             {
-                foreach (Tile t in simControl.tileList)
-                {
-                    if (t != null)
-                    {
-                        foreach (List<Vehicle> list in t.vehicles)
-                        {
-                            foreach (Vehicle v in list)
-                            {
-                                v.Update();
-                                simControl.vehicleBC.AddObject(v.Bitmap, v.position.X, v.position.Y);
-
-                                if (simControl.InvokeRequired)
-                                    simControl.Invoke(new MethodInvoker(simControl.Invalidate));
-                                else
-                                    simControl.Invalidate();
-                            }
-                        }
-                    }
-                }
+                if (simControl.InvokeRequired)
+                    simControl.Invoke(new MethodInvoker(UpdateGame));
+                else
+                    UpdateGame();
+                
                 foreach (Spawner spawn in spawnerList)
                 {
                     spawn.Tick();
                 }
+                //standaardtijd ingebouwd voor een mooiere weergave.
+                Thread.Sleep(1000/60);
             }
+        }
+        public void UpdateGame()
+        {
+            //de vehiclemap wordt weer helemaal leeg gemaakt zodat de auto's maar 1 keer getekend worden
+            Graphics g = Graphics.FromImage((Image)simControl.vehicleBC.bitmap);
+            g.Clear(Color.Transparent);
+            Tile[] tiles =simControl.tileList;
+            Array.Copy(simControl.tileList, tiles, simControl.tileList.Count());
+            //alle auto's updaten en weer tekenen
+            foreach (Tile t in tiles)
+            {
+                if (t != null)
+                {
+                    List<List<Vehicle>> tileVehicles = new List<List<Vehicle>>();
+                    foreach(List<Vehicle> list in t.vehicles)
+                    {
+                        tileVehicles.Add(new List<Vehicle>(list));
+                    }
+                    foreach (List<Vehicle> list in tileVehicles)
+                    {
+                        foreach (Vehicle v in list)
+                        {
+                            
+                            //t.changeDirection(v);
+                            simControl.vehicleBC.AddObject(v.Bitmap, v.position.X, v.position.Y);
+                            if (v.position.X-v.Speed>= t.position.X && v.position.X+v.Speed<= t.position.X + t.size.Width&&
+                                v.position.Y-v.Speed>= t.position.Y && v.position.Y+v.Speed<= t.position.Y + t.size.Height)
+                            {
+                                v.Update();
+                            }
+                            else
+                            {
+                                v.Update();
+                                Tile nextTile = simControl.tileList[t.listPlace].GetOtherTile(simControl, v.Direction);
+                                if (nextTile != null)
+                                    nextTile.vehicles[v.Lane].Add(v);
+                                simControl.tileList[t.listPlace].vehicles[v.Lane].Remove(v);
+                            }
+                        }
+                    }
+                }
+            }
+            //updaten van de trafficlights
+            foreach(TrafficlightControl tL in simControl.controlList)
+            {
+                tL.Run();
+            }
+            simControl.Invalidate();
         }
     }
 }

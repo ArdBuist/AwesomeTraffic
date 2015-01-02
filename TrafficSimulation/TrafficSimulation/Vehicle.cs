@@ -62,69 +62,40 @@ namespace TrafficSimulation
         protected void createBitmap(int bmDirection)
         {
             Graphics gr;
-            Rectangle destCar, destTrail;
-            Bitmap trailBitmap, carBitmap;
-
-            if (bmDirection == 1 || bmDirection == 3)
-            {
-                carBitmap = (Bitmap)Properties.Resources.ResourceManager.GetObject("car1R");
-                bitmap = new Bitmap(carBitmap.Width, carBitmap.Height + speed);
-                trailBitmap = new Bitmap(carBitmap.Width, speed);
-                gr = Graphics.FromImage(bitmap);
-
-                for (int i = 0; i < trailBitmap.Size.Width; i++)
-                {
-                    for (int j = 0; j < trailBitmap.Size.Height; j++)
-                    {
-                        trailBitmap.SetPixel(i, j, Color.Gray);
-                    }
-                }
-
-                if (bmDirection == 1)
-                {
-                    destCar = new Rectangle(new Point(0, 0), carBitmap.Size);
-                    destTrail = new Rectangle(new Point(0, carBitmap.Size.Height), trailBitmap.Size);
-                }
-                else
-                {
-                    carBitmap.RotateFlip(RotateFlipType.Rotate180FlipNone);
-                    destCar = new Rectangle(new Point(0, trailBitmap.Size.Height), carBitmap.Size);
-                    destTrail = new Rectangle(new Point(0, 0), trailBitmap.Size);
-                }
-            }
-            else
+            Rectangle destCar;
+            Bitmap carBitmap;
             {
                 Random rnd = new Random();
                 string carName = "car" + rnd.Next(1,5);
                 carBitmap = (Bitmap)Properties.Resources.ResourceManager.GetObject(carName);
                 bitmap = new Bitmap(carBitmap.Width + speed, carBitmap.Height);
-                trailBitmap = new Bitmap(speed, carBitmap.Height);
                 gr = Graphics.FromImage(bitmap);
-
-                for (int i = 0; i < trailBitmap.Size.Width; i++)
-                {
-                    for (int j = 0; j < trailBitmap.Size.Height; j++)
-                    {
-                        trailBitmap.SetPixel(i, j, Color.Gray);
-                    }
-                }
-
                 if (bmDirection == 2)
                 {
-
-                    destCar = new Rectangle(new Point(trailBitmap.Size.Width, 0), carBitmap.Size);
-                    destTrail = new Rectangle(new Point(0, 0), trailBitmap.Size);
+                    destCar = new Rectangle(new Point(speed, 0), carBitmap.Size);
                 }
-                else //if(bmDirection == 4)
+                else if(bmDirection == 4)
                 {
                     carBitmap.RotateFlip(RotateFlipType.Rotate180FlipNone);
                     destCar = new Rectangle(new Point(0, 0), carBitmap.Size);
-                    destTrail = new Rectangle(new Point(carBitmap.Size.Width, 0), trailBitmap.Size);
+                }
+                else if (bmDirection == 1)
+                {
+                    carBitmap.RotateFlip(RotateFlipType.Rotate270FlipNone);
+                    bitmap = new Bitmap(carBitmap.Width, carBitmap.Height + speed);
+                    gr = Graphics.FromImage(bitmap);
+                    destCar = new Rectangle(new Point(0, 0), carBitmap.Size);
+                }
+                else // bmDirection == 3
+                {
+                    carBitmap.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                    bitmap = new Bitmap(carBitmap.Width, carBitmap.Height + speed);
+                    gr = Graphics.FromImage(bitmap);
+                    destCar = new Rectangle(new Point(0, 0), carBitmap.Size);
                 }
             }
-
             gr.DrawImage(carBitmap, destCar, new Rectangle(new Point(), carBitmap.Size), GraphicsUnit.Pixel);
-            gr.DrawImage(trailBitmap, destTrail, new Rectangle(new Point(), trailBitmap.Size), GraphicsUnit.Pixel);
+
         }
     }
 
@@ -137,15 +108,23 @@ namespace TrafficSimulation
             {
                 case 1:
                     createBitmap(1);
+                    position.X += 53+18*lane;
+                    position.Y += 70;
                     break;
                 case 2:
                     createBitmap(2);
+                    position.Y += 53 + 18 * lane;
+                    position.X += 30;
                     break;
                 case 3:
                     createBitmap(3);
+                    position.X += (37 - (18 * lane));
+                    position.Y += 30;
                     break;
                 case 4:
                     createBitmap(4);
+                    position.X += 70;
+                    position.Y += (37 - (18 * lane));
                     break;
             }
         }
