@@ -281,7 +281,6 @@ namespace TrafficSimulation
     {
         private double carsPerSec;//auto's die per seconde gespawned worden
         private double numberOfCars;//opslag voor auto's die gespawned moeten worden voor als de weg vol is.
-        public int direction;//kant waarnaar de weg loopt
         private int lanesOut, lanesIn;//aantal wegen van en naar de spawner
         private int spawnLane;//Lane waar de auto gespawnt gaat worden
         private double currentSpawn;//Nummer waarin word opgeslagen hoever de spawner is met het spawnen van een nieuwe auto

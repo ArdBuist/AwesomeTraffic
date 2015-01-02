@@ -99,7 +99,7 @@ namespace TrafficSimulation
                 windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.ClientSize);
 
                 //zorgen dat er niet meer getekend kan worden, er kan alleen verschoven worden
-                windowselect.simwindow.simcontrol.selected = true;
+                windowselect.simwindow.simcontrol.state = "selected";
 
                 simulationDesign.Content = "Design";
                 simulation = true;

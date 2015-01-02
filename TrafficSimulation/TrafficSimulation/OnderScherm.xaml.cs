@@ -90,9 +90,6 @@ namespace TrafficSimulation
             extraButtonsOS.spawnerup.Visibility = Visibility.Hidden;
             extraButtonsOS.spawnerright.Visibility = Visibility.Hidden;
 
-            windowselect.simwindow.simcontrol.eraser = false;
-            windowselect.simwindow.simcontrol.selected = false;
-            windowselect.simwindow.simcontrol.building = false;
             windowselect.simwindow.extraButtonsHost.BackColor = System.Drawing.Color.Transparent;
         }
         
@@ -121,9 +118,6 @@ namespace TrafficSimulation
             extraButtonsOS.spawnerup.Visibility = Visibility.Hidden;
             extraButtonsOS.spawnerright.Visibility = Visibility.Hidden;
 
-            windowselect.simwindow.simcontrol.eraser = false;
-            windowselect.simwindow.simcontrol.selected = false;
-            windowselect.simwindow.simcontrol.building = false;
             windowselect.simwindow.extraButtonsHost.BackColor = System.Drawing.Color.Transparent;
        }
 
@@ -160,9 +154,6 @@ namespace TrafficSimulation
             extraButtonsOS.spawnerup.Visibility = Visibility.Hidden;
             extraButtonsOS.spawnerright.Visibility = Visibility.Hidden;
 
-            windowselect.simwindow.simcontrol.eraser = false;
-            windowselect.simwindow.simcontrol.selected = false;
-            windowselect.simwindow.simcontrol.building = false;
             windowselect.simwindow.extraButtonsHost.BackColor = System.Drawing.Color.Transparent;
         }
         
@@ -191,9 +182,6 @@ namespace TrafficSimulation
             extraButtonsOS.fork34.Visibility = Visibility.Hidden;
             extraButtonsOS.fork14.Visibility = Visibility.Hidden;
 
-            windowselect.simwindow.simcontrol.eraser = false;
-            windowselect.simwindow.simcontrol.selected = false;
-            windowselect.simwindow.simcontrol.building = false;
             windowselect.simwindow.extraButtonsHost.BackColor = System.Drawing.Color.Transparent;
         }
         private void Lost_Focus(object sender, RoutedEventArgs e) 
