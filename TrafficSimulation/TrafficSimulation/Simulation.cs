@@ -30,6 +30,7 @@ namespace TrafficSimulation
         {
             if (simStarted == false)
             {
+                spawnerList.Clear();
                 foreach (Tile t in simControl.tileList)
                 {
                     if (t != null && t.name.Equals("Spawner"))
@@ -73,14 +74,11 @@ namespace TrafficSimulation
             g.Clear(Color.Transparent);
             Tile[] tiles =simControl.tileList;
             Array.Copy(simControl.tileList, tiles, simControl.tileList.Count());
-            
             //alle auto's updaten en weer tekenen
             foreach (Tile t in tiles)
             {
-
                 if (t != null)
                 {
-     
                     List<List<Vehicle>> tileVehicles = new List<List<Vehicle>>();
                     foreach(List<Vehicle> list in t.vehicles)
                     {
@@ -104,9 +102,7 @@ namespace TrafficSimulation
                                 Tile nextTile = simControl.tileList[t.listPlace].GetOtherTile(simControl, v.Direction);
                                 if (nextTile != null)
                                     nextTile.vehicles[v.Lane].Add(v);
-                                
                                 simControl.tileList[t.listPlace].vehicles[v.Lane].Remove(v);
-                                
                             }
                         }
                     }
