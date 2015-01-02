@@ -94,12 +94,13 @@ namespace TrafficSimulation
                     {
                         foreach (Vehicle v in list)
                         {
-                            v.Update();
+                            
                             //t.changeDirection(v);
                             simControl.vehicleBC.AddObject(v.Bitmap, v.position.X, v.position.Y);
                             if (v.position.X - v.Speed >= t.position.X && v.position.X + v.Speed <= t.position.X + t.size.Width - v.Size.Width - v.Speed &&
                                 v.position.Y - v.Speed >= t.position.Y && v.position.Y + v.Speed <= t.position.Y + t.size.Height - v.Size.Height - v.Speed)
                             {
+                                v.Update();
                             }
                             else
                             {
