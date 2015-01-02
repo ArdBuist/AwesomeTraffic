@@ -56,7 +56,7 @@
         <Border BorderBrush="Transparent" 
                 BorderThickness="0" 
                 Background="Transparent" 
-                Grid.Row="0" 
+                Grid.Row="0"
                 Grid.Column="0">
             <Grid>
                 <Grid.RowDefinitions>

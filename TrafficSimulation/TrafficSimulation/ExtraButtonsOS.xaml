@@ -72,8 +72,9 @@
 
                 <Button x:Name="roadhor" 
                         Style="{StaticResource Extrabuttons}" 
-                        Grid.Column="0" 
-                        Grid.Row="2" 
+                        Grid.Column="0"
+                        Grid.Row="0"
+                        
                         Visibility="Hidden" 
                         Click="Roadhor_Checked" >
                     <Image Source="Resources/Roads/roadhor.png" Height="40" Width="40"/>

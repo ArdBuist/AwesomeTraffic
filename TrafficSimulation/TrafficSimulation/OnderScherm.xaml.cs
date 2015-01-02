@@ -29,6 +29,7 @@ namespace TrafficSimulation
         ExtraButtonsOS extraButtonsOS;
         ElementHost extraButtonsHost;
         int breedteOnderBalk, yLocatieOnderBalk, xLocatieOnderBalk, hoogteOnderBalk;
+        
 
         public OnderScherm(WindowSelect ws, InfoBalk info, ExtraButtonsOS extra, ElementHost extraHost, int bob, int ylob, int xlob, int hob)
         {
@@ -66,7 +67,7 @@ namespace TrafficSimulation
         private void RoadButton_Checked(object sender, RoutedEventArgs e)
         {
             int hoogteExtraButtonOSRoad = 100 ;
-            int xLocationRoadMenu = (60 + xLocatieOnderBalk);
+            int xLocationRoadMenu = (xLocatieOnderBalk + (breedteOnderBalk / 6));
             int yLocationRoadMenu = yLocatieOnderBalk - hoogteExtraButtonOSRoad;
             windowselect.simwindow.extraButtonsHost.Height = hoogteExtraButtonOSRoad;
             windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(xLocationRoadMenu, yLocationRoadMenu);
@@ -84,7 +85,7 @@ namespace TrafficSimulation
         private void BendButton_Checked(object sender, RoutedEventArgs e)
         {
             int hoogteExtraButtonOSBend = 200;
-            int xLocationBendMenu = (60 + (100) + xLocatieOnderBalk);
+            int xLocationBendMenu = (xLocatieOnderBalk + ((breedteOnderBalk / 6) * 2));
             int yLocationBendMenu = yLocatieOnderBalk - hoogteExtraButtonOSBend;
             windowselect.simwindow.extraButtonsHost.Height = hoogteExtraButtonOSBend;
             windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(xLocationBendMenu, yLocationBendMenu);
@@ -113,7 +114,7 @@ namespace TrafficSimulation
         private void ForkButton_Checked(object sender, RoutedEventArgs e)
         {
             int hoogteExtraButtonOSFork = 200;
-            int xLocationForkMenu = (60 + (100 * 3) + xLocatieOnderBalk);
+            int xLocationForkMenu = (xLocatieOnderBalk + ((breedteOnderBalk / 6) * 4));
             int yLocationForkMenu = yLocatieOnderBalk - hoogteExtraButtonOSFork;
             windowselect.simwindow.extraButtonsHost.Height = hoogteExtraButtonOSFork;
             windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(xLocationForkMenu, yLocationForkMenu);
@@ -133,7 +134,7 @@ namespace TrafficSimulation
         private void SpawnerButton_Checked(object sender, RoutedEventArgs e)
         {
             int hoogteExtraButtonOSSpawner = 200;
-            int xLocationSpawnerMenu = (60 + (100 * 4) + xLocatieOnderBalk);
+            int xLocationSpawnerMenu = (xLocatieOnderBalk + ((breedteOnderBalk / 6) * 5));
             int yLocationSpawnerMenu = yLocatieOnderBalk - hoogteExtraButtonOSSpawner;
             windowselect.simwindow.extraButtonsHost.Height = hoogteExtraButtonOSSpawner;
             windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(xLocationSpawnerMenu, yLocationSpawnerMenu);
