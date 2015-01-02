@@ -13,7 +13,7 @@
         <Style x:Key="styleRadioButton" TargetType="RadioButton">
             <Setter Property="Width" Value="60" />
             <Setter Property="Height" Value="60" />
-            <Setter Property="Background" Value="Green"/>
+            <Setter Property="Background" Value="White"/>
             <Setter Property="Margin" Value="1,1,1,1" />
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center" />
@@ -23,30 +23,32 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type RadioButton}">
-                        <Border BorderBrush="Gray" BorderThickness="0" Background="Transparent" x:Name="RadioButtonBorder" CornerRadius="25,25,25,25">
+                        <Border x:Name="RadioButtonBorder"
+                                BorderBrush="Gray" 
+                                BorderThickness="0" 
+                                Background="Transparent"  
+                                CornerRadius="25,25,25,25">
+                            
                             <ContentPresenter Margin="{TemplateBinding Padding}" 
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                              ClipToBounds="True" 
-                                              >
-                            </ContentPresenter>
-
+                                              ClipToBounds="True" />
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                
-                                <Setter Property="Foreground" Value="Black" />
-                                <Setter Property="Cursor" Value="Hand" />
+                                <Setter TargetName="RadioButtonBorder" Property="Background" Value="white"/>
+                                <Setter TargetName="RadioButtonBorder" Property="Cursor" Value="Hand" />
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="false">
                                 <Setter TargetName="RadioButtonBorder" Property="Background" Value="Green"/>
-                                <Setter Property="BorderBrush" Value="Green"/>
-                                <Setter Property="Opacity" Value="0.25"/>
-                                <Setter Property="Cursor" Value="Hand"/>
+                                <Setter TargetName="RadioButtonBorder" Property="BorderBrush" Value="Green"/>
+                                <Setter TargetName="RadioButtonBorder" Property="Opacity" Value="0.25"/>
+                                <Setter TargetName="RadioButtonBorder" Property="Cursor" Value="Hand"/>
                             </Trigger>
                             <Trigger Property="IsChecked" Value="true">
-                                <Setter Property="BorderBrush" Value="Green"/>
-                                <Setter Property="Cursor" Value="Hand"/>
+                                <Setter TargetName="RadioButtonBorder" Property="Background" Value="white"/>
+                                <Setter TargetName="RadioButtonBorder" Property="BorderBrush" Value="Green"/>
+                                <Setter TargetName="RadioButtonBorder" Property="Cursor" Value="Hand"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>

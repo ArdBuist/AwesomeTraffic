@@ -48,6 +48,14 @@ namespace TrafficSimulation
                 speedUp.IsEnabled = true;
                 stop.IsEnabled = true;
                 pauze.IsEnabled = true;
+                onderscherm.selectButton.IsEnabled = true;
+                onderscherm.eraserButton.IsEnabled = true;
+                onderscherm.roadButton.IsEnabled = true;
+                onderscherm.bendButton.IsEnabled = true;
+                onderscherm.crossRoadButton.IsEnabled = true;
+                onderscherm.forkButton.IsEnabled = true;
+                onderscherm.spawnerButton.IsEnabled = true;
+                
 
                 simulationDesign.Content = "Simulation";
                 simulation = false;
@@ -59,6 +67,15 @@ namespace TrafficSimulation
                 speedUp.IsEnabled = false;
                 stop.IsEnabled = false;
                 pauze.IsEnabled = false;
+
+                onderscherm.selectButton.IsEnabled = false;
+                onderscherm.eraserButton.IsEnabled = false;
+                onderscherm.roadButton.IsEnabled = false;
+                onderscherm.bendButton.IsEnabled = false;
+                onderscherm.crossRoadButton.IsEnabled = false;
+                onderscherm.forkButton.IsEnabled = false;
+                onderscherm.spawnerButton.IsEnabled = false;
+
                 simulationDesign.Content = "Design";
                 simulation = true;
             }
