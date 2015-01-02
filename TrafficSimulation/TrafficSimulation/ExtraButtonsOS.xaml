@@ -10,9 +10,9 @@
      Hier moet nog een linear brush achtig komen zodat je en knoppen een mooie leuk overgang kan laten hebben.   
      -->
         <Style TargetType="{x:Type Button}" x:Key="Extrabuttons">
-            <Setter Property="Width" Value="70" />
+            <Setter Property="Width" Value="80" />
             <Setter Property="Height" Value="60" />
-            <Setter Property="Margin" Value="5,0,5,0" />
+            <Setter Property="Margin" Value="1,1,1,1" />
             <Setter Property="Background" Value="Green"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center" />
@@ -20,7 +20,11 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
-                        <Border Background="LightGreen" BorderBrush="Green" BorderThickness="5" CornerRadius="10,0,10,0" x:Name="BorderStyle">
+                        <Border x:Name="BorderStyle" 
+                                Background="Green" 
+                                BorderBrush="Green" 
+                                BorderThickness="5" 
+                                CornerRadius="10,10,10,10" >
                             <ContentPresenter Margin="{TemplateBinding Padding}" 
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
@@ -48,7 +52,7 @@
         </Style>
 
     </UserControl.Resources>
-    <Grid x:Name="GridExtraButtonsOS" LostFocus="GridExtraButtonsOS_LostFocus" Background="Green">
+    <Grid x:Name="GridExtraButtonsOS" Background="Green" LostFocus="LostFocusExtra">
         
         <Border BorderBrush="White" 
                 BorderThickness="2" 
@@ -74,19 +78,22 @@
                         Style="{StaticResource Extrabuttons}" 
                         Grid.Column="0"
                         Grid.Row="0"
-                        
+                        Grid.RowSpan="2"
                         Visibility="Hidden" 
-                        Click="Roadhor_Checked" >
-                    <Image Source="Resources/Roads/roadhor.png" Height="40" Width="40"/>
+                        Click="Roadhor_Checked" 
+                        LostFocus="LostFocusExtra">
+                    <Image Source="Resources/Roads/roadhor.png" Height="50" Width="50"/>
                 </Button>
                 
                 <Button x:Name="roadver" 
                         Style="{StaticResource Extrabuttons}" 
                         Grid.Column="0" 
-                        Grid.Row="3" 
+                        Grid.Row="2"
+                        Grid.RowSpan="2"
                         Visibility="Hidden" 
-                        Click="Roadver_Checked">
-                    <Image Source="Resources/Roads/roadver.png" Height="40" Width="40"/>
+                        Click="Roadver_Checked"
+                        LostFocus="LostFocusExtra">
+                    <Image Source="Resources/Roads/roadver.png" Height="50" Width="50"/>
                 </Button>
                 
                 <Button x:Name="bend12" 
@@ -94,8 +101,9 @@
                         Grid.Column="0" 
                         Grid.Row="0" 
                         Visibility="Hidden" 
-                        Click="Curve12_Checked">
-                    <Image Source="Resources/Roads/bendUR.png" Height="40" Width="40"/>
+                        Click="Curve12_Checked"
+                        LostFocus="LostFocusExtra">
+                    <Image Source="Resources/Roads/bendUR.png" Height="50" Width="50"/>
                 </Button>
                 
                 <Button x:Name="bend23" 
@@ -103,8 +111,9 @@
                         Grid.Column="0" 
                         Grid.Row="1" 
                         Visibility="Hidden" 
-                        Click="Curve23_Checked">
-                    <Image Source="Resources/Roads/bendRD.png" Height="40" Width="40"/>
+                        Click="Curve23_Checked"
+                        LostFocus="LostFocusExtra">
+                    <Image Source="Resources/Roads/bendRD.png" Height="50" Width="50"/>
                 </Button>
                 
                 <Button x:Name="bend34" 
@@ -112,8 +121,9 @@
                         Grid.Column="0" 
                         Grid.Row="2" 
                         Visibility="Hidden" 
-                        Click="Curve34_Checked">
-                    <Image Source="Resources/Roads/bendLD.png" Height="40" Width="40"/>
+                        Click="Curve34_Checked"
+                        LostFocus="LostFocusExtra">
+                    <Image Source="Resources/Roads/bendLD.png" Height="50" Width="50"/>
                 </Button>
                 
                 <Button x:Name="bend14" 
@@ -121,8 +131,9 @@
                         Grid.Column="0" 
                         Grid.Row="3" 
                         Visibility="Hidden" 
-                        Click="Curve14_Checked">
-                    <Image Source="Resources/Roads/bendLU.png" Height="40" Width="40"/>
+                        Click="Curve14_Checked"
+                        LostFocus="LostFocusExtra">
+                    <Image Source="Resources/Roads/bendLU.png" Height="50" Width="50"/>
                 </Button>
 
                 <Button x:Name="fork12" 
@@ -131,7 +142,7 @@
                         Grid.Row="0" 
                         Visibility="Hidden" 
                         Click="Fork12_Click">
-                    <Image Source="Resources/Crossroads/forkleft.png" Height="40" Width="40"/>
+                    <Image Source="Resources/Crossroads/forkleft.png" Height="50" Width="50"/>
                 </Button>
 
                 <Button x:Name="fork23" 
@@ -140,7 +151,7 @@
                         Grid.Row="1" 
                         Visibility="Hidden" 
                         Click="Fork23_Click">
-                    <Image Source="Resources/Crossroads/forkdown.png" Height="40" Width="40"/>
+                    <Image Source="Resources/Crossroads/forkdown.png" Height="50" Width="50"/>
                 </Button>
 
                 <Button x:Name="fork34" 
@@ -149,7 +160,7 @@
                         Grid.Row="2" 
                         Visibility="Hidden" 
                         Click="Fork34_Click">
-                    <Image Source="Resources/Crossroads/forkright.png" Height="40" Width="40"/>
+                    <Image Source="Resources/Crossroads/forkright.png" Height="50" Width="50"/>
                 </Button>
 
                 <Button x:Name="fork14" 
@@ -158,7 +169,7 @@
                         Grid.Row="3" 
                         Visibility="Hidden" 
                         Click="Fork14_Click">
-                    <Image Source="Resources/Crossroads/forkup.png" Height="40" Width="40"/>
+                    <Image Source="Resources/Crossroads/forkup.png" Height="50" Width="50"/>
                 </Button>
 
                 <Button x:Name="spawnerdown" 
@@ -167,7 +178,7 @@
                         Grid.Row="0" 
                         Visibility="Hidden" 
                         Click="Spawnerdown_Click">
-                    <Image Source="Resources/Roads/spawnerdown.png" Height="40" Width="40"/>
+                    <Image Source="Resources/Roads/spawnerdown.png" Height="50" Width="50"/>
                 </Button>
 
                 <Button x:Name="spawnerleft" 
@@ -176,7 +187,7 @@
                         Grid.Row="1" 
                         Visibility="Hidden" 
                         Click="Spawnerleft_Click">
-                    <Image Source="Resources/Roads/spawnerleft.png" Height="40" Width="40"/>
+                    <Image Source="Resources/Roads/spawnerleft.png" Height="50" Width="50"/>
                 </Button>
 
                 <Button x:Name="spawnerup" 
@@ -185,7 +196,7 @@
                         Grid.Row="2" 
                         Visibility="Hidden" 
                         Click="Spawnerup_Click">
-                    <Image Source="Resources/Roads/spawnerup.png" Height="40" Width="40"/>
+                    <Image Source="Resources/Roads/spawnerup.png" Height="50" Width="50"/>
                 </Button>
 
                 <Button x:Name="spawnerright" 
@@ -194,7 +205,7 @@
                         Grid.Row="3" 
                         Visibility="Hidden" 
                         Click="Spawnerright_Click">
-                    <Image Source="Resources/Roads/spawnerright.png" Height="40" Width="40"/>
+                    <Image Source="Resources/Roads/spawnerright.png" Height="50" Width="50"/>
                 </Button>
                 
             </Grid>

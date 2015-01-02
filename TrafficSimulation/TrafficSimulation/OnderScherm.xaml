@@ -66,9 +66,11 @@
                 Grid.Row="0" 
                 Grid.Column="0">
             <Grid>
+                
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
+                
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
@@ -81,7 +83,8 @@
                 <RadioButton x:Name="selectButton" 
                              Style="{StaticResource styleRadioButton}" 
                              GroupName="buttonsBelow" 
-                             Checked="SelectButton_Checked" 
+                             Checked="SelectButton_Checked"
+                             LostFocus="Lost_Focus"
                              Height="30"
                              Width="30"
                              VerticalAlignment="Top"
@@ -93,7 +96,8 @@
                 <RadioButton x:Name="eraserButton"  
                              Style="{StaticResource styleRadioButton}" 
                              GroupName="buttonsBelow" 
-                             Checked="EraserButton_Checked" 
+                             Checked="EraserButton_Checked"
+                             LostFocus="Lost_Focus"
                              Grid.Row="0"
                              Grid.Column="0"
                              Height="30"
@@ -105,10 +109,10 @@
                 <RadioButton x:Name="roadButton" 
                              Style="{StaticResource styleRadioButton}" 
                              GroupName="buttonsBelow" 
-                             Checked="RoadButton_Checked" 
+                             Checked="RoadButton_Checked"                             
+                             Click="RoadButton_Checked"
                              Grid.Row="0"
-                             Grid.Column="1"
-                             Click="RoadButton_Checked">
+                             Grid.Column="1">
                     <Image Source="Resources/Roads/roadhor.png" Height="50" Width="50"/>
                 </RadioButton>
 
@@ -126,6 +130,7 @@
                              Style="{StaticResource styleRadioButton}" 
                              GroupName="buttonsBelow" 
                              Checked="CrossRoadButton_Checked" 
+                             LostFocus="Lost_Focus"
                              Grid.Row="0"
                              Grid.Column="3">
                     <Image Source="Resources/Crossroads/Crossroadstandaard.png" Height="50" Width="50"/>
@@ -144,12 +149,13 @@
                 <RadioButton x:Name="spawnerButton" 
                              Style="{StaticResource styleRadioButton}" 
                              GroupName="buttonsBelow" 
-                             Checked="SpawnerButton_Checked" 
+                             Checked="SpawnerButton_Checked"
                              Click="SpawnerButton_Checked"
                              Grid.Row="0"
                              Grid.Column="5">
                     <Image Source="Resources/Roads/spawnerright.png" Height="50" Width="50"/>
                 </RadioButton>
+                
             </Grid>
         </Border>
     </Grid>

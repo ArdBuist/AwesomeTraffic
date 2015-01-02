@@ -40,10 +40,8 @@ namespace TrafficSimulation
             InitializeComponent();
         }
 
-      
-        private void GridExtraButtonsOS_LostFocus(object sender, RoutedEventArgs e)
+        private void LostFocusExtra(object sender, RoutedEventArgs e)
         {
-            windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.ClientSize);
             this.Visibility = Visibility.Hidden;
             this.roadhor.Visibility = Visibility.Hidden;
             this.roadver.Visibility = Visibility.Hidden;
@@ -59,9 +57,9 @@ namespace TrafficSimulation
             this.spawnerleft.Visibility = Visibility.Hidden;
             this.spawnerup.Visibility = Visibility.Hidden;
             this.spawnerright.Visibility = Visibility.Hidden;
-            
-            windowselect.simwindow.extraButtonsHost.BackColor = System.Drawing.Color.Transparent;
+            windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.ClientSize);
         }
+        
 
         //klikmethode rechte weg 1 naar 3 (verticaal)
         private void Roadver_Checked(object sender, RoutedEventArgs e)
@@ -75,7 +73,7 @@ namespace TrafficSimulation
             this.roadhor.Visibility = Visibility.Hidden;
             this.roadver.Visibility = Visibility.Hidden;
             windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.ClientSize);
-            windowselect.simwindow.extraButtonsHost.BackColor = System.Drawing.Color.Transparent;
+            
             
         }
 
@@ -273,7 +271,7 @@ namespace TrafficSimulation
             this.spawnerup.Visibility = Visibility.Hidden;
             this.spawnerright.Visibility = Visibility.Hidden;
             windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.ClientSize);
-            windowselect.simwindow.extraButtonsHost.BackColor = System.Drawing.Color.Transparent;
+           
         }
 
         private void Spawnerright_Click(object sender, RoutedEventArgs e)
@@ -281,17 +279,17 @@ namespace TrafficSimulation
             windowselect.simwindow.simcontrol.eraser = false;
             windowselect.simwindow.simcontrol.selected = false;
             windowselect.simwindow.simcontrol.building = true;
+            windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.ClientSize);
 
-
-            this.Visibility = Visibility.Hidden;
+            
             this.spawnerdown.Visibility = Visibility.Hidden;
             this.spawnerleft.Visibility = Visibility.Hidden;
             this.spawnerup.Visibility = Visibility.Hidden;
             this.spawnerright.Visibility = Visibility.Hidden;
-            windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.ClientSize);
-            windowselect.simwindow.extraButtonsHost.BackColor = System.Drawing.Color.Transparent;
+            
+            
         }
 
-        
+               
     }
 }

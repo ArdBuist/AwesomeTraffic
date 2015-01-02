@@ -52,6 +52,8 @@ namespace TrafficSimulation
             windowselect.simwindow.simcontrol.eraser = false;
             windowselect.simwindow.simcontrol.selected = true;
             windowselect.simwindow.simcontrol.building = false;
+            extraButtonsOS.Visibility = Visibility.Hidden;
+            windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.ClientSize);
             //hierna moet dan een scherm verschijnen met info en aanpassingsmogelijkheden
             
         }
@@ -62,11 +64,14 @@ namespace TrafficSimulation
             windowselect.simwindow.simcontrol.eraser = true;
             windowselect.simwindow.simcontrol.selected = false;
             windowselect.simwindow.simcontrol.building = false;
+            extraButtonsOS.Visibility = Visibility.Hidden;
+            windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.ClientSize);
         }
+
 
         private void RoadButton_Checked(object sender, RoutedEventArgs e)
         {
-            int hoogteExtraButtonOSRoad = 100 ;
+            int hoogteExtraButtonOSRoad = 150 ;
             int xLocationRoadMenu = (xLocatieOnderBalk + (breedteOnderBalk / 6));
             int yLocationRoadMenu = yLocatieOnderBalk - hoogteExtraButtonOSRoad;
             windowselect.simwindow.extraButtonsHost.Height = hoogteExtraButtonOSRoad;
@@ -75,6 +80,19 @@ namespace TrafficSimulation
             extraButtonsOS.Visibility = Visibility.Visible;
             extraButtonsOS.roadhor.Visibility = Visibility.Visible;
             extraButtonsOS.roadver.Visibility = Visibility.Visible;
+            
+            extraButtonsOS.bend12.Visibility = Visibility.Hidden;
+            extraButtonsOS.bend23.Visibility = Visibility.Hidden;
+            extraButtonsOS.bend34.Visibility = Visibility.Hidden;
+            extraButtonsOS.bend14.Visibility = Visibility.Hidden;
+            extraButtonsOS.fork12.Visibility = Visibility.Hidden;
+            extraButtonsOS.fork23.Visibility = Visibility.Hidden;
+            extraButtonsOS.fork34.Visibility = Visibility.Hidden;
+            extraButtonsOS.fork14.Visibility = Visibility.Hidden;
+            extraButtonsOS.spawnerdown.Visibility = Visibility.Hidden;
+            extraButtonsOS.spawnerleft.Visibility = Visibility.Hidden;
+            extraButtonsOS.spawnerup.Visibility = Visibility.Hidden;
+            extraButtonsOS.spawnerright.Visibility = Visibility.Hidden;
 
             windowselect.simwindow.simcontrol.eraser = false;
             windowselect.simwindow.simcontrol.selected = false;
@@ -84,7 +102,7 @@ namespace TrafficSimulation
         
         private void BendButton_Checked(object sender, RoutedEventArgs e)
         {
-            int hoogteExtraButtonOSBend = 200;
+            int hoogteExtraButtonOSBend = 300;
             int xLocationBendMenu = (xLocatieOnderBalk + ((breedteOnderBalk / 6) * 2));
             int yLocationBendMenu = yLocatieOnderBalk - hoogteExtraButtonOSBend;
             windowselect.simwindow.extraButtonsHost.Height = hoogteExtraButtonOSBend;
@@ -95,6 +113,17 @@ namespace TrafficSimulation
             extraButtonsOS.bend23.Visibility = Visibility.Visible;
             extraButtonsOS.bend34.Visibility = Visibility.Visible;
             extraButtonsOS.bend14.Visibility = Visibility.Visible;
+
+            extraButtonsOS.roadhor.Visibility = Visibility.Hidden;
+            extraButtonsOS.roadver.Visibility = Visibility.Hidden;
+            extraButtonsOS.fork12.Visibility = Visibility.Hidden;
+            extraButtonsOS.fork23.Visibility = Visibility.Hidden;
+            extraButtonsOS.fork34.Visibility = Visibility.Hidden;
+            extraButtonsOS.fork14.Visibility = Visibility.Hidden;
+            extraButtonsOS.spawnerdown.Visibility = Visibility.Hidden;
+            extraButtonsOS.spawnerleft.Visibility = Visibility.Hidden;
+            extraButtonsOS.spawnerup.Visibility = Visibility.Hidden;
+            extraButtonsOS.spawnerright.Visibility = Visibility.Hidden;
 
             windowselect.simwindow.simcontrol.eraser = false;
             windowselect.simwindow.simcontrol.selected = false;
@@ -107,13 +136,14 @@ namespace TrafficSimulation
             windowselect.simwindow.simcontrol.eraser = false;
             windowselect.simwindow.simcontrol.selected = false;
             windowselect.simwindow.simcontrol.building = true;
-
+            extraButtonsOS.Visibility = Visibility.Hidden;
+            windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.ClientSize);
             windowselect.simwindow.simcontrol.currentBuildTile = new Crossroad(windowselect.simwindow.simcontrol);
         }
 
         private void ForkButton_Checked(object sender, RoutedEventArgs e)
         {
-            int hoogteExtraButtonOSFork = 200;
+            int hoogteExtraButtonOSFork = 300;
             int xLocationForkMenu = (xLocatieOnderBalk + ((breedteOnderBalk / 6) * 4));
             int yLocationForkMenu = yLocatieOnderBalk - hoogteExtraButtonOSFork;
             windowselect.simwindow.extraButtonsHost.Height = hoogteExtraButtonOSFork;
@@ -125,6 +155,17 @@ namespace TrafficSimulation
             extraButtonsOS.fork34.Visibility = Visibility.Visible;
             extraButtonsOS.fork14.Visibility = Visibility.Visible;
 
+            extraButtonsOS.roadhor.Visibility = Visibility.Hidden;
+            extraButtonsOS.roadver.Visibility = Visibility.Hidden;
+            extraButtonsOS.bend12.Visibility = Visibility.Hidden;
+            extraButtonsOS.bend23.Visibility = Visibility.Hidden;
+            extraButtonsOS.bend34.Visibility = Visibility.Hidden;
+            extraButtonsOS.bend14.Visibility = Visibility.Hidden;
+            extraButtonsOS.spawnerdown.Visibility = Visibility.Hidden;
+            extraButtonsOS.spawnerleft.Visibility = Visibility.Hidden;
+            extraButtonsOS.spawnerup.Visibility = Visibility.Hidden;
+            extraButtonsOS.spawnerright.Visibility = Visibility.Hidden;
+
             windowselect.simwindow.simcontrol.eraser = false;
             windowselect.simwindow.simcontrol.selected = false;
             windowselect.simwindow.simcontrol.building = false;
@@ -133,7 +174,7 @@ namespace TrafficSimulation
         
         private void SpawnerButton_Checked(object sender, RoutedEventArgs e)
         {
-            int hoogteExtraButtonOSSpawner = 200;
+            int hoogteExtraButtonOSSpawner = 300;
             int xLocationSpawnerMenu = (xLocatieOnderBalk + ((breedteOnderBalk / 6) * 5));
             int yLocationSpawnerMenu = yLocatieOnderBalk - hoogteExtraButtonOSSpawner;
             windowselect.simwindow.extraButtonsHost.Height = hoogteExtraButtonOSSpawner;
@@ -145,10 +186,45 @@ namespace TrafficSimulation
             extraButtonsOS.spawnerup.Visibility = Visibility.Visible;
             extraButtonsOS.spawnerright.Visibility = Visibility.Visible;
 
+            extraButtonsOS.roadhor.Visibility = Visibility.Hidden;
+            extraButtonsOS.roadver.Visibility = Visibility.Hidden;
+            extraButtonsOS.bend12.Visibility = Visibility.Hidden;
+            extraButtonsOS.bend23.Visibility = Visibility.Hidden;
+            extraButtonsOS.bend34.Visibility = Visibility.Hidden;
+            extraButtonsOS.bend14.Visibility = Visibility.Hidden;
+            extraButtonsOS.fork12.Visibility = Visibility.Hidden;
+            extraButtonsOS.fork23.Visibility = Visibility.Hidden;
+            extraButtonsOS.fork34.Visibility = Visibility.Hidden;
+            extraButtonsOS.fork14.Visibility = Visibility.Hidden;
+
             windowselect.simwindow.simcontrol.eraser = false;
             windowselect.simwindow.simcontrol.selected = false;
             windowselect.simwindow.simcontrol.building = false;
             windowselect.simwindow.extraButtonsHost.BackColor = System.Drawing.Color.Transparent;
-        }              
+        }
+        private void Lost_Focus(object sender, RoutedEventArgs e) 
+        {
+            extraButtonsOS.Visibility = Visibility.Hidden;
+            extraButtonsOS.roadhor.Visibility = Visibility.Hidden;
+            extraButtonsOS.roadver.Visibility = Visibility.Hidden;
+            extraButtonsOS.bend12.Visibility = Visibility.Hidden;
+            extraButtonsOS.bend23.Visibility = Visibility.Hidden;
+            extraButtonsOS.bend34.Visibility = Visibility.Hidden;
+            extraButtonsOS.bend14.Visibility = Visibility.Hidden;
+            extraButtonsOS.fork12.Visibility = Visibility.Hidden;
+            extraButtonsOS.fork23.Visibility = Visibility.Hidden;
+            extraButtonsOS.fork34.Visibility = Visibility.Hidden;
+            extraButtonsOS.fork14.Visibility = Visibility.Hidden;
+            extraButtonsOS.spawnerdown.Visibility = Visibility.Hidden;
+            extraButtonsOS.spawnerleft.Visibility = Visibility.Hidden;
+            extraButtonsOS.spawnerup.Visibility = Visibility.Hidden;
+            extraButtonsOS.spawnerright.Visibility = Visibility.Hidden;
+            windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.ClientSize);
+        }
+
+        private void selectButton_LostFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
