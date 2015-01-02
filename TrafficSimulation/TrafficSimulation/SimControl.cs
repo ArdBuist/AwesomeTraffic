@@ -156,7 +156,7 @@ namespace TrafficSimulation
             //currentBuildTile = new Crossroad(this);
             //currentBuildTile = new Fork(this, 1);
             //currentBuildTile = new Road(4, 2);
-            //currentBuildTile = new Spawner(3);
+            currentBuildTile = new Spawner(4);
             currentBuildTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), CalculateListPlace(mea.X, mea.Y));
             tileImage = currentBuildTile.DrawImage();
             tileList[CalculateListPlace(mea.X, mea.Y)] = currentBuildTile;

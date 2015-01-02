@@ -23,19 +23,20 @@ namespace TrafficSimulation
             this.simStarted = false;
             spawnerList = new List<Spawner>();
 
-            foreach (Tile t in simControl.tileList)
-            {
-                if (t != null && t.name.Equals("Spawner"))
-                {
-                    spawnerList.Add((Spawner)t);
-                }
-            }
+            
         }
 
         public void StartSim()
         {
             if (simStarted == false)
             {
+                foreach (Tile t in simControl.tileList)
+                {
+                    if (t != null && t.name.Equals("Spawner"))
+                    {
+                        spawnerList.Add((Spawner)t);
+                    }
+                }
                 ThreadStart threadDelegate = new ThreadStart(Update);
                 thread = new Thread(threadDelegate);
                 thread.Start();
@@ -104,7 +105,9 @@ namespace TrafficSimulation
                             {
                                 t.vehicles[v.Lane].Remove(v);
                                 Tile nextTile = t.GetOtherTile(simControl, v.Direction);
-                                nextTile.vehicles[0].Add(v);
+                                if(nextTile!=null)
+                                    nextTile.vehicles[v.Lane].Add(v);
+                                break;
                             }
                         }
                     }
