@@ -25,7 +25,14 @@ namespace TrafficSimulation
         protected Size size;
         //name of the type of tile
         public string name;
-        //number of lanes from the lowest direction to the highest direction
+        //de kant van een fork waar geen weg heengaat
+        public int notDirection;
+        //begin en eind van een weg
+        public int startDirection;
+        public int endDirection;
+        //kant waarnaar de weg loopt bij een spawner
+        public int direction;
+        //number of lanes from the lowest direction to the highest direction       
         protected int lanesLowToHigh;
         //number of lanes from the highest direction to the lowest direction
         protected int lanesHighToLow;
@@ -269,7 +276,7 @@ namespace TrafficSimulation
     {
         private double carsPerSec;//auto's die per seconde gespawned worden
         private double numberOfCars;//opslag voor auto's die gespawned moeten worden voor als de weg vol is.
-        public int direction;//kant waarop de weg loopt
+        public int direction;//kant waarnaar de weg loopt
         private int lanesOut, lanesIn;//aantal wegen van en naar de spawner
         private int spawnLane;//Lane waar de auto gespawnt gaat worden
         private double currentSpawn;//Nummer waarin word opgeslagen hoever de spawner is met het spawnen van een nieuwe auto
@@ -356,8 +363,6 @@ namespace TrafficSimulation
 
     public class Road : Tile
     {
-        public int startDirection;
-        public int endDirection;
 
         public Road(int start, int end)
         {
@@ -428,7 +433,6 @@ namespace TrafficSimulation
 
     public class Fork : Tile
     {
-        protected int notDirection;
         public int[] lanes;
         public TrafficlightControl control;
 

@@ -33,6 +33,8 @@ namespace TrafficSimulation
         public Tile[] gzRemoveList;
         //counter voor groene zone
         private int countGreenZone;
+        //oude groene zone tile
+        private Tile oldGreenZoneTile;
 
         //de oude geselecteerde tile
         public Tile oldselectedTile;
@@ -186,29 +188,59 @@ namespace TrafficSimulation
         //methode om een groene zone te selecteren
         private void DrawGreenZone(MouseEventArgs mea)
         {
-            Bitmap tileImage;
-
-            //checken 
-            /*if(ValidSelect() == true)
-            {
-                for()
-                {}
-            }
-             * */
+            Bitmap tileImage;            
             Tile selectedTile = new SelectTile();
 
-            //Er wordt een blauw randje getekend om de geselecteerde tile
+            //de geselecteerde tile krijgt waarden
             selectedTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), CalculateListPlace(mea.X, mea.Y));
-            tileImage = selectedTile.DrawImage();
-            //de geselecteerde tile wordt toegevoegd aan de lijst om de groene zone te verwijderen
-            gzRemoveList[CalculateListPlace(mea.X, mea.Y)] = selectedTile;
-            //de geselecteerde tile wordt toegevoegd aan de lijst met de groene zone tiles
-            greenZoneList[countGreenZone] = selectedTile;
-            countGreenZone++;
-            
 
-            this.Invalidate();
+            //als er op een al geselecteerde groene zone tile wordt geklikt
+            if (gzRemoveList[CalculateListPlace(mea.X, mea.Y)] != null)
+            {
+                //de laatst geselecteerde groene zone tile is aangeklikt
+                if (selectedTile == greenZoneList[(countGreenZone - 1)])
+                {
+                    //verwijder deze tile uit de removelist + andere groene zone list en teken de tile opnieuw
+                    gzRemoveList[CalculateListPlace(mea.X, mea.Y)] = null;
+                    greenZoneList[(countGreenZone - 1)] = null;
+
+                    tileImage = tileList[CalculateListPlace(mea.X,mea.Y)].DrawImage();
+                    backgroundBC.AddObject(tileImage, mea.X / 100 * 100, mea.Y / 100 * 100);
+                }
+
+                else
+                {
+                    //pop-up scherm of info in het infoscherm: "U kunt alleen de laatst geselecteerde groene zone tegel verwijderen."
+                }
+            }
+            
+            //als er geklikt wordt op een tile die een groene zone mag hebben
+            if(ValidSelect(selectedTile, mea.X,mea.Y)==true)
+            {
+                //tekenen selectielijn om de tile
+                tileImage = selectedTile.DrawImage();
+
+                //de geselecteerde tile wordt toegevoegd aan de lijst om de groene zone te verwijderen
+                gzRemoveList[CalculateListPlace(mea.X, mea.Y)] = selectedTile;
+
+                //de geselecteerde tile wordt toegevoegd aan de lijst met de groene zone tiles
+                greenZoneList[countGreenZone] = selectedTile;
+                countGreenZone++;
+
+                //de huidige selectedTile wordt de oude selectedtile voor de volgende keer
+                oldGreenZoneTile = tileList[CalculateListPlace(mea.X, mea.Y)];
+
+                this.Invalidate();
+            }
+
+            //als er op een tile wordt geklikt die niet mag en die nog geen groene zone tile is
+            if(ValidSelect(selectedTile, mea.X, mea.Y) == false && gzRemoveList[CalculateListPlace(mea.X, mea.Y)] == null)
+            {
+                //in infoscherm zetten: "U kunt alleen aansluitende wegen of kruispunten selecteren. Kies een andere tegel."
+            }
         }
+
+
 
         //methode om de groene zone te verwijderen
         private void RemoveGreenZone()
@@ -234,16 +266,164 @@ namespace TrafficSimulation
         }
 
 
-        //kijk of 
-        private bool ValidSelect()
+        //kijk of de geklikte tile wel een groene zone mag zijn
+        private bool ValidSelect(Tile selectedTile, int x, int y)
         {
-           // if (countGreenZone != 0)
-            
+            //als uit de 4 specifieke ValidSelects true komt, dan is de tile true, anders false
+            if (VSnoGZ(x, y) == true && VShasRoad(x, y) == true && VSnexttoOldGZ(x, y) == true 
+                && VSendsinRoad(x, y) == true)
+            {
                 return true;
-            
+            }
+
+            else
+            {
+                return false;
+            }            
         }
-        
-         
+
+        //checken of de tile niet al een groene zone tile is. True als het geen groene zone tile is
+        private bool VSnoGZ(int x, int y)
+        {
+            if (gzRemoveList[CalculateListPlace(x,y)] == null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        //checken of de tile naast de eerder geselecteerde groene zone tile ligt. True als dat zo is
+        private bool VSnexttoOldGZ(int x, int y)
+        {
+            int oldx = oldGreenZoneTile.position.X / 100;
+            int oldy = oldGreenZoneTile.position.Y / 100;
+
+            int newx = x / 100;
+            int newy = y / 100;
+
+            //geklikte tile ligt direct rechts of direct links van de oude groene zone tile
+            if ((newx - oldx == 1 || oldx - newx == 1) && newy == oldy)
+            {
+                return true;
+            }
+            //geklikte tile ligt direct boven of direct onder de oude groene zone tile
+            else if ((newy-oldy == 1 || oldy-newy == 1) && newx == oldx)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        //checken of de tile een weg of kruispunt heeft. True als dat zo is
+        private bool VShasRoad(int x, int y)
+        {
+            if (tileList[CalculateListPlace(x, y)] != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        //checken of de tile aan een uitgang van de eerder geselecteerde groene zone tile ligt. True als dat zo is
+        private bool VSendsinRoad(int x, int y)
+        {
+            int oldx = oldGreenZoneTile.position.X / 100;
+            int oldy = oldGreenZoneTile.position.Y / 100;
+
+            int newx = x / 100;
+            int newy = y / 100;
+
+            //checken bij t-splitsingen
+            if (oldGreenZoneTile.name == "Fork")
+            {
+                if (oldGreenZoneTile.notDirection != 1 && (oldy - newy == 1 && newx == oldx))
+                {
+                    return true;
+                }
+                else if (oldGreenZoneTile.notDirection != 2 && (newx - oldx == 1 && newy == oldy))
+                {
+                    return true;
+                }
+                else if (oldGreenZoneTile.notDirection != 3 && (newy - oldy == 1 && newx == oldx))
+                {
+                    return true;
+                }
+                else if (oldGreenZoneTile.notDirection != 2 && (oldx - newx == 1 && newy == oldy))
+                {
+                    return true;
+                }
+                else
+                { 
+                    return false;
+                }
+            }
+            //checken bij rechte en kromme wegen
+            else if(oldGreenZoneTile.name == "Road")
+            {
+                if((oldGreenZoneTile.startDirection == 1 || oldGreenZoneTile.endDirection == 1) && (oldy - newy == 1 && newx == oldx))
+                {
+                    return true;
+                }
+                else if((oldGreenZoneTile.startDirection == 2 || oldGreenZoneTile.endDirection == 2) && (newx - oldx == 1 && newy == oldy))
+                {
+                    return true;
+                }
+                else if((oldGreenZoneTile.startDirection == 3 || oldGreenZoneTile.endDirection == 3) && (newy - oldy == 1 && newx == oldx))
+                {
+                    return true;
+                }
+                else if ((oldGreenZoneTile.startDirection == 4 || oldGreenZoneTile.endDirection == 4) && (oldx - newx == 1 && newy == oldy))
+                {
+                    return true;
+                }
+                else
+                { 
+                    return false;
+                }
+            }
+            //checken bij spawners
+            else if(oldGreenZoneTile.name == "Spawner")
+            {
+                if (oldGreenZoneTile.direction == 1 && (oldy - newy == 1 && newx == oldx))
+                {
+                    return true;
+                }
+                else if (oldGreenZoneTile.direction == 2 && (newx - oldx == 1 && newy == oldy))
+                {
+                    return true;
+                }
+                else if (oldGreenZoneTile.direction == 3 && (newy - oldy == 1 && newx == oldx))
+                {
+                    return true;
+                }
+                else if (oldGreenZoneTile.direction == 4 && (oldx - newx == 1 && newy == oldy))
+                {
+                    return true;
+                }
+                else
+                { 
+                    return false;
+                }
+            }
+            else if(oldGreenZoneTile.name == "Crossroad")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         private void MoveMap(MouseEventArgs mea)
         {
             if (Math.Abs(mea.X - mouseMovePoint.X) > 5 || Math.Abs(mea.Y - mouseMovePoint.Y) > 5)
