@@ -76,12 +76,36 @@ namespace TrafficSimulation
 
                 if (t != null)
                 {
-                    foreach (List<Vehicle> list in t.vehicles)
+                    //List<List<Vehicle>> tileVehicles = new List<List<Vehicle>>();
+                    //List<ICloneable> oldList = new List<ICloneable>();
+                    //List<ICloneable> newList = new List<ICloneable>(oldList.Count);
+
+                    //t.vehicles.ForEach((List<Vehicle> item) =>
+                    //{
+                    //    tileVehicles.Add(new List<Vehicle> item);
+                    //});
+                    List<List<Vehicle>> tileVehicles = new List<List<Vehicle>>();
+                    foreach(List<Vehicle> list in t.vehicles)
+                    {
+                        tileVehicles.Add(new List<Vehicle>(list));
+                    }
+                    foreach (List<Vehicle> list in tileVehicles)
                     {
                         foreach (Vehicle v in list)
                         {
                             v.Update();
+                            //t.changeDirection(v);
                             simControl.vehicleBC.AddObject(v.Bitmap, v.position.X, v.position.Y);
+                            if (v.position.X - v.Speed >= t.position.X && v.position.X + v.Speed <= t.position.X + t.size.Width - v.Size.Width - v.Speed &&
+                                v.position.Y - v.Speed >= t.position.Y && v.position.Y + v.Speed <= t.position.Y + t.size.Height - v.Size.Height - v.Speed)
+                            {
+                            }
+                            else
+                            {
+                                t.vehicles[v.Lane].Remove(v);
+                                Tile nextTile = t.GetOtherTile(simControl, v.Direction);
+                                nextTile.vehicles[0].Add(v);
+                            }
                         }
                     }
                 }
