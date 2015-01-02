@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,6 +22,7 @@ namespace TrafficSimulation
     public partial class BovenSchermLinks : UserControl
     {
         public Boolean InfoVisible = true;
+        private Boolean simulation = false;
         private bool simulationStarted = false;
         InfoBalk Infobalk;
         OnderScherm onderscherm;
@@ -36,9 +38,16 @@ namespace TrafficSimulation
             onderscherm = onder;
 
             InitializeComponent();
+
+            //aan het begin is het simulatiegedeelte niet te gebruiken.
+            play.IsEnabled = false;
+            slowDown.IsEnabled = false;
+            speedUp.IsEnabled = false;
+            stop.IsEnabled = false;
+            pauze.IsEnabled = false;
         }
 
-        private void SimulationDesign_Click(object sender, RoutedEventArgs e)
+        public void SimulationDesign_Click(object sender, RoutedEventArgs e)
         {
             
             if (simulation)
@@ -49,6 +58,13 @@ namespace TrafficSimulation
                 stop.IsEnabled = false;
                 pauze.IsEnabled = false;
 
+                //stoppen van laten rijden van de auto's
+                if(windowselect.simwindow.simcontrol.simulation.simStarted)
+                    windowselect.simwindow.simcontrol.simulation.StartSim();
+
+                //verwijderen van alle auto's
+                windowselect.simwindow.simcontrol.ClearRoad();
+
                 onderscherm.selectButton.IsEnabled = true;
                 onderscherm.eraserButton.IsEnabled = true;
                 onderscherm.roadButton.IsEnabled = true;
@@ -58,6 +74,9 @@ namespace TrafficSimulation
                 onderscherm.spawnerButton.IsEnabled = true;
                 
                 windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.ClientSize);
+
+               
+                windowselect.simwindow.simcontrol.Invalidate();
 
                 simulationDesign.Content = "Simulation";
                 simulation = false;
@@ -78,6 +97,9 @@ namespace TrafficSimulation
                 onderscherm.forkButton.IsEnabled = false;
                 onderscherm.spawnerButton.IsEnabled = false;
                 windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.ClientSize);
+
+                //zorgen dat er niet meer getekend kan worden, er kan alleen verschoven worden
+                windowselect.simwindow.simcontrol.selected = true;
 
                 simulationDesign.Content = "Design";
                 simulation = true;

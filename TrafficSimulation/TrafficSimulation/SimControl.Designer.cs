@@ -132,18 +132,19 @@ namespace TrafficSimulation
             if (oldselectedTile != null)
             {
                 backgroundBC.AddObject(oldselectedTile.DrawImage(), oldselectedTile.position.X, oldselectedTile.position.Y);
+                oldselectedTile = null;
             }
             if (selected == true) //als de select-tool is aangeklikt
             {
                 DrawSelectLine(mea);
             }
             //als de gum-tool is aangeklikt
-            if (eraser == true)
+            else if (eraser == true)
             {
                 removeTile(mea);
             }
             //als je een weg wil bouwen
-            if (building == true)
+            else if (building == true)
             {
                 DrawTile(mea);
             }

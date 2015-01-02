@@ -15,7 +15,7 @@ namespace TrafficSimulation
 
         public delegate void MethodInvoker();
         public Thread thread;
-        private bool simStarted;
+        public bool simStarted;
 
         public Simulation(SimControl simControl)
         {
@@ -30,6 +30,7 @@ namespace TrafficSimulation
         {
             if (simStarted == false)
             {
+                //spawners verzamelen
                 spawnerList.Clear();
                 foreach (Tile t in simControl.tileList)
                 {

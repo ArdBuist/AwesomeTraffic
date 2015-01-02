@@ -167,6 +167,7 @@ namespace TrafficSimulation
             windowselect.simwindow.simcontrol.eraser = false;
             windowselect.simwindow.simcontrol.selected = false;
             windowselect.simwindow.simcontrol.building = true;
+            windowselect.simwindow.simcontrol.currentBuildTile = new Fork(windowselect.simwindow.simcontrol, 4);
 
 
             this.Visibility = Visibility.Hidden;
@@ -183,6 +184,7 @@ namespace TrafficSimulation
             windowselect.simwindow.simcontrol.eraser = false;
             windowselect.simwindow.simcontrol.selected = false;
             windowselect.simwindow.simcontrol.building = true;
+            windowselect.simwindow.simcontrol.currentBuildTile = new Fork(windowselect.simwindow.simcontrol,3);
 
 
             this.Visibility = Visibility.Hidden;
@@ -199,6 +201,7 @@ namespace TrafficSimulation
             windowselect.simwindow.simcontrol.eraser = false;
             windowselect.simwindow.simcontrol.selected = false;
             windowselect.simwindow.simcontrol.building = true;
+            windowselect.simwindow.simcontrol.currentBuildTile = new Fork(windowselect.simwindow.simcontrol, 2);
 
 
             this.Visibility = Visibility.Hidden;
@@ -215,6 +218,7 @@ namespace TrafficSimulation
             windowselect.simwindow.simcontrol.eraser = false;
             windowselect.simwindow.simcontrol.selected = false;
             windowselect.simwindow.simcontrol.building = true;
+            windowselect.simwindow.simcontrol.currentBuildTile = new Fork(windowselect.simwindow.simcontrol, 1);
 
 
             this.Visibility = Visibility.Hidden;
@@ -231,6 +235,7 @@ namespace TrafficSimulation
             windowselect.simwindow.simcontrol.eraser = false;
             windowselect.simwindow.simcontrol.selected = false;
             windowselect.simwindow.simcontrol.building = true;
+            windowselect.simwindow.simcontrol.currentBuildTile = new Spawner(1);
 
 
             this.Visibility = Visibility.Hidden;
@@ -247,6 +252,7 @@ namespace TrafficSimulation
             windowselect.simwindow.simcontrol.eraser = false;
             windowselect.simwindow.simcontrol.selected = false;
             windowselect.simwindow.simcontrol.building = true;
+            windowselect.simwindow.simcontrol.currentBuildTile = new Spawner(2);
 
 
             this.Visibility = Visibility.Hidden;
@@ -263,6 +269,7 @@ namespace TrafficSimulation
             windowselect.simwindow.simcontrol.eraser = false;
             windowselect.simwindow.simcontrol.selected = false;
             windowselect.simwindow.simcontrol.building = true;
+            windowselect.simwindow.simcontrol.currentBuildTile = new Spawner(3);
 
 
             this.Visibility = Visibility.Hidden;
@@ -279,13 +286,15 @@ namespace TrafficSimulation
             windowselect.simwindow.simcontrol.eraser = false;
             windowselect.simwindow.simcontrol.selected = false;
             windowselect.simwindow.simcontrol.building = true;
-            windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.ClientSize);
+            windowselect.simwindow.simcontrol.currentBuildTile = new Spawner(4);
+            
 
             
             this.spawnerdown.Visibility = Visibility.Hidden;
             this.spawnerleft.Visibility = Visibility.Hidden;
             this.spawnerup.Visibility = Visibility.Hidden;
             this.spawnerright.Visibility = Visibility.Hidden;
+            windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.ClientSize);
             
             
         }

@@ -139,6 +139,7 @@ namespace TrafficSimulation
                 Tile selectedTile = new removeTile();
                 selectedTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), CalculateListPlace(mea.X, mea.Y));
                 tileImage = selectedTile.DrawImage();
+                trafficlightBC.AddObject(tileImage, mea.X / 100 * 100, mea.Y / 100 * 100);
                 tileList[CalculateListPlace(mea.X, mea.Y)] = null;
                 this.Invalidate();
                 //hier moet nog bij dat de trafficlights ook worden verwijderd
@@ -154,6 +155,7 @@ namespace TrafficSimulation
             tileList[CalculateListPlace(mea.X, mea.Y)] = currentBuildTile;
             //Dit zorgt ervoor dat de kaart geupdate wordt met de nieuwe tile.
             backgroundBC.AddObject(tileImage, mea.X / 100 * 100, mea.Y / 100 * 100);
+            trafficlightBC.bitmap.MakeTransparent(Color.Green);
             this.Invalidate();
         }
 
@@ -175,6 +177,23 @@ namespace TrafficSimulation
         private int CalculateListPlace(int mouseX, int mouseY)
         {
             return mouseY / 100 * tilesHorizontal + mouseX / 100;
+        }
+
+        public void ClearRoad()
+        {
+            foreach(Tile t in tileList)
+            {
+                if(t != null)
+                {
+                    foreach(List<Vehicle> l in t.vehicles)
+                    {
+                        l.Clear();
+                    }
+                }
+            }
+            //alle auto's weer verwijderen
+            Graphics g = Graphics.FromImage((System.Drawing.Image)vehicleBC.bitmap);
+            g.Clear(System.Drawing.Color.Transparent);
         }
 
         //hele methode kan weer weg zo gauw er een interface is waar we mee kunnen testen.
@@ -507,5 +526,7 @@ namespace TrafficSimulation
         {
 
         }
+
+        
     }
 }
