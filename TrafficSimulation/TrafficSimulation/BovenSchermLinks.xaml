@@ -6,21 +6,16 @@
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="400">
     <UserControl.Resources>
-        <!--
-     Hier moet nog een linear brush achtig komen zodat je en knoppen een mooie leuk overgang kan laten hebben.   
-     -->
-        <Style TargetType="{x:Type Button}" x:Key="Style1">
-            <Setter Property="Width" Value="70" />
-            <Setter Property="Height" Value="60" />
-            <Setter Property="Margin" Value="5,0,5,0" />
+    
+        <Style TargetType="{x:Type Button}" x:Key="kleineButtons">
+            <Setter Property="Width" Value="30" />
+            <Setter Property="Height" Value="30" />
+            <Setter Property="Margin" Value="1,1,1,1" />
             <Setter Property="Background" Value="Green"/>
-            <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="VerticalAlignment" Value="Center" />
-
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
-                        <Border Background="LightGreen" BorderBrush="Green" BorderThickness="5" CornerRadius="10,0,10,0" x:Name="BorderStyle">
+                        <Border Background="LightGreen" BorderBrush="Green" BorderThickness="0" CornerRadius="25,25,25,25" x:Name="BorderStyle">
                             <ContentPresenter Margin="{TemplateBinding Padding}" 
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
@@ -31,12 +26,50 @@
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter TargetName="BorderStyle" Property="Background" Value="LightGray"/>
-                                <Setter Property="Foreground" Value="Red" />
+                                <Setter Property="Foreground" Value="Black" />
+                                <Setter Property="Cursor" Value="Hand" />
+                            </Trigger>
+                            
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter TargetName="BorderStyle" Property="Background" Value="White"/>
+                                <Setter Property="BorderBrush" Value="Transparent"/>
+                                <Setter Property="Opacity" Value="0.25"/>
+                                <Setter Property="Cursor" Value="No"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="{x:Type Button}" x:Key="groteButtons">
+            <Setter Property="Width" Value="70" />
+            <Setter Property="Height" Value="70" />
+            <Setter Property="Margin" Value="1,1,1,1" />
+            <Setter Property="Background" Value="Green"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center" />
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="LightGreen" BorderBrush="Green" BorderThickness="0" CornerRadius="50,50,50,50" x:Name="BorderStyle">
+                            <ContentPresenter Margin="{TemplateBinding Padding}" 
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              ClipToBounds="True" 
+                                              >
+                            </ContentPresenter>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="BorderStyle" Property="Background" Value="LightGray"/>
+                                <Setter Property="Foreground" Value="Black" />
                                 <Setter Property="Cursor" Value="Hand" />
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="false">
                                 <Setter TargetName="BorderStyle" Property="Background" Value="White"/>
-                                <Setter Property="BorderBrush" Value="Green"/>
+                                <Setter Property="BorderBrush" Value="Transparent"/>
                                 <Setter Property="Opacity" Value="0.25"/>
                                 <Setter Property="Cursor" Value="No"/>
 
@@ -46,38 +79,84 @@
                 </Setter.Value>
             </Setter>
         </Style>
-
     </UserControl.Resources>
 
-    <Grid x:Name="BasicBoven" Background="Green">
-        <Border BorderBrush="Gray" BorderThickness="5" CornerRadius="10,0,10,0" Background="White" Grid.Row="0" Grid.Column="0">
+    <Grid x:Name="BasicBoven" Background="Green" >
+        
+        <Border BorderBrush="Transparent" 
+                BorderThickness="0" 
+                CornerRadius="10,0,10,0" 
+                Background="Transparent" 
+                Grid.Row="0" 
+                Grid.Column="0">
+            
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
+                
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="35"/>
+                    <ColumnDefinition Width="90"/>
+                    <ColumnDefinition Width="35"/>
+                    <ColumnDefinition Width="90"/>
                 </Grid.ColumnDefinitions>
-                <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left">
-
-                    <Button x:Name="SlowDown" Style="{StaticResource Style1}"  Click="SlowDown_Click" >
-                        <TextBlock Text="SlowDown"/>
+                             
+                    <Button x:Name="slowDown" 
+                            Style="{StaticResource kleineButtons}" 
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Click="SlowDown_Click" 
+                            VerticalAlignment="Top">
+                    <Image Source="Resources/Buttons/speedDown.png" Height="15" Width="15"/>
                     </Button>
 
-                    <Button x:Name="PlayPauze" Style="{StaticResource Style1}" Click="PlayPauze_Click" >
-                        <Image Source="Resources/Buttons/Play_button.png" Height="40" Width="40"/>
+                    <Button x:Name="speedUp" 
+                            Style="{StaticResource kleineButtons}"  
+                            Grid.Row="0"
+                            Grid.Column="2"
+                            Click="SpeedUp_Click" 
+                            VerticalAlignment="Top">
+                    <Image Source="Resources/Buttons/speedUp.png" Height="15" Width="15"/>
+                    
                     </Button>
-
-                    <Button x:Name="SpeedUp" Style="{StaticResource Style1}"  Click="SpeedUp_Click" >
-                        <TextBlock Text="SpeedUp"/>
+                    <Button x:Name="play" 
+                            Style="{StaticResource groteButtons}" 
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Click="PlayPauze_Click" >
+                        <Image Source="Resources/Buttons/play.png" Height="40" Width="40"/>
                     </Button>
-
-                    <Button x:Name="SimulationDesign" Style="{StaticResource Style1}" Click="SimulationDesign_Click" >
-                        <TextBlock Text="SimulationDesign"/>
+                    
+                <Button x:Name="pauze" 
+                            Style="{StaticResource kleineButtons}" 
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Click="SlowDown_Click" 
+                            VerticalAlignment="Bottom">
+                    <Image Source="Resources/Buttons/pauze.png" Height="15" Width="15"/>
+                        
                     </Button>
-                </StackPanel>
+                    <Button x:Name="stop" 
+                            Style="{StaticResource kleineButtons}" 
+                            Grid.Row="0"
+                            Grid.Column="2"
+                            VerticalAlignment="Bottom">
+                    <Image Source="Resources/Buttons/stop.png" Height="15" Width="15"/>
+                    </Button>
+                
+                    <Button x:Name="simulationDesign" 
+                            Style="{StaticResource groteButtons}" 
+                            Grid.Row="0"
+                            Grid.Column="3"
+                            Click="SimulationDesign_Click" >
+                    <TextBlock Text="Design"/>
+                </Button>
+                    
+                
             </Grid>
         </Border>
+        
     </Grid>
 
 </UserControl>

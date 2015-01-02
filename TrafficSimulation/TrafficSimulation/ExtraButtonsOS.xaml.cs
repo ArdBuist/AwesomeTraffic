@@ -21,10 +21,12 @@ namespace TrafficSimulation
     public partial class ExtraButtonsOS : UserControl
     {
         SimControl s;
-        SimWindow simwindow;
+        //SimWindow simwindow;
         InfoBalk Infobalk;
         WindowSelect windowselect;
-        public Boolean bend, road, spawner, fork;
+        int xLocatieOnderBalk;
+        
+        
 
         public ExtraButtonsOS(WindowSelect ws, InfoBalk info)
         {
@@ -38,59 +40,256 @@ namespace TrafficSimulation
             InitializeComponent();
         }
 
+        private void LostFocusExtra(object sender, RoutedEventArgs e)
+        {
+            this.Visibility = Visibility.Hidden;
+            this.roadhor.Visibility = Visibility.Hidden;
+            this.roadver.Visibility = Visibility.Hidden;
+            this.bend12.Visibility = Visibility.Hidden;
+            this.bend23.Visibility = Visibility.Hidden;
+            this.bend34.Visibility = Visibility.Hidden;
+            this.bend14.Visibility = Visibility.Hidden;
+            this.fork12.Visibility = Visibility.Hidden;
+            this.fork23.Visibility = Visibility.Hidden;
+            this.fork34.Visibility = Visibility.Hidden;
+            this.fork14.Visibility = Visibility.Hidden;
+            this.spawnerdown.Visibility = Visibility.Hidden;
+            this.spawnerleft.Visibility = Visibility.Hidden;
+            this.spawnerup.Visibility = Visibility.Hidden;
+            this.spawnerright.Visibility = Visibility.Hidden;
+            windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.ClientSize);
+        }
+        
+
         //klikmethode rechte weg 1 naar 3 (verticaal)
         private void Roadver_Checked(object sender, RoutedEventArgs e)
         {
-            s.eraser = false;
-            s.selected = false;
-            s.building = true;
-            s.currentBuildTile = new Road(1, 3);
+            windowselect.simwindow.simcontrol.eraser = false;
+            windowselect.simwindow.simcontrol.selected = false;
+            windowselect.simwindow.simcontrol.building = true;
+            windowselect.simwindow.simcontrol.currentBuildTile = new Road(1, 3);
+            
+            this.Visibility = Visibility.Hidden;
+            this.roadhor.Visibility = Visibility.Hidden;
+            this.roadver.Visibility = Visibility.Hidden;
+            windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.ClientSize);
+            
+            
         }
 
         //klikmethode rechte weg 2 naar 4 (horizontaal)
         private void Roadhor_Checked(object sender, RoutedEventArgs e)
         {
-            s.eraser = false;
-            s.selected = false;
-            s.building = true;
-            s.currentBuildTile = new Road(2, 4);
+            windowselect.simwindow.simcontrol.eraser = false;
+            windowselect.simwindow.simcontrol.selected = false;
+            windowselect.simwindow.simcontrol.building = true;
+            windowselect.simwindow.simcontrol.currentBuildTile = new Road(2, 4);
+            
+            this.Visibility = Visibility.Hidden;
+            this.bend12.Visibility = Visibility.Hidden;
+            this.bend23.Visibility = Visibility.Hidden;
+            this.bend34.Visibility = Visibility.Hidden;
+            this.bend14.Visibility = Visibility.Hidden;
+            windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.ClientSize);
+            windowselect.simwindow.extraButtonsHost.BackColor = System.Drawing.Color.Transparent;
         }
 
         //klikmethode bocht 1 naar 2
         private void Curve12_Checked(object sender, RoutedEventArgs e)
         {
-            s.eraser = false;
-            s.selected = false;
-            s.building = true;
-            s.currentBuildTile = new Road(1, 2);
+            windowselect.simwindow.simcontrol.eraser = false;
+            windowselect.simwindow.simcontrol.selected = false;
+            windowselect.simwindow.simcontrol.building = true;
+            windowselect.simwindow.simcontrol.currentBuildTile = new Road(1, 2);
+
+            this.Visibility = Visibility.Hidden;
+            this.bend12.Visibility = Visibility.Hidden;
+            this.bend23.Visibility = Visibility.Hidden;
+            this.bend34.Visibility = Visibility.Hidden;
+            this.bend14.Visibility = Visibility.Hidden;
+            windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.ClientSize);
+            windowselect.simwindow.extraButtonsHost.BackColor = System.Drawing.Color.Transparent;
         }
 
         //klikmethode bocht 2 naar 3
         private void Curve23_Checked(object sender, RoutedEventArgs e)
         {
-            s.eraser = false;
-            s.selected = false;
-            s.building = true;
-            s.currentBuildTile = new Road(2, 3);
+            windowselect.simwindow.simcontrol.eraser = false;
+            windowselect.simwindow.simcontrol.selected = false;
+            windowselect.simwindow.simcontrol.building = true;
+            windowselect.simwindow.simcontrol.currentBuildTile = new Road(2, 3);
+
+            this.Visibility = Visibility.Hidden;
+            this.bend12.Visibility = Visibility.Hidden;
+            this.bend23.Visibility = Visibility.Hidden;
+            this.bend34.Visibility = Visibility.Hidden;
+            this.bend14.Visibility = Visibility.Hidden;
+            windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.ClientSize);
+            windowselect.simwindow.extraButtonsHost.BackColor = System.Drawing.Color.Transparent;
         }
 
         //klikmethode bocht 3 naar 4
         private void Curve34_Checked(object sender, RoutedEventArgs e)
         {
-            s.eraser = false;
-            s.selected = false;
-            s.building = true;
-            s.currentBuildTile = new Road(3, 4);
+            windowselect.simwindow.simcontrol.eraser = false;
+            windowselect.simwindow.simcontrol.selected = false;
+            windowselect.simwindow.simcontrol.building = true;
+            windowselect.simwindow.simcontrol.currentBuildTile = new Road(3, 4);
+
+            this.Visibility = Visibility.Hidden;
+            this.bend12.Visibility = Visibility.Hidden;
+            this.bend23.Visibility = Visibility.Hidden;
+            this.bend34.Visibility = Visibility.Hidden;
+            this.bend14.Visibility = Visibility.Hidden;
+            windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.ClientSize);
+            windowselect.simwindow.extraButtonsHost.BackColor = System.Drawing.Color.Transparent;
         }
 
         //klikmethode bocht 1 naar 4
         private void Curve14_Checked(object sender, RoutedEventArgs e)
         {
-            s.eraser = false;
-            s.selected = false;
-            s.building = true;
-            s.currentBuildTile = new Road(1, 4);
+            windowselect.simwindow.simcontrol.eraser = false;
+            windowselect.simwindow.simcontrol.selected = false;
+            windowselect.simwindow.simcontrol.building = true;
+            windowselect.simwindow.simcontrol.currentBuildTile = new Road(1, 4);
+
+            this.Visibility = Visibility.Hidden;
+            this.bend12.Visibility = Visibility.Hidden;
+            this.bend23.Visibility = Visibility.Hidden;
+            this.bend34.Visibility = Visibility.Hidden;
+            this.bend14.Visibility = Visibility.Hidden;
+            windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.ClientSize);
+            windowselect.simwindow.extraButtonsHost.BackColor = System.Drawing.Color.Transparent;
         }
 
+        private void Fork12_Click(object sender, RoutedEventArgs e)
+        {
+            windowselect.simwindow.simcontrol.eraser = false;
+            windowselect.simwindow.simcontrol.selected = false;
+            windowselect.simwindow.simcontrol.building = true;
+
+
+            this.Visibility = Visibility.Hidden;
+            this.fork12.Visibility = Visibility.Hidden;
+            this.fork23.Visibility = Visibility.Hidden;
+            this.fork34.Visibility = Visibility.Hidden;
+            this.fork14.Visibility = Visibility.Hidden;
+            windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.ClientSize);
+            windowselect.simwindow.extraButtonsHost.BackColor = System.Drawing.Color.Transparent;
+        }
+
+        private void Fork23_Click(object sender, RoutedEventArgs e)
+        {
+            windowselect.simwindow.simcontrol.eraser = false;
+            windowselect.simwindow.simcontrol.selected = false;
+            windowselect.simwindow.simcontrol.building = true;
+
+
+            this.Visibility = Visibility.Hidden;
+            this.fork12.Visibility = Visibility.Hidden;
+            this.fork23.Visibility = Visibility.Hidden;
+            this.fork34.Visibility = Visibility.Hidden;
+            this.fork14.Visibility = Visibility.Hidden;
+            windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.ClientSize);
+            windowselect.simwindow.extraButtonsHost.BackColor = System.Drawing.Color.Transparent;
+        }
+
+        private void Fork34_Click(object sender, RoutedEventArgs e)
+        {
+            windowselect.simwindow.simcontrol.eraser = false;
+            windowselect.simwindow.simcontrol.selected = false;
+            windowselect.simwindow.simcontrol.building = true;
+
+
+            this.Visibility = Visibility.Hidden;
+            this.fork12.Visibility = Visibility.Hidden;
+            this.fork23.Visibility = Visibility.Hidden;
+            this.fork34.Visibility = Visibility.Hidden;
+            this.fork14.Visibility = Visibility.Hidden;
+            windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.ClientSize);
+            windowselect.simwindow.extraButtonsHost.BackColor = System.Drawing.Color.Transparent;
+        }
+
+        private void Fork14_Click(object sender, RoutedEventArgs e)
+        {
+            windowselect.simwindow.simcontrol.eraser = false;
+            windowselect.simwindow.simcontrol.selected = false;
+            windowselect.simwindow.simcontrol.building = true;
+
+
+            this.Visibility = Visibility.Hidden;
+            this.fork12.Visibility = Visibility.Hidden;
+            this.fork23.Visibility = Visibility.Hidden;
+            this.fork34.Visibility = Visibility.Hidden;
+            this.fork14.Visibility = Visibility.Hidden;
+            windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.ClientSize);
+            windowselect.simwindow.extraButtonsHost.BackColor = System.Drawing.Color.Transparent;
+        }
+
+        private void Spawnerdown_Click(object sender, RoutedEventArgs e)
+        {
+            windowselect.simwindow.simcontrol.eraser = false;
+            windowselect.simwindow.simcontrol.selected = false;
+            windowselect.simwindow.simcontrol.building = true;
+
+
+            this.Visibility = Visibility.Hidden;
+            this.spawnerdown.Visibility = Visibility.Hidden;
+            this.spawnerleft.Visibility = Visibility.Hidden;
+            this.spawnerup.Visibility = Visibility.Hidden;
+            this.spawnerright.Visibility = Visibility.Hidden;
+            windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.ClientSize);
+            windowselect.simwindow.extraButtonsHost.BackColor = System.Drawing.Color.Transparent;
+        }
+
+        private void Spawnerleft_Click(object sender, RoutedEventArgs e)
+        {
+            windowselect.simwindow.simcontrol.eraser = false;
+            windowselect.simwindow.simcontrol.selected = false;
+            windowselect.simwindow.simcontrol.building = true;
+
+
+            this.Visibility = Visibility.Hidden;
+            this.spawnerdown.Visibility = Visibility.Hidden;
+            this.spawnerleft.Visibility = Visibility.Hidden;
+            this.spawnerup.Visibility = Visibility.Hidden;
+            this.spawnerright.Visibility = Visibility.Hidden;
+            windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.ClientSize);
+            windowselect.simwindow.extraButtonsHost.BackColor = System.Drawing.Color.Transparent;
+        }
+
+        private void Spawnerup_Click(object sender, RoutedEventArgs e)
+        {
+            windowselect.simwindow.simcontrol.eraser = false;
+            windowselect.simwindow.simcontrol.selected = false;
+            windowselect.simwindow.simcontrol.building = true;
+
+
+            this.Visibility = Visibility.Hidden;
+            this.spawnerdown.Visibility = Visibility.Hidden;
+            this.spawnerleft.Visibility = Visibility.Hidden;
+            this.spawnerup.Visibility = Visibility.Hidden;
+            this.spawnerright.Visibility = Visibility.Hidden;
+            windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.ClientSize);
+           
+        }
+
+        private void Spawnerright_Click(object sender, RoutedEventArgs e)
+        {
+            windowselect.simwindow.simcontrol.eraser = false;
+            windowselect.simwindow.simcontrol.selected = false;
+            windowselect.simwindow.simcontrol.building = true;
+            windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.ClientSize);
+
+            
+            this.spawnerdown.Visibility = Visibility.Hidden;
+            this.spawnerleft.Visibility = Visibility.Hidden;
+            this.spawnerup.Visibility = Visibility.Hidden;
+            this.spawnerright.Visibility = Visibility.Hidden;
+            
+            
+        }
+
+               
     }
 }

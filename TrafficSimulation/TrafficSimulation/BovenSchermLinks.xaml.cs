@@ -25,35 +25,62 @@ namespace TrafficSimulation
         InfoBalk Infobalk;
         OnderScherm onderscherm;
         WindowSelect windowselect;
-       //int daynightcount = 0;
+        //int daynightcount = 0;
 
 
         public BovenSchermLinks(WindowSelect ws, InfoBalk info, OnderScherm onder)
         {
-            //this.s = s;
+
             windowselect = ws;
             Infobalk = info;
             onderscherm = onder;
+
             InitializeComponent();
         }
 
         private void SimulationDesign_Click(object sender, RoutedEventArgs e)
         {
-            if (simulationStarted)
+            
+            if (simulation)
             {
-                PlayPauze.IsEnabled = true;
-                SlowDown.IsEnabled = true;
-                SpeedUp.IsEnabled = true;
-                SimulationDesign.Content = "Simulation";
-                simulationStarted = false;
+                play.IsEnabled = false;
+                slowDown.IsEnabled = false;
+                speedUp.IsEnabled = false;
+                stop.IsEnabled = false;
+                pauze.IsEnabled = false;
+
+                onderscherm.selectButton.IsEnabled = true;
+                onderscherm.eraserButton.IsEnabled = true;
+                onderscherm.roadButton.IsEnabled = true;
+                onderscherm.bendButton.IsEnabled = true;
+                onderscherm.crossRoadButton.IsEnabled = true;
+                onderscherm.forkButton.IsEnabled = true;
+                onderscherm.spawnerButton.IsEnabled = true;
+                
+                windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.ClientSize);
+
+                simulationDesign.Content = "Simulation";
+                simulation = false;
             }
             else
             {
-                PlayPauze.IsEnabled = false;
-                SlowDown.IsEnabled = false;
-                SpeedUp.IsEnabled = false;
-                SimulationDesign.Content = "Design";
-                simulationStarted = true;
+                play.IsEnabled = true;
+                slowDown.IsEnabled = true;
+                speedUp.IsEnabled = true;
+                stop.IsEnabled = true;
+                pauze.IsEnabled = true;
+
+                onderscherm.selectButton.IsEnabled = false;
+                onderscherm.eraserButton.IsEnabled = false;
+                onderscherm.roadButton.IsEnabled = false;
+                onderscherm.bendButton.IsEnabled = false;
+                onderscherm.crossRoadButton.IsEnabled = false;
+                onderscherm.forkButton.IsEnabled = false;
+                onderscherm.spawnerButton.IsEnabled = false;
+                windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.ClientSize);
+
+                simulationDesign.Content = "Design";
+                simulation = true;
             }
             windowselect.Invalidate();
         }

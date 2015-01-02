@@ -146,6 +146,11 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\TrafficExpertLogo.png" />
+    <Resource Include="Resources\Buttons\pauze.png" />
+    <Resource Include="Resources\Buttons\play.png" />
+    <Resource Include="Resources\Buttons\speedDown.png" />
+    <Resource Include="Resources\Buttons\speedUp.png" />
+    <Resource Include="Resources\Buttons\stop.png" />
     <Content Include="TrafficExpertLogo.png" />
     <Resource Include="Resources\Roads\bendLD.png" />
     <Resource Include="Resources\Roads\bendLU.PNG" />

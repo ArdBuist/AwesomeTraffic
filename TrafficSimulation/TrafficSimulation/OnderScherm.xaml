@@ -10,11 +10,11 @@
         <!--
      Hier moet nog een linear brush achtig komen zodat je en knoppen een mooie leuk overgang kan laten hebben.   
      -->
-        <Style x:Key="StyleRadioButton" TargetType="RadioButton">
-            <Setter Property="Width" Value="70" />
+        <Style x:Key="styleRadioButton" TargetType="RadioButton">
+            <Setter Property="Width" Value="60" />
             <Setter Property="Height" Value="60" />
-            <Setter Property="Background" Value="Green"/>
-            <Setter Property="Margin" Value="5,0,5,0" />
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Margin" Value="1,1,1,1" />
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="HorizontalContentAlignment" Value="center"/>
@@ -23,31 +23,32 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type RadioButton}">
-                        <Border BorderBrush="Gray" BorderThickness="5" Background="White" x:Name="RadioButtonBorder" CornerRadius="10,0,10,0">
+                        <Border x:Name="RadioButtonBorder"
+                                BorderBrush="Gray" 
+                                BorderThickness="0" 
+                                Background="Transparent"  
+                                CornerRadius="25,25,25,25">
+                            
                             <ContentPresenter Margin="{TemplateBinding Padding}" 
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                              ClipToBounds="True" 
-                                              >
-                            </ContentPresenter>
-
+                                              ClipToBounds="True" />
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter TargetName="RadioButtonBorder" Property="Background" Value="white"/>
-                                <Setter Property="Foreground" Value="Red" />
-                                <Setter Property="Cursor" Value="Hand" />
+                                <Setter TargetName="RadioButtonBorder" Property="Cursor" Value="Hand" />
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="false">
                                 <Setter TargetName="RadioButtonBorder" Property="Background" Value="Green"/>
-                                <Setter Property="BorderBrush" Value="Green"/>
-                                <Setter Property="Opacity" Value="0.25"/>
-                                <Setter Property="Cursor" Value="Hand"/>
+                                <Setter TargetName="RadioButtonBorder" Property="BorderBrush" Value="Green"/>
+                                <Setter TargetName="RadioButtonBorder" Property="Opacity" Value="0.25"/>
+                                <Setter TargetName="RadioButtonBorder" Property="Cursor" Value="Hand"/>
                             </Trigger>
                             <Trigger Property="IsChecked" Value="true">
-                                <Setter TargetName="RadioButtonBorder" Property="Background" Value="LightGreen"/>
-                                <Setter Property="BorderBrush" Value="Green"/>
-                                <Setter Property="Cursor" Value="Hand"/>
+                                <Setter TargetName="RadioButtonBorder" Property="Background" Value="white"/>
+                                <Setter TargetName="RadioButtonBorder" Property="BorderBrush" Value="Green"/>
+                                <Setter TargetName="RadioButtonBorder" Property="Cursor" Value="Hand"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -58,46 +59,104 @@
     </UserControl.Resources>
     
     <Grid x:Name="BasicOnder" Background="Green" >
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-       
-        <Border BorderBrush="Gray" BorderThickness="5" CornerRadius="15,0,15,0" Background="White" >
-            
-            <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" >
+        <Border BorderBrush="Green" 
+                BorderThickness="1" 
+                CornerRadius="25,25,25,25" 
+                Background="LightGreen" 
+                Grid.Row="0" 
+                Grid.Column="0">
+            <Grid>
+                
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-                <RadioButton x:Name="SelectButton" Style="{StaticResource StyleRadioButton}" GroupName="ButtonsBelow" Checked="SelectButton_Checked" >
-                    Select
+                <RadioButton x:Name="selectButton" 
+                             Style="{StaticResource styleRadioButton}" 
+                             GroupName="buttonsBelow" 
+                             Checked="SelectButton_Checked"
+                             LostFocus="Lost_Focus"
+                             Height="30"
+                             Width="30"
+                             VerticalAlignment="Top"
+                             Grid.Row="0"
+                             Grid.Column="0"
+                             Content="Select" >
                 </RadioButton>
 
-                <RadioButton x:Name="EraserButton"  Style="{StaticResource StyleRadioButton}" GroupName="ButtonsBelow" Checked="EraserButton_Checked" >
-                    <TextBlock Text="Eraser"/>
+                <RadioButton x:Name="eraserButton"  
+                             Style="{StaticResource styleRadioButton}" 
+                             GroupName="buttonsBelow" 
+                             Checked="EraserButton_Checked"
+                             LostFocus="Lost_Focus"
+                             Grid.Row="0"
+                             Grid.Column="0"
+                             Height="30"
+                             Width="30"
+                             VerticalAlignment="Bottom"
+                             Content="Eraser" >
                 </RadioButton>
 
-                <RadioButton x:Name="RoadButton" Style="{StaticResource StyleRadioButton}" GroupName="ButtonsBelow" MouseMove="RoadButton_Checked" MouseLeave="RoadButton_MouseLeave" >
-                    <Image Source="Resources/Roads/roadhor.png" Height="40" Width="40"/>
+                <RadioButton x:Name="roadButton" 
+                             Style="{StaticResource styleRadioButton}" 
+                             GroupName="buttonsBelow" 
+                             Checked="RoadButton_Checked"                             
+                             Click="RoadButton_Checked"
+                             Grid.Row="0"
+                             Grid.Column="1">
+                    <Image Source="Resources/Roads/roadhor.png" Height="50" Width="50"/>
                 </RadioButton>
 
-                <RadioButton x:Name="BendButton" Style="{StaticResource StyleRadioButton}" GroupName="ButtonsBelow" MouseMove="BendButton_Checked" MouseLeave="BendButton_MouseLeave">
-                    <Image Source="Resources/Roads/bendUR.png" Height="40" Width="40"/>
+                <RadioButton x:Name="bendButton" 
+                             Style="{StaticResource styleRadioButton}" 
+                             GroupName="buttonsBelow" 
+                             Checked="BendButton_Checked" 
+                             Click="BendButton_Checked"
+                             Grid.Row="0"
+                             Grid.Column="2">
+                    <Image Source="Resources/Roads/bendUR.png" Height="50" Width="50"/>
                 </RadioButton>
 
-                <RadioButton x:Name="CrossRoadButton" Style="{StaticResource StyleRadioButton}" GroupName="ButtonsBelow" Checked="CrossRoadButton_Checked" >
-                    <Image Source="Resources/Crossroads/Crossroadstandaard.png" Height="40" Width="40"/>
+                <RadioButton x:Name="crossRoadButton" 
+                             Style="{StaticResource styleRadioButton}" 
+                             GroupName="buttonsBelow" 
+                             Checked="CrossRoadButton_Checked" 
+                             LostFocus="Lost_Focus"
+                             Grid.Row="0"
+                             Grid.Column="3">
+                    <Image Source="Resources/Crossroads/Crossroadstandaard.png" Height="50" Width="50"/>
                 </RadioButton>
 
-                <RadioButton x:Name="ForkButton" Style="{StaticResource StyleRadioButton}" GroupName="ButtonsBelow" MouseMove="ForkButton_Checked" MouseLeave="ForkButton_MouseLeave">
-                    <Image Source="Resources/Crossroads/forkup.png" Height="40" Width="40"/>
+                <RadioButton x:Name="forkButton" 
+                             Style="{StaticResource styleRadioButton}" 
+                             GroupName="buttonsBelow" 
+                             Checked="ForkButton_Checked" 
+                             Click="ForkButton_Checked"
+                             Grid.Row="0"
+                             Grid.Column="4">
+                    <Image Source="Resources/Crossroads/forkup.png" Height="50" Width="50"/>
                 </RadioButton>
 
-                <RadioButton x:Name="SpawnerButton" Style="{StaticResource StyleRadioButton}" GroupName="ButtonsBelow" MouseMove="SpawnerButton_Checked" MouseLeave="SpawnerButton_MouseLeave">
-                    <Image Source="Resources/Roads/spawnerright.png" Height="40" Width="40"/>
+                <RadioButton x:Name="spawnerButton" 
+                             Style="{StaticResource styleRadioButton}" 
+                             GroupName="buttonsBelow" 
+                             Checked="SpawnerButton_Checked"
+                             Click="SpawnerButton_Checked"
+                             Grid.Row="0"
+                             Grid.Column="5">
+                    <Image Source="Resources/Roads/spawnerright.png" Height="50" Width="50"/>
                 </RadioButton>
-            </StackPanel>
-
+                
+            </Grid>
         </Border>
     </Grid>
 </UserControl>
