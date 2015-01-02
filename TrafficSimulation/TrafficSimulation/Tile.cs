@@ -30,7 +30,7 @@ namespace TrafficSimulation
         //number of lanes from the highest direction to the lowest direction
         protected int lanesHighToLow;
         //place the tile is on the TileList in SimControl
-        protected int listPlace;
+        public int listPlace;
         //
         protected List<int> directions;
         //
