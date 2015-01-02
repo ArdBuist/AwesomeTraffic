@@ -52,7 +52,6 @@ namespace TrafficSimulation
         public bool Day;
         public bool InfoVisible;
 
-        //SimWindow simwindow;
 
         public SimControl(Size size, SimWindow simulation)
         {
@@ -122,7 +121,6 @@ namespace TrafficSimulation
             {
                 Bitmap tileImage;
                 Tile selectedTile = new SelectTile();
-
                 //Er wordt een blauw randje getekend om de geselecteerde tile
                 selectedTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), CalculateListPlace(mea.X, mea.Y));
                 tileImage = selectedTile.DrawImage();
@@ -142,9 +140,7 @@ namespace TrafficSimulation
                 selectedTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), CalculateListPlace(mea.X, mea.Y));
                 tileImage = selectedTile.DrawImage();
                 tileList[CalculateListPlace(mea.X, mea.Y)] = null;
-
                 this.Invalidate();
-
                 //hier moet nog bij dat de trafficlights ook worden verwijderd
             }
         }
@@ -152,18 +148,13 @@ namespace TrafficSimulation
         private void DrawTile(MouseEventArgs mea)
         {
             Bitmap tileImage;
-            //currentBuildTile = new Crossroad(this);
-            //currentBuildTile = new Fork(this, 1);
-            //currentBuildTile = new Road(4, 2);
-            //currentBuildTile = new Spawner(3);
             currentBuildTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), CalculateListPlace(mea.X, mea.Y));
             tileImage = currentBuildTile.DrawImage();
+            //tile wordt in de lijst van tiles gezet
             tileList[CalculateListPlace(mea.X, mea.Y)] = currentBuildTile;
             //Dit zorgt ervoor dat de kaart geupdate wordt met de nieuwe tile.
             backgroundBC.AddObject(tileImage, mea.X / 100 * 100, mea.Y / 100 * 100);
-            currentBuildTile = CopyCurrentTile();//hier wordt een nieuwe buildTile gemaakt met dezelfde waardes als daarvoor omdat er dan opnieuw een tile ingeklikt kan worden.
-
-            Invalidate();
+            this.Invalidate();
         }
 
         private void MoveMap(MouseEventArgs mea)
@@ -180,30 +171,6 @@ namespace TrafficSimulation
                 }
                 this.Update();
             }
-        }
-
-        //methode maakt een kopie van de huidige tile die net getekend is, zodat dezelfde tile nog een keer getekend kan worden.
-        private Tile CopyCurrentTile()
-        {
-            Tile tile;
-            string tileName = currentBuildTile.name;
-            switch (tileName)
-            {
-                case "Spawner": Spawner currentSpawnerTile = (Spawner)currentBuildTile;
-                    tile = new Spawner(currentSpawnerTile.direction);
-                    break;
-                case "Crossroad": tile = new Crossroad(this);
-                    break;
-                case "Road": Road currentRoadTile = (Road)currentBuildTile;
-                    tile = new Road(currentRoadTile.startDirection, currentRoadTile.endDirection);
-                    break;
-                case "Fork": Fork currentForkTile = (Fork)currentBuildTile;
-                    tile = new Fork(this, currentForkTile.NotDirection);
-                    break;
-                default: tile = new Crossroad(this);
-                    break;
-            }
-            return tile;
         }
         private int CalculateListPlace(int mouseX, int mouseY)
         {
