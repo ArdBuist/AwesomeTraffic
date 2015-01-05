@@ -427,7 +427,7 @@ namespace TrafficSimulation
                 if (moveGround.Contains(newPosition))
                 {
                     backgroundPB.Location = newPosition;
-                    isMoved = false;
+                    isMoved = true;
                 }
                 this.Update();
             }
