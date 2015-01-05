@@ -84,10 +84,11 @@ namespace TrafficSimulation
                 if (t != null)
                 {
                     List<List<Vehicle>> tileVehicles = new List<List<Vehicle>>();
-                    foreach(List<Vehicle> list in t.vehicles)
-                    {
-                        tileVehicles.Add(new List<Vehicle>(list));
-                    }
+                        foreach(List<List<Vehicle>> list in t.vehicles)
+                        {
+                            foreach(List<Vehicle> vehiclelist in list)
+                            tileVehicles.Add(new List<Vehicle>(vehiclelist));
+                        }
                     foreach (List<Vehicle> list in tileVehicles)
                     {
                         foreach (Vehicle v in list)
@@ -105,8 +106,8 @@ namespace TrafficSimulation
                                 v.Update();
                                 Tile nextTile = simControl.tileList[t.listPlace].GetOtherTile(simControl, v.Direction);
                                 if (nextTile != null)
-                                    nextTile.vehicles[v.Lane].Add(v);
-                                simControl.tileList[t.listPlace].vehicles[v.Lane].Remove(v);
+                                    nextTile.AddVehicle(v, v.Direction, v.Lane);
+                                simControl.tileList[t.listPlace].RemoveVehicle(v, v.Direction, v.Lane);
                             }
                         }
                     }

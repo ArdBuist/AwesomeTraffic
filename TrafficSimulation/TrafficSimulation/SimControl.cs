@@ -443,9 +443,12 @@ namespace TrafficSimulation
             {
                 if(t != null)
                 {
-                    foreach(List<Vehicle> l in t.vehicles)
+                    foreach(List<List<Vehicle>> list in t.vehicles)
                     {
-                        l.Clear();
+                        foreach(List<Vehicle> l in list)
+                        {
+                            l.Clear();
+                        }
                     }
                 }
             }

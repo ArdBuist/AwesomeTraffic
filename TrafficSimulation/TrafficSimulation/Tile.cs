@@ -12,7 +12,7 @@ namespace TrafficSimulation
     public abstract class Tile
     {
         //all vehicles on the Tile
-        public List<Vehicle>[] vehicles;
+        public List<List<Vehicle>> [] vehicles;
         //list with adjacent tiles
         protected Tile[] adjacenttileList;
         //position of the tile on the grid
@@ -20,7 +20,7 @@ namespace TrafficSimulation
         //maximum speed allowed on the tile
         public int maxSpeed;
         //is true if vehicles can enter the specific lane
-        protected bool[] access;
+        protected bool[,] access;
         //size of the tile, (100,100)
         public Size size;
         //name of the type of tile
@@ -74,12 +74,17 @@ namespace TrafficSimulation
 
         public void initialize(int totalLanes)
         {
-            vehicles = new List<Vehicle>[totalLanes];
-            access = new bool[totalLanes];
-            for (int i = 0; i < totalLanes; i++)
+            vehicles = new List<List<Vehicle>>[4];
+            access = new bool[4,3];
+            for (int i = 0; i < 4; i++)
             {
-                vehicles[i] = new List<Vehicle>();
-                access[i] = true;
+                vehicles[i] = new List<List<Vehicle>>();
+                for (int j = 0; j < 3; j++)
+                {
+                    access[i, j] = true;
+                    vehicles[i].Add(new List<Vehicle>());
+                }
+
             }
         }
 
@@ -229,52 +234,21 @@ namespace TrafficSimulation
         }
 
         /*komende methodes zijn voor het laten rijden van de auto's*/
-        public void changeLane(Vehicle v, int begin, int eind)
+
+        public void RemoveVehicle(Vehicle v,int Side, int lane)
         {
-            RemoveVehicle(v, begin);
-            AddVehicle(v, eind);
+            List<List<Vehicle>> sideVehicles = vehicles[Side-1];
+            List<Vehicle> laneVehicles = sideVehicles[lane];
+                laneVehicles.Remove(v);
         }
 
-        public void RemoveVehicle(Vehicle v, int lane)
+        public void AddVehicle(Vehicle v,int Side, int lane)
         {
-            vehicles[lane].Remove(v);
+            List<List<Vehicle>> sideVehicles = vehicles[Side-1];
+            List<Vehicle> laneVehicles = sideVehicles[lane];
+            laneVehicles.Add(v);
         }
 
-        public virtual void AddVehicle(Vehicle v, int lane)
-        {
-            vehicles[lane].Add(v);
-        }
-
-        public void CarUpdate(SimControl sim)
-        {
-            foreach (List<Vehicle> list in vehicles)
-            {
-                for (int i = 0; i < list.Count - 1; i++)
-                {
-                    if (list[i] != null)
-                    {
-                        Vehicle v = list[i];
-                        {
-                            if (v.position.X - v.Speed >= this.position.X && v.position.X + v.Speed <= this.position.X + this.size.Width - v.Size.Width - v.Speed &&
-                                v.position.Y - v.Speed >= this.position.Y && v.position.Y + v.Speed <= this.position.Y + this.size.Height - v.Size.Height - v.Speed)
-                            {
-                                v.Update();
-                                sim.vehicleBC.AddObject(v.Bitmap, v.position.X, v.position.Y);
-                            }
-                            else
-                            {
-                                list.Remove(v);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        internal void changeDirection(Vehicle v)
-        {
-            throw new NotImplementedException();
-        }
     }
 
     public class Spawner : Tile
@@ -344,7 +318,7 @@ namespace TrafficSimulation
             spawnLane++;
             spawnLane = spawnLane % lanesOut;
             currentSpawn--;
-            vehicles[spawnLane].Add(createVehicle());
+            AddVehicle(createVehicle(), direction, spawnLane);
         }
 
         public Vehicle createVehicle()
