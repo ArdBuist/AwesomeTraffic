@@ -241,20 +241,21 @@ namespace TrafficSimulation
         //methode om de groene golf te verwijderen
         public void RemoveGreenWave()
         {
-            Bitmap tileImage;
+            Bitmap tileImageGreen;
             //als er een groene golf is, dan worden alle groene golf tiles overgetekend
             for (int i = 0; i < greenWaveRemoveList.Length; i++)
             {
                 if (greenWaveRemoveList[i] != null)
                 {
-                    tileImage = tileList[i].DrawImage();
-                    backgroundBC.AddObject(tileImage, tileList[i].position.X, tileList[i].position.Y);
+                    tileImageGreen = tileList[i].DrawImage();
+                    backgroundBC.AddObject(tileImageGreen, tileList[i].position.X, tileList[i].position.Y);
                     this.Invalidate();
                 }
             }
 
             //counter en de lijst worden weer leeggemaakt
             countGreenWave = 0;
+            oldGreenWaveTile = null;
             for (int t = 0; t < greenWaveList.Length; t++)
             {
                 greenWaveList[t] = null;
