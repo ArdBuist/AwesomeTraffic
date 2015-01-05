@@ -181,7 +181,7 @@ namespace TrafficSimulation
         private void DrawGreenWave(MouseEventArgs mea)
         {
             Bitmap tileImage;            
-            Tile selectedTile = new SelectTile();
+            Tile selectedTile = new SelectGreenWaveTile();
 
             //de geselecteerde tile krijgt waarden
             selectedTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), CalculateListPlace(mea.X, mea.Y));
