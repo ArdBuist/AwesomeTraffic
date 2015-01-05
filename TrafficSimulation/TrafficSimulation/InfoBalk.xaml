@@ -10,41 +10,49 @@
         <!--
      Hier moet nog een linear brush achtig komen zodat je en knoppen een mooie leuk overgang kan laten hebben.   
      -->
-        <Style x:Key="infoBalButtons" TargetType="Button">
-            <Setter Property="Width" Value="70" />
-            <Setter Property="Height" Value="60" />
-            <Setter Property="Background" Value="Green"/>
-            <Setter Property="Margin" Value="5,0,5,0" />
-            <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="VerticalAlignment" Value="Center" />
+        <Style x:Key="infoBalkLabels" TargetType="Label">
+            <Setter Property="Width" Value="auto" />
+            <Setter Property="Height" Value="20" />
+            <Setter Property="VerticalAlignment" Value="Bottom" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Margin" Value="1,1,1,1" />
+            <Setter Property="FontFamily" Value="Verdana"/>
+            <Setter Property="FontSize" Value="8" />
+            <Setter Property="FontWeight" Value="Black" />
         </Style>
 
-        <Style TargetType="{x:Type Button}" x:Key="Buttons">
-            <Setter Property="Width" Value="30" />
-            <Setter Property="Height" Value="30" />
-            <Setter Property="Margin" Value="5,0,5,0" />
+        <Style x:Key="infoBalkListbox" TargetType="ListBox">
+            <Setter Property="Height" Value="70" />
+            <Setter Property="Width" Value="80" />
+            <Setter Property="HorizontalAlignment" Value="Center" /> 
+            <Setter Property="VerticalAlignment" Value="Top"   />
+            <Setter Property="SelectionMode" Value="Single" />
+        </Style>
+        
+        <Style x:Key="infoBalkButtons" TargetType="Button" >
+            <Setter Property="Width" Value="20" />
+            <Setter Property="Height" Value="20" />
+            <Setter Property="Margin" Value="1,1,1,1" />
             <Setter Property="Background" Value="Green"/>
-            <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="VerticalAlignment" Value="Center" />
-
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
-                        <Border Background="White" BorderBrush="Green" BorderThickness="3" CornerRadius="10,0,10,0" x:Name="BorderStyle">
+                        <Border x:Name="BorderStyle"
+                                Background="Green" 
+                                BorderBrush="White" 
+                                BorderThickness="3" 
+                                CornerRadius="5,5,5,5" >
                             <ContentPresenter Margin="{TemplateBinding Padding}" 
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                              ClipToBounds="True" 
-                                              >
-                            </ContentPresenter>
+                                              ClipToBounds="True" />
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter TargetName="BorderStyle" Property="Background" Value="LightGray"/>
-                                <Setter Property="Foreground" Value="Black" />
                                 <Setter Property="Cursor" Value="Hand" />
                             </Trigger>
-
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
@@ -56,11 +64,12 @@
     <Grid x:Name="BasicInfobalk" Background="Green" >
         <Border BorderBrush="Gray" BorderThickness="3" CornerRadius="15,0,15,0" Background="LightGreen" >
             <Grid>
+                
                 <Grid.RowDefinitions>
                     <RowDefinition Height="50"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="50"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="2*"/>
                  </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
@@ -71,18 +80,20 @@
                     <TextBlock FontFamily="Verdana" 
                                FontSize="11" 
                                FontWeight="Black" 
+                               FontStyle="Italic"
                                VerticalAlignment="Center"
                                HorizontalAlignment="Center"
-                               Text="Info over huidig geselecteerde tool"/>
+                               Text="Information about current Lane"/>
                 </Grid>
                 
                 <Grid Grid.Row="1" Grid.Column="0">
 
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="40" />
-                        <RowDefinition Height="40" />
-                        <RowDefinition Height="40" />
-                        <RowDefinition Height="40" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="2*" />
+                       
+                      
                     </Grid.RowDefinitions>
 
                     <Grid.ColumnDefinitions>
@@ -90,7 +101,7 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     
-                    <Grid Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="2">
+                    <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
                         
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
@@ -102,7 +113,7 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                     
-                    <Image x:Name="ImageInfoBalk" 
+                        <Image x:Name="ImageInfoBalk" 
                            Grid.Row="0"
                            Grid.Column="1" 
                            HorizontalAlignment="Center" 
@@ -111,8 +122,8 @@
                            Width="50"
                            Source="Resources\Roads\bendLD.png"/>
                     
-                    <Button x:Name="RotateLeft"  
-                            Style="{StaticResource Buttons}"
+                        <Button x:Name="RotateLeft"  
+                            Style="{StaticResource infoBalkButtons}"
                             Grid.Row="0" 
                             Grid.Column="0"  
                             HorizontalAlignment="Right" 
@@ -121,54 +132,83 @@
                         <TextBlock Text="boe" />
                     </Button>
 
-                    <Button x:Name="RotatedRight" 
-                            Style="{StaticResource Buttons}"
+                        <Button x:Name="RotatedRight" 
+                            Style="{StaticResource infoBalkButtons}"
                             Grid.Row="0" 
                             Grid.Column="2" 
                             HorizontalAlignment="Left" 
                             VerticalAlignment="Bottom" >
                         <TextBlock Text="boe1" />
                     </Button>
+
+                    </Grid>
+                    
+                    <Label x:Name="labelLanes" 
+                           Grid.Row="1" 
+                           Grid.Column="0" 
+                           Style="{StaticResource infoBalkLabels}" 
+                           Content="Amount of Lanes" />
+
+                    <ListBox x:Name="listboxLanes" 
+                             Grid.Row="2" 
+                             Grid.Column="0"
+                             Style="{StaticResource infoBalkListbox}"
+                             >
+                        <ListBoxItem Content="1 Lane" />
+                        <ListBoxItem Content="2 Lanes" />
+                        <ListBoxItem Content="3 Lanes" />
+                    </ListBox>
+                    
+                    <Label x:Name="labelSpeed" 
+                           Grid.Row="1" 
+                           Grid.Column="1" 
+                           Style="{StaticResource infoBalkLabels}" 
+                           Content="Maximum speedlimit" />
+                    
+                    <ListBox x:Name="listboxSpeed" 
+                             Grid.Row="2" 
+                             Grid.Column="1"
+                             Style="{StaticResource infoBalkListbox}" 
+                             >
+                        <ListBoxItem Content="30 km/h" />
+                        <ListBoxItem Content="50 km/h" />
+                        <ListBoxItem Content="80 km/h" />
+                        <ListBoxItem Content="100 km/h" />
+                    </ListBox>
+
+                    <Label x:Name="labelStrategie" Visibility="Hidden"
+                           Grid.Row="1" 
+                           Grid.Column="0" 
+                           Style="{StaticResource infoBalkLabels}"
+                           Content="Choose your traffic strategy" />
+                    
+                    <ListBox x:Name="listboxStrategie" Visibility="Hidden"
+                             Grid.Row="2" 
+                             Grid.Column="0"
+                             Style="{StaticResource infoBalkListbox}" >
+                        <ListBoxItem Content="Tijd" />
+                        <ListBoxItem Content="Wachttijd" />
+                        
+                    </ListBox>
+
+                    <Label x:Name="labelEfficientie" Visibility="Hidden"
+                           Grid.Row="1" 
+                           Grid.Column="1" 
+                           Style="{StaticResource infoBalkLabels}" 
+                           Content="The efficiency of your crossroad" />
+
                 </Grid>
-            </Grid>
                 
                 <Grid Grid.Row="2" Grid.Column="0">
-                    <TextBlock Text="Info over wereld" 
+                    
+                    <TextBlock Text="Information about the World" 
                                 FontFamily="Verdana" 
                                 FontSize="11" 
                                 FontWeight="Black" 
+                                FontStyle="Italic"
                                 VerticalAlignment="Center" 
                                 HorizontalAlignment="Center"/>
                 </Grid>
-                <!-- 
-                <Grid Grid.Row="2" Grid.Column="0">
-
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="30"/>
-                    </Grid.RowDefinitions>
-
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="60"/>
-                    </Grid.ColumnDefinitions>
-
-                    <Label x:Name="Extra" Grid.Row="0" Grid.Column="0" FontFamily="Verdana" FontSize="8" FontWeight="Black" HorizontalContentAlignment="Left" VerticalContentAlignment="Center">
-                        <TextBlock Text="Onzin" />
-                    </Label>
-
-                    <Label x:Name="Lanes" Grid.Row="1" Grid.Column="0" FontFamily="Verdana" FontSize="8" FontWeight="Black" HorizontalContentAlignment="Left" VerticalContentAlignment="Center">
-                        <TextBlock Text="Hoeveel banen?" />
-                    </Label>
-
-                    <Label x:Name="Speed" Grid.Row="2" Grid.Column="0" FontFamily="Verdana" FontSize="8" FontWeight="Black" HorizontalContentAlignment="Left" VerticalContentAlignment="Center">
-                        <TextBlock Text="Wat is de maximumsnelheid?" />
-                    </Label>
-
-
-                </Grid>-->
                 
                 <Grid Grid.Row="3" Grid.Column="0">
                     
@@ -176,26 +216,59 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="4*"/>
+                        <RowDefinition Height="4*"/>
                     </Grid.RowDefinitions>
                     
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
+
+                    <Label x:Name="labelTotalCars" 
+                           Grid.Row="0" 
+                           Grid.Column="0" 
+                           Style="{StaticResource infoBalkLabels}" 
+                           Content="Amount of cars in your world" />
+
+                    <Label x:Name="labelWaitingCars" 
+                           Grid.Row="1" 
+                           Grid.Column="0" 
+                           Style="{StaticResource infoBalkLabels}" 
+                           Content="Amount of cars waiting" />
+
+                    <Label x:Name="labelDrivingCars" 
+                           Grid.Row="2" 
+                           Grid.Column="0" 
+                           Style="{StaticResource infoBalkLabels}"
+                           Content="Amount of cars driving" />
+
+                    <Label x:Name="labelCrossroads" 
+                           Grid.Row="3" 
+                           Grid.Column="0" 
+                           Style="{StaticResource infoBalkLabels}"
+                           Content="Amount of crossroads" />
+
+                    <Label x:Name="labelEfficientieTabel" 
+                           Grid.Row="4" 
+                           Grid.Column="0" 
+                           Style="{StaticResource infoBalkLabels}"
+                           VerticalAlignment="Top"
+                           Content="Efficientie" />
                     
-                    <Button x:Name="groeneGolf" 
+                    <Button x:Name="greenWave" 
                             Click="GreenWave_Click"
-                            Grid.Row="0"
+                            Grid.Row="5"
                             Grid.Column="0"
-                            Style="{StaticResource infoBalButtons}"
-                            Content="Groenegolf aanbrengen"/>
+                            Content="Add Greenwave"/>
                     
-                    <Button x:Name="groeneGolfDelete" 
+                    <Button x:Name="greenWaveDelete" 
                             Click="GreenWaveDelete_Click"
-                            Grid.Row="1"
-                            Grid.Column="0"
-                            Style="{StaticResource infoBalButtons}"
-                            Content="Groenegolf verwijderen"/>
+                            Grid.Row="5"
+                            Grid.Column="1"
+                            Content="Delete Greenwave"/>
+                    
                 </Grid>
                 
             </Grid>

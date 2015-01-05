@@ -7,14 +7,16 @@
              d:DesignHeight="100" d:DesignWidth="400">
     <UserControl.Resources>
     
-        <Style TargetType="{x:Type Button}" x:Key="kleineButtons">
+        <Style TargetType="{x:Type RadioButton}" x:Key="kleineButtons">
             <Setter Property="Width" Value="30" />
             <Setter Property="Height" Value="30" />
             <Setter Property="Margin" Value="1,1,1,1" />
             <Setter Property="Background" Value="Green"/>
+            <Setter Property="HorizontalContentAlignment" Value="center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Button}">
+                    <ControlTemplate TargetType="{x:Type RadioButton}">
                         <Border Background="LightGreen" BorderBrush="Green" BorderThickness="0" CornerRadius="25,25,25,25" x:Name="BorderStyle">
                             <ContentPresenter Margin="{TemplateBinding Padding}" 
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
@@ -42,13 +44,55 @@
             </Setter>
         </Style>
 
-        <Style TargetType="{x:Type Button}" x:Key="groteButtons">
+        <Style TargetType="{x:Type RadioButton}" x:Key="Play">
             <Setter Property="Width" Value="70" />
             <Setter Property="Height" Value="70" />
             <Setter Property="Margin" Value="1,1,1,1" />
             <Setter Property="Background" Value="Green"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalContentAlignment" Value="center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type RadioButton}">
+                        <Border Background="LightGreen" BorderBrush="Green" BorderThickness="0" CornerRadius="50,50,50,50" x:Name="BorderStyle">
+                            <ContentPresenter Margin="{TemplateBinding Padding}" 
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              ClipToBounds="True" 
+                                              >
+                            </ContentPresenter>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="BorderStyle" Property="Background" Value="LightGray"/>
+                                <Setter Property="Foreground" Value="Black" />
+                                <Setter Property="Cursor" Value="Hand" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter TargetName="BorderStyle" Property="Background" Value="White"/>
+                                <Setter Property="BorderBrush" Value="Transparent"/>
+                                <Setter Property="Opacity" Value="0.25"/>
+                                <Setter Property="Cursor" Value="No"/>
+
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="{x:Type Button}" x:Key="Simulatie">
+            <Setter Property="Width" Value="70" />
+            <Setter Property="Height" Value="70" />
+            <Setter Property="Margin" Value="1,1,1,1" />
+            <Setter Property="Background" Value="Green"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalContentAlignment" Value="center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
 
             <Setter Property="Template">
                 <Setter.Value>
@@ -102,54 +146,60 @@
                     <ColumnDefinition Width="90"/>
                 </Grid.ColumnDefinitions>
                              
-                    <Button x:Name="slowDown" 
+                    <RadioButton x:Name="slowDown" 
                             Style="{StaticResource kleineButtons}" 
+                            Checked="SlowDown_Click" 
                             Grid.Row="0"
                             Grid.Column="0"
-                            Click="SlowDown_Click" 
                             VerticalAlignment="Top">
                     <Image Source="Resources/Buttons/speedDown.png" Height="15" Width="15"/>
-                    </Button>
+                    </RadioButton>
 
-                    <Button x:Name="speedUp" 
+                    <RadioButton x:Name="speedUp" 
                             Style="{StaticResource kleineButtons}"  
+                            Checked="SpeedUp_Click"
                             Grid.Row="0"
                             Grid.Column="2"
-                            Click="SpeedUp_Click" 
+                             
                             VerticalAlignment="Top">
                     <Image Source="Resources/Buttons/speedUp.png" Height="15" Width="15"/>
                     
-                    </Button>
-                    <Button x:Name="play" 
-                            Style="{StaticResource groteButtons}" 
+                    </RadioButton>
+                
+                    <RadioButton x:Name="play" 
+                            Style="{StaticResource Play}" 
+                            Checked="Play_Click" 
                             Grid.Row="0"
                             Grid.Column="1"
-                            Click="PlayPauze_Click" >
+                            >
                         <Image Source="Resources/Buttons/play.png" Height="40" Width="40"/>
-                    </Button>
+                    </RadioButton>
                     
-                <Button x:Name="pauze" 
+                    <RadioButton x:Name="pauze" 
                             Style="{StaticResource kleineButtons}" 
+                            Checked="Pauze_Click" 
                             Grid.Row="0"
                             Grid.Column="0"
-                            Click="SlowDown_Click" 
                             VerticalAlignment="Bottom">
                     <Image Source="Resources/Buttons/pauze.png" Height="15" Width="15"/>
                         
-                    </Button>
-                    <Button x:Name="stop" 
+                    </RadioButton>
+                
+                    <RadioButton x:Name="stop" 
                             Style="{StaticResource kleineButtons}" 
+                            Checked="Stop_Clik"
                             Grid.Row="0"
                             Grid.Column="2"
                             VerticalAlignment="Bottom">
                     <Image Source="Resources/Buttons/stop.png" Height="15" Width="15"/>
-                    </Button>
+                    </RadioButton>
                 
                     <Button x:Name="simulationDesign" 
-                            Style="{StaticResource groteButtons}" 
+                            Style="{StaticResource Simulatie}" 
+                            Click="SimulationDesign_Click"
                             Grid.Row="0"
                             Grid.Column="3"
-                            Click="SimulationDesign_Click" >
+                             >
                     <TextBlock Text="Simulation"/>
                 </Button>
                     
