@@ -135,12 +135,6 @@ namespace TrafficSimulation
             {
                 DrawGreenWave(mea);
             }
-
-            if (stateGreenWave == "removeGreenWave")
-            {
-                RemoveGreenWave();
-            }
-
             //host.BackColorTransparent = true;
         }
             #endregion

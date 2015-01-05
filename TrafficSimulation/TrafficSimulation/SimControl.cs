@@ -239,7 +239,7 @@ namespace TrafficSimulation
 
 
         //methode om de groene golf te verwijderen
-        private void RemoveGreenWave()
+        public void RemoveGreenWave()
         {
             Bitmap tileImage;
             //als er een groene golf is, dan worden alle groene golf tiles overgetekend
