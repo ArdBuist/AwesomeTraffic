@@ -117,23 +117,28 @@ namespace TrafficSimulation
             {
                 DrawSelectLine(mea);
             }
-            //als de gum-tool is aangeklikt
 
+            //als de gum-tool is aangeklikt
             if (state == "eraser")
             {
                 removeTile(mea);
             }
-            //als je een weg wil bouwen
 
+            //als je een weg wil bouwen
             if (state == "building")
             {
                 DrawTile(mea);
             }
 
             //als je een route wil aanklikken voor een groene golf
-            if (state == "greenWave") // deze aanpassen, zodat het nummer overeenkomt met nummer voor het selecteren van de groene golf
+            if (stateGreenWave == "building")
             {
                 DrawGreenWave(mea);
+            }
+
+            if (stateGreenWave == "remove")
+            {
+                RemoveGreenWave();
             }
 
             //host.BackColorTransparent = true;

@@ -37,12 +37,13 @@ namespace TrafficSimulation
 
         private void GreenWave_Click(object sender, RoutedEventArgs e)
         {
-
+            windowselect.simwindow.simcontrol.stateGreenWave = "building";
         }
 
         private void GreenWaveDelete_Click(object sender, RoutedEventArgs e)
         {
-
+            windowselect.simwindow.simcontrol.stateGreenWave = "remove";
+            //windowselect.simwindow.simcontrol.state = "noSelect";
         }
 
             }
