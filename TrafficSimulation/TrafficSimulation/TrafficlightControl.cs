@@ -12,7 +12,10 @@ namespace TrafficSimulation
     {
         List<LaneTrafficlight> trafficlightList;
         int NumberOfDirections;
+        Tile road;
         int turn = 0;
+        long lastTime = 0;
+        int secondsPerUpdate = 1;
 
         public TrafficlightControl(SimControl sim, Tile road, int Directions, int NotDirection, int[] NumberOfLanes)
         {
@@ -51,8 +54,12 @@ namespace TrafficSimulation
 
         public void Run()
         {
-            Update(turn % 2);
-            turn++;
+            if (Environment.TickCount - lastTime> secondsPerUpdate*1000)
+            {
+                lastTime = Environment.TickCount;
+                Update(turn % NumberOfDirections);
+                turn++;
+            }
         }
 
         private void Update(int turn)
@@ -62,7 +69,7 @@ namespace TrafficSimulation
             {
                 Color kleur;
                 LaneTrafficlight laneTrafficlight = (LaneTrafficlight)trafficlightList[i];
-                if (i == turn || i - 2 == turn)
+                if (i == turn)
                 {
                     kleur = Color.Green;
                 }

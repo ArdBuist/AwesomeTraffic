@@ -32,6 +32,7 @@ namespace TrafficSimulation
             {
                 //spawners verzamelen
                 spawnerList.Clear();
+                simControl.controlList.Clear();
                 foreach (Tile t in simControl.tileList)
                 {
                     if (t != null && t.name.Equals("Spawner"))
@@ -39,6 +40,8 @@ namespace TrafficSimulation
                         spawnerList.Add((Spawner)t);
                     }
                 }
+                simControl.MakeTrafficControlList();
+
                 ThreadStart threadDelegate = new ThreadStart(Update);
                 thread = new Thread(threadDelegate);
                 thread.Start();

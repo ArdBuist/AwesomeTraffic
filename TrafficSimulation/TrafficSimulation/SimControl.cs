@@ -174,6 +174,7 @@ namespace TrafficSimulation
             //Dit zorgt ervoor dat de kaart geupdate wordt met de nieuwe tile
             backgroundBC.AddObject(tileImage, mea.X / 100 * 100, mea.Y / 100 * 100);
             trafficlightBC.bitmap.MakeTransparent(Color.Green);
+            currentBuildTile = CopyCurrentTile();//hier wordt een nieuwe buildTile gemaakt met dezelfde waardes als daarvoor omdat er dan opnieuw een tile ingeklikt kan worden.
             this.Invalidate();
         }
 
@@ -784,6 +785,54 @@ namespace TrafficSimulation
 
         }
 
-        
+        //methode maakt een kopie van de huidige tile die net getekend is, zodat dezelfde tile nog een keer getekend kan worden.
+        private Tile CopyCurrentTile()
+        {
+            Tile tile;
+            string tileName = currentBuildTile.name;
+            switch (tileName)
+            {
+                case "Spawner": Spawner currentSpawnerTile = (Spawner)currentBuildTile;
+                    tile = new Spawner(currentSpawnerTile.direction);
+                    break;
+                case "Crossroad": tile = new Crossroad(this);
+                    break;
+                case "Road": Road currentRoadTile = (Road)currentBuildTile;
+                    tile = new Road(currentRoadTile.startDirection, currentRoadTile.endDirection);
+                    break;
+                case "Fork": Fork currentForkTile = (Fork)currentBuildTile;
+                    tile = new Fork(this, currentForkTile.NotDirection);
+                    break;
+                default: tile = new Crossroad(this);
+                    break;
+            }
+            return tile;
+        }
+
+        public void MakeTrafficControlList()
+        {
+            foreach (Tile t in tileList)
+            {
+                if (t != null)
+                {
+                    if (t.name == "Crossroad")
+                    {
+                        Crossroad Cr = (Crossroad)t;
+                        if (Cr.control != null)
+                        {
+                            controlList.Add(Cr.control);
+                        }
+                    }
+                    if (t.name == "Fork")
+                    {
+                        Fork f = (Fork)t;
+                        if (f.control != null)
+                        {
+                            controlList.Add(f.control);
+                        }
+                    }
+                }
+            }
+        }
     }
 }

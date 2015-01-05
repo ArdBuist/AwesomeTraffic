@@ -35,5 +35,15 @@ namespace TrafficSimulation
 
         }
 
-    }
+        private void GreenWave_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void GreenWaveDelete_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+            }
 }
