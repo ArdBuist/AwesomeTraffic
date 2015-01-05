@@ -152,9 +152,9 @@ namespace TrafficSimulation
             }
 
             //als je een route wil aanklikken voor een groene golf
-            if (state == "greenzone") // deze aanpassen, zodat het nummer overeenkomt met nummer voor het selecteren van de groene golf
+            if (state == "greenWave") // deze aanpassen, zodat het nummer overeenkomt met nummer voor het selecteren van de groene golf
             {
-                DrawGreenZone(mea);
+                DrawGreenWave(mea);
             }
 
             //host.BackColorTransparent = true;
