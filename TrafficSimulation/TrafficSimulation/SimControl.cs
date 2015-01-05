@@ -245,23 +245,23 @@ namespace TrafficSimulation
             //als er een groene golf is, dan worden alle groene golf tiles overgetekend
             for (int i = 0; i < greenWaveRemoveList.Length; i++)
             {
-                if (greenWaveRemoveList[i] == tileList[i] && greenWaveRemoveList[i] != null)
+                if (greenWaveRemoveList[i] != null)
                 {
-                    Tile selectedTile = new removeTile();
-                    selectedTile.SetValues(this, new Point(tileList[i].position.X / 100 * 100, tileList[i].position.Y / 100 * 100), CalculateListPlace(tileList[i].position.X, tileList[i].position.Y));
-                    tileImage = selectedTile.DrawImage();
-                    backgroundBC.AddObject(tileImage, tileList[i].position.X / 100 * 100, tileList[i].position.Y / 100 * 100);
+                    tileImage = tileList[i].DrawImage();
+                    backgroundBC.AddObject(tileImage, tileList[i].position.X, tileList[i].position.Y);
                     this.Invalidate();
                 }
             }
 
-            //counter voor de green golf komt op 0 voor een volgende groene golf
+            //counter en de lijst worden weer leeggemaakt
             countGreenWave = 0;
-
-            //de lijst van groene golf tiles wordt leeggemaakt
             for (int t = 0; t < greenWaveList.Length; t++)
             {
                 greenWaveList[t] = null;
+            }
+            for (int s = 0; s < greenWaveRemoveList.Length; s++)
+            {
+                greenWaveRemoveList[s] = null;
             }
         }
 
