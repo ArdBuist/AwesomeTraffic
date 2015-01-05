@@ -76,7 +76,7 @@ namespace TrafficSimulation
 
             //Initialisation of the array in which all the positions of the tiles will be saved.
             tileList = new Tile[(this.Size.Height / 100) * (this.Size.Width / 100)];
-     
+
             Simulatie = false;
 
             Simulatie = true;
@@ -91,7 +91,7 @@ namespace TrafficSimulation
 
             //aantal tiles die horizontaal in de bitmap passen
             tilesHorizontal = Size.Width / 100; //nutteloos
-            
+
             //
             //this.DoubleBuffered = true;
             this.Visible = true;
@@ -185,7 +185,7 @@ namespace TrafficSimulation
         //methode om een groene golf te selecteren
         private void DrawGreenWave(MouseEventArgs mea)
         {
-            Bitmap tileImage;            
+            Bitmap tileImage;
             Tile selectedTile = new SelectGreenWaveTile();
 
             //de geselecteerde tile krijgt waarden
@@ -213,9 +213,9 @@ namespace TrafficSimulation
                     }
                 }
             }
-            
+
             //als er geklikt wordt op een tile die een groene golf mag hebben
-            if(ValidSelect(selectedTile, mea.X,mea.Y)==true)
+            if (ValidSelect(selectedTile, mea.X, mea.Y) == true)
             {
                 //tekenen selectielijn om de tile
                 tileImage = selectedTile.DrawImage();
@@ -235,7 +235,7 @@ namespace TrafficSimulation
             }
 
             //als er op een tile wordt geklikt die niet mag en die nog geen groene golf tile is
-            if(ValidSelect(selectedTile, mea.X, mea.Y) == false && greenWaveRemoveList[CalculateListPlace(mea.X, mea.Y)] == null)
+            if (ValidSelect(selectedTile, mea.X, mea.Y) == false && greenWaveRemoveList[CalculateListPlace(mea.X, mea.Y)] == null)
             {
                 //in infoscherm zetten: "U kunt alleen aansluitende wegen of kruispunten selecteren. Kies een andere tegel."
             }
@@ -257,23 +257,23 @@ namespace TrafficSimulation
         {
             Bitmap tileImage;
             //als er een groene golf is, dan worden alle groene golf tiles overgetekend
-                for (int i = 0; i < greenWaveRemoveList.Length;i++)
+            for (int i = 0; i < greenWaveRemoveList.Length; i++)
+            {
+                if (greenWaveRemoveList[i] == tileList[i] && greenWaveRemoveList[i] != null)
                 {
-                    if(greenWaveRemoveList[i] == tileList[i] && greenWaveRemoveList[i] != null)
-                    {
-                        Tile selectedTile = new removeTile();
-                        selectedTile.SetValues(this, new Point(tileList[i].position.X / 100 * 100, tileList[i].position.Y / 100 * 100), CalculateListPlace(tileList[i].position.X, tileList[i].position.Y));
-                        tileImage = selectedTile.DrawImage();
-                        backgroundBC.AddObject(tileImage, tileList[i].position.X / 100 * 100 , tileList[i].position.Y / 100 * 100);
-                        this.Invalidate();
-                    }
+                    Tile selectedTile = new removeTile();
+                    selectedTile.SetValues(this, new Point(tileList[i].position.X / 100 * 100, tileList[i].position.Y / 100 * 100), CalculateListPlace(tileList[i].position.X, tileList[i].position.Y));
+                    tileImage = selectedTile.DrawImage();
+                    backgroundBC.AddObject(tileImage, tileList[i].position.X / 100 * 100, tileList[i].position.Y / 100 * 100);
+                    this.Invalidate();
                 }
+            }
 
             //counter voor de green golf komt op 0 voor een volgende groene golf
             countGreenWave = 0;
 
             //de lijst van groene golf tiles wordt leeggemaakt
-            for(int t = 0; t < greenWaveList.Length; t++)
+            for (int t = 0; t < greenWaveList.Length; t++)
             {
                 greenWaveList[t] = null;
             }
@@ -284,7 +284,7 @@ namespace TrafficSimulation
         private bool ValidSelect(Tile selectedTile, int x, int y)
         {
             //als uit de 4 specifieke ValidSelects true komt, dan is de tile true, anders false
-            if (ValidSelectnoGreenWave(x, y) == true && ValidSelecthasRoad(x, y) == true && ValidSelectnexttoOldGreenWave(x, y) == true 
+            if (ValidSelectnoGreenWave(x, y) == true && ValidSelecthasRoad(x, y) == true && ValidSelectnexttoOldGreenWave(x, y) == true
                 && ValidSelectendsinRoad(x, y) == true)
             {
                 return true;
@@ -293,13 +293,13 @@ namespace TrafficSimulation
             else
             {
                 return false;
-            }            
+            }
         }
 
         //checken of de tile niet al een groene golf tile is. True als het geen groene golf tile is
         private bool ValidSelectnoGreenWave(int x, int y)
         {
-            if (greenWaveRemoveList[CalculateListPlace(x,y)] == null)
+            if (greenWaveRemoveList[CalculateListPlace(x, y)] == null)
             {
                 return true;
             }
@@ -357,30 +357,88 @@ namespace TrafficSimulation
         //checken of de tile aan een uitgang van de eerder geselecteerde groene golf tile ligt. True als dat zo is
         private bool ValidSelectendsinRoad(int x, int y)
         {
-            if(oldGreenWaveTile != null)
-            { 
-            int oldx = oldGreenWaveTile.position.X / 100;
-            int oldy = oldGreenWaveTile.position.Y / 100;
+            if (oldGreenWaveTile != null)
+            {
+                int oldx = oldGreenWaveTile.position.X / 100;
+                int oldy = oldGreenWaveTile.position.Y / 100;
 
-            int newx = x / 100;
-            int newy = y / 100;
+                int newx = x / 100;
+                int newy = y / 100;
 
-            //checken bij t-splitsingen
-            if (oldGreenWaveTile.name == "Fork")
-            {
-                if (oldGreenWaveTile.notDirection != 1 && (oldy - newy == 1 && newx == oldx))
+                //checken bij t-splitsingen
+                if (oldGreenWaveTile.name == "Fork")
                 {
-                    return true;
+                    if (oldGreenWaveTile.notDirection != 1 && (oldy - newy == 1 && newx == oldx))
+                    {
+                        return true;
+                    }
+                    else if (oldGreenWaveTile.notDirection != 2 && (newx - oldx == 1 && newy == oldy))
+                    {
+                        return true;
+                    }
+                    else if (oldGreenWaveTile.notDirection != 3 && (newy - oldy == 1 && newx == oldx))
+                    {
+                        return true;
+                    }
+                    else if (oldGreenWaveTile.notDirection != 2 && (oldx - newx == 1 && newy == oldy))
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+
                 }
-                else if (oldGreenWaveTile.notDirection != 2 && (newx - oldx == 1 && newy == oldy))
+                //checken bij rechte en kromme wegen
+                else if (oldGreenWaveTile.name == "Road")
                 {
-                    return true;
+                    if ((oldGreenWaveTile.startDirection == 1 || oldGreenWaveTile.endDirection == 1) && (oldy - newy == 1 && newx == oldx))
+                    {
+                        return true;
+                    }
+                    else if ((oldGreenWaveTile.startDirection == 2 || oldGreenWaveTile.endDirection == 2) && (newx - oldx == 1 && newy == oldy))
+                    {
+                        return true;
+                    }
+                    else if ((oldGreenWaveTile.startDirection == 3 || oldGreenWaveTile.endDirection == 3) && (newy - oldy == 1 && newx == oldx))
+                    {
+                        return true;
+                    }
+                    else if ((oldGreenWaveTile.startDirection == 4 || oldGreenWaveTile.endDirection == 4) && (oldx - newx == 1 && newy == oldy))
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
-                else if (oldGreenWaveTile.notDirection != 3 && (newy - oldy == 1 && newx == oldx))
+                //checken bij spawners
+                else if (oldGreenWaveTile.name == "Spawner")
                 {
-                    return true;
+                    if (oldGreenWaveTile.direction == 1 && (oldy - newy == 1 && newx == oldx))
+                    {
+                        return true;
+                    }
+                    else if (oldGreenWaveTile.direction == 2 && (newx - oldx == 1 && newy == oldy))
+                    {
+                        return true;
+                    }
+                    else if (oldGreenWaveTile.direction == 3 && (newy - oldy == 1 && newx == oldx))
+                    {
+                        return true;
+                    }
+                    else if (oldGreenWaveTile.direction == 4 && (oldx - newx == 1 && newy == oldy))
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
-                else if (oldGreenWaveTile.notDirection != 2 && (oldx - newx == 1 && newy == oldy))
+                else if (oldGreenWaveTile.name == "Crossroad")
                 {
                     return true;
                 }
@@ -388,66 +446,8 @@ namespace TrafficSimulation
                 {
                     return false;
                 }
-            
-            }
-            //checken bij rechte en kromme wegen
-            else if (oldGreenWaveTile.name == "Road")
-            {
-                if((oldGreenWaveTile.startDirection == 1 || oldGreenWaveTile.endDirection == 1) && (oldy - newy == 1 && newx == oldx))
-                {
-                    return true;
-                }
-                else if((oldGreenWaveTile.startDirection == 2 || oldGreenWaveTile.endDirection == 2) && (newx - oldx == 1 && newy == oldy))
-                {
-                    return true;
-                }
-                else if((oldGreenWaveTile.startDirection == 3 || oldGreenWaveTile.endDirection == 3) && (newy - oldy == 1 && newx == oldx))
-                {
-                    return true;
-                }
-                else if ((oldGreenWaveTile.startDirection == 4 || oldGreenWaveTile.endDirection == 4) && (oldx - newx == 1 && newy == oldy))
-                {
-                    return true;
-                }
-                else
-                { 
-                    return false;
-                }
-            }
-            //checken bij spawners
-            else if(oldGreenWaveTile.name == "Spawner")
-            {
-                if (oldGreenWaveTile.direction == 1 && (oldy - newy == 1 && newx == oldx))
-                {
-                    return true;
-                }
-                else if (oldGreenWaveTile.direction == 2 && (newx - oldx == 1 && newy == oldy))
-                {
-                    return true;
-                }
-                else if (oldGreenWaveTile.direction == 3 && (newy - oldy == 1 && newx == oldx))
-                {
-                    return true;
-                }
-                else if (oldGreenWaveTile.direction == 4 && (oldx - newx == 1 && newy == oldy))
-                {
-                    return true;
-                }
-                else
-                { 
-                    return false;
-                }
-            }
-            else if(oldGreenWaveTile.name == "Crossroad")
-            {
-                return true;
             }
             else
-            {
-                return false;
-            }
-            }
-             else
             {
                 return true;
             }
@@ -476,11 +476,11 @@ namespace TrafficSimulation
 
         public void ClearRoad()
         {
-            foreach(Tile t in tileList)
+            foreach (Tile t in tileList)
             {
-                if(t != null)
+                if (t != null)
                 {
-                    foreach(List<Vehicle> l in t.vehicles)
+                    foreach (List<Vehicle> l in t.vehicles)
                     {
                         l.Clear();
                     }

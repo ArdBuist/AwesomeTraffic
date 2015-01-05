@@ -94,7 +94,7 @@ namespace TrafficSimulation
             {
                 if (TileIsStraight(mouseDownPoint, mea.Location))
                     DrawTile(mea);
-                if (state == "selected")
+                if (state == "selected" || state== "greenWave")
                 {
                     MoveMap(mea);
                 }
@@ -131,12 +131,12 @@ namespace TrafficSimulation
             }
 
             //als je een route wil aanklikken voor een groene golf
-            if (stateGreenWave == "building")
+            if (stateGreenWave == "buildingGreenWave")
             {
                 DrawGreenWave(mea);
             }
 
-            if (stateGreenWave == "remove")
+            if (stateGreenWave == "removeGreenWave")
             {
                 RemoveGreenWave();
             }
