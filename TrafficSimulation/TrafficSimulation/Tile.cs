@@ -45,7 +45,7 @@ namespace TrafficSimulation
 
         public Tile()
         {
-            this.MaxSpeed = 5;
+            this.MaxSpeed = 1;
             adjacenttileList = new Tile[4];
             this.LanesHighToLow = 1;
             this.LanesLowToHigh = 1;
@@ -54,7 +54,10 @@ namespace TrafficSimulation
             directions = new List<int>();
             initialize(lanesHighToLow + lanesLowToHigh);
         }
-
+        public List<int> Directions
+        {
+            get { return this.directions; }
+        }
         public int LanesHighToLow
         {
             get { return this.lanesHighToLow; }
@@ -128,7 +131,7 @@ namespace TrafficSimulation
             {
                 int notSide = (direction + 1) % 4 + 1;
                 Tile tile = GetOtherTile(s, notSide);
-                if (tile.name != "Crossroad")
+                if (tile != null && tile.name != "Crossroad")
                 {
                     if (tile.name == "Fork")
                     {

@@ -167,17 +167,34 @@ namespace TrafficSimulation
         private void DrawTile(MouseEventArgs mea)
         {
             Bitmap tileImage;
-            currentBuildTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), CalculateListPlace(mea.X, mea.Y));
-            tileImage = currentBuildTile.DrawImage();
-            //tile wordt in de lijst van tiles gezet
-            tileList[CalculateListPlace(mea.X, mea.Y)] = currentBuildTile;
-            //Dit zorgt ervoor dat de kaart geupdate wordt met de nieuwe tile
-            backgroundBC.AddObject(tileImage, mea.X / 100 * 100, mea.Y / 100 * 100);
-            trafficlightBC.bitmap.MakeTransparent(Color.Green);
-            currentBuildTile = CopyCurrentTile();//hier wordt een nieuwe buildTile gemaakt met dezelfde waardes als daarvoor omdat er dan opnieuw een tile ingeklikt kan worden.
-            this.Invalidate();
+
+            if (TileConnectionisValid(CalculateListPlace(mea.X, mea.Y)))
+            {
+                currentBuildTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), CalculateListPlace(mea.X, mea.Y));
+                tileImage = currentBuildTile.DrawImage();
+                //tile wordt in de lijst van tiles gezet
+                tileList[CalculateListPlace(mea.X, mea.Y)] = currentBuildTile;
+                //Dit zorgt ervoor dat de kaart geupdate wordt met de nieuwe tile
+                backgroundBC.AddObject(tileImage, mea.X / 100 * 100, mea.Y / 100 * 100);
+                trafficlightBC.bitmap.MakeTransparent(Color.Green);
+                currentBuildTile = CopyCurrentTile();//hier wordt een nieuwe buildTile gemaakt met dezelfde waardes als daarvoor omdat er dan opnieuw een tile ingeklikt kan worden.
+                this.Invalidate();
+            }
         }
 
+        private bool TileConnectionisValid(int listplace)
+        {
+            currentBuildTile.listPlace = listplace;
+            if(currentBuildTile.name == "Crossroad" || currentBuildTile.name == "Fork")
+            {
+                foreach(int direction in currentBuildTile.Directions)
+                {
+                    if (currentBuildTile.GetOtherTile(this, direction) != null && (currentBuildTile.GetOtherTile(this, direction).name == "Crossroad" || currentBuildTile.GetOtherTile(this, direction).name == "Fork") )
+                        return false;
+                }
+            }
+            return true;
+        }
         //methode om een groene golf te selecteren
         private void DrawGreenWave(MouseEventArgs mea)
         {
