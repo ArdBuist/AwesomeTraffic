@@ -188,16 +188,13 @@ namespace TrafficSimulation
             Bitmap tileImage;
             Tile selectedTile = new SelectGreenWaveTile();
 
-            //de geselecteerde tile krijgt waarden
-            selectedTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), CalculateListPlace(mea.X, mea.Y));
-
             //als er op een al geselecteerde groene golf tile wordt geklikt
             if (greenWaveRemoveList[CalculateListPlace(mea.X, mea.Y)] != null)
             {
                 if (countGreenWave != 0)
                 {
-                    //de hiervoor aangeklikte groene golf tile is aangeklikt
-                    if (selectedTile == greenWaveList[(countGreenWave - 1)])
+                    //als de hiervoor aangeklikte groene golf tile is aangeklikt
+                    if (mea.X / 100 * 100 == greenWaveList[(countGreenWave - 1)].position.X && mea.Y / 100 * 100 == greenWaveList[(countGreenWave - 1)].position.Y)
                     {
                         //verwijder deze tile uit de removelist + andere groene golf list en teken de tile opnieuw
                         greenWaveRemoveList[CalculateListPlace(mea.X, mea.Y)] = null;
@@ -218,13 +215,12 @@ namespace TrafficSimulation
             if (ValidSelect(selectedTile, mea.X, mea.Y) == true)
             {
                 //tekenen selectielijn om de tile
+                selectedTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), CalculateListPlace(mea.X, mea.Y));
                 tileImage = selectedTile.DrawImage();
                 backgroundBC.AddObject(tileImage, mea.X / 100 * 100, mea.Y / 100 * 100);
 
-                //de geselecteerde tile wordt toegevoegd aan de lijst om de groene golf te verwijderen
+                //de geselecteerde tile wordt toegevoegd aan de 2 groene golflijsten en de counter wordt opgehoogd
                 greenWaveRemoveList[CalculateListPlace(mea.X, mea.Y)] = selectedTile;
-
-                //de geselecteerde tile wordt toegevoegd aan de lijst met de groene golf tiles
                 greenWaveList[countGreenWave] = selectedTile;
                 countGreenWave++;
 
@@ -240,16 +236,6 @@ namespace TrafficSimulation
                 //in infoscherm zetten: "U kunt alleen aansluitende wegen of kruispunten selecteren. Kies een andere tegel."
             }
         }
-
-        /*
-        Bitmap tileImage;
-                Tile selectedTile = new removeTile();
-                selectedTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), CalculateListPlace(mea.X, mea.Y));
-                tileImage = selectedTile.DrawImage();
-                trafficlightBC.AddObject(tileImage, mea.X / 100 * 100, mea.Y / 100 * 100);
-                tileList[CalculateListPlace(mea.X, mea.Y)] = null;
-                this.Invalidate();
-         * */
 
 
         //methode om de groene golf te verwijderen
