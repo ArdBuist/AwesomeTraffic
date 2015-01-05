@@ -106,28 +106,7 @@ namespace TrafficSimulation
             mouseDownPoint = new Point(0, 0); mouseMovePoint = new Point(0, 0);
 
             /*deze code moet worden gedaan zo als de simulatie wordt gestart.*/
-            foreach (Tile t in tileList)
-            {
-                if (t != null)
-                {
-                    if (t.name == "Crossroad")
-                    {
-                        Crossroad Cr = (Crossroad)t;
-                        if (Cr.control != null)
-                        {
-                            controlList.Add(Cr.control);
-                        }
-                    }
-                    if (t.name == "Fork")
-                    {
-                        Fork f = (Fork)t;
-                        if (f.control != null)
-                        {
-                            controlList.Add(f.control);
-                        }
-                    }
-                }
-            }
+            
             //de eerder geselecteerde tile wordt opnieuw getekend en verwijdert zo de blauwe rand
             if (oldselectedTile != null)
             {
