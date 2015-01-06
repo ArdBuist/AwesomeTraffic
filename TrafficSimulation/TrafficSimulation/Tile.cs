@@ -54,6 +54,10 @@ namespace TrafficSimulation
             directions = new List<int>();
             initialize(lanesHighToLow + lanesLowToHigh);
         }
+        public List<int> Directions
+        {
+            get { return this.directions; }
+        }
 
         public int LanesHighToLow
         {
@@ -326,7 +330,7 @@ namespace TrafficSimulation
             switch (direction)
             {
                 case 1:
-                    return new NormalCar(new Point(this.position.X+50+(spawnLane-1)*16+8), this.position, 10, this.maxSpeed, this.direction, this.spawnLane);
+                    return new NormalCar(this.position, this.position, 10, this.maxSpeed, this.direction, this.spawnLane);
                 case 2:
                     return new NormalCar(this.position, this.position, 10, this.maxSpeed, this.direction, this.spawnLane);
                 case 3:

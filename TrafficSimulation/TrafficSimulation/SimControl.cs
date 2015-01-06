@@ -772,7 +772,7 @@ namespace TrafficSimulation
             currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
             tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
             backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
-            currentBuildTile.LanesHighToLow = 2;
+            currentBuildTile.LanesHighToLow = 3;
             currentBuildTile.UpdateOtherTiles(this, 0);
             currentBuildTile = new Fork(this, 2);
             roadX = 11;

@@ -93,21 +93,33 @@ namespace TrafficSimulation
                     {
                         foreach (Vehicle v in list)
                         {
+
+                            if (VehicleIsOnEndSpawner(v,t))
+                            {
+                                simControl.tileList[t.listPlace].RemoveVehicle(v, v.Direction, v.Lane);
+                                break;
                             
-                            //t.changeDirection(v);
+                            }
                             simControl.vehicleBC.AddObject(v.Bitmap, v.position.X, v.position.Y);
                             if (v.position.X-v.Speed>= t.position.X && v.position.X+v.Speed<= t.position.X + t.size.Width&&
-                                v.position.Y-v.Speed>= t.position.Y && v.position.Y+v.Speed<= t.position.Y + t.size.Height)
+                                v.position.Y-v.Speed>= t.position.Y && v.position.Y+v.Speed<= t.position.Y + t.size.Height )
                             {
                                 v.Update();
                             }
                             else
                             {
-                                v.Update();
-                                Tile nextTile = simControl.tileList[t.listPlace].GetOtherTile(simControl, v.Direction);
-                                if (nextTile != null)
-                                    nextTile.AddVehicle(v, v.Direction, v.Lane);
-                                simControl.tileList[t.listPlace].RemoveVehicle(v, v.Direction, v.Lane);
+                                //if (VehicleIsOnSpawner(v, t)==false)
+                                {
+                                    
+                                }
+                                //else
+                                {
+                                    v.Update();
+                                    Tile nextTile = simControl.tileList[t.listPlace].GetOtherTile(simControl, v.Direction);
+                                    if (nextTile != null)
+                                        nextTile.AddVehicle(v, v.Direction, v.Lane);
+                                    simControl.tileList[t.listPlace].RemoveVehicle(v, v.Direction, v.Lane);
+                                }
                             }
                         }
                     }
@@ -119,6 +131,34 @@ namespace TrafficSimulation
                 tL.Run();
             }
             simControl.Invalidate();
+        }
+        private bool VehicleIsOnEndSpawner(Vehicle v, Tile t)
+        {
+            if(t.name == "Spawner" && t.Directions.Contains((v.Direction+1)%4+1))
+            {
+                
+                switch (v.Direction)
+                {
+                    case 1: if (v.position.Y - v.Speed <= t.position.Y + 30)
+                            return true;
+                        break;
+                    case 2: if (v.position.X + v.Speed+15 >= t.position.X + 70)
+                            return true;
+                        break;
+                    case 3: if (v.position.Y + v.Speed+15 >= t.position.Y + 70)
+                            return true;
+                        break;
+                    case 4: if (v.position.X - v.Speed <= t.position.X + 30)
+                            return true;
+                        break;
+
+                }
+                              
+               {
+
+               }
+            }
+            return false;
         }
     }
 }
