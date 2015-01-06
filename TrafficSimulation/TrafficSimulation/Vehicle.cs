@@ -17,6 +17,8 @@ namespace TrafficSimulation
         protected int speed;
         protected int direction;
         protected int lane;
+        protected static System.Security.Cryptography.RNGCryptoServiceProvider rnd;
+
 
         public Vehicle(Point pos, Point dest, int len, int speed, int direction, int lane)
         {
@@ -26,6 +28,7 @@ namespace TrafficSimulation
             this.speed = speed;
             this.direction = direction;
             this.lane = lane;
+            rnd = new System.Security.Cryptography.RNGCryptoServiceProvider();
         }
 
         public Point Destination { get { return destination; } }
@@ -65,8 +68,10 @@ namespace TrafficSimulation
             Rectangle destCar;
             Bitmap carBitmap;
             {
-                Random rnd = new Random();
-                string carName = "car" + rnd.Next(1,5);
+                Byte[] random;
+                random = new Byte[1];
+                rnd.GetBytes(random);   
+                string carName = "car" + (((int)random[0]%5)+1);
                 carBitmap = (Bitmap)Properties.Resources.ResourceManager.GetObject(carName);
                 bitmap = new Bitmap(carBitmap.Width + speed, carBitmap.Height);
                 gr = Graphics.FromImage(bitmap);

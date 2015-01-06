@@ -45,7 +45,7 @@ namespace TrafficSimulation
 
         public Tile()
         {
-            this.MaxSpeed = 5;
+            this.MaxSpeed = 1;
             adjacenttileList = new Tile[4];
             this.LanesHighToLow = 1;
             this.LanesLowToHigh = 1;
