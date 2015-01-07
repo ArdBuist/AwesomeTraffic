@@ -20,6 +20,7 @@ namespace TrafficSimulation
         WindowSelect windowselect;
 		AboutWindow about;
         InterfaceStart StartScherm;
+		Tile[] tempTileList = new Tile[300];
 
         public StartWindow(Size size, WindowSelect sim)
         {
@@ -48,7 +49,96 @@ namespace TrafficSimulation
 		// Klik op "Open"
 		public void Open_Click()
 		{
-			
+			Stream myStream = null;
+			OpenFileDialog openFileDialog1 = new OpenFileDialog();
+
+			//openFileDialog1.InitialDirectory = "c:\\";
+			openFileDialog1.Filter = "TrafficSimulation files (*.trs)|*.trs";
+			openFileDialog1.FilterIndex = 1;
+			openFileDialog1.RestoreDirectory = true;
+
+			if (openFileDialog1.ShowDialog() == DialogResult.OK)
+			{
+				try
+				{
+					if ((myStream = openFileDialog1.OpenFile()) != null)
+					{
+						using (myStream)
+						{
+							StreamReader r = new StreamReader(myStream);
+
+							while (r.Peek() >= 0)
+							{
+								String t = r.ReadLine();
+
+								// Char die de data splitst
+								char[] splitChar = { '_' };
+
+								// Array van info over de tile
+								string[] information = t.Split(splitChar);
+
+								Bitmap tileImage;
+								Tile currentBuildTile;
+								int roadX;
+								int roadY;
+
+
+								int tilesHorizontal = Size.Width / 100;
+
+								switch (information[0])
+								{
+									case "TrafficSimulation.Fork":
+										currentBuildTile = new Fork(windowselect.simwindow.simcontrol, Convert.ToInt32(information[1]));
+										roadX = Convert.ToInt32(information[3]) / 100;
+										roadY = Convert.ToInt32(information[4]) / 100;
+										tempTileList[Convert.ToInt32(information[2])] = currentBuildTile;
+										currentBuildTile.SetValues(windowselect.simwindow.simcontrol, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
+										tileImage = currentBuildTile.DrawImage();
+										windowselect.simwindow.simcontrol.backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+										break;
+
+									case "TrafficSimulation.Road":
+										currentBuildTile = new Road(Convert.ToInt32(information[1]), Convert.ToInt32(information[2]));
+										roadX = Convert.ToInt32(information[4]) / 100;
+										roadY = Convert.ToInt32(information[5]) / 100;
+										tempTileList[Convert.ToInt32(information[3])] = currentBuildTile;
+										currentBuildTile.SetValues(windowselect.simwindow.simcontrol, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
+										tileImage = currentBuildTile.DrawImage();
+										windowselect.simwindow.simcontrol.backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+										break;
+
+									case "TrafficSimulation.Crossroad":
+										currentBuildTile = new Crossroad(windowselect.simwindow.simcontrol);
+										roadX = Convert.ToInt32(information[2]) / 100;
+										roadY = Convert.ToInt32(information[3]) / 100;
+										tempTileList[Convert.ToInt32(information[1])] = currentBuildTile;
+										currentBuildTile.SetValues(windowselect.simwindow.simcontrol, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
+										tileImage = currentBuildTile.DrawImage();
+										windowselect.simwindow.simcontrol.backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+										break;
+
+									case "TrafficSimulation.Spawner":
+										currentBuildTile = new Spawner(Convert.ToInt32(information[1]));
+										roadX = Convert.ToInt32(information[3]) / 100;
+										roadY = Convert.ToInt32(information[4]) / 100;
+										tempTileList[Convert.ToInt32(information[2])] = currentBuildTile;
+										currentBuildTile.SetValues(windowselect.simwindow.simcontrol, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
+										tileImage = currentBuildTile.DrawImage();
+										windowselect.simwindow.simcontrol.backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+										break;
+								}
+							}
+						}
+					}
+					windowselect.New();
+				}
+
+				// Throw exception when something is wrong
+				catch (Exception ex)
+				{
+					MessageBox.Show("Error: Could not read file from disk. Original error: " + ex.Message);
+				}
+			}
 		}
 
 		// Klik op "Option"
