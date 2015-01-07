@@ -263,6 +263,7 @@ namespace TrafficSimulation
         private int spawnLane;//Lane waar de auto gespawnt gaat worden
         private double currentSpawn;//Nummer waarin word opgeslagen hoever de spawner is met het spawnen van een nieuwe auto
         private double spawnPerSec;//Aantal wat elke gametick bij de currentspawn word opgetelt
+        protected static System.Security.Cryptography.RNGCryptoServiceProvider rnd;//om de auto's op willekeurige tijden te laten spawnen
 
         public Spawner(int direction)
         {
@@ -275,6 +276,7 @@ namespace TrafficSimulation
             this.spawnPerSec = 0.05;
             directions.Add(direction);
             currentSpawn = 1;
+            rnd = new System.Security.Cryptography.RNGCryptoServiceProvider();
         }
 
         public double CurrentSpawn { get { return currentSpawn; } }
@@ -318,11 +320,17 @@ namespace TrafficSimulation
         public void Spawn()
         {
             //nog onder voorbehoud, weet nog niet zeker of deze code werkt voor elke wegbreedte, werkt samen met Simulation.CreateVehicle
-
-            spawnLane++;
-            spawnLane = spawnLane % lanesOut;
+            Byte[] random;
+            random = new Byte[1];
+            rnd.GetBytes(random);
+            if (random[0] % 2 == 0)
+            {
+                spawnLane++;
+                spawnLane = random[0] % lanesOut;
+                //currentSpawn--;
+                AddVehicle(createVehicle(), direction, spawnLane);
+            }
             currentSpawn--;
-            AddVehicle(createVehicle(), direction, spawnLane);
         }
 
         public Vehicle createVehicle()
