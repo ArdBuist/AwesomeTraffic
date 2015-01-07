@@ -90,7 +90,7 @@ namespace TrafficSimulation
 
         private void MouseMoveEvent(object o, MouseEventArgs mea)
         {
-            if (mouseDownPoint != new Point(0, 0)&&simulation.simStarted==false)
+            if (mouseDownPoint != new Point(0, 0))
             {
                 
                 if (state == "selected")
