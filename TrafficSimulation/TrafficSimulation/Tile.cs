@@ -325,9 +325,7 @@ namespace TrafficSimulation
             rnd.GetBytes(random);
             if (random[0] % 2 == 0)
             {
-                spawnLane++;
                 spawnLane = random[0] % lanesOut;
-                //currentSpawn--;
                 AddVehicle(createVehicle(), direction, spawnLane);
             }
             currentSpawn--;
