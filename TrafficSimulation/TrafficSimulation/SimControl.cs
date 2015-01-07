@@ -118,7 +118,7 @@ namespace TrafficSimulation
         */
         private bool TileIsStraight(Point mouseDown, Point mousePoint)
         {
-            if (currentBuildTile.name == "Road")
+            if (currentBuildTile.name == "Road" && state == "building")
             {
                 Road tile = (Road)currentBuildTile;
                 if ((tile.startDirection + tile.endDirection) % 2 == 0)

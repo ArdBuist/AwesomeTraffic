@@ -92,9 +92,12 @@ namespace TrafficSimulation
         {
             if (mouseDownPoint != new Point(0, 0)&&simulation.simStarted==false)
             {
-                if (TileIsStraight(mouseDownPoint, mea.Location))
-                    DrawTile(mea);
-                if (state == "selected")
+				if (TileIsStraight(mouseDownPoint, mea.Location))
+				{
+					DrawTile(mea);
+				}
+
+                else if (state == "selected")
                 {
                     MoveMap(mea);
                 }
@@ -106,35 +109,37 @@ namespace TrafficSimulation
             mouseDownPoint = new Point(0, 0); mouseMovePoint = new Point(0, 0);
 
             /*deze code moet worden gedaan zo als de simulatie wordt gestart.*/
-            
-            //de eerder geselecteerde tile wordt opnieuw getekend en verwijdert zo de blauwe rand
-            if (oldselectedTile != null)
-            {
-                backgroundBC.AddObject(oldselectedTile.DrawImage(), oldselectedTile.position.X, oldselectedTile.position.Y);
-                oldselectedTile = null;
-            }
-            if (state == "selected") //als de select-tool is aangeklikt
-            {
-                DrawSelectLine(mea);
-            }
-            //als de gum-tool is aangeklikt
 
-            if (state == "eraser")
-            {
-                removeTile(mea);
-            }
-            //als je een weg wil bouwen
+			// De eerder geselecteerde tile wordt opnieuw getekend en verwijdert zo de blauwe rand
+			if (oldselectedTile != null)
+			{
+				backgroundBC.AddObject(oldselectedTile.DrawImage(), oldselectedTile.position.X, oldselectedTile.position.Y);
+				oldselectedTile = null;
+			}
 
-            if (state == "building")
-            {
-                DrawTile(mea);
-            }
+			// Als de select-tool is aangeklikt
+			if (state == "selected")
+			{
+				DrawSelectLine(mea);
+			}
 
-            //als je een route wil aanklikken voor een groene golf
-            if (state == "greenWave") // deze aanpassen, zodat het nummer overeenkomt met nummer voor het selecteren van de groene golf
-            {
-                DrawGreenWave(mea);
-            }
+			// Als de gum-tool is aangeklikt
+			if (state == "eraser")
+			{
+				removeTile(mea);
+			}
+
+			// Als je een weg wil bouwen
+			if (state == "building")
+			{
+				DrawTile(mea);
+			}
+
+			// Als je een route wil aanklikken voor een groene golf
+			if (state == "greenWave") // deze aanpassen, zodat het nummer overeenkomt met nummer voor het selecteren van de groene golf
+			{
+				DrawGreenWave(mea);
+			}
 
             //host.BackColorTransparent = true;
         }

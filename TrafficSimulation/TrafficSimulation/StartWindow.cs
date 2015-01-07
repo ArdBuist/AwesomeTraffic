@@ -99,12 +99,15 @@ namespace TrafficSimulation
 
 									case "TrafficSimulation.Road":
 										currentBuildTile = new Road(Convert.ToInt32(information[1]), Convert.ToInt32(information[2]));
+										currentBuildTile.LanesHighToLow = Convert.ToInt32(information[6]);
+										currentBuildTile.LanesLowToHigh = Convert.ToInt32(information[7]);
 										roadX = Convert.ToInt32(information[4]) / 100;
 										roadY = Convert.ToInt32(information[5]) / 100;
 										tempTileList[Convert.ToInt32(information[3])] = currentBuildTile;
 										currentBuildTile.SetValues(windowselect.simwindow.simcontrol, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
 										tileImage = currentBuildTile.DrawImage();
 										windowselect.simwindow.simcontrol.backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+
 										break;
 
 									case "TrafficSimulation.Crossroad":

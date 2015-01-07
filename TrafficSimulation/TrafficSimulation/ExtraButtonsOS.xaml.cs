@@ -55,7 +55,6 @@ namespace TrafficSimulation
             windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.ClientSize);
         }
         
-
         //klikmethode rechte weg 1 naar 3 (verticaal)
         private void Roadver_Checked(object sender, RoutedEventArgs e)
         {
@@ -66,8 +65,7 @@ namespace TrafficSimulation
             this.roadver.Visibility = Visibility.Hidden;
             windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.ClientSize);
 
-            windowselect.simwindow.simcontrol.state = "building";
-            
+            windowselect.simwindow.simcontrol.state = "building";           
         }
 
         //klikmethode rechte weg 2 naar 4 (horizontaal)

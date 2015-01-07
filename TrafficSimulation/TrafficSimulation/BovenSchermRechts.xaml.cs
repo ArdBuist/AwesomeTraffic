@@ -128,8 +128,9 @@ namespace TrafficSimulation
 										tile.endDirection + "_" +	// 2 Eind richting
 										tile.listPlace + "_" +		// 3 Plaats in de lijst
 										tile.position.X + "_" +		// 4 X positie
-										tile.position.Y);			// 5 Y positie
-									// Aantal banen
+										tile.position.Y + "_" +		// 5 Y positie
+										tile.LanesHighToLow + "_" + // 6 Wegen hoog, laag
+										tile.LanesLowToHigh);		// 7 Wegen laag, hoog
 									break;
 
 								// Schrijf een regel voor een spawner
