@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -59,11 +60,99 @@ namespace TrafficSimulation
             windowselect.Start();
         }
 
-        private void Save_Click(object sender, RoutedEventArgs e)
-        {
+		private void Save_Click(object sender, RoutedEventArgs e)
+		{
+			try
+			{
+				System.Windows.Forms.SaveFileDialog saveDialog = new System.Windows.Forms.SaveFileDialog();
 
-        }
+				int number = 1;
+				string filename = "Traffic" + number.ToString();
 
+				saveDialog.DefaultExt = ".trs";
+				/*
+				while (File.Exists(filename))
+				{
+					number++;
+					filename = "Traffic" + number.ToString();
+				}
+				*/
+
+				saveDialog.FileName = filename;
+
+				// Zorgt ervoor dat je een bestand kan overschrijven
+				saveDialog.OverwritePrompt = true;
+
+				// Is er op "Opslaan" gedrukt?
+				if (saveDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+				{
+					StreamWriter file = new StreamWriter(@saveDialog.FileName);
+					file.AutoFlush = true;
+
+					// Ga alle tiles langs
+					foreach (Tile tile in windowselect.simwindow.simcontrol.tileList)
+					{
+						// Als de tile een weg bevat
+						if (tile != null)
+						{
+							String currenttile = tile.name;
+
+							switch (currenttile)
+							{
+								case "Fork":
+									file.WriteLine(
+										tile + "_" +				// 0 Welke tile
+										tile.notDirection + "_" +	// 1 De not direction
+										tile.listPlace + "_" +		// 2 Plaats in de lijst
+										tile.position.X + "_" +		// 3 X positie
+										tile.position.Y);			// 4 Y positie
+									// Aantal banen
+									break;
+
+								//Schrijf een regel voor een kruispunt
+								case "Crossroad":
+									file.WriteLine(
+										tile + "_" +				// 0 Welke tile
+										tile.listPlace + "_" +		// 1 Plaats in de lijst
+										tile.position.X + "_" +		// 2 X positie
+										tile.position.Y);			// 3 Y positie
+									// Aantal banen
+									break;
+								// Aantal banen
+
+								// Schrijf een regel voor bocht of rechte weg
+								case "Road":
+									file.WriteLine(
+										tile + "_" +				// 0 Welke tile
+										tile.startDirection + "_" +	// 1 Begin richting
+										tile.endDirection + "_" +	// 2 Eind richting
+										tile.listPlace + "_" +		// 3 Plaats in de lijst
+										tile.position.X + "_" +		// 4 X positie
+										tile.position.Y);			// 5 Y positie
+									// Aantal banen
+									break;
+
+								// Schrijf een regel voor een spawner
+								case "Spawner":
+									file.WriteLine(
+										tile + "_" +				// 0 Welke tile
+										tile.direction + "_" +		// 1 Richting
+										tile.listPlace + "_" +		// 2 Plaats in de lijst
+										tile.position.X + "_" +		// 3 X positie
+										tile.position.Y);			// 4 Y positie
+									// Aantal banen
+									break;
+							}
+						}
+					}
+				}
+			}
+			// Throw exception
+			catch (Exception exp)
+			{
+				MessageBox.Show("" + exp);
+			}
+		}	
         private void Help_Click(object sender, RoutedEventArgs e)
         {
 
