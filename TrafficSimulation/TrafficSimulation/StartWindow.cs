@@ -30,12 +30,14 @@ namespace TrafficSimulation
 			
             StartHost = new ElementHost()
             {
-                Height = 300,
-                Width = 300,
+                Height = 1000,
+                Width = 1000,
                 Child = StartScherm
             };
 			// Voeg de startknoppen toe
+            
             this.Controls.Add(StartHost);
+            StartHost.Left = (this.Size.Width-StartHost.Size.Width) / 2;
         }
 
 		// Klik op "Nieuw"
