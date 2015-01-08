@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-			 d:DesignWidth="300" d:DesignHeight="300">  
+			 d:DesignWidth="300" d:DesignHeight="300">
     <UserControl.Resources>
         <!--
      Hier moet nog een linear brush achtig komen zodat je en knoppen een mooie leuk overgang kan laten hebben.   
@@ -48,10 +48,21 @@
 
     </UserControl.Resources>
 
-    <Grid x:Name="Buttons" Background="Green">
+    <Grid x:Name="Buttons" RenderTransformOrigin="0.5,0.5" OpacityMask="{DynamicResource {x:Static SystemColors.AppWorkspaceBrushKey}}" >
+        <Grid.Background>
+            <ImageBrush ImageSource="TrafficExpertLogo.png" TileMode="Tile"/>
+        </Grid.Background>
+        <Grid.RenderTransform>
+            <TransformGroup>
+                <ScaleTransform ScaleY="1" ScaleX="1"/>
+                <SkewTransform AngleY="0" AngleX="0"/>
+                <RotateTransform Angle="0"/>
+                <TranslateTransform/>
+            </TransformGroup>
+        </Grid.RenderTransform>
         <Grid.ColumnDefinitions>
         </Grid.ColumnDefinitions>
-        
+
         <StackPanel Orientation="Vertical" Grid.Column="1" VerticalAlignment="Center">
             <Button Style="{StaticResource StartSchermButtons}" Click="New_Click">New</Button>
             <Button Style="{StaticResource StartSchermButtons}" Click="Open_Click">Open</Button>

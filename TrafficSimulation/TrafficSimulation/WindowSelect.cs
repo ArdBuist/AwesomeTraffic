@@ -46,10 +46,10 @@ namespace TrafficSimulation
 
             // Openen van het startscherm
             startwindow = new StartWindow(screensize, this);
-            this.BackColor = Color.Green;
+            this.BackColor = Color.Black;
 
-            startwindow.Left = ((widthstartscreen - 300) / 2);
-            startwindow.Top = ((heightstartscreen - 300) / 2);
+            //startwindow.Left = ((widthstartscreen - 300) / 2);
+            //startwindow.Top = ((heightstartscreen - 300) / 2);
             this.Controls.Add(startwindow);
         }
         public void New()
@@ -66,6 +66,11 @@ namespace TrafficSimulation
         {
             simwindow.simcontrol.simulation.StartSim();
             this.Close();
+        }
+
+        public void ShowMessage(string message)
+        {
+            MessageBox.Show(message);
         }
     }
 }

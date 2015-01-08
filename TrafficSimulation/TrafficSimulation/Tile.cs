@@ -58,6 +58,7 @@ namespace TrafficSimulation
         {
             get { return this.directions; }
         }
+
         public int LanesHighToLow
         {
             get { return this.lanesHighToLow; }
@@ -262,6 +263,7 @@ namespace TrafficSimulation
         private int spawnLane;//Lane waar de auto gespawnt gaat worden
         private double currentSpawn;//Nummer waarin word opgeslagen hoever de spawner is met het spawnen van een nieuwe auto
         private double spawnPerSec;//Aantal wat elke gametick bij de currentspawn word opgetelt
+        protected static System.Security.Cryptography.RNGCryptoServiceProvider rnd;//om de auto's op willekeurige tijden te laten spawnen
 
         public Spawner(int direction)
         {
@@ -274,6 +276,7 @@ namespace TrafficSimulation
             this.spawnPerSec = 0.05;
             directions.Add(direction);
             currentSpawn = 1;
+            rnd = new System.Security.Cryptography.RNGCryptoServiceProvider();
         }
 
         public double CurrentSpawn { get { return currentSpawn; } }
@@ -316,12 +319,16 @@ namespace TrafficSimulation
 
         public void Spawn()
         {
-            //nog onder voorbehoud, weet nog niet zeker of deze code werkt voor elke wegbreedte, werkt samen met Simulation.CreateVehicle
-
-            spawnLane++;
-            spawnLane = spawnLane % lanesOut;
+            //spawnt op een willekeurig moment een auto in een willekeurige baan.
+            Byte[] random;
+            random = new Byte[1];
+            rnd.GetBytes(random);
+            if (random[0] % 3 == 0)
+            {
+                spawnLane = ((random[0]*10)/8) % lanesOut;
+                AddVehicle(createVehicle(), direction, spawnLane);
+            }
             currentSpawn--;
-            AddVehicle(createVehicle(), direction, spawnLane);
         }
 
         public Vehicle createVehicle()
@@ -329,7 +336,7 @@ namespace TrafficSimulation
             switch (direction)
             {
                 case 1:
-                    return new NormalCar(new Point(this.position.X+50+(spawnLane-1)*16+8), this.position, 10, this.maxSpeed, this.direction, this.spawnLane);
+                    return new NormalCar(this.position, this.position, 10, this.maxSpeed, this.direction, this.spawnLane);
                 case 2:
                     return new NormalCar(this.position, this.position, 10, this.maxSpeed, this.direction, this.spawnLane);
                 case 3:
@@ -344,10 +351,7 @@ namespace TrafficSimulation
 
         public override bool doesConnect(int side)
         {
-            int direction = side + 2;
-            if (direction > 4)
-                direction -= 4;
-            if (direction == this.direction)
+            if ((side + 1) % 4 + 1 == this.direction)
                 return true;
             return false;
         }
@@ -494,8 +498,7 @@ namespace TrafficSimulation
 
         public override bool doesConnect(int side)
         {
-            int direction = (side + 1) % 4 + 1;
-            if (direction != notDirection)
+            if ((side + 1) % 4 + 1 != notDirection)
                 return true;
             return false;
         }

@@ -64,6 +64,7 @@
     <Compile Include="BovenSchermLinks.xaml.cs">
       <DependentUpon>BovenSchermLinks.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Methods.cs" />
     <Compile Include="WindowSelect.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -145,13 +146,17 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\TrafficExpertLogo.png" />
+    <Content Include="Resources\TrafficExpertLogo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Resource Include="Resources\Buttons\pauze.png" />
     <Resource Include="Resources\Buttons\play.png" />
     <Resource Include="Resources\Buttons\speedDown.png" />
     <Resource Include="Resources\Buttons\speedUp.png" />
     <Resource Include="Resources\Buttons\stop.png" />
-    <Content Include="TrafficExpertLogo.png" />
+    <Content Include="TrafficExpertLogo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Resource Include="Resources\Roads\bendLD.png" />
     <Resource Include="Resources\Roads\bendLU.PNG" />
     <Resource Include="Resources\Roads\bendRD.png" />

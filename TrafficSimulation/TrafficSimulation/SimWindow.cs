@@ -14,7 +14,7 @@ namespace TrafficSimulation
     public partial class SimWindow : UserControl
     {
         SimControl sim;
-        WindowSelect windowselect;
+        public WindowSelect windowselect;
         public ElementHost bovenHostLinks, bovenHostRechts, onderHost, infoHost, extraButtonsHost;
         public BovenSchermLinks BovenSchermLinks;
         public BovenSchermRechts BovenSchermRechts;
@@ -23,6 +23,7 @@ namespace TrafficSimulation
         public OnderScherm OnderScherm;
         public int hoogteBovenBalk, hoogteOnderBalk, hoogteInfoBalk,  hoogteScherm, yLocatieOnderBalk, xLocatieOnderBalk;
         public int breedteInfoBalk, breedteScherm, breedteSchermLink, breedteSchermRechts, breedteOnderBalk;
+
         public SimWindow(Size size, WindowSelect windowselect)
         {
             this.Size = size;
