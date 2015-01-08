@@ -15,6 +15,7 @@ namespace TrafficSimulation
 {
     public partial class SimControl : UserControl
     {
+        public SimWindow simwindow;
         //BitmapControls used for the bitmaps in which the background, vehicles and trafficlights are stored
         public BitmapControl backgroundBC, trafficlightBC, vehicleBC;
         //PictureBox 
@@ -62,6 +63,7 @@ namespace TrafficSimulation
 
         public SimControl(Size size, SimWindow simulation)
         {
+            simwindow = simulation;
             //methode in the partial class creating all the objects needed for the simulation
             this.Size = new Size(2000, 1500);//has to be changed to the windowsize
             /* 
@@ -135,15 +137,15 @@ namespace TrafficSimulation
         //tekent een blauwe lijn om de geselecteerde tile
         private void DrawSelectLine(MouseEventArgs mea)
         {
-            if (tileList[CalculateListPlace(mea.X, mea.Y)] != null)
+            if (tileList[Methods.CalculateListPlace(this,mea.X, mea.Y)] != null)
             {
                 Bitmap tileImage;
                 Tile selectedTile = new SelectTile();
                 //Er wordt een blauw randje getekend om de geselecteerde tile
-                selectedTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), CalculateListPlace(mea.X, mea.Y));
+                selectedTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), Methods.CalculateListPlace(this,mea.X, mea.Y));
                 tileImage = selectedTile.DrawImage();
                 //de huidige selectedTile wordt de oude selectedtile voor de volgende keer
-                oldselectedTile = tileList[CalculateListPlace(mea.X, mea.Y)];
+                oldselectedTile = tileList[Methods.CalculateListPlace(this,mea.X, mea.Y)];
                 this.Invalidate();
             }
         }
@@ -151,14 +153,14 @@ namespace TrafficSimulation
         //"verwijdert" een tile (d.m.v. tekenen groen vlak)
         private void removeTile(MouseEventArgs mea)
         {
-            if (tileList[CalculateListPlace(mea.X, mea.Y)] != null)
+            if (tileList[Methods.CalculateListPlace(this,mea.X, mea.Y)] != null)
             {
                 Bitmap tileImage;
                 Tile selectedTile = new removeTile();
-                selectedTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), CalculateListPlace(mea.X, mea.Y));
+                selectedTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), Methods.CalculateListPlace(this,mea.X, mea.Y));
                 tileImage = selectedTile.DrawImage();
                 trafficlightBC.AddObject(tileImage, mea.X / 100 * 100, mea.Y / 100 * 100);
-                tileList[CalculateListPlace(mea.X, mea.Y)] = null;
+                tileList[Methods.CalculateListPlace(this,mea.X, mea.Y)] = null;
                 this.Invalidate();
                 //hier moet nog bij dat de trafficlights ook worden verwijderd
             }
@@ -167,10 +169,10 @@ namespace TrafficSimulation
         private void DrawTile(MouseEventArgs mea)
         {
             Bitmap tileImage;
-            currentBuildTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), CalculateListPlace(mea.X, mea.Y));
+            currentBuildTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), Methods.CalculateListPlace(this,mea.X, mea.Y));
             tileImage = currentBuildTile.DrawImage();
             //tile wordt in de lijst van tiles gezet
-            tileList[CalculateListPlace(mea.X, mea.Y)] = currentBuildTile;
+            tileList[Methods.CalculateListPlace(this,mea.X, mea.Y)] = currentBuildTile;
             //Dit zorgt ervoor dat de kaart geupdate wordt met de nieuwe tile
             backgroundBC.AddObject(tileImage, mea.X / 100 * 100, mea.Y / 100 * 100);
             trafficlightBC.bitmap.MakeTransparent(Color.Green);
@@ -185,19 +187,19 @@ namespace TrafficSimulation
             Tile selectedTile = new SelectTile();
 
             //de geselecteerde tile krijgt waarden
-            selectedTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), CalculateListPlace(mea.X, mea.Y));
+            selectedTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), Methods.CalculateListPlace(this,mea.X, mea.Y));
 
             //als er op een al geselecteerde groene golf tile wordt geklikt
-            if (greenWaveRemoveList[CalculateListPlace(mea.X, mea.Y)] != null)
+            if (greenWaveRemoveList[Methods.CalculateListPlace(this,mea.X, mea.Y)] != null)
             {
                 //de laatst geselecteerde groene golf tile is aangeklikt
                 if (selectedTile == greenWaveList[(countGreenWave - 1)])
                 {
                     //verwijder deze tile uit de removelist + andere groene golf list en teken de tile opnieuw
-                    greenWaveRemoveList[CalculateListPlace(mea.X, mea.Y)] = null;
+                    greenWaveRemoveList[Methods.CalculateListPlace(this,mea.X, mea.Y)] = null;
                     greenWaveList[(countGreenWave - 1)] = null;
 
-                    tileImage = tileList[CalculateListPlace(mea.X,mea.Y)].DrawImage();
+                    tileImage = tileList[Methods.CalculateListPlace(this,mea.X, mea.Y)].DrawImage();
                     backgroundBC.AddObject(tileImage, mea.X / 100 * 100, mea.Y / 100 * 100);
                 }
 
@@ -214,20 +216,20 @@ namespace TrafficSimulation
                 tileImage = selectedTile.DrawImage();
 
                 //de geselecteerde tile wordt toegevoegd aan de lijst om de groene golf te verwijderen
-                greenWaveRemoveList[CalculateListPlace(mea.X, mea.Y)] = selectedTile;
+                greenWaveRemoveList[Methods.CalculateListPlace(this,mea.X, mea.Y)] = selectedTile;
 
                 //de geselecteerde tile wordt toegevoegd aan de lijst met de groene golf tiles
                 greenWaveList[countGreenWave] = selectedTile;
                 countGreenWave++;
 
                 //de huidige selectedTile wordt de oude selectedtile voor de volgende keer
-                oldGreenWaveTile = tileList[CalculateListPlace(mea.X, mea.Y)];
+                oldGreenWaveTile = tileList[Methods.CalculateListPlace(this,mea.X, mea.Y)];
 
                 this.Invalidate();
             }
 
             //als er op een tile wordt geklikt die niet mag en die nog geen groene golf tile is
-            if(ValidSelect(selectedTile, mea.X, mea.Y) == false && greenWaveRemoveList[CalculateListPlace(mea.X, mea.Y)] == null)
+            if (ValidSelect(selectedTile, mea.X, mea.Y) == false && greenWaveRemoveList[Methods.CalculateListPlace(this,mea.X, mea.Y)] == null)
             {
                 //in infoscherm zetten: "U kunt alleen aansluitende wegen of kruispunten selecteren. Kies een andere tegel."
             }
@@ -278,7 +280,7 @@ namespace TrafficSimulation
         //checken of de tile niet al een groene golf tile is. True als het geen groene golf tile is
         private bool ValidSelectnoGreenWave(int x, int y)
         {
-            if (greenWaveRemoveList[CalculateListPlace(x,y)] == null)
+            if (greenWaveRemoveList[Methods.CalculateListPlace(this,x, y)] == null)
             {
                 return true;
             }
@@ -316,7 +318,7 @@ namespace TrafficSimulation
         //checken of de tile een weg of kruispunt heeft. True als dat zo is
         private bool ValidSelecthasRoad(int x, int y)
         {
-            if (tileList[CalculateListPlace(x, y)] != null)
+            if (tileList[Methods.CalculateListPlace(this,x, y)] != null)
             {
                 return true;
             }
@@ -432,10 +434,7 @@ namespace TrafficSimulation
                 this.Update();
             }
         }
-        private int CalculateListPlace(int mouseX, int mouseY)
-        {
-            return mouseY / 100 * tilesHorizontal + mouseX / 100;
-        }
+       
 
         public void ClearRoad()
         {

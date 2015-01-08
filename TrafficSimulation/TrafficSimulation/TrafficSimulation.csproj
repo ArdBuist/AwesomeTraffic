@@ -64,6 +64,7 @@
     <Compile Include="BovenSchermLinks.xaml.cs">
       <DependentUpon>BovenSchermLinks.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Methods.cs" />
     <Compile Include="WindowSelect.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -31,21 +31,29 @@ namespace TrafficSimulation
             if (simStarted == false)
             {
                 //spawners verzamelen
-                spawnerList.Clear();
-                simControl.controlList.Clear();
-                foreach (Tile t in simControl.tileList)
+                if (Methods.CheckValidConnections(simControl))
                 {
-                    if (t != null && t.name.Equals("Spawner"))
+                    spawnerList.Clear();
+                    simControl.controlList.Clear();
+                    foreach (Tile t in simControl.tileList)
                     {
-                        spawnerList.Add((Spawner)t);
+                        if (t != null && t.name.Equals("Spawner"))
+                        {
+                            spawnerList.Add((Spawner)t);
+                        }
                     }
-                }
-                simControl.MakeTrafficControlList();
+                    simControl.MakeTrafficControlList();
 
-                ThreadStart threadDelegate = new ThreadStart(Update);
-                thread = new Thread(threadDelegate);
-                thread.Start();
-                simStarted = true;
+                    ThreadStart threadDelegate = new ThreadStart(Update);
+                    thread = new Thread(threadDelegate);
+                    thread.Start();
+                    simStarted = true;
+                }
+                else
+                {
+                    simControl.simwindow.windowselect.ShowMessage("niet alle tiles liggen aan elkaar");
+
+                }
             }
             else
             {

@@ -67,5 +67,10 @@ namespace TrafficSimulation
             simwindow.simcontrol.simulation.StartSim();
             this.Close();
         }
+
+        public void ShowMessage(string message)
+        {
+            MessageBox.Show(message);
+        }
     }
 }

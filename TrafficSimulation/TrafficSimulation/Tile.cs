@@ -319,7 +319,7 @@ namespace TrafficSimulation
 
         public void Spawn()
         {
-            //nog onder voorbehoud, weet nog niet zeker of deze code werkt voor elke wegbreedte, werkt samen met Simulation.CreateVehicle
+            //spawnt op een willekeurig moment een auto in een willekeurige baan.
             Byte[] random;
             random = new Byte[1];
             rnd.GetBytes(random);
@@ -351,10 +351,7 @@ namespace TrafficSimulation
 
         public override bool doesConnect(int side)
         {
-            int direction = side + 2;
-            if (direction > 4)
-                direction -= 4;
-            if (direction == this.direction)
+            if ((side + 1) % 4 + 1 == this.direction)
                 return true;
             return false;
         }
@@ -501,8 +498,7 @@ namespace TrafficSimulation
 
         public override bool doesConnect(int side)
         {
-            int direction = (side + 1) % 4 + 1;
-            if (direction != notDirection)
+            if ((side + 1) % 4 + 1 != notDirection)
                 return true;
             return false;
         }
