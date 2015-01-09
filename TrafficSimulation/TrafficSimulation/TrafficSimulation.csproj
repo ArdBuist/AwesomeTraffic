@@ -146,17 +146,21 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\TrafficExpertLogo.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Resource Include="Resources\Buttons\pauze.png" />
-    <Resource Include="Resources\Buttons\play.png" />
-    <Resource Include="Resources\Buttons\speedDown.png" />
-    <Resource Include="Resources\Buttons\speedUp.png" />
-    <Resource Include="Resources\Buttons\stop.png" />
-    <Content Include="TrafficExpertLogo.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Resource Include="Resources\TrafficExpertLogo.png" />
+    <Resource Include="Resources\Buttons\Day_Button.png" />
+    <Resource Include="Resources\Buttons\Help_Button.png" />
+    <Resource Include="Resources\Buttons\Info_Button.png" />
+    <Resource Include="Resources\Buttons\Night_Button.png" />
+    <Resource Include="Resources\Buttons\Pause_Button.png" />
+    <Resource Include="Resources\Buttons\Play_Button.png" />
+    <Resource Include="Resources\Buttons\Save_Button.png" />
+    <Resource Include="Resources\Buttons\Select_Button.png" />
+    <Resource Include="Resources\Buttons\SpeedDown_Button.png" />
+    <Resource Include="Resources\Buttons\SpeedUp_Button.png" />
+    <Resource Include="Resources\Buttons\Stop_Button.png" />
+    <Resource Include="Resources\Buttons\Home_Button.png" />
+    <Resource Include="Resources\Buttons\Erase_Button.png" />
+    <Content Include="TrafficExpertLogo.png" />
     <Resource Include="Resources\Roads\bendLD.png" />
     <Resource Include="Resources\Roads\bendLU.PNG" />
     <Resource Include="Resources\Roads\bendRD.png" />
@@ -167,10 +171,6 @@
     <Content Include="Resources\car3.png" />
     <Content Include="Resources\car4.png" />
     <Content Include="Resources\car5.png" />
-    <Resource Include="Resources\Buttons\Home_button.png" />
-    <Resource Include="Resources\Buttons\info_button.png" />
-    <Resource Include="Resources\Buttons\pauze_button.png" />
-    <Resource Include="Resources\Buttons\play_button.png" />
     <Resource Include="Resources\Crossroads\forkdown.PNG" />
     <Resource Include="Resources\Crossroads\forkleft.png" />
     <Resource Include="Resources\Crossroads\forkright.png" />
@@ -187,7 +187,6 @@
     <Content Include="Resources\truck3.png" />
     <Content Include="Resources\truck4.png" />
     <Content Include="Resources\truck5.png" />
-    <Resource Include="Resources\Buttons\Vraagteken_button.jpg" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="BovenSchermRechts.xaml">

@@ -82,55 +82,78 @@ namespace TrafficSimulation
             trafficlightPB.MouseUp += MouseClickUp;
         }
 
+		/// <summary>
+		/// Method triggered when a mousebutton is pressed down.
+		/// </summary>
         private void MouseDownEvent(object o, MouseEventArgs mea)
         {
             mouseDownPoint = new Point(mea.X / 100 * 100, mea.Y / 100 * 100);
             mouseMovePoint = mea.Location;
+
+			/// Remove a tile by clicking with the right mouse button
+			if (mea.Button == System.Windows.Forms.MouseButtons.Right)
+				removeTile(mea);
+
+			/// Als de select-tool is aangeklikt
+			else if (state == "selected")
+				DrawSelectLine(mea);
+
+			/// Als je een weg wil bouwen
+			else if (state == "building")
+				DrawTile(mea);
+
+			/// Als je een route wil aanklikken voor een groene golf
+			/// deze aanpassen, zodat het nummer overeenkomt met nummer voor het selecteren van de groene golf
+			else if (state == "greenWave")
+				DrawGreenWave(mea);
         }
 
+		/// <summary>
+		/// Method triggerd whenever the mouse is moving.
+		/// </summary>
         private void MouseMoveEvent(object o, MouseEventArgs mea)
         {
             if (mouseDownPoint != new Point(0, 0))
             {
-                
+		/// Draws a line of straight roads on mousedown
+		if (TileIsStraight(mouseDownPoint, mea.Location) && state == "building" && simulation.simStarted == false && mea.Button == System.Windows.Forms.MouseButtons.Left)
+		 	DrawTile(mea);
+
+		/// Move the map
                 if (state == "selected")
-                {
                     MoveMap(mea);
-                }
-                else if (TileIsStraight(mouseDownPoint, mea.Location))
-                    DrawTile(mea);
+
+		/// Erase all the tiles that you come across with your mouse
+		if (state == "eraser" && simulation.simStarted == false)
+			removeTile(mea);
             }
         }
 
+		/// <summary>
+		/// Method triggered whenever a mouse button goes up
+		/// </summary>
         private void MouseClickUp(object obj, MouseEventArgs mea)
         {
             mouseDownPoint = new Point(0, 0); mouseMovePoint = new Point(0, 0);
+
             if (isMoved == false)
             {
-                /*deze code moet worden gedaan zo als de simulatie wordt gestart.*/
 
-                //de eerder geselecteerde tile wordt opnieuw getekend en verwijdert zo de blauwe rand
-                if (oldselectedTile != null)
-                {
-                    backgroundBC.AddObject(oldselectedTile.DrawImage(), oldselectedTile.position.X, oldselectedTile.position.Y);
-                    oldselectedTile = null;
-                }
-                if (state == "selected") //als de select-tool is aangeklikt
-                {
-                    DrawSelectLine(mea);
-                }
-                //als de gum-tool is aangeklikt
+          	/*deze code moet worden gedaan zo als de simulatie wordt gestart.*/
 
-                if (state == "eraser")
-                {
-                    removeTile(mea);
-                }
-                //als je een weg wil bouwen
+		/// De eerder geselecteerde tile wordt opnieuw getekend en verwijdert zo de blauwe rand
+		if (oldselectedTile != null)
+		{
+			backgroundBC.AddObject(oldselectedTile.DrawImage(), oldselectedTile.position.X, oldselectedTile.position.Y);
+			oldselectedTile = null;
+		}
 
-                if (state == "building")
-                {
-                    DrawTile(mea);
-                }
+		/// Als de gum-tool is aangeklikt
+		if (state == "eraser")
+		{
+			removeTile(mea);
+		}
+
 
                 //als je een route wil aanklikken voor een groene golf
                 if (state == "greenWave") // deze aanpassen, zodat het nummer overeenkomt met nummer voor het selecteren van de groene golf
@@ -138,8 +161,10 @@ namespace TrafficSimulation
                     DrawGreenWave(mea);
                 }
             }
+
             isMoved = false;
         }
-            #endregion
+
+        #endregion
     }
 }

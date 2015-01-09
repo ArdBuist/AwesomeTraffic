@@ -52,7 +52,7 @@
         </Style>
 
     </UserControl.Resources>
-    <Grid x:Name="GridExtraButtonsOS" Background="Green" LostFocus="LostFocusExtra">
+	<Grid x:Name="GridExtraButtonsOS" Background="Green" LostFocus="LostFocusExtra" MouseLeave="LostFocusExtra">
         
         <Border BorderBrush="White" 
                 BorderThickness="2" 
@@ -81,7 +81,7 @@
                         Grid.RowSpan="2"
                         Visibility="Hidden" 
                         Click="Roadhor_Checked" 
-                        LostFocus="LostFocusExtra">
+						LostFocus="LostFocusExtra">
                     <Image Source="Resources/Roads/roadhor.png" Height="50" Width="50"/>
                 </Button>
                 

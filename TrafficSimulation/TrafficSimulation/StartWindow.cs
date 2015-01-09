@@ -20,6 +20,7 @@ namespace TrafficSimulation
         WindowSelect windowselect;
 		AboutWindow about;
         InterfaceStart StartScherm;
+		Tile[] tempTileList = new Tile[300];
 
         public StartWindow(Size size, WindowSelect sim)
         {
@@ -43,14 +44,135 @@ namespace TrafficSimulation
 		// Klik op "Nieuw"
         public void New_Click()
         {   
-            // Open simcontrol
+			/// Set current build tile to a straight road
+			windowselect.simwindow.simcontrol.currentBuildTile = new Road(1, 3);
+
+			/// Set state to building mode
+			windowselect.simwindow.simcontrol.state = "building";
+
+            /// Open simcontrol
             windowselect.New();
         }
 
-		// Klik op "Open"
+		/// <summary>
+		/// When the button "Open" is clicked, this method will start.
+		/// </summary>
 		public void Open_Click()
 		{
-			
+			Stream myStream = null;
+			OpenFileDialog openFileDialog1 = new OpenFileDialog();
+
+			//openFileDialog1.InitialDirectory = "c:\\";
+			openFileDialog1.Filter = "TrafficSimulation files (*.trs)|*.trs";
+			openFileDialog1.FilterIndex = 1;
+			openFileDialog1.RestoreDirectory = true;
+
+			if (openFileDialog1.ShowDialog() == DialogResult.OK)
+			{
+				try
+				{
+					/*
+					if (windowselect.simwindow.simcontrol.tileList != null)
+					{
+						foreach (Tile tile in windowselect.simwindow.simcontrol.tileList)
+						{
+							if (tile != null)
+							{
+								Bitmap tileImage;
+								Tile selectedTile = new removeTile();
+								tileImage = selectedTile.DrawImage();
+								windowselect.simwindow.simcontrol.trafficlightBC.AddObject(tileImage, tile.position.X, tile.position.Y);
+							}
+						}
+					}
+					*/
+
+					if ((myStream = openFileDialog1.OpenFile()) != null)
+					{
+						using (myStream)
+						{
+							StreamReader r = new StreamReader(myStream);
+
+							while (r.Peek() >= 0)
+							{
+								String t = r.ReadLine();
+
+								// Char die de data splitst
+								char[] splitChar = { '_' };
+
+								// Array van info over de tile
+								string[] information = t.Split(splitChar);
+
+								Bitmap tileImage;
+								Tile currentBuildTile;
+								int roadX;
+								int roadY;
+
+
+								int tilesHorizontal = Size.Width / 100;
+
+								switch (information[0])
+								{
+									case "TrafficSimulation.Fork":
+										currentBuildTile = new Fork(windowselect.simwindow.simcontrol, Convert.ToInt32(information[1]));
+										roadX = Convert.ToInt32(information[3]) / 100;
+										roadY = Convert.ToInt32(information[4]) / 100;
+										tempTileList[Convert.ToInt32(information[2])] = currentBuildTile;
+										currentBuildTile.SetValues(windowselect.simwindow.simcontrol, new Point((roadX * 100), roadY * 100), Convert.ToInt32(information[2]));
+										tileImage = currentBuildTile.DrawImage();
+										windowselect.simwindow.simcontrol.backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+										break;
+
+									case "TrafficSimulation.Road":
+										currentBuildTile = new Road(Convert.ToInt32(information[1]), Convert.ToInt32(information[2]));
+										//currentBuildTile.LanesHighToLow = Convert.ToInt32(information[6]);
+										//currentBuildTile.LanesLowToHigh = Convert.ToInt32(information[7]);
+										roadX = Convert.ToInt32(information[4]) / 100;
+										roadY = Convert.ToInt32(information[5]) / 100;
+										tempTileList[Convert.ToInt32(information[3])] = currentBuildTile;
+										currentBuildTile.SetValues(windowselect.simwindow.simcontrol, new Point((roadX * 100), roadY * 100), Convert.ToInt32(information[3]));
+										tileImage = currentBuildTile.DrawImage();
+										windowselect.simwindow.simcontrol.backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+
+										break;
+
+									case "TrafficSimulation.Crossroad":
+										currentBuildTile = new Crossroad(windowselect.simwindow.simcontrol);
+										roadX = Convert.ToInt32(information[2]) / 100;
+										roadY = Convert.ToInt32(information[3]) / 100;
+										tempTileList[Convert.ToInt32(information[1])] = currentBuildTile;
+										currentBuildTile.SetValues(windowselect.simwindow.simcontrol, new Point((roadX * 100), roadY * 100), Convert.ToInt32(information[1]));
+										tileImage = currentBuildTile.DrawImage();
+										windowselect.simwindow.simcontrol.backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+										break;
+
+									case "TrafficSimulation.Spawner":
+										currentBuildTile = new Spawner(Convert.ToInt32(information[1]));
+										roadX = Convert.ToInt32(information[3]) / 100;
+										roadY = Convert.ToInt32(information[4]) / 100;
+										tempTileList[Convert.ToInt32(information[2])] = currentBuildTile;
+										currentBuildTile.SetValues(windowselect.simwindow.simcontrol, new Point((roadX * 100), roadY * 100), Convert.ToInt32(information[2]));
+										tileImage = currentBuildTile.DrawImage();
+										windowselect.simwindow.simcontrol.backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+										break;
+								}
+							}
+						}
+					}
+
+					windowselect.simwindow.simcontrol.currentBuildTile = new Road(1, 3);
+					windowselect.simwindow.simcontrol.state = "selected";
+					windowselect.simwindow.simcontrol.tileList = tempTileList;
+
+					windowselect.New();
+				}
+
+				// Throw exception when something is wrong
+				catch (Exception ex)
+				{
+					MessageBox.Show("Error: Could not read file from disk. Original error: " + ex.Message);
+				}
+			}
 		}
 
 		// Klik op "Option"

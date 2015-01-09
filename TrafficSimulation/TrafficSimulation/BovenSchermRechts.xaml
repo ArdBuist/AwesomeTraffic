@@ -75,40 +75,40 @@
                             Grid.Row="0"
                             Grid.Column="0"
                             Click="DayNight_Click" >
-                        <TextBlock Text="Day"/>
-                    </Button>
+					<Image Source="Resources/Buttons/Day_Button.png" Height="40" Width="40"/>
+				</Button>
 
                     <Button x:Name="help" 
                             Style="{StaticResource Style1}" 
                             Grid.Row="0"
                             Grid.Column="1"
                             Click="Help_Click" >
-                        <Image Source="Resources/Buttons/Vraagteken_button.jpg" Height="40" Width="40"/>
-                    </Button>
+					<Image Source="Resources/Buttons/Help_Button.png" Height="40" Width="40"/>
+				</Button>
 
                     <Button x:Name="info" 
                             Style="{StaticResource Style1}" 
                             Grid.Row="0"
                             Grid.Column="2"
                             Click="Info_Click" >
-                        <Image Source="Resources/Buttons/info_button.png" Height="40" Width="40"/>
-                    </Button>
+					<Image Source="Resources/Buttons/Info_Button.png" Height="40" Width="40"/>
+				</Button>
 
                     <Button x:Name="save" 
                             Style="{StaticResource Style1}"
                             Grid.Row="0"
                             Grid.Column="3"
                             Click="Save_Click" >
-                        <TextBlock Text="Save"/>
-                    </Button>
+					<Image Source="Resources/Buttons/Save_Button.png" Height="40" Width="40"/>
+				</Button>
 
                     <Button x:Name="home" 
                             Style="{StaticResource Style1}" 
                             Grid.Row="0"
                             Grid.Column="4"
                             Click="Home_Click" >
-                        <Image Source="Resources/Buttons/Home_button.png" Height="40" Width="40"/>
-                    </Button>
+					<Image Source="Resources/Buttons/Home_Button.png" Height="40" Width="40"/>
+				</Button>
                 </Grid>
         </Border>
     </Grid>

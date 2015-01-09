@@ -108,7 +108,7 @@
                             Grid.Column="0"
                             Click="SlowDown_Click" 
                             VerticalAlignment="Top">
-                    <Image Source="Resources/Buttons/speedDown.png" Height="15" Width="15"/>
+                    <Image Source="Resources/Buttons/SpeedDown_Button.png" Height="20" Width="20"/>
                     </Button>
 
                     <Button x:Name="speedUp" 
@@ -117,7 +117,7 @@
                             Grid.Column="2"
                             Click="SpeedUp_Click" 
                             VerticalAlignment="Top">
-                    <Image Source="Resources/Buttons/speedUp.png" Height="15" Width="15"/>
+                    <Image Source="Resources/Buttons/SpeedUp_Button.png" Height="20" Width="20"/>
                     
                     </Button>
                     <Button x:Name="play" 
@@ -125,7 +125,7 @@
                             Grid.Row="0"
                             Grid.Column="1"
                             Click="PlayPauze_Click" >
-                        <Image Source="Resources/Buttons/play.png" Height="40" Width="40"/>
+                        <Image Source="Resources/Buttons/Play_Button.png" Height="60" Width="60"/>
                     </Button>
                     
                 <Button x:Name="pauze" 
@@ -134,15 +134,15 @@
                             Grid.Column="0"
                             Click="SlowDown_Click" 
                             VerticalAlignment="Bottom">
-                    <Image Source="Resources/Buttons/pauze.png" Height="15" Width="15"/>
-                        
-                    </Button>
+					<Image Source="Resources/Buttons/Pause_Button.png" Height="25" Width="25"/>
+
+				</Button>
                     <Button x:Name="stop" 
                             Style="{StaticResource kleineButtons}" 
                             Grid.Row="0"
                             Grid.Column="2"
                             VerticalAlignment="Bottom">
-                    <Image Source="Resources/Buttons/stop.png" Height="15" Width="15"/>
+                    <Image Source="Resources/Buttons/stop_Button.png" Height="25" Width="25"/>
                     </Button>
                 
                     <Button x:Name="simulationDesign" 
