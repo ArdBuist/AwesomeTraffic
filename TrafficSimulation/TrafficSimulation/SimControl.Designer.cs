@@ -10,6 +10,8 @@ namespace TrafficSimulation
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
+		MouseButtons LastButtonUp;
+
         /// <summary> 
         /// Clean up any resources being used.
         /// </summary>
@@ -82,64 +84,76 @@ namespace TrafficSimulation
             trafficlightPB.MouseUp += MouseClickUp;
         }
 
+		/// <summary>
+		/// Method triggered when a mousebutton is pressed down.
+		/// </summary>
         private void MouseDownEvent(object o, MouseEventArgs mea)
         {
             mouseDownPoint = new Point(mea.X / 100 * 100, mea.Y / 100 * 100);
             mouseMovePoint = mea.Location;
+
+			/// Remove a tile by clicking with the right mouse button
+			if (mea.Button == System.Windows.Forms.MouseButtons.Right)
+				removeTile(mea);
+
+			/// Als de select-tool is aangeklikt
+			if (state == "selected")
+				DrawSelectLine(mea);
+
+			/// Als je een weg wil bouwen
+			else if (state == "building")
+				DrawTile(mea);
+
+			/// Als je een route wil aanklikken voor een groene golf
+			/// deze aanpassen, zodat het nummer overeenkomt met nummer voor het selecteren van de groene golf
+			else if (state == "greenWave")
+				DrawGreenWave(mea);
         }
 
+		/// <summary>
+		/// Method triggerd whenever the mouse is moving.
+		/// </summary>
         private void MouseMoveEvent(object o, MouseEventArgs mea)
         {
-            if (mouseDownPoint != new Point(0, 0)&&simulation.simStarted==false)
+            if (mouseDownPoint != new Point(0, 0))
             {
-				if (TileIsStraight(mouseDownPoint, mea.Location))
-				{
+				/// Draws a line of straight roads on mousedown
+				if (TileIsStraight(mouseDownPoint, mea.Location) && state == "building" && simulation.simStarted == false)
 					DrawTile(mea);
-				}
 
-                else if (state == "selected")
-                {
+				/// Move the map
+                if (state == "selected")
                     MoveMap(mea);
-                }
+
+				/// Erase all the tiles that you come across with your mouse
+				if (state == "eraser" && simulation.simStarted == false)
+					removeTile(mea);
             }
         }
 
+		/// <summary>
+		/// Method triggered whenever a mouse button goes up
+		/// </summary>
         private void MouseClickUp(object obj, MouseEventArgs mea)
         {
             mouseDownPoint = new Point(0, 0); mouseMovePoint = new Point(0, 0);
 
             /*deze code moet worden gedaan zo als de simulatie wordt gestart.*/
 
-			// De eerder geselecteerde tile wordt opnieuw getekend en verwijdert zo de blauwe rand
+			/// De eerder geselecteerde tile wordt opnieuw getekend en verwijdert zo de blauwe rand
 			if (oldselectedTile != null)
 			{
 				backgroundBC.AddObject(oldselectedTile.DrawImage(), oldselectedTile.position.X, oldselectedTile.position.Y);
 				oldselectedTile = null;
 			}
 
-			// Als de select-tool is aangeklikt
-			if (state == "selected")
-			{
-				DrawSelectLine(mea);
-			}
-
-			// Als de gum-tool is aangeklikt
+			/// Als de gum-tool is aangeklikt
 			if (state == "eraser")
 			{
 				removeTile(mea);
 			}
 
-			// Als je een weg wil bouwen
-			if (state == "building")
-			{
-				DrawTile(mea);
-			}
-
-			// Als je een route wil aanklikken voor een groene golf
-			if (state == "greenWave") // deze aanpassen, zodat het nummer overeenkomt met nummer voor het selecteren van de groene golf
-			{
-				DrawGreenWave(mea);
-			}
+			LastButtonUp = mea.Button;
 
             //host.BackColorTransparent = true;
         }

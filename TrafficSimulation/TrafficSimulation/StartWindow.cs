@@ -42,11 +42,19 @@ namespace TrafficSimulation
 		// Klik op "Nieuw"
         public void New_Click()
         {   
-            // Open simcontrol
+			/// Set current build tile to a straight road
+			windowselect.simwindow.simcontrol.currentBuildTile = new Road(1, 3);
+
+			/// Set state to building mode
+			windowselect.simwindow.simcontrol.state = "building";
+
+            /// Open simcontrol
             windowselect.New();
         }
 
-		// Klik op "Open"
+		/// <summary>
+		/// When the button "Open" is clicked, this method will start.
+		/// </summary>
 		public void Open_Click()
 		{
 			Stream myStream = null;
@@ -61,6 +69,11 @@ namespace TrafficSimulation
 			{
 				try
 				{
+					if (windowselect.simwindow.simcontrol != null)
+					{
+						Array.Clear(windowselect.simwindow.simcontrol.tileList, 0, windowselect.simwindow.simcontrol.tileList.Length);
+					}
+
 					if ((myStream = openFileDialog1.OpenFile()) != null)
 					{
 						using (myStream)
@@ -92,19 +105,19 @@ namespace TrafficSimulation
 										roadX = Convert.ToInt32(information[3]) / 100;
 										roadY = Convert.ToInt32(information[4]) / 100;
 										tempTileList[Convert.ToInt32(information[2])] = currentBuildTile;
-										currentBuildTile.SetValues(windowselect.simwindow.simcontrol, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
+										currentBuildTile.SetValues(windowselect.simwindow.simcontrol, new Point((roadX * 100), roadY * 100), Convert.ToInt32(information[2]));
 										tileImage = currentBuildTile.DrawImage();
 										windowselect.simwindow.simcontrol.backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
 										break;
 
 									case "TrafficSimulation.Road":
 										currentBuildTile = new Road(Convert.ToInt32(information[1]), Convert.ToInt32(information[2]));
-										currentBuildTile.LanesHighToLow = Convert.ToInt32(information[6]);
-										currentBuildTile.LanesLowToHigh = Convert.ToInt32(information[7]);
+										//currentBuildTile.LanesHighToLow = Convert.ToInt32(information[6]);
+										//currentBuildTile.LanesLowToHigh = Convert.ToInt32(information[7]);
 										roadX = Convert.ToInt32(information[4]) / 100;
 										roadY = Convert.ToInt32(information[5]) / 100;
 										tempTileList[Convert.ToInt32(information[3])] = currentBuildTile;
-										currentBuildTile.SetValues(windowselect.simwindow.simcontrol, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
+										currentBuildTile.SetValues(windowselect.simwindow.simcontrol, new Point((roadX * 100), roadY * 100), Convert.ToInt32(information[3]));
 										tileImage = currentBuildTile.DrawImage();
 										windowselect.simwindow.simcontrol.backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
 
@@ -115,7 +128,7 @@ namespace TrafficSimulation
 										roadX = Convert.ToInt32(information[2]) / 100;
 										roadY = Convert.ToInt32(information[3]) / 100;
 										tempTileList[Convert.ToInt32(information[1])] = currentBuildTile;
-										currentBuildTile.SetValues(windowselect.simwindow.simcontrol, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
+										currentBuildTile.SetValues(windowselect.simwindow.simcontrol, new Point((roadX * 100), roadY * 100), Convert.ToInt32(information[1]));
 										tileImage = currentBuildTile.DrawImage();
 										windowselect.simwindow.simcontrol.backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
 										break;
@@ -125,7 +138,7 @@ namespace TrafficSimulation
 										roadX = Convert.ToInt32(information[3]) / 100;
 										roadY = Convert.ToInt32(information[4]) / 100;
 										tempTileList[Convert.ToInt32(information[2])] = currentBuildTile;
-										currentBuildTile.SetValues(windowselect.simwindow.simcontrol, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
+										currentBuildTile.SetValues(windowselect.simwindow.simcontrol, new Point((roadX * 100), roadY * 100), Convert.ToInt32(information[2]));
 										tileImage = currentBuildTile.DrawImage();
 										windowselect.simwindow.simcontrol.backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
 										break;
@@ -133,6 +146,11 @@ namespace TrafficSimulation
 							}
 						}
 					}
+
+					windowselect.simwindow.simcontrol.currentBuildTile = new Road(1, 3);
+					windowselect.simwindow.simcontrol.state = "selected";
+					windowselect.simwindow.simcontrol.tileList = tempTileList;
+
 					windowselect.New();
 				}
 

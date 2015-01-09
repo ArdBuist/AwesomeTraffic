@@ -38,26 +38,36 @@ namespace TrafficSimulation
 
         }
 
+		/// <summary>
+		/// Open the homescreen.
+		/// </summary>
         public void Start()
         {
             this.Controls.Remove(simwindow);
             int widthstartscreen = Screen.PrimaryScreen.Bounds.Width, heightstartscreen = Screen.PrimaryScreen.Bounds.Height;
             Size screensize = new Size(widthstartscreen, heightstartscreen);
 
-            // Openen van het startscherm
+            /// Open homescreen
             startwindow = new StartWindow(screensize, this);
             this.BackColor = Color.Green;
 
+			/// Center the window
             startwindow.Left = ((widthstartscreen - 300) / 2);
             startwindow.Top = ((heightstartscreen - 300) / 2);
+
+			/// Add the control
             this.Controls.Add(startwindow);
         }
+
+		/// <summary>
+		/// Create a new field for the traffic simulation.
+		/// </summary>
         public void New()
         {
-            // Verwijder start menu
+            /// Verwijder start menu
             this.Controls.Remove(startwindow);
-            
-            // Open simwindow
+
+            /// Open simwindow
             simwindow.BackColor = Color.Green;
             //simwindow.Location = new Point(0, 0);
             this.Controls.Add(simwindow);
