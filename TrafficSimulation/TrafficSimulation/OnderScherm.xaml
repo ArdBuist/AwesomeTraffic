@@ -137,6 +137,7 @@
                              GroupName="buttonsBelow" 
                              Checked="CrossRoadButton_Checked"
 							 MouseEnter="CrossRoadButton_Checked"
+							 Click="CrossRoadButton_Checked"
                              LostFocus="Lost_Focus"
                              Grid.Row="0"
                              Grid.Column="3">

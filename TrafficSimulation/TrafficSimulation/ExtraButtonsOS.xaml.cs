@@ -81,6 +81,7 @@ namespace TrafficSimulation
             this.bend14.Visibility = Visibility.Hidden;
             windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.ClientSize);
             windowselect.simwindow.extraButtonsHost.BackColor = System.Drawing.Color.Transparent;
+
             windowselect.simwindow.simcontrol.state = "building";
         }
 

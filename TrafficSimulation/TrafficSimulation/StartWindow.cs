@@ -69,10 +69,21 @@ namespace TrafficSimulation
 			{
 				try
 				{
-					if (windowselect.simwindow.simcontrol != null)
+					/*
+					if (windowselect.simwindow.simcontrol.tileList != null)
 					{
-						Array.Clear(windowselect.simwindow.simcontrol.tileList, 0, windowselect.simwindow.simcontrol.tileList.Length);
+						foreach (Tile tile in windowselect.simwindow.simcontrol.tileList)
+						{
+							if (tile != null)
+							{
+								Bitmap tileImage;
+								Tile selectedTile = new removeTile();
+								tileImage = selectedTile.DrawImage();
+								windowselect.simwindow.simcontrol.trafficlightBC.AddObject(tileImage, tile.position.X, tile.position.Y);
+							}
+						}
 					}
+					*/
 
 					if ((myStream = openFileDialog1.OpenFile()) != null)
 					{

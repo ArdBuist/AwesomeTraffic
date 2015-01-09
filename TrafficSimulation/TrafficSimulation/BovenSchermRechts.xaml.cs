@@ -88,15 +88,18 @@ namespace TrafficSimulation
 				int number = 1;
 				string filename = "Traffic" + number.ToString();
 
+				string path = saveDialog.InitialDirectory.ToString() + "/" + filename + ".trs";
+				
 				/// Extension name (.trs => TRafficSimulation)
 				saveDialog.DefaultExt = ".trs";
-				/*
-				while (File.Exists(filename))
+				//saveDialog.InitialDirectory = true;
+
+				while (File.Exists(path))
 				{
 					number++;
 					filename = "Traffic" + number.ToString();
+					path = saveDialog.InitialDirectory.ToString() + filename + ".trs";
 				}
-				*/
 
 				saveDialog.FileName = filename;
 

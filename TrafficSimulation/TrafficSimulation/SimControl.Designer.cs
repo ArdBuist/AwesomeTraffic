@@ -97,7 +97,7 @@ namespace TrafficSimulation
 				removeTile(mea);
 
 			/// Als de select-tool is aangeklikt
-			if (state == "selected")
+			else if (state == "selected")
 				DrawSelectLine(mea);
 
 			/// Als je een weg wil bouwen
@@ -118,7 +118,7 @@ namespace TrafficSimulation
             if (mouseDownPoint != new Point(0, 0))
             {
 				/// Draws a line of straight roads on mousedown
-				if (TileIsStraight(mouseDownPoint, mea.Location) && state == "building" && simulation.simStarted == false)
+				if (TileIsStraight(mouseDownPoint, mea.Location) && state == "building" && simulation.simStarted == false && mea.Button == System.Windows.Forms.MouseButtons.Left)
 					DrawTile(mea);
 
 				/// Move the map
