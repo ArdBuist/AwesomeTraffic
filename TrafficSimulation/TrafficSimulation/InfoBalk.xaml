@@ -25,7 +25,7 @@
 
         <Style x:Key="infoBalkComboBox" TargetType="ComboBox">
             <Setter Property="Height" Value="20" />
-            <Setter Property="Width" Value="100" />
+            <Setter Property="Width" Value="80" />
             <Setter Property="HorizontalAlignment" Value="Left" /> 
             <Setter Property="VerticalAlignment" Value="Center"   />
             
@@ -70,7 +70,7 @@
                     <RowDefinition Height="50"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="50"/>
-                    <RowDefinition Height="4*"/>
+                    <RowDefinition Height="3*"/>
                  </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
@@ -90,13 +90,14 @@
                 <Grid Grid.Row="1" Grid.Column="0">
 
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="2*" />
                         <RowDefinition Height="*" />
                         <RowDefinition Height="*" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="2*" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
@@ -124,32 +125,47 @@
                         <Button x:Name="RotateLeft"  
                             Style="{StaticResource infoBalkButtons}"
                             Grid.Row="0" 
-                            Grid.Column="0"  
-                            HorizontalAlignment="Right" 
+                            Grid.Column="2"  
+                            HorizontalAlignment="Left" 
                             VerticalAlignment="Bottom" 
                             >
-                        <TextBlock Text="boe" />
+                            <Image Source="Resources\Buttons\TurnRight_Button.png" />
                     </Button>
 
                         <Button x:Name="RotatedRight" 
                             Style="{StaticResource infoBalkButtons}"
                             Grid.Row="0" 
-                            Grid.Column="2" 
-                            HorizontalAlignment="Left" 
+                            Grid.Column="0" 
+                            HorizontalAlignment="Right" 
                             VerticalAlignment="Bottom" >
-                        <TextBlock Text="boe1" />
-                    </Button>
+                            <Image Source="Resources\Buttons\TurnLeft_Button.png" />
+                        </Button>
 
                     </Grid>
                     
-                    <Label x:Name="labelLanes" 
+                    <Label x:Name="labelLanesLeft" 
                            Grid.Row="1" 
                            Grid.Column="0" 
                            Style="{StaticResource infoBalkLabels}" 
-                           Content="Amount of Lanes" />
+                           Content="Amount of Lanes on the left side" />
 
-                    <ComboBox x:Name="lanes" 
+                    <ComboBox x:Name="lanesLeft" 
                               Grid.Row="1" 
+                              Grid.Column="1" 
+                              Style="{StaticResource infoBalkComboBox}">
+                        <ComboBoxItem Tag="1" IsSelected="True">1 Lane</ComboBoxItem>
+                        <ComboBoxItem Tag="2">2 Lane</ComboBoxItem>
+                        <ComboBoxItem Tag="3">3 Lane</ComboBoxItem>
+                    </ComboBox>
+
+                    <Label x:Name="labelLanesRight" 
+                           Grid.Row="2" 
+                           Grid.Column="0" 
+                           Style="{StaticResource infoBalkLabels}" 
+                           Content="Amount of Lanes on the rightside" />
+
+                    <ComboBox x:Name="lanesRight" 
+                              Grid.Row="2" 
                               Grid.Column="1" 
                               Style="{StaticResource infoBalkComboBox}">
                         <ComboBoxItem Tag="1" IsSelected="True">1 Lane</ComboBoxItem>
@@ -158,13 +174,13 @@
                     </ComboBox>
                     
                     <Label x:Name="labelSpeed" 
-                           Grid.Row="2" 
+                           Grid.Row="3" 
                            Grid.Column="0" 
                            Style="{StaticResource infoBalkLabels}" 
                            Content="Maximum speedlimit" />
                     
                     <ComboBox x:Name="speed" 
-                              Grid.Row="2" 
+                              Grid.Row="3" 
                               Grid.Column="1" 
                               Style="{StaticResource infoBalkComboBox}">
                         <ComboBoxItem Tag="30" IsSelected="True">30 km/h</ComboBoxItem>
@@ -197,9 +213,7 @@
 
                 </Grid>
 
-                
                 <Grid Grid.Row="2" Grid.Column="0">
-                    
                     <TextBlock Text="Information about the World" 
                                 FontFamily="Verdana" 
                                 FontSize="11" 
@@ -221,7 +235,7 @@
                     </Grid.RowDefinitions>
                     
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="2*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
@@ -231,24 +245,52 @@
                            Style="{StaticResource infoBalkLabels}" 
                            Content="Amount of cars in your world" />
 
+                    <Label x:Name="labelTotalCarsNumber" 
+                           Grid.Row="0" 
+                           Grid.Column="1" 
+                           Style="{StaticResource infoBalkLabels}" 
+                           HorizontalAlignment="Left"
+                           Content="Number" />
+                    
                     <Label x:Name="labelWaitingCars" 
                            Grid.Row="1" 
                            Grid.Column="0" 
                            Style="{StaticResource infoBalkLabels}" 
                            Content="Amount of cars waiting" />
 
+                    <Label x:Name="labelWaitingCarsNumber" 
+                           Grid.Row="1" 
+                           Grid.Column="1" 
+                           Style="{StaticResource infoBalkLabels}" 
+                           HorizontalAlignment="Left"
+                           Content="Number" />
+                    
                     <Label x:Name="labelDrivingCars" 
                            Grid.Row="2" 
                            Grid.Column="0" 
                            Style="{StaticResource infoBalkLabels}"
                            Content="Amount of cars driving" />
 
+                    <Label x:Name="labelDrivingCarsNumber" 
+                           Grid.Row="2" 
+                           Grid.Column="1" 
+                           Style="{StaticResource infoBalkLabels}"
+                           HorizontalAlignment="Left"
+                           Content="Number" />
+                    
                     <Label x:Name="labelCrossroads" 
                            Grid.Row="3" 
                            Grid.Column="0" 
                            Style="{StaticResource infoBalkLabels}"
                            Content="Amount of crossroads" />
 
+                    <Label x:Name="labelCrossroadsNumber" 
+                           Grid.Row="3" 
+                           Grid.Column="1" 
+                           Style="{StaticResource infoBalkLabels}"
+                           HorizontalAlignment="Left"
+                           Content="Number" />
+                    
                     <Label x:Name="labelEfficientieTabel" 
                            Grid.Row="4" 
                            Grid.Column="0" 

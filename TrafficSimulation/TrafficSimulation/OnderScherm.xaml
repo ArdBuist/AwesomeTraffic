@@ -59,12 +59,14 @@
     </UserControl.Resources>
     
     <Grid x:Name="BasicOnder" Background="Green" >
+        
         <Border BorderBrush="Green" 
                 BorderThickness="1" 
                 CornerRadius="25,25,25,25" 
                 Background="LightGreen" 
                 Grid.Row="0" 
                 Grid.Column="0">
+            
             <Grid>
                 
                 <Grid.RowDefinitions>

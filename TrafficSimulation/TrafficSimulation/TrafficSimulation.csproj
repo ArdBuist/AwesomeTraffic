@@ -160,6 +160,8 @@
     <Resource Include="Resources\Buttons\Stop_Button.png" />
     <Resource Include="Resources\Buttons\Home_Button.png" />
     <Resource Include="Resources\Buttons\Erase_Button.png" />
+    <Resource Include="Resources\Buttons\TurnLeft_Button.png" />
+    <Resource Include="Resources\Buttons\TurnRight_Button.png" />
     <Content Include="TrafficExpertLogo.png" />
     <Resource Include="Resources\Roads\bendLD.png" />
     <Resource Include="Resources\Roads\bendLU.PNG" />

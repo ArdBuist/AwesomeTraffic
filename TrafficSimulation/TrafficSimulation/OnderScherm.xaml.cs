@@ -34,9 +34,6 @@ namespace TrafficSimulation
         public OnderScherm(WindowSelect ws, InfoBalk info, ExtraButtonsOS extra, ElementHost extraHost, int bob, int ylob, int xlob, int hob)
         {
             windowselect = ws;
-            
-            //simwindow = sim;
-            //s = simwindow.sim;
             extraButtonsHost = extraHost;
             infoBalk = info;
             extraButtonsOS = extra;
@@ -49,8 +46,9 @@ namespace TrafficSimulation
 
         private void SelectButton_Checked(object sender, RoutedEventArgs e)
         {
+            
             windowselect.simwindow.simcontrol.state = "selected";
-            extraButtonsOS.Visibility = Visibility.Hidden;
+            
             windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.ClientSize);
             //hierna moet dan een scherm verschijnen met info en aanpassingsmogelijkheden
             
@@ -66,6 +64,8 @@ namespace TrafficSimulation
 
         private void RoadButton_Checked(object sender, RoutedEventArgs e)
         {
+            AlgemeenClick();
+
             int hoogteExtraButtonOSRoad = 150 ;
             int xLocationRoadMenu = (xLocatieOnderBalk + (breedteOnderBalk / 6));
             int yLocationRoadMenu = yLocatieOnderBalk - hoogteExtraButtonOSRoad;
@@ -76,24 +76,13 @@ namespace TrafficSimulation
             extraButtonsOS.roadhor.Visibility = Visibility.Visible;
             extraButtonsOS.roadver.Visibility = Visibility.Visible;
             
-            extraButtonsOS.bend12.Visibility = Visibility.Hidden;
-            extraButtonsOS.bend23.Visibility = Visibility.Hidden;
-            extraButtonsOS.bend34.Visibility = Visibility.Hidden;
-            extraButtonsOS.bend14.Visibility = Visibility.Hidden;
-            extraButtonsOS.fork12.Visibility = Visibility.Hidden;
-            extraButtonsOS.fork23.Visibility = Visibility.Hidden;
-            extraButtonsOS.fork34.Visibility = Visibility.Hidden;
-            extraButtonsOS.fork14.Visibility = Visibility.Hidden;
-            extraButtonsOS.spawnerdown.Visibility = Visibility.Hidden;
-            extraButtonsOS.spawnerleft.Visibility = Visibility.Hidden;
-            extraButtonsOS.spawnerup.Visibility = Visibility.Hidden;
-            extraButtonsOS.spawnerright.Visibility = Visibility.Hidden;
-
             windowselect.simwindow.extraButtonsHost.BackColor = System.Drawing.Color.Transparent;
         }
         
         private void BendButton_Checked(object sender, RoutedEventArgs e)
         {
+            AlgemeenClick();
+
             int hoogteExtraButtonOSBend = 300;
             int xLocationBendMenu = (xLocatieOnderBalk + ((breedteOnderBalk / 6) * 2));
             int yLocationBendMenu = yLocatieOnderBalk - hoogteExtraButtonOSBend;
@@ -106,64 +95,40 @@ namespace TrafficSimulation
             extraButtonsOS.bend34.Visibility = Visibility.Visible;
             extraButtonsOS.bend14.Visibility = Visibility.Visible;
 
-            extraButtonsOS.roadhor.Visibility = Visibility.Hidden;
-            extraButtonsOS.roadver.Visibility = Visibility.Hidden;
-            extraButtonsOS.fork12.Visibility = Visibility.Hidden;
-            extraButtonsOS.fork23.Visibility = Visibility.Hidden;
-            extraButtonsOS.fork34.Visibility = Visibility.Hidden;
-            extraButtonsOS.fork14.Visibility = Visibility.Hidden;
-            extraButtonsOS.spawnerdown.Visibility = Visibility.Hidden;
-            extraButtonsOS.spawnerleft.Visibility = Visibility.Hidden;
-            extraButtonsOS.spawnerup.Visibility = Visibility.Hidden;
-            extraButtonsOS.spawnerright.Visibility = Visibility.Hidden;
-
             windowselect.simwindow.extraButtonsHost.BackColor = System.Drawing.Color.Transparent;
        }
 
        private void CrossRoadButton_Checked(object sender, RoutedEventArgs e)
         {
-			windowselect.simwindow.simcontrol.currentBuildTile = new Crossroad(windowselect.simwindow.simcontrol);
+            AlgemeenClick();
+            windowselect.simwindow.simcontrol.currentBuildTile = new Crossroad(windowselect.simwindow.simcontrol);
 			windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.ClientSize);
-
-            extraButtonsOS.Visibility = Visibility.Hidden;
 
 			windowselect.simwindow.simcontrol.state = "building";
         }
 
         private void ForkButton_Checked(object sender, RoutedEventArgs e)
         {
+            AlgemeenClick();
+
             int hoogteExtraButtonOSFork = 300;
             int xLocationForkMenu = (xLocatieOnderBalk + ((breedteOnderBalk / 6) * 4));
             int yLocationForkMenu = yLocatieOnderBalk - hoogteExtraButtonOSFork;
             windowselect.simwindow.extraButtonsHost.Height = hoogteExtraButtonOSFork;
             windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(xLocationForkMenu, yLocationForkMenu);
 
-            extraButtonsOS.Visibility = Visibility.Visible;
-            extraButtonsOS.fork12.Visibility = Visibility.Visible;
-            extraButtonsOS.fork23.Visibility = Visibility.Visible;
-            extraButtonsOS.fork34.Visibility = Visibility.Visible;
-            extraButtonsOS.fork14.Visibility = Visibility.Visible;
-
-            extraButtonsOS.roadhor.Visibility = Visibility.Hidden;
-            extraButtonsOS.roadver.Visibility = Visibility.Hidden;
-            extraButtonsOS.bend12.Visibility = Visibility.Hidden;
-            extraButtonsOS.bend23.Visibility = Visibility.Hidden;
-            extraButtonsOS.bend34.Visibility = Visibility.Hidden;
-            extraButtonsOS.bend14.Visibility = Visibility.Hidden;
-            extraButtonsOS.spawnerdown.Visibility = Visibility.Hidden;
-            extraButtonsOS.spawnerleft.Visibility = Visibility.Hidden;
-            extraButtonsOS.spawnerup.Visibility = Visibility.Hidden;
-            extraButtonsOS.spawnerright.Visibility = Visibility.Hidden;
-
             windowselect.simwindow.extraButtonsHost.BackColor = System.Drawing.Color.Transparent;
         }
         
         private void SpawnerButton_Checked(object sender, RoutedEventArgs e)
-        {
+        {   
+            AlgemeenClick();
+
             int hoogteExtraButtonOSSpawner = 300;
             int xLocationSpawnerMenu = (xLocatieOnderBalk + ((breedteOnderBalk / 6) * 5));
             int yLocationSpawnerMenu = yLocatieOnderBalk - hoogteExtraButtonOSSpawner;
             windowselect.simwindow.extraButtonsHost.Height = hoogteExtraButtonOSSpawner;
+            
             windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(xLocationSpawnerMenu, yLocationSpawnerMenu);
 
             extraButtonsOS.Visibility = Visibility.Visible;
@@ -171,21 +136,15 @@ namespace TrafficSimulation
             extraButtonsOS.spawnerleft.Visibility = Visibility.Visible;
             extraButtonsOS.spawnerup.Visibility = Visibility.Visible;
             extraButtonsOS.spawnerright.Visibility = Visibility.Visible;
-
-            extraButtonsOS.roadhor.Visibility = Visibility.Hidden;
-            extraButtonsOS.roadver.Visibility = Visibility.Hidden;
-            extraButtonsOS.bend12.Visibility = Visibility.Hidden;
-            extraButtonsOS.bend23.Visibility = Visibility.Hidden;
-            extraButtonsOS.bend34.Visibility = Visibility.Hidden;
-            extraButtonsOS.bend14.Visibility = Visibility.Hidden;
-            extraButtonsOS.fork12.Visibility = Visibility.Hidden;
-            extraButtonsOS.fork23.Visibility = Visibility.Hidden;
-            extraButtonsOS.fork34.Visibility = Visibility.Hidden;
-            extraButtonsOS.fork14.Visibility = Visibility.Hidden;
-
+           
             windowselect.simwindow.extraButtonsHost.BackColor = System.Drawing.Color.Transparent;
         }
         private void Lost_Focus(object sender, RoutedEventArgs e) 
+        {
+            AlgemeenClick();
+        }
+
+     private void AlgemeenClick()
         {
             extraButtonsOS.Visibility = Visibility.Hidden;
             extraButtonsOS.roadhor.Visibility = Visibility.Hidden;
@@ -203,11 +162,6 @@ namespace TrafficSimulation
             extraButtonsOS.spawnerup.Visibility = Visibility.Hidden;
             extraButtonsOS.spawnerright.Visibility = Visibility.Hidden;
             windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.ClientSize);
-        }
-
-        private void selectButton_LostFocus(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }
