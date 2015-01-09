@@ -162,7 +162,7 @@ namespace TrafficSimulation
                 trafficlightBC.AddObject(tileImage, mea.X / 100 * 100, mea.Y / 100 * 100);
                 tileList[Methods.CalculateListPlace(this,mea.X, mea.Y)] = null;
                 this.Invalidate();
-                //hier moet nog bij dat de trafficlights ook worden verwijderd
+
             }
         }
 
@@ -171,6 +171,7 @@ namespace TrafficSimulation
             Bitmap tileImage;
             if (TileConnectionisValid(Methods.CalculateListPlace(this, mea.X, mea.Y)))
             {
+                removeTile(mea);
                 currentBuildTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), Methods.CalculateListPlace(this, mea.X, mea.Y));
                 tileImage = currentBuildTile.DrawImage();
                 //tile wordt in de lijst van tiles gezet
