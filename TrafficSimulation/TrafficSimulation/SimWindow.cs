@@ -47,7 +47,10 @@ namespace TrafficSimulation
             
             InfoBalk = new InfoBalk(windowselect);
             ExtraButtonsOS = new ExtraButtonsOS(windowselect, InfoBalk);
-
+            OnderScherm = new OnderScherm(windowselect, InfoBalk, ExtraButtonsOS, extraButtonsHost, breedteOnderBalk, yLocatieOnderBalk, xLocatieOnderBalk, hoogteOnderBalk);
+            BovenSchermLinks = new BovenSchermLinks(windowselect, InfoBalk, OnderScherm);
+            BovenSchermRechts = new BovenSchermRechts(windowselect, InfoBalk, OnderScherm, breedteScherm, breedteInfoBalk, hoogteBovenBalk);
+            
             extraButtonsHost = new ElementHost()
             {
                 Height = 200,
@@ -57,9 +60,7 @@ namespace TrafficSimulation
             };
             this.Controls.Add(extraButtonsHost);
 
-            OnderScherm = new OnderScherm(windowselect, InfoBalk, ExtraButtonsOS, extraButtonsHost, breedteOnderBalk, yLocatieOnderBalk, xLocatieOnderBalk, hoogteOnderBalk);
-            BovenSchermLinks = new BovenSchermLinks(windowselect, InfoBalk, OnderScherm);
-            BovenSchermRechts = new BovenSchermRechts(windowselect, InfoBalk, OnderScherm, breedteScherm, breedteInfoBalk, hoogteBovenBalk);
+            
 
             bovenHostLinks = new ElementHost()
             {
@@ -81,8 +82,6 @@ namespace TrafficSimulation
             };
             this.Controls.Add(bovenHostRechts);
            
-            
-
             onderHost = new ElementHost()
             {
                 BackColor = Color.Transparent,
