@@ -13,8 +13,8 @@
         <Style x:Key="infoBalkLabels" TargetType="Label">
             <Setter Property="Width" Value="auto" />
             <Setter Property="Height" Value="20" />
-            <Setter Property="VerticalAlignment" Value="Bottom" />
-            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Right" />
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Margin" Value="1,1,1,1" />
             <Setter Property="FontFamily" Value="Verdana"/>
@@ -22,12 +22,12 @@
             <Setter Property="FontWeight" Value="Black" />
         </Style>
 
-        <Style x:Key="infoBalkListbox" TargetType="ListBox">
-            <Setter Property="Height" Value="70" />
-            <Setter Property="Width" Value="80" />
-            <Setter Property="HorizontalAlignment" Value="Center" /> 
-            <Setter Property="VerticalAlignment" Value="Top"   />
-            <Setter Property="SelectionMode" Value="Single" />
+        <Style x:Key="infoBalkComboBox" TargetType="ComboBox">
+            <Setter Property="Height" Value="20" />
+            <Setter Property="Width" Value="100" />
+            <Setter Property="HorizontalAlignment" Value="Left" /> 
+            <Setter Property="VerticalAlignment" Value="Center"   />
+            
         </Style>
         
         <Style x:Key="infoBalkButtons" TargetType="Button" >
@@ -69,7 +69,7 @@
                     <RowDefinition Height="50"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="50"/>
-                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="4*"/>
                  </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
@@ -91,7 +91,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
                         <RowDefinition Height="*" />
-                        <RowDefinition Height="2*" />
+                        <RowDefinition Height="*" />
                        
                       
                     </Grid.RowDefinitions>
@@ -149,32 +149,30 @@
                            Style="{StaticResource infoBalkLabels}" 
                            Content="Amount of Lanes" />
 
-                    <ListBox x:Name="listboxLanes" 
-                             Grid.Row="2" 
-                             Grid.Column="0"
-                             Style="{StaticResource infoBalkListbox}"
-                             >
-                        <ListBoxItem Content="1 Lane" />
-                        <ListBoxItem Content="2 Lanes" />
-                        <ListBoxItem Content="3 Lanes" />
-                    </ListBox>
+                    <ComboBox x:Name="lanes" 
+                              Grid.Row="1" 
+                              Grid.Column="1" 
+                              Style="{StaticResource infoBalkComboBox}">
+                        <ComboBoxItem Tag="1" IsSelected="True">1 Lane</ComboBoxItem>
+                        <ComboBoxItem Tag="2">2 Lane</ComboBoxItem>
+                        <ComboBoxItem Tag="3">3 Lane</ComboBoxItem>
+                    </ComboBox>
                     
                     <Label x:Name="labelSpeed" 
-                           Grid.Row="1" 
-                           Grid.Column="1" 
+                           Grid.Row="2" 
+                           Grid.Column="0" 
                            Style="{StaticResource infoBalkLabels}" 
                            Content="Maximum speedlimit" />
                     
-                    <ListBox x:Name="listboxSpeed" 
-                             Grid.Row="2" 
-                             Grid.Column="1"
-                             Style="{StaticResource infoBalkListbox}" 
-                             >
-                        <ListBoxItem Content="30 km/h" />
-                        <ListBoxItem Content="50 km/h" />
-                        <ListBoxItem Content="80 km/h" />
-                        <ListBoxItem Content="100 km/h" />
-                    </ListBox>
+                    <ComboBox x:Name="speed" 
+                              Grid.Row="2" 
+                              Grid.Column="1" 
+                              Style="{StaticResource infoBalkComboBox}">
+                        <ComboBoxItem Tag="30" IsSelected="True">30 km/h</ComboBoxItem>
+                        <ComboBoxItem Tag="50">50 km/h</ComboBoxItem>
+                        <ComboBoxItem Tag="80">80 km/h</ComboBoxItem>
+                        <ComboBoxItem Tag="100">100 km/h</ComboBoxItem>
+                    </ComboBox>
 
                     <Label x:Name="labelStrategie" Visibility="Hidden"
                            Grid.Row="1" 
@@ -182,14 +180,15 @@
                            Style="{StaticResource infoBalkLabels}"
                            Content="Choose your traffic strategy" />
                     
-                    <ListBox x:Name="listboxStrategie" Visibility="Hidden"
+                    <ComboBox x:Name="listboxStrategie" Visibility="Hidden"
                              Grid.Row="2" 
                              Grid.Column="0"
-                             Style="{StaticResource infoBalkListbox}" >
-                        <ListBoxItem Content="Tijd" />
-                        <ListBoxItem Content="Wachttijd" />
+                             Style="{StaticResource infoBalkComboBox}"
+                             >
+                        <ComboBoxItem Tag="Tijd" IsSelected="True">Tijd</ComboBoxItem> 
+                        <ComboBoxItem Tag="Wachttijd" >Wachttijd</ComboBoxItem>
                         
-                    </ListBox>
+                    </ComboBox>
 
                     <Label x:Name="labelEfficientie" Visibility="Hidden"
                            Grid.Row="1" 
