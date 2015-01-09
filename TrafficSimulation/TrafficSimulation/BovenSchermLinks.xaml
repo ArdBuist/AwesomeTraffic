@@ -152,8 +152,8 @@
                             Grid.Row="0"
                             Grid.Column="0"
                             VerticalAlignment="Top">
-
-                    <Image Source="Resources/Buttons/speedDown.png" Height="15" Width="15"/>
+                    <Image Source="Resources/Buttons/SpeedDown_Button.png" Height="20" Width="20"/>
+                    
                     </RadioButton>
 
                     <RadioButton x:Name="speedUp" 
@@ -173,7 +173,7 @@
                             Grid.Row="0"
                             Grid.Column="1"
                             >
-                        <Image Source="Resources/Buttons/play.png" Height="40" Width="40"/>
+                        <Image Source="Resources/Buttons/Play_Button.png" Height="40" Width="40"/>
                     </RadioButton>
                     
                     <RadioButton x:Name="pauze" 
@@ -182,7 +182,7 @@
                             Grid.Row="0"
                             Grid.Column="0"
                             VerticalAlignment="Bottom">
-                    <Image Source="Resources/Buttons/pauze.png" Height="15" Width="15"/>
+                    <Image Source="Resources/Buttons/Play_Button.png" Height="20" Width="20"/>
                         
                     </RadioButton>
                 
@@ -192,7 +192,7 @@
                             Grid.Row="0"
                             Grid.Column="2"
                             VerticalAlignment="Bottom">
-                    <Image Source="Resources/Buttons/stop.png" Height="15" Width="15"/>
+                    <Image Source="Resources/Buttons/Stop_Button.png" Height="20" Width="20"/>
                     </RadioButton>
                 
                     <Button x:Name="simulationDesign" 
