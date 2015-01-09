@@ -169,12 +169,12 @@ namespace TrafficSimulation
         private void DrawTile(MouseEventArgs mea)
         {
             Bitmap tileImage;
-            if (TileConnectionisValid(CalculateListPlace(mea.X, mea.Y)))
+            if (TileConnectionisValid(Methods.CalculateListPlace(this, mea.X, mea.Y)))
             {
-                currentBuildTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), CalculateListPlace(mea.X, mea.Y));
+                currentBuildTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), Methods.CalculateListPlace(this, mea.X, mea.Y));
                 tileImage = currentBuildTile.DrawImage();
                 //tile wordt in de lijst van tiles gezet
-                tileList[CalculateListPlace(mea.X, mea.Y)] = currentBuildTile;
+                tileList[Methods.CalculateListPlace(this, mea.X, mea.Y)] = currentBuildTile;
                 //Dit zorgt ervoor dat de kaart geupdate wordt met de nieuwe tile
                 backgroundBC.AddObject(tileImage, mea.X / 100 * 100, mea.Y / 100 * 100);
                 trafficlightBC.bitmap.MakeTransparent(Color.Green);
