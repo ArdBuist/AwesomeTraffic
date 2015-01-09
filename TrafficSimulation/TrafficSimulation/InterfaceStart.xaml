@@ -50,7 +50,7 @@
 
     <Grid x:Name="Buttons" RenderTransformOrigin="0.5,0.5" OpacityMask="{DynamicResource {x:Static SystemColors.AppWorkspaceBrushKey}}" >
         <Grid.Background>
-            <ImageBrush ImageSource="TrafficExpertLogo.png" TileMode="Tile"/>
+            <ImageBrush ImageSource="Resources/TrafficExpertLogo.png" TileMode="Tile"/>
         </Grid.Background>
         <Grid.RenderTransform>
             <TransformGroup>
