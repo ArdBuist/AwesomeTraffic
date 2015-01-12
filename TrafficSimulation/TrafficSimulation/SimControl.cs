@@ -218,6 +218,11 @@ namespace TrafficSimulation
 
                     tileImage = tileList[Methods.CalculateListPlace(this,mea.X, mea.Y)].DrawImage();
                     backgroundBC.AddObject(tileImage, mea.X / 100 * 100, mea.Y / 100 * 100);
+
+					//de huidige selectedTile wordt de oude selectedtile voor de volgende keer
+					oldGreenWaveTile = tileList[Methods.CalculateListPlace(this, mea.X, mea.Y)];
+
+					this.Invalidate();
                 }
 
                 else

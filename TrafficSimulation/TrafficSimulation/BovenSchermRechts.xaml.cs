@@ -122,17 +122,28 @@ namespace TrafficSimulation
 
 							/// You need different information from different tiles
 							/// So you need multiple cases, one for each tile
+							/// 
+							/// 0: tile name
+							/// 1: place in list
+							/// 2: x position
+							/// 3: y position
+							/// 4: Maxspeed for a tile
+							/// 5: begin direction (notDirection for Fork, direction for Spawner)
+							/// 6: end direction (Crossroad doesn't have any directions)
+							/// 7: laneshightolow, not for crossroad and fork.
+							/// 8: laneslowtohigh, not for crossroad and fork.
+							/// 9: -
 							switch (currenttile)
 							{
 								/// Save case for a fork
 								case "Fork":
 									file.WriteLine(
 										tile + "_" +				// 0 Welke tile
-										tile.notDirection + "_" +	// 1 De not direction
-										tile.listPlace + "_" +		// 2 Plaats in de lijst
-										tile.position.X + "_" +		// 3 X positie
-										tile.position.Y);			// 4 Y positie
-									// lanes
+										tile.listPlace + "_" +		// 1 Plaats in de lijst
+										tile.position.X + "_" +		// 2 X positie
+										tile.position.Y + "_" +		// 3 Y positie
+										tile.maxSpeed + "_" +		// 4 Maxspeed
+										tile.notDirection);			// 5 De not direction
 									break;
 
 								/// Save case for a crossroad
@@ -141,35 +152,36 @@ namespace TrafficSimulation
 										tile + "_" +				// 0 Welke tile
 										tile.listPlace + "_" +		// 1 Plaats in de lijst
 										tile.position.X + "_" +		// 2 X positie
-										tile.position.Y);			// 3 Y positie
-									// lanes
+										tile.position.Y + "_" +		// 3 Y positie
+										tile.maxSpeed);				// 4 Maxspeed
 									break;
 
 								/// Save case for a road (that is a straight road or a curved road)
 								case "Road":
 									file.WriteLine(
 										tile + "_" +				// 0 Welke tile
-										tile.startDirection + "_" +	// 1 Begin richting
-										tile.endDirection + "_" +	// 2 Eind richting
-										tile.listPlace + "_" +		// 3 Plaats in de lijst
-										tile.position.X + "_" +		// 4 X positie
-										tile.position.Y + "_" /* +		// 5 Y positie
-										tile.LanesHighToLow + "_" + // 6 Wegen hoog, laag
-										tile.LanesLowToHigh*/);		// 7 Wegen laag, hoog
+										tile.listPlace + "_" +		// 1 Plaats in de lijst
+										tile.position.X + "_" +		// 2 X positie
+										tile.position.Y + "_" +		// 3 Y positie
+										tile.maxSpeed + "_"	+		// 4 Maxpeed
+										tile.startDirection + "_" +	// 5 Begin richting
+										tile.endDirection + "_" +	// 6 Eind richting
+										tile.LanesHighToLow + "_" + // 7 Wegen hoog, laag
+										tile.LanesLowToHigh);		// 8 Wegen laag, hoog
 									break;
 
 								/// Save case for a spawner
 								case "Spawner":
 									file.WriteLine(
 										tile + "_" +				// 0 Welke tile
-										tile.direction + "_" +		// 1 Richting
-										tile.listPlace + "_" +		// 2 Plaats in de lijst
-										tile.position.X + "_" +		// 3 X positie
-										tile.position.Y);			// 4 Y positie
-									// lanes
-									// carspersecond
-									// other info
-									// more info
+										tile.listPlace + "_" +		// 1 Plaats in de lijst
+										tile.position.X + "_" +		// 2 X positie
+										tile.position.Y + "_" +		// 3 Y positie
+										tile.maxSpeed + "_" +		// 4 Maxspeed
+										tile.direction + "_" +		// 5 Richting
+										" " + "_" +					// 6 Empty
+										tile.LanesHighToLow + "_" +	// 7 LanesHighToLow
+										tile.LanesLowToHigh);		// 8 LanesLowToHigh
 									break;
 
 								// TODO: Save options for extra info, such as greenwave, traffic lights

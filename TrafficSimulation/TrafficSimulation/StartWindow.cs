@@ -111,6 +111,24 @@ namespace TrafficSimulation
 
 								int tilesHorizontal = Size.Width / 100;
 
+								/// You need different information from different tiles
+								/// So you need multiple cases, one for each tile
+								/// 
+								/// Basic information
+								///		 0: tile name
+								///		 1: place in list
+								///		 2: x position
+								///		 3: y position
+								///	Specific information
+								///		 4: Maxspeed for a tile
+								///		 5: begin direction (notDirection for Fork, direction for Spawner)
+								///		 6: end direction (Crossroad doesn't have any directions)
+								///		 7: laneshightolow, not for crossroad and fork.
+								///		 8: laneslowtohigh, not for crossroad and fork.
+								///	Green Wave info
+								///		 9: 
+								///		10: 
+								///		11:
 								switch (information[0])
 								{
 									case "TrafficSimulation.Fork":
