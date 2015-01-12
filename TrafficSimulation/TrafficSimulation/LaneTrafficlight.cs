@@ -9,14 +9,17 @@ namespace TrafficSimulation
 {
     class LaneTrafficlight
     {
-        List<Trafficlight> trafficlights;
+        SimControl simcontrol;
+        public List<Trafficlight> trafficlights;
         Tile road;
+        public int direction;
 
         public LaneTrafficlight(SimControl sim, Tile road, int Direction, int Lanes)
         {
             trafficlights = new List<Trafficlight>();
             this.road = road;
-
+            simcontrol = sim;
+            this.direction = Direction + 1;
             for (int i = 0; i < Lanes; i++)
             {
                 Point Position = GetPosition(Direction, i);
@@ -30,6 +33,7 @@ namespace TrafficSimulation
             {
                 Trafficlight Light = (Trafficlight)trafficlights[i];
                 Light.UpdateColor(kleur);
+                UpdateTileAccess(i, kleur);
             }
         }
 
@@ -43,18 +47,18 @@ namespace TrafficSimulation
             {
                 case 0:
                     Position.X = 37 - (NumberTrafficlight * 16);
-                    Position.Y = 0;
+                    Position.Y = 1;
                     break;
                 case 1:
-                    Position.X = 90;
+                    Position.X = 89;
                     Position.Y = 37 - (NumberTrafficlight * 16);
                     break;
                 case 2:
                     Position.X = 53 + (NumberTrafficlight * 16);
-                    Position.Y = 90;
+                    Position.Y = 89;
                     break;
                 case 3:
-                    Position.X = 0;
+                    Position.X = 1;
                     Position.Y = 53 + (NumberTrafficlight * 16);
                     break;
             }
@@ -67,6 +71,18 @@ namespace TrafficSimulation
             foreach (Trafficlight light in trafficlights)
             {
                 light.DrawTrafficlight(Color.Red);
+            }
+        }
+        private void UpdateTileAccess(int lane, Color kleur)
+        {
+            Tile Othertile = road.GetOtherTile(simcontrol,direction);
+            if (Othertile != null)
+            {
+                int tileDirection = (direction + 1) % 4 + 1;
+                if (kleur == Color.Green)
+                    Othertile.Access[tileDirection-1, lane] = true;
+               else
+                    Othertile.Access[tileDirection-1, lane] = false;
             }
         }
     }
