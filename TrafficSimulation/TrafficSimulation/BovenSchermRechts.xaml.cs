@@ -26,8 +26,8 @@ namespace TrafficSimulation
         InfoBalk infoBalk;
         OnderScherm onderScherm;
         WindowSelect windowselect;
+        Boolean day = false;
         int breedteScherm, breedteInfoBalk, hoogteBovenBalk;
-        //int daynightcount = 0;
 
         public BovenSchermRechts(WindowSelect ws,  InfoBalk info, OnderScherm Onder, int bs, int bib, int hbb)
         {
@@ -44,6 +44,7 @@ namespace TrafficSimulation
 		/// Opens and closes the information thing.
 		/// It's by default hidden.
 		/// </summary>
+
         public void Info_Click(object sender, RoutedEventArgs e)
         {
 			/// Hide info
@@ -56,14 +57,13 @@ namespace TrafficSimulation
             else
             {
                 windowselect.simwindow.infoHost.Location = new System.Drawing.Point(windowselect.simwindow.Size);
+                //ShowComboBox(windowselect.simwindow.simcontrol.selectedTile.Directions);
                 InfoVisible = true;
             }
         }
 
-		/// <summary>
-		/// Gets the user to the homescreen
-		/// </summary>
-        private void Home_Click(object sender, RoutedEventArgs e)
+		// Gets the user to the homescreen
+		private void Home_Click(object sender, RoutedEventArgs e)
         {
             windowselect.Start();
 
@@ -74,23 +74,21 @@ namespace TrafficSimulation
 			}
         }
 
-		/// <summary>
-		/// Method for saving the map.
-		/// </summary>
+		// Method for saving the map.
 		private void Save_Click(object sender, RoutedEventArgs e)
 		{
 			try
 			{
-				/// New savedialog
+				// New savedialog
 				System.Windows.Forms.SaveFileDialog saveDialog = new System.Windows.Forms.SaveFileDialog();
 
-				/// Custom filename
+				// Custom filename
 				int number = 1;
 				string filename = "Traffic" + number.ToString();
 
 				string path = saveDialog.InitialDirectory.ToString() + "/" + filename + ".trs";
 				
-				/// Extension name (.trs => TRafficSimulation)
+				// Extension name (.trs => TRafficSimulation)
 				saveDialog.DefaultExt = ".trs";
 				//saveDialog.InitialDirectory = true;
 
@@ -103,25 +101,25 @@ namespace TrafficSimulation
 
 				saveDialog.FileName = filename;
 
-				/// Set the ability to overwrite another file to true
+				// Set the ability to overwrite another file to true
 				saveDialog.OverwritePrompt = true;
 
-				/// Is the button "Save" pressed?
+				// Is the button "Save" pressed?
 				if (saveDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
 				{
 					StreamWriter file = new StreamWriter(@saveDialog.FileName);
 					file.AutoFlush = true;
 
-					/// Get every tile in the list
+					// Get every tile in the list
 					foreach (Tile tile in windowselect.simwindow.simcontrol.tileList)
 					{
-						/// If the tile has some value asigned to it
+						// If the tile has some value asigned to it
 						if (tile != null)
 						{
 							String currenttile = tile.name;
 
-							/// You need different information from different tiles
-							/// So you need multiple cases, one for each tile
+							// You need different information from different tiles
+							// So you need multiple cases, one for each tile
 							switch (currenttile)
 							{
 								/// Save case for a fork
@@ -135,7 +133,7 @@ namespace TrafficSimulation
 									// lanes
 									break;
 
-								/// Save case for a crossroad
+								// Save case for a crossroad
 								case "Crossroad":
 									file.WriteLine(
 										tile + "_" +				// 0 Welke tile
@@ -145,7 +143,7 @@ namespace TrafficSimulation
 									// lanes
 									break;
 
-								/// Save case for a road (that is a straight road or a curved road)
+								// Save case for a road (that is a straight road or a curved road)
 								case "Road":
 									file.WriteLine(
 										tile + "_" +				// 0 Welke tile
@@ -158,7 +156,7 @@ namespace TrafficSimulation
 										tile.LanesLowToHigh*/);		// 7 Wegen laag, hoog
 									break;
 
-								/// Save case for a spawner
+								// Save case for a spawner
 								case "Spawner":
 									file.WriteLine(
 										tile + "_" +				// 0 Welke tile
@@ -186,16 +184,30 @@ namespace TrafficSimulation
 				// TODO: Make a better screen. This isn't very useful to many users...
 			}
 		}	
+        
         private void Help_Click(object sender, RoutedEventArgs e)
         {
 
         }
 
-        /// <summary>
-        /// Method for day and night.
-        /// </summary>
+       
+        // Method for day and night.
+        /*
         private void DayNight_Click(object sender, RoutedEventArgs e)
         {
+            BitmapImage bm = new BitmapImage(new Uri("@Buttons/Day_Button.png", UriKind.RelativeOrAbsolute));
+            imageDay.Source = bm;
+            
+            if (day == true)
+            {
+                imageDay.Source = bm;
+                day = false;
+            }
+            else if (day == false)
+            {
+                imageDay.Source = bm;
+                day = true;
+            }
             //if (windowselect.simwindow.Day == true)
             //{
             //    DayNight.Content = "Day";
@@ -207,6 +219,7 @@ namespace TrafficSimulation
             //    s.Day = true;
             //}
         }
+         * */
 
     }
 }

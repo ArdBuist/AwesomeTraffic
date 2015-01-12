@@ -21,25 +21,22 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Border x:Name="BorderStyle" 
-                                Background="Green" 
-                                BorderBrush="Green" 
-                                BorderThickness="5" 
+                                Background="Transparent" 
+                                BorderBrush="Transparent" 
+                                BorderThickness="3" 
                                 CornerRadius="10,10,10,10" >
                             <ContentPresenter Margin="{TemplateBinding Padding}" 
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                              ClipToBounds="True" 
-                                              >
-                            </ContentPresenter>
+                                              ClipToBounds="True" />
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="BorderStyle" Property="Background" Value="LightGray"/>
-                                <Setter Property="Foreground" Value="Red" />
+                                <Setter TargetName="BorderStyle" Property="Background" Value="cornsilk"/>
                                 <Setter Property="Cursor" Value="Hand" />
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="false">
-                                <Setter TargetName="BorderStyle" Property="Background" Value="White"/>
+                                <Setter TargetName="BorderStyle" Property="Background" Value="Transparent"/>
                                 <Setter Property="BorderBrush" Value="Green"/>
                                 <Setter Property="Opacity" Value="0.25"/>
                                 <Setter Property="Cursor" Value="No"/>
@@ -52,12 +49,12 @@
         </Style>
 
     </UserControl.Resources>
-	<Grid x:Name="GridExtraButtonsOS" Background="Green" LostFocus="LostFocusExtra" MouseLeave="LostFocusExtra">
+	<Grid x:Name="GridExtraButtonsOS" Background="Transparent" LostFocus="LostFocusExtra" MouseLeave="LostFocusExtra">
         
-        <Border BorderBrush="White" 
-                BorderThickness="2" 
-                CornerRadius="10,0,10,0" 
-                Background="Transparent" 
+        <Border BorderBrush="LightSalmon" 
+                BorderThickness="3" 
+                Background="NavajoWhite"
+                CornerRadius="10,10,10,10" 
                 Grid.Row="0" 
                 Grid.Column="0">
             

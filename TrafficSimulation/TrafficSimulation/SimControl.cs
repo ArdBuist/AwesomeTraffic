@@ -36,6 +36,7 @@ namespace TrafficSimulation
         //oude groene golf tile
         private Tile oldGreenWaveTile;
 
+        public Tile selectedTile;
         //de oude geselecteerde tile
         public Tile oldselectedTile;
 

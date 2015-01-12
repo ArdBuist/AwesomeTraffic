@@ -194,7 +194,6 @@ namespace TrafficSimulation
         {
             if(t.name == "Spawner" && t.Directions.Contains((v.Direction+1)%4+1))
             {
-                
                 switch (v.Direction)
                 {
                     case 1: if (v.position.Y - v.Speed <= t.position.Y + 30)
