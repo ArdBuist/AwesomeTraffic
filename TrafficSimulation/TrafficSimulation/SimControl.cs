@@ -218,10 +218,10 @@ namespace TrafficSimulation
                     if (mea.X / 100 * 100 == greenWaveList[(countGreenWave - 1)].position.X && mea.Y / 100 * 100 == greenWaveList[(countGreenWave - 1)].position.Y)
                     {
                         //verwijder deze tile uit de removelist + andere groene golf list en teken de tile opnieuw
-                        greenWaveRemoveList[Methods.CalculateListPlace(mea.X, mea.Y)] = null;
+                        greenWaveRemoveList[Methods.CalculateListPlace(this,mea.X, mea.Y)] = null;
                         greenWaveList[(countGreenWave - 1)] = null;
 
-                        tileImage = tileList[Methodes.CalculateListPlace(mea.X, mea.Y)].DrawImage();
+                        tileImage = tileList[Methods.CalculateListPlace(this,mea.X, mea.Y)].DrawImage();
                         backgroundBC.AddObject(tileImage, mea.X / 100 * 100, mea.Y / 100 * 100);
                     }
 
@@ -237,13 +237,13 @@ namespace TrafficSimulation
             if (ValidSelect(selectedTile, mea.X, mea.Y) == true)
             {
                 //tekenen selectielijn om de tile
-                selectedTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), CalculateListPlace(mea.X, mea.Y));
+                selectedTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), Methods.CalculateListPlace(this, mea.X, mea.Y));
                 tileImage = selectedTile.DrawImage();
                 backgroundBC.AddObject(tileImage, mea.X / 100 * 100, mea.Y / 100 * 100);
 
 
                 //de geselecteerde tile wordt toegevoegd aan de 2 groene golflijsten en de counter wordt opgehoogd
-                greenWaveRemoveList[Methods.CalculateListPlace(mea.X, mea.Y)] = selectedTile;
+                greenWaveRemoveList[Methods.CalculateListPlace(this,mea.X, mea.Y)] = selectedTile;
 
                 greenWaveList[countGreenWave] = selectedTile;
                 countGreenWave++;
