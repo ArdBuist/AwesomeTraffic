@@ -149,6 +149,8 @@
                            Content="Amount of Lanes" />
 
                     <ComboBox x:Name="lanes" 
+                              DropDownClosed="Lanes_SelectionChanged"
+                              Tag="3_1"
                               Grid.Row="1" 
                               Grid.Column="1" 
                               Style="{StaticResource infoBalkComboBox}">

@@ -21,7 +21,7 @@ namespace TrafficSimulation
     /// </summary>
     public partial class BovenSchermRechts : UserControl
     {
-        public Boolean InfoVisible = true;
+        public Boolean InfoVisible = false;
         //private bool simulationStarted = false;
         InfoBalk infoBalk;
         OnderScherm onderScherm;
@@ -47,7 +47,7 @@ namespace TrafficSimulation
         public void Info_Click(object sender, RoutedEventArgs e)
         {
 			/// Hide info
-            if (InfoVisible)
+            if (!InfoVisible)
             {
                 windowselect.simwindow.infoHost.Location = new System.Drawing.Point((breedteScherm - breedteInfoBalk), hoogteBovenBalk);
                 InfoVisible = false;

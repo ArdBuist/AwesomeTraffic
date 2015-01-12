@@ -142,7 +142,7 @@ namespace TrafficSimulation
           	/*deze code moet worden gedaan zo als de simulatie wordt gestart.*/
 
 		/// De eerder geselecteerde tile wordt opnieuw getekend en verwijdert zo de blauwe rand
-		if (oldselectedTile != null)
+		if (oldselectedTile != null )
 		{
 			backgroundBC.AddObject(oldselectedTile.DrawImage(), oldselectedTile.position.X, oldselectedTile.position.Y);
 			oldselectedTile = null;

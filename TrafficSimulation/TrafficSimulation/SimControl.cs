@@ -38,6 +38,8 @@ namespace TrafficSimulation
 
         //de oude geselecteerde tile
         public Tile oldselectedTile;
+
+        public Tile selectedTile;
         //list for all vehicles needs to be removed
         public List<Vehicle> vehicleList;
         //
@@ -140,12 +142,14 @@ namespace TrafficSimulation
             if (tileList[Methods.CalculateListPlace(this,mea.X, mea.Y)] != null)
             {
                 Bitmap tileImage;
-                Tile selectedTile = new SelectTile();
+                Tile selectTile = new SelectTile();
                 //Er wordt een blauw randje getekend om de geselecteerde tile
-                selectedTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), Methods.CalculateListPlace(this,mea.X, mea.Y));
-                tileImage = selectedTile.DrawImage();
+                selectTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), Methods.CalculateListPlace(this,mea.X, mea.Y));
+                tileImage = selectTile.DrawImage();
                 //de huidige selectedTile wordt de oude selectedtile voor de volgende keer
                 oldselectedTile = tileList[Methods.CalculateListPlace(this,mea.X, mea.Y)];
+                selectedTile = tileList[Methods.CalculateListPlace(this, mea.X, mea.Y)];
+                UpdateInfoBalkDesign();
                 this.Invalidate();
             }
         }
@@ -178,9 +182,12 @@ namespace TrafficSimulation
                 tileList[Methods.CalculateListPlace(this, mea.X, mea.Y)] = currentBuildTile;
                 //Dit zorgt ervoor dat de kaart geupdate wordt met de nieuwe tile
                 backgroundBC.AddObject(tileImage, mea.X / 100 * 100, mea.Y / 100 * 100);
+                selectedTile = currentBuildTile;
+                UpdateInfoBalkDesign();
                 trafficlightBC.bitmap.MakeTransparent(Color.Green);
                 currentBuildTile = CopyCurrentTile();//hier wordt een nieuwe buildTile gemaakt met dezelfde waardes als daarvoor omdat er dan opnieuw een tile ingeklikt kan worden.
                 this.Invalidate();
+                
             }
         }
 
@@ -852,6 +859,17 @@ namespace TrafficSimulation
                     }
                 }
             }
+        }
+        public void UpdateInfoBalkDesign()
+        {
+            //simwindow.InfoBalk.lanes.SelectedIndex =  selectedTile.GetLanesOut(int.Parse((string)simwindow.InfoBalk.lanes.Tag))-1;
+            int[,] lanes = new int[4,2];
+            for(int i = 0; i<4;i++)
+            {
+                lanes[i,1] = selectedTile.GetLanesIn(i+1);
+                lanes[i,0] = selectedTile.GetLanesOut(i+1);
+            }
+            simwindow.InfoBalk.UpdateDesign(lanes, selectedTile.maxSpeed);
         }
     }
 }
