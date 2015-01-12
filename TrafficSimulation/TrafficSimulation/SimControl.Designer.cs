@@ -94,7 +94,6 @@ namespace TrafficSimulation
 			if (mea.Button == System.Windows.Forms.MouseButtons.Right)
 				removeTile(mea);
 
-
 			/// Als je een weg wil bouwen
 			else if (state == "building")
 				DrawTile(mea);
@@ -113,18 +112,18 @@ namespace TrafficSimulation
             if (mouseDownPoint != new Point(0, 0))
             {
 
-		/// Draws a line of straight roads on mousedown
-		if (TileIsStraight(mouseDownPoint, mea.Location) && state == "building" && simulation.simStarted == false && mea.Button == System.Windows.Forms.MouseButtons.Left)
-		 	DrawTile(mea);
+				/// Draws a line of straight roads on mousedown
+				if (TileIsStraight(mouseDownPoint, mea.Location) && state == "building" && simulation.simStarted == false && mea.Button == System.Windows.Forms.MouseButtons.Left)
+		 			DrawTile(mea);
 
-		/// Move the map
+				/// Move the map
                 if (state == "selected" || stateGreenWave == "buildingGreenWave")
 
                     MoveMap(mea);
 
-		/// Erase all the tiles that you come across with your mouse
-		if (state == "eraser" && simulation.simStarted == false)
-			removeTile(mea);
+				/// Erase all the tiles that you come across with your mouse
+				if (state == "eraser" && simulation.simStarted == false)
+					removeTile(mea);
             }
         }
 
@@ -138,17 +137,6 @@ namespace TrafficSimulation
             if (isMoved == false)
             {
 
-	    if (state == "selected")
-	    {
-                DrawSelectLine(mea);
-            }
-
-            //als de gum-tool is aangeklikt
-            else if (state == "eraser")
-            {
-                removeTile(mea);
-            }
-            
 
             //als je een route wil aanklikken voor een groene golf
             if (stateGreenWave == "buildingGreenWave")
@@ -156,12 +144,23 @@ namespace TrafficSimulation
                 DrawGreenWave(mea);
             }            
 
-		// De eerder geselecteerde tile wordt opnieuw getekend en verwijdert zo de blauwe rand
-		if (oldselectedTile != null)
-		{
-			backgroundBC.AddObject(oldselectedTile.DrawImage(), oldselectedTile.position.X, oldselectedTile.position.Y);
-			oldselectedTile = null;
-		}
+				/// De eerder geselecteerde tile wordt opnieuw getekend en verwijdert zo de blauwe rand
+				if (oldselectedTile != null)
+				{
+					backgroundBC.AddObject(oldselectedTile.DrawImage(), oldselectedTile.position.X, oldselectedTile.position.Y);
+					oldselectedTile = null;
+				}
+
+				/// Als de gum-tool is aangeklikt
+				if (state == "eraser")
+				{
+					removeTile(mea);
+				}
+              
+
+				/// Als de select-tool is aangeklikt
+				else if (state == "selected")
+					DrawSelectLine(mea);
             }
 
             isMoved = false;

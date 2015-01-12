@@ -92,14 +92,16 @@ namespace TrafficSimulation
 				
 				/// Extension name (.trs => TRafficSimulation)
 				saveDialog.DefaultExt = ".trs";
-				//saveDialog.InitialDirectory = true;
+				saveDialog.Filter = "Traffic Simulation files (*.trs) | *.trs";
 
+				/*
 				while (File.Exists(path))
 				{
 					number++;
 					filename = "Traffic" + number.ToString();
 					path = saveDialog.InitialDirectory.ToString() + filename + ".trs";
 				}
+				*/
 
 				saveDialog.FileName = filename;
 
