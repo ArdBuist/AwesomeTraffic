@@ -11,17 +11,20 @@ namespace TrafficSimulation
     public class TrafficlightControl
     {
         List<LaneTrafficlight> trafficlightList;
+        SimControl simcontrol;
         int NumberOfDirections;
         Tile road;
         int turn = 0;
         long lastTime = 0;
-        int secondsPerUpdate = 1;
+        int secondsPerUpdate = 2;
 
         public TrafficlightControl(SimControl sim, Tile road, int Directions, int NotDirection, int[] NumberOfLanes)
         {
             trafficlightList = new List<LaneTrafficlight>();
 
             NumberOfDirections = Directions;
+            this.road = road;
+            this.simcontrol = sim;
 
             for (int i = 0; i < 4; i++)
             {
@@ -37,7 +40,8 @@ namespace TrafficSimulation
             trafficlightList = new List<LaneTrafficlight>();
 
             NumberOfDirections = Directions;
-
+            this.road = road;
+            this.simcontrol = sim;
             for (int i = 0; i < 4; i++)
             {
                 if (i != NotDirection-1)
@@ -79,7 +83,6 @@ namespace TrafficSimulation
                 }
                 laneTrafficlight.ChangeColor(kleur);
             }
-            //Geeft nog helemaal niks door aan omliggende tiles. Dat moet hier nog.
         }
 
         public void ChangeValues(Point position)

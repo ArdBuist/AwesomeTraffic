@@ -15,6 +15,7 @@ namespace TrafficSimulation
 {
     public partial class SimControl : UserControl
     {
+        public SimWindow simwindow;
         //BitmapControls used for the bitmaps in which the background, vehicles and trafficlights are stored
         public BitmapControl backgroundBC, trafficlightBC, vehicleBC;
         //PictureBox 
@@ -64,6 +65,7 @@ namespace TrafficSimulation
 
         public SimControl(Size size, SimWindow simulation)
         {
+            simwindow = simulation;
             //methode in the partial class creating all the objects needed for the simulation
             this.Size = new Size(2000, 1500);//has to be changed to the windowsize
             /* 
@@ -122,7 +124,7 @@ namespace TrafficSimulation
         */
         private bool TileIsStraight(Point mouseDown, Point mousePoint)
         {
-            if (currentBuildTile.name == "Road")
+            if (currentBuildTile.name == "Road" && state == "building")
             {
                 Road tile = (Road)currentBuildTile;
                 if ((tile.startDirection + tile.endDirection) % 2 == 0)
@@ -139,70 +141,90 @@ namespace TrafficSimulation
         //tekent een blauwe lijn om de geselecteerde tile
         private void DrawSelectLine(MouseEventArgs mea)
         {
-            if (tileList[CalculateListPlace(mea.X, mea.Y)] != null)
+            if (tileList[Methods.CalculateListPlace(this,mea.X, mea.Y)] != null)
             {
                 Bitmap tileImage;
                 Tile selectedTile = new SelectTile();
                 //Er wordt een blauw randje getekend om de geselecteerde tile
-                selectedTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), CalculateListPlace(mea.X, mea.Y));
+                selectedTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), Methods.CalculateListPlace(this,mea.X, mea.Y));
                 tileImage = selectedTile.DrawImage();
                 //de huidige selectedTile wordt de oude selectedtile voor de volgende keer
-                oldselectedTile = tileList[CalculateListPlace(mea.X, mea.Y)];
+                oldselectedTile = tileList[Methods.CalculateListPlace(this,mea.X, mea.Y)];
                 this.Invalidate();
             }
         }
 
         //"verwijdert" een tile (d.m.v. tekenen groen vlak)
-        private void removeTile(MouseEventArgs mea)
+        public void removeTile(MouseEventArgs mea)
         {
-            if (tileList[CalculateListPlace(mea.X, mea.Y)] != null)
+            if (tileList[Methods.CalculateListPlace(this,mea.X, mea.Y)] != null)
             {
                 Bitmap tileImage;
                 Tile selectedTile = new removeTile();
-                selectedTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), CalculateListPlace(mea.X, mea.Y));
+                selectedTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), Methods.CalculateListPlace(this,mea.X, mea.Y));
                 tileImage = selectedTile.DrawImage();
                 trafficlightBC.AddObject(tileImage, mea.X / 100 * 100, mea.Y / 100 * 100);
-                tileList[CalculateListPlace(mea.X, mea.Y)] = null;
+                tileList[Methods.CalculateListPlace(this,mea.X, mea.Y)] = null;
                 this.Invalidate();
-                //hier moet nog bij dat de trafficlights ook worden verwijderd
+
             }
         }
 
         private void DrawTile(MouseEventArgs mea)
         {
             Bitmap tileImage;
-            currentBuildTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), CalculateListPlace(mea.X, mea.Y));
-            tileImage = currentBuildTile.DrawImage();
-            //tile wordt in de lijst van tiles gezet
-            tileList[CalculateListPlace(mea.X, mea.Y)] = currentBuildTile;
-            //Dit zorgt ervoor dat de kaart geupdate wordt met de nieuwe tile
-            backgroundBC.AddObject(tileImage, mea.X / 100 * 100, mea.Y / 100 * 100);
-            trafficlightBC.bitmap.MakeTransparent(Color.Green);
-            currentBuildTile = CopyCurrentTile();//hier wordt een nieuwe buildTile gemaakt met dezelfde waardes als daarvoor omdat er dan opnieuw een tile ingeklikt kan worden.
-            this.Invalidate();
+            if (TileConnectionisValid(Methods.CalculateListPlace(this, mea.X, mea.Y)))
+            {
+                removeTile(mea);
+                currentBuildTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), Methods.CalculateListPlace(this, mea.X, mea.Y));
+                tileImage = currentBuildTile.DrawImage();
+                //tile wordt in de lijst van tiles gezet
+                tileList[Methods.CalculateListPlace(this, mea.X, mea.Y)] = currentBuildTile;
+                //Dit zorgt ervoor dat de kaart geupdate wordt met de nieuwe tile
+                backgroundBC.AddObject(tileImage, mea.X / 100 * 100, mea.Y / 100 * 100);
+                trafficlightBC.bitmap.MakeTransparent(Color.Green);
+                currentBuildTile = CopyCurrentTile();//hier wordt een nieuwe buildTile gemaakt met dezelfde waardes als daarvoor omdat er dan opnieuw een tile ingeklikt kan worden.
+                this.Invalidate();
+            }
         }
 
+        private bool TileConnectionisValid(int listplace)
+        {
+            currentBuildTile.listPlace = listplace;
+            if(currentBuildTile.name == "Crossroad" || currentBuildTile.name == "Fork")
+            {
+                foreach(int direction in currentBuildTile.Directions)
+                {
+                    if (currentBuildTile.GetOtherTile(this, direction) != null && (currentBuildTile.GetOtherTile(this, direction).name == "Crossroad" || currentBuildTile.GetOtherTile(this, direction).name == "Fork") )
+                        return false;
+                }
+            }
+            return true;
+        }
         //methode om een groene golf te selecteren
         private void DrawGreenWave(MouseEventArgs mea)
         {
+
             Bitmap tileImage;
             Tile selectedTile = new SelectGreenWaveTile();
 
             //als er op een al geselecteerde groene golf tile wordt geklikt
-            if (greenWaveRemoveList[CalculateListPlace(mea.X, mea.Y)] != null)
+            if (greenWaveRemoveList[Methods.CalculateListPlace(this,mea.X, mea.Y)] != null)
             {
                 if (countGreenWave != 0)
                 {
+
                     //als de hiervoor aangeklikte groene golf tile is aangeklikt
                     if (mea.X / 100 * 100 == greenWaveList[(countGreenWave - 1)].position.X && mea.Y / 100 * 100 == greenWaveList[(countGreenWave - 1)].position.Y)
                     {
                         //verwijder deze tile uit de removelist + andere groene golf list en teken de tile opnieuw
-                        greenWaveRemoveList[CalculateListPlace(mea.X, mea.Y)] = null;
+                        greenWaveRemoveList[Methods.CalculateListPlace(mea.X, mea.Y)] = null;
                         greenWaveList[(countGreenWave - 1)] = null;
 
-                        tileImage = tileList[CalculateListPlace(mea.X, mea.Y)].DrawImage();
+                        tileImage = tileList[Methodes.CalculateListPlace(mea.X, mea.Y)].DrawImage();
                         backgroundBC.AddObject(tileImage, mea.X / 100 * 100, mea.Y / 100 * 100);
                     }
+
 
                     else
                     {
@@ -219,19 +241,23 @@ namespace TrafficSimulation
                 tileImage = selectedTile.DrawImage();
                 backgroundBC.AddObject(tileImage, mea.X / 100 * 100, mea.Y / 100 * 100);
 
+
                 //de geselecteerde tile wordt toegevoegd aan de 2 groene golflijsten en de counter wordt opgehoogd
-                greenWaveRemoveList[CalculateListPlace(mea.X, mea.Y)] = selectedTile;
+                greenWaveRemoveList[Methods.CalculateListPlace(mea.X, mea.Y)] = selectedTile;
+
                 greenWaveList[countGreenWave] = selectedTile;
                 countGreenWave++;
 
                 //de huidige selectedTile wordt de oude selectedtile voor de volgende keer
-                oldGreenWaveTile = tileList[CalculateListPlace(mea.X, mea.Y)];
+                oldGreenWaveTile = tileList[Methods.CalculateListPlace(this,mea.X, mea.Y)];
 
                 this.Invalidate();
             }
 
             //als er op een tile wordt geklikt die niet mag en die nog geen groene golf tile is
-            if (ValidSelect(selectedTile, mea.X, mea.Y) == false && greenWaveRemoveList[CalculateListPlace(mea.X, mea.Y)] == null)
+
+            if (ValidSelect(selectedTile, mea.X, mea.Y) == false && greenWaveRemoveList[Methods.CalculateListPlace(this,mea.X, mea.Y)] == null)
+
             {
                 //in infoscherm zetten: "U kunt alleen aansluitende wegen of kruispunten selecteren. Kies een andere tegel."
             }
@@ -286,7 +312,8 @@ namespace TrafficSimulation
         //checken of de tile niet al een groene golf tile is. True als het geen groene golf tile is
         private bool ValidSelectnoGreenWave(int x, int y)
         {
-            if (greenWaveRemoveList[CalculateListPlace(x, y)] == null)
+
+            if (greenWaveRemoveList[Methods.CalculateListPlace(this,x, y)] == null)
             {
                 return true;
             }
@@ -331,7 +358,7 @@ namespace TrafficSimulation
         //checken of de tile een weg of kruispunt heeft. True als dat zo is
         private bool ValidSelecthasRoad(int x, int y)
         {
-            if (tileList[CalculateListPlace(x, y)] != null)
+            if (tileList[Methods.CalculateListPlace(this,x, y)] != null)
             {
                 return true;
             }
@@ -451,15 +478,12 @@ namespace TrafficSimulation
                 if (moveGround.Contains(newPosition))
                 {
                     backgroundPB.Location = newPosition;
-                    isMoved = false;
+                    isMoved = true;
                 }
                 this.Update();
             }
         }
-        private int CalculateListPlace(int mouseX, int mouseY)
-        {
-            return mouseY / 100 * tilesHorizontal + mouseX / 100;
-        }
+       
 
         public void ClearRoad()
         {
@@ -467,9 +491,13 @@ namespace TrafficSimulation
             {
                 if (t != null)
                 {
-                    foreach (List<Vehicle> l in t.vehicles)
+
+                    foreach(List<List<Vehicle>> list in t.vehicles)
                     {
-                        l.Clear();
+                        foreach(List<Vehicle> l in list)
+                        {
+                            l.Clear();
+                        }
                     }
                 }
             }
@@ -478,330 +506,330 @@ namespace TrafficSimulation
             g.Clear(System.Drawing.Color.Transparent);
         }
 
-        //hele methode kan weer weg zo gauw er een interface is waar we mee kunnen testen.
         private void DrawStartImages()
         {
             Bitmap tileImage;
             int roadX, roadY;
 
-            /*kaart voor testen en laten zien*/
+			
             currentBuildTile = new Spawner(3);
             roadX = 5;
             roadY = 2;
             tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
             currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
+            tileImage = currentBuildTile.DrawImage();
             backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
             currentBuildTile = new Spawner(3);
             roadX = 6;
             roadY = 5;
             tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
             currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
+            tileImage = currentBuildTile.DrawImage();
             backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
             currentBuildTile = new Spawner(4);
             roadX = 11;
             roadY = 2;
             tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
             currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
+            tileImage = currentBuildTile.DrawImage();
             backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
             currentBuildTile = new Spawner(2);
             roadX = 5;
             roadY = 9;
             tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
             currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
+            tileImage = currentBuildTile.DrawImage();
             backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
             currentBuildTile = new Spawner(1);
             roadX = 11;
             roadY = 9;
             tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
             currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
+            tileImage = currentBuildTile.DrawImage();
             backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
             currentBuildTile = new Road(1, 2);
             roadX = 5;
             roadY = 3;
             tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
             currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
+            tileImage = currentBuildTile.DrawImage();
             backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
             currentBuildTile = new Road(2, 3);
             roadX = 5;
             roadY = 4;
             tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
             currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
+            tileImage = currentBuildTile.DrawImage();
             backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
             currentBuildTile = new Road(1, 2);
             roadX = 5;
             roadY = 6;
             tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
             currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
+            tileImage = currentBuildTile.DrawImage();
             backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
             currentBuildTile = new Road(1, 3);
             roadX = 5;
             roadY = 5;
             tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
             currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
+            tileImage = currentBuildTile.DrawImage();
             backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
             currentBuildTile = new Road(2, 3);
             roadX = 6;
             roadY = 2;
             tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
             currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
+            tileImage = currentBuildTile.DrawImage();
             backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
             currentBuildTile = new Fork(this, 3);
             roadX = 6;
             roadY = 3;
             tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
             currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
+            tileImage = currentBuildTile.DrawImage();
             backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
             currentBuildTile = new Road(2, 4);
             roadX = 6;
             roadY = 4;
             tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
             currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
+            tileImage = currentBuildTile.DrawImage();
             backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
             currentBuildTile = new Crossroad(this);
             roadX = 6;
             roadY = 6;
             tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
             currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
+            tileImage = currentBuildTile.DrawImage();
             backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
             currentBuildTile = new Road(1, 3);
             roadX = 6;
             roadY = 7;
             tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
             currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
+            tileImage = currentBuildTile.DrawImage();
             backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
             currentBuildTile = new Fork(this, 4);
             roadX = 6;
             roadY = 8;
             tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
             currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
+            tileImage = currentBuildTile.DrawImage();
             backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
             currentBuildTile = new Road(1, 4);
             roadX = 6;
             roadY = 9;
             tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
             currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
+            tileImage = currentBuildTile.DrawImage();
             backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
             currentBuildTile = new Road(2, 4);
             roadX = 7;
             roadY = 2;
             tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
             currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
+            tileImage = currentBuildTile.DrawImage();
             backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
             currentBuildTile = new Road(2, 4);
             roadX = 7;
             roadY = 3;
             tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
             currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
+            tileImage = currentBuildTile.DrawImage();
             backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
             currentBuildTile = new Fork(this, 1);
             roadX = 7;
             roadY = 4;
             tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
             currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
+            tileImage = currentBuildTile.DrawImage();
             backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
             currentBuildTile = new Road(2, 1);
             roadX = 7;
             roadY = 5;
             tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
             currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
+            tileImage = currentBuildTile.DrawImage();
             backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
             currentBuildTile = new Road(2, 4);
             roadX = 7;
             roadY = 6;
             tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
             currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
+            tileImage = currentBuildTile.DrawImage();
             backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
             currentBuildTile = new Road(4, 2);
             roadX = 7;
             roadY = 8;
             tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
             currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
+            tileImage = currentBuildTile.DrawImage();
             backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
             currentBuildTile = new Road(2, 4);
             roadX = 8;
             roadY = 2;
             tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
             currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
+            tileImage = currentBuildTile.DrawImage();
             backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
             currentBuildTile = new Road(2, 4);
             roadX = 8;
             roadY = 3;
             tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
             currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
+            tileImage = currentBuildTile.DrawImage();
             backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
             currentBuildTile = new Road(2, 4);
             roadX = 8;
             roadY = 4;
             tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
             currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
+            tileImage = currentBuildTile.DrawImage();
             backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
             currentBuildTile = new Road(3, 4);
             roadX = 8;
             roadY = 5;
             tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
             currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
+            tileImage = currentBuildTile.DrawImage();
             backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
             currentBuildTile = new Fork(this, 3);
             roadX = 8;
             roadY = 6;
             tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
             currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
+            tileImage = currentBuildTile.DrawImage();
             backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
             currentBuildTile = new Road(4, 2);
             roadX = 8;
             roadY = 8;
             tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
             currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
+            tileImage = currentBuildTile.DrawImage();
             backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
             currentBuildTile = new Road(2, 4);
             roadX = 9;
             roadY = 2;
             tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
             currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
+            tileImage = currentBuildTile.DrawImage();
             backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
             currentBuildTile = new Road(3, 4);
             roadX = 9;
             roadY = 3;
             tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
             currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
+            tileImage = currentBuildTile.DrawImage();
             backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
             currentBuildTile = new Crossroad(this);
             roadX = 9;
             roadY = 4;
             tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
             currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
+            tileImage = currentBuildTile.DrawImage();
             backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
             currentBuildTile = new Road(2, 1);
             roadX = 9;
             roadY = 5;
             tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
             currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
+            tileImage = currentBuildTile.DrawImage();
             backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
             currentBuildTile = new Road(2, 4);
             roadX = 9;
             roadY = 6;
             tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
             currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
+            tileImage = currentBuildTile.DrawImage();
             backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
             currentBuildTile = new Road(2, 3);
             roadX = 9;
             roadY = 7;
             tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
             currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
+            tileImage = currentBuildTile.DrawImage();
             backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
             currentBuildTile = new Fork(this, 3);
             roadX = 9;
             roadY = 8;
             tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
             currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
+            tileImage = currentBuildTile.DrawImage();
             backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
             currentBuildTile = new Fork(this, 1);
             roadX = 10;
             roadY = 2;
             tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
             currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
+            tileImage = currentBuildTile.DrawImage();
             backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
             currentBuildTile = new Road(3, 1);
             roadX = 10;
             roadY = 3;
             tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
             currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
+            tileImage = currentBuildTile.DrawImage();
             backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
             currentBuildTile = new Road(4, 1);
             roadX = 10;
             roadY = 4;
             tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
             currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
+            tileImage = currentBuildTile.DrawImage();
             backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
             currentBuildTile = new Road(4, 3);
             roadX = 10;
             roadY = 5;
             tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
             currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
+            tileImage = currentBuildTile.DrawImage();
             backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
             currentBuildTile = new Crossroad(this);
             roadX = 10;
             roadY = 6;
             tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
             currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
+            tileImage = currentBuildTile.DrawImage();
             backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
             currentBuildTile = new Road(1, 4);
             roadX = 10;
             roadY = 7;
             tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
             currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
+            tileImage = currentBuildTile.DrawImage();
             backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
             currentBuildTile = new Road(2, 4);
             roadX = 10;
             roadY = 8;
             tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
             currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
+            tileImage = currentBuildTile.DrawImage();
             backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
             currentBuildTile = new Road(3, 4);
             roadX = 11;
             roadY = 6;
             tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
             currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
+            tileImage = currentBuildTile.DrawImage();
             backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
             currentBuildTile = new Road(3, 1);
             roadX = 11;
             roadY = 7;
             tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
             currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
+            tileImage = currentBuildTile.DrawImage();
             backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
-            currentBuildTile.LanesHighToLow = 2;
+            currentBuildTile.LanesHighToLow = 3;
             currentBuildTile.UpdateOtherTiles(this, 0);
             currentBuildTile = new Fork(this, 2);
             roadX = 11;
             roadY = 8;
             tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
             currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage(/*hier de variabelen die nodig zijn en vanaf de interface doorgegeven moeten worden*/);
+            tileImage = currentBuildTile.DrawImage();
             backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+			
         }
 
         private void SimControl_Load(object sender, EventArgs e)

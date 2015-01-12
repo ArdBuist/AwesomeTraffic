@@ -57,12 +57,11 @@ namespace TrafficSimulation
         }
 
         private void EraserButton_Checked(object sender, RoutedEventArgs e)
-        {
-            
+        {         
             windowselect.simwindow.simcontrol.state = "eraser";
             extraButtonsOS.Visibility = Visibility.Hidden;
             windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.ClientSize);
-        }
+		}
 
 
         private void RoadButton_Checked(object sender, RoutedEventArgs e)
@@ -123,10 +122,12 @@ namespace TrafficSimulation
 
        private void CrossRoadButton_Checked(object sender, RoutedEventArgs e)
         {
-            windowselect.simwindow.simcontrol.state = "building";
+			windowselect.simwindow.simcontrol.currentBuildTile = new Crossroad(windowselect.simwindow.simcontrol);
+			windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.ClientSize);
+
             extraButtonsOS.Visibility = Visibility.Hidden;
-            windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.ClientSize);
-            windowselect.simwindow.simcontrol.currentBuildTile = new Crossroad(windowselect.simwindow.simcontrol);
+
+			windowselect.simwindow.simcontrol.state = "building";
         }
 
         private void ForkButton_Checked(object sender, RoutedEventArgs e)

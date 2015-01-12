@@ -23,8 +23,8 @@ namespace TrafficSimulation
     {
         public Boolean InfoVisible = true;
         private Boolean simulation = false;
-        private bool simulationStarted = false;
-        InfoBalk Infobalk;
+        //private bool simulationStarted = false;
+        InfoBalk infobalk;
         OnderScherm onderscherm;
         WindowSelect windowselect;
         //int daynightcount = 0;
@@ -34,9 +34,8 @@ namespace TrafficSimulation
         {
 
             windowselect = ws;
-            Infobalk = info;
+            infobalk = info;
             onderscherm = onder;
-
             InitializeComponent();
 
             //aan het begin is het simulatiegedeelte niet te gebruiken.
@@ -47,24 +46,19 @@ namespace TrafficSimulation
             pauze.IsEnabled = false;
         }
 
+        //Klikmethode om te kunnen wisselen tussen de simulatie en designer
         public void SimulationDesign_Click(object sender, RoutedEventArgs e)
         {
-            
             if (simulation)
             {
+                // Buttons in het het bovenschermlinks uitschakelen
                 play.IsEnabled = false;
                 slowDown.IsEnabled = false;
                 speedUp.IsEnabled = false;
                 stop.IsEnabled = false;
                 pauze.IsEnabled = false;
 
-                //stoppen van laten rijden van de auto's
-                if(windowselect.simwindow.simcontrol.simulation.simStarted)
-                    windowselect.simwindow.simcontrol.simulation.StartSim();
-
-                //verwijderen van alle auto's
-                windowselect.simwindow.simcontrol.ClearRoad();
-
+                // Buttons in het onderscherm uitschakelen
                 onderscherm.selectButton.IsEnabled = true;
                 onderscherm.eraserButton.IsEnabled = true;
                 onderscherm.roadButton.IsEnabled = true;
@@ -72,9 +66,14 @@ namespace TrafficSimulation
                 onderscherm.crossRoadButton.IsEnabled = true;
                 onderscherm.forkButton.IsEnabled = true;
                 onderscherm.spawnerButton.IsEnabled = true;
-                
-                windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.ClientSize);
 
+                //stoppen van laten rijden van de auto's
+                if(windowselect.simwindow.simcontrol.simulation.simStarted)
+                    windowselect.simwindow.simcontrol.simulation.StartSim();
+
+                //verwijderen van alle auto's
+                windowselect.simwindow.simcontrol.ClearRoad();
+                windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.ClientSize);
                
                 windowselect.simwindow.simcontrol.Invalidate();
 
@@ -107,16 +106,23 @@ namespace TrafficSimulation
             windowselect.Invalidate();
         }
 
-        private void PlayPauze_Click(object sender, RoutedEventArgs e)
+        //Klikmethode voor het starten van de simulatie
+        private void Play_Click(object sender, RoutedEventArgs e)
         {
             windowselect.simwindow.simcontrol.simulation.StartSim();
         }
 
-        private void Home_Click(object sender, RoutedEventArgs e)
+        //klikmethode voor het pauzeren van de simulatie
+        private void Pauze_Click(object sender, RoutedEventArgs e)
         {
-            windowselect.Start();
+            windowselect.simwindow.simcontrol.simulation.StartSim();
         }
 
+        //Klikmethode voor het stoppen van de simulatie
+        private void Stop_Clik(object sender, RoutedEventArgs e)
+        {
+            windowselect.simwindow.simcontrol.ClearRoad();
+        }
 
         //klikmethode voor het vertragen van de simulatie
         private void SlowDown_Click(object sender, RoutedEventArgs e)
@@ -124,9 +130,11 @@ namespace TrafficSimulation
             //hier moet de variabele van de sleep veranderd worden, zodat de simulatie langzamer gaat
         }
 
+        //klikmethode voor het versnellen van de simulatie
         private void SpeedUp_Click(object sender, RoutedEventArgs e)
         {
             //Hier moeten de variabele van de sleep veranderd worden, zodat de simulatie sneller gaat
         }
+
     }
 }
