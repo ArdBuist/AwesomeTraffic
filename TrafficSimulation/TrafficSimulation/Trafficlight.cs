@@ -29,6 +29,11 @@ namespace TrafficSimulation
             //DrawTrafficlight(Color.Red);
         }
 
+        public Color Kleur
+        {
+            get { return color; }
+        }
+
         public void UpdateColor(Color kleur)
         {
             //hierin kunnen nog meer acties worden gedaan als de kleur wordt veranderd, zoals andere positie van de lichten t.o.v. elkaar.

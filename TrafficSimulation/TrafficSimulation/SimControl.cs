@@ -478,7 +478,7 @@ namespace TrafficSimulation
             Bitmap tileImage;
             int roadX, roadY;
 
-			/*
+			
             currentBuildTile = new Spawner(3);
             roadX = 5;
             roadY = 2;
@@ -796,7 +796,7 @@ namespace TrafficSimulation
             currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
             tileImage = currentBuildTile.DrawImage();
             backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
-			*/
+			
         }
 
         private void SimControl_Load(object sender, EventArgs e)

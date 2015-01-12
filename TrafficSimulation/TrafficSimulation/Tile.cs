@@ -52,13 +52,18 @@ namespace TrafficSimulation
             this.size = new Size(100, 100);
             removedVehicles = new List<Vehicle>();
             directions = new List<int>();
-            initialize(lanesHighToLow + lanesLowToHigh);
+            Initialize();
         }
         public List<int> Directions
         {
             get { return this.directions; }
         }
 
+        public bool[,] Access
+        {
+            get { return access; }
+            set { access = value; }
+        }
         public int LanesHighToLow
         {
             get { return this.lanesHighToLow; }
@@ -76,7 +81,7 @@ namespace TrafficSimulation
             set { maxSpeed = value; }
         }
 
-        public void initialize(int totalLanes)
+        public void Initialize()
         {
             vehicles = new List<List<Vehicle>>[4];
             access = new bool[4,3];
@@ -239,18 +244,30 @@ namespace TrafficSimulation
 
         /*komende methodes zijn voor het laten rijden van de auto's*/
 
-        public void RemoveVehicle(Vehicle v,int Side, int lane)
+        public void RemoveVehicle(SimControl sim, Vehicle v, int Side, int lane)
         {
             List<List<Vehicle>> sideVehicles = vehicles[Side-1];
             List<Vehicle> laneVehicles = sideVehicles[lane];
                 laneVehicles.Remove(v);
+            //looks if there is space for other cars to come on the tile
+                if (laneVehicles.Count < 5 && this.name != "Spawner"&&this.name!="Crossroad" && this.name!="Fork")
+                {
+                    Tile lastTile = this.GetOtherTile(sim, (Side + 1) % 4 + 1);
+                    lastTile.Access[Side - 1, lane] = true;
+                }
         }
 
-        public void AddVehicle(Vehicle v,int Side, int lane)
+        public void AddVehicle(SimControl sim, Vehicle v, int Side, int lane)
         {
             List<List<Vehicle>> sideVehicles = vehicles[Side-1];
             List<Vehicle> laneVehicles = sideVehicles[lane];
             laneVehicles.Add(v);
+            //looks if the tile is full
+            if (laneVehicles.Count > 5 && this.name != "Spawner"&&this.name!="Crossroad" && this.name!="Fork")
+            {
+                Tile lastTile = this.GetOtherTile(sim, (Side + 1) % 4 + 1);
+                lastTile.Access[Side - 1, lane] = false;
+            }
         }
 
     }
@@ -307,17 +324,17 @@ namespace TrafficSimulation
             }
         }
 
-        public void Tick()
+        public void Tick(SimControl sim)
         {
             currentSpawn += spawnPerSec;
 
             if (currentSpawn >= 1)
             {
-                Spawn();
+                Spawn(sim);
             }
         }
 
-        public void Spawn()
+        public void Spawn(SimControl sim)
         {
             //spawnt op een willekeurig moment een auto in een willekeurige baan.
             Byte[] random;
@@ -325,32 +342,22 @@ namespace TrafficSimulation
             rnd.GetBytes(random);
             if (random[0] % 3 == 0)
             {
+                //takes a random lane to spawn in
                 spawnLane = ((random[0]*10)/8) % lanesOut;
-                AddVehicle(createVehicle(), direction, spawnLane);
+                List<List<Vehicle>> vehicleList = vehicles[this.direction - 1];
+                if(vehicleList[spawnLane].Count <4)
+                    AddVehicle(sim, createVehicle(spawnLane), direction, spawnLane);
             }
             currentSpawn--;
         }
 
-        public Vehicle createVehicle()
+        public Vehicle createVehicle(int spawnLane)
         {
-            switch (direction)
-            {
-                case 1:
-                    return new NormalCar(this.position, this.position, 10, this.maxSpeed, this.direction, this.spawnLane);
-                case 2:
-                    return new NormalCar(this.position, this.position, 10, this.maxSpeed, this.direction, this.spawnLane);
-                case 3:
-                    return new NormalCar(this.position, this.position, 10, this.maxSpeed, this.direction, this.spawnLane);
-                case 4:
-                    return new NormalCar(this.position, this.position, 10, this.maxSpeed, this.direction, this.spawnLane);
-            }
-
-            //als het geen van de vier directions is dan is er iets fout gegaan.
-            return null;
+                return new NormalCar(this.position, this.position, 10, this.maxSpeed, this.direction, spawnLane);
         }
 
         public override bool doesConnect(int side)
-        {
+        {   
             if ((side + 1) % 4 + 1 == this.direction)
                 return true;
             return false;
@@ -384,7 +391,7 @@ namespace TrafficSimulation
             }
             directions.Add(startDirection);
             directions.Add(endDirection);
-            initialize(lanesLowToHigh + lanesHighToLow);
+            Initialize();
         }
 
         public override int GetLanesIn(int direction)
@@ -459,7 +466,7 @@ namespace TrafficSimulation
             directions.Remove(notDirection);
             control = new TrafficlightControl(sim, this, 3, notDirection, lanes);
             int totalLanes = CountLanes(lanes);
-            initialize(totalLanes);
+            Initialize();
         }
 
         public int NotDirection { get { return notDirection; } }
@@ -538,7 +545,7 @@ namespace TrafficSimulation
             directions.Add(3);
             directions.Add(4);
             int totalLanes = CountLanes(lanes);
-            initialize(totalLanes);
+            Initialize();
         }
 
         public override int GetLanesIn(int direction)
