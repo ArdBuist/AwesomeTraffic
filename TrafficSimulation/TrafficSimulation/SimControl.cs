@@ -211,7 +211,7 @@ namespace TrafficSimulation
             //als er op een al geselecteerde groene golf tile wordt geklikt
             if (greenWaveRemoveList[Methods.CalculateListPlace(this,mea.X, mea.Y)] != null)
             {
-                if (countGreenWave != 0)
+                if (countGreenWave > 0)
                 {
 
                     //als de hiervoor aangeklikte groene golf tile is aangeklikt
@@ -220,9 +220,15 @@ namespace TrafficSimulation
                         //verwijder deze tile uit de removelist + andere groene golf list en teken de tile opnieuw
                         greenWaveRemoveList[Methods.CalculateListPlace(this,mea.X, mea.Y)] = null;
                         greenWaveList[(countGreenWave - 1)] = null;
+                        
+                        countGreenWave = countGreenWave -1;                       
+                        
 
                         tileImage = tileList[Methods.CalculateListPlace(this,mea.X, mea.Y)].DrawImage();
                         backgroundBC.AddObject(tileImage, mea.X / 100 * 100, mea.Y / 100 * 100);
+                        this.Invalidate();
+                        
+                        oldGreenWaveTile = greenWaveList[countGreenWave-1];
                     }
 
 

@@ -139,7 +139,7 @@ namespace TrafficSimulation
 
 
             //als je een route wil aanklikken voor een groene golf
-            if (stateGreenWave == "buildingGreenWave")
+            if (stateGreenWave == "buildingGreenWave" && state == "selected")
             {
                 DrawGreenWave(mea);
             }            
@@ -161,6 +161,7 @@ namespace TrafficSimulation
 				/// Als de select-tool is aangeklikt
 				else if (state == "selected")
 					DrawSelectLine(mea);
+
             }
 
             isMoved = false;
