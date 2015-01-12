@@ -17,7 +17,11 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type RadioButton}">
-                        <Border Background="Lavender" BorderBrush="Green" BorderThickness="0" CornerRadius="15,15,15,15" x:Name="BorderStyle">
+                        <Border Background="NavajoWhite" 
+                                BorderBrush="Green" 
+                                BorderThickness="0" 
+                                CornerRadius="15,15,15,15" 
+                                x:Name="BorderStyle">
                             <ContentPresenter Margin="{TemplateBinding Padding}" 
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
@@ -57,7 +61,11 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type RadioButton}">
-                        <Border Background="MintCream" BorderBrush="Green" BorderThickness="0" CornerRadius="50,50,50,50" x:Name="BorderStyle">
+                        <Border Background="NavajoWhite" 
+                                BorderBrush="Green" 
+                                BorderThickness="0" 
+                                CornerRadius="50,50,50,50" 
+                                x:Name="BorderStyle">
                             <ContentPresenter Margin="{TemplateBinding Padding}" 
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
@@ -97,7 +105,11 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
-                        <Border Background="MintCream" BorderBrush="Green" BorderThickness="0" CornerRadius="50,50,50,50" x:Name="BorderStyle">
+                        <Border Background="Thistle" 
+                                BorderBrush="Green" 
+                                BorderThickness="0" 
+                                CornerRadius="50,50,50,50" 
+                                x:Name="BorderStyle">
                             <ContentPresenter Margin="{TemplateBinding Padding}" 
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
@@ -182,7 +194,7 @@
                             Grid.Row="0"
                             Grid.Column="0"
                             VerticalAlignment="Bottom">
-                    <Image Source="Resources/Buttons/Play_Button.png" Height="20" Width="20"/>
+                    <Image Source="Resources/Buttons/Pause_Button.png" Height="20" Width="20"/>
                         
                     </RadioButton>
                 

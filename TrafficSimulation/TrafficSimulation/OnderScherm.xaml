@@ -34,6 +34,7 @@
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                               ClipToBounds="True" />
                         </Border>
+                        
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter TargetName="RadioButtonBorder" Property="Background" Value="white"/>
@@ -63,7 +64,7 @@
         <Border BorderBrush="Green" 
                 BorderThickness="1" 
                 CornerRadius="25,25,25,25" 
-                Background="LightGreen" 
+                Background="Thistle" 
                 Grid.Row="0" 
                 Grid.Column="0">
             
