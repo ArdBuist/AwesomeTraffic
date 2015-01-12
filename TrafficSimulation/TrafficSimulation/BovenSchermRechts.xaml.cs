@@ -56,7 +56,7 @@ namespace TrafficSimulation
             else
             {
                 windowselect.simwindow.infoHost.Location = new System.Drawing.Point(windowselect.simwindow.Size);
-                ShowComboBox(windowselect.simwindow.simcontrol.selectedTile.Directions);
+                //ShowComboBox(windowselect.simwindow.simcontrol.selectedTile.Directions);
                 InfoVisible = true;
             }
         }
