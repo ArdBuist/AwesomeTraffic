@@ -48,7 +48,7 @@ namespace TrafficSimulation
 			windowselect.simwindow.simcontrol.currentBuildTile = new Road(1, 3);
 
 			/// Set state to building mode
-			windowselect.simwindow.simcontrol.state = "building";
+			//windowselect.simwindow.simcontrol.state = "building";
 
             /// Open simcontrol
             windowselect.New();
