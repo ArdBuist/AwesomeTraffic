@@ -30,6 +30,14 @@
             <Setter Property="VerticalAlignment" Value="Center"   />
             
         </Style>
+
+        <Style x:Key="lanesComboBox" TargetType="ComboBox">
+            <Setter Property="Height" Value="20" />
+            <Setter Property="Width" Value="35" />
+            <Setter Property="HorizontalAlignment" Value="center" />
+            <Setter Property="VerticalAlignment" Value="Center"   />
+
+        </Style>
         
         <Style x:Key="infoBalkButtons" TargetType="Button" >
             <Setter Property="Width" Value="20" />
@@ -101,9 +109,12 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
-                    <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+                    <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="3">
                         
                         <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         
@@ -111,11 +122,16 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                     
                         <Image x:Name="ImageInfoBalk" 
-                           Grid.Row="0"
-                           Grid.Column="1" 
+                           Grid.Row="1"
+                           Grid.RowSpan="2"
+                           Grid.Column="2"
+                           Grid.ColumnSpan="2"
                            HorizontalAlignment="Center" 
                            VerticalAlignment="Center" 
                            Height="50"
@@ -124,8 +140,8 @@
 
                         <Button x:Name="RotateLeft"  
                             Style="{StaticResource infoBalkButtons}"
-                            Grid.Row="0" 
-                            Grid.Column="2"  
+                            Grid.Row="4" 
+                            Grid.Column="4"  
                             HorizontalAlignment="Left" 
                             VerticalAlignment="Bottom" 
                             >
@@ -134,44 +150,92 @@
 
                         <Button x:Name="RotatedRight" 
                             Style="{StaticResource infoBalkButtons}"
-                            Grid.Row="0" 
-                            Grid.Column="0" 
+                            Grid.Row="4" 
+                            Grid.Column="1" 
                             HorizontalAlignment="Right" 
                             VerticalAlignment="Bottom" >
                             <Image Source="Resources\Buttons\TurnLeft_Button.png" />
                         </Button>
-
-                    </Grid>
-                    
-                    <Label x:Name="labelLanesLeft" 
-                           Grid.Row="1" 
-                           Grid.Column="0" 
-                           Style="{StaticResource infoBalkLabels}" 
-                           Content="Amount of Lanes on the left side" />
-
-                    <ComboBox x:Name="lanesLeft" 
-                              Grid.Row="1" 
-                              Grid.Column="1" 
-                              Style="{StaticResource infoBalkComboBox}">
-                        <ComboBoxItem Tag="1" IsSelected="True">1 Lane</ComboBoxItem>
-                        <ComboBoxItem Tag="2">2 Lane</ComboBoxItem>
-                        <ComboBoxItem Tag="3">3 Lane</ComboBoxItem>
-                    </ComboBox>
-
-                    <Label x:Name="labelLanesRight" 
-                           Grid.Row="2" 
-                           Grid.Column="0" 
-                           Style="{StaticResource infoBalkLabels}" 
-                           Content="Amount of Lanes on the rightside" />
-
-                    <ComboBox x:Name="lanesRight" 
+                        <ComboBox x:Name="lane1" 
                               Grid.Row="2" 
                               Grid.Column="1" 
-                              Style="{StaticResource infoBalkComboBox}">
-                        <ComboBoxItem Tag="1" IsSelected="True">1 Lane</ComboBoxItem>
-                        <ComboBoxItem Tag="2">2 Lane</ComboBoxItem>
-                        <ComboBoxItem Tag="3">3 Lane</ComboBoxItem>
-                    </ComboBox>
+                              Style="{StaticResource lanesComboBox}"
+                              HorizontalAlignment="Right">
+                            <ComboBoxItem Tag="1" IsSelected="True" Content="1"/>
+                            <ComboBoxItem Tag="2" Content="2"/>
+                            <ComboBoxItem Tag="3" Content="3"/>
+                        </ComboBox>
+                        
+                        <ComboBox x:Name="lane2" 
+                                  Grid.Row="1" 
+                                  Grid.Column="1" 
+                                  Style="{StaticResource lanesComboBox}" 
+                                  HorizontalAlignment="Right" >
+                            <ComboBoxItem Tag="1" IsSelected="True" Content="1"/>
+                            <ComboBoxItem Tag="2" Content="2"/>
+                            <ComboBoxItem Tag="3" Content="3"/>
+                        </ComboBox>
+                        
+                        <ComboBox x:Name="lane3"  
+                                  Grid.Row="0" 
+                                  Grid.Column="2" 
+                                  Style="{StaticResource lanesComboBox}"
+                                  VerticalAlignment="Bottom">
+                            <ComboBoxItem Tag="1" IsSelected="True" Content="1"/>
+                            <ComboBoxItem Tag="2" Content="2"/>
+                            <ComboBoxItem Tag="3" Content="3"/>
+                        </ComboBox>
+                        
+                        <ComboBox x:Name="lane4" 
+                                  Grid.Row="0" 
+                                  Grid.Column="3" 
+                                  Style="{StaticResource lanesComboBox}"
+                                  VerticalAlignment="Bottom">
+                            <ComboBoxItem Tag="1" IsSelected="True" Content="1"/>
+                            <ComboBoxItem Tag="2" Content="2"/>
+                            <ComboBoxItem Tag="3" Content="3"/>
+                        </ComboBox>
+                        
+                        <ComboBox x:Name="lane5" 
+                                  Grid.Row="1" 
+                                  Grid.Column="4" 
+                                  Style="{StaticResource lanesComboBox}" 
+                                  HorizontalAlignment="left">
+                            <ComboBoxItem Tag="1" IsSelected="True" Content="1"/>
+                            <ComboBoxItem Tag="2" Content="2"/>
+                            <ComboBoxItem Tag="3" Content="3"/>
+                        </ComboBox>
+                        
+                        <ComboBox x:Name="lane6" 
+                                  Grid.Row="2" 
+                                  Grid.Column="4" 
+                                  Style="{StaticResource lanesComboBox}"
+                                  HorizontalAlignment="left">
+                            <ComboBoxItem Tag="1" IsSelected="True" Content="1"/>
+                            <ComboBoxItem Tag="2" Content="2"/>
+                            <ComboBoxItem Tag="3" Content="3"/>
+                        </ComboBox>
+                        
+                        <ComboBox x:Name="lane7" 
+                                  Grid.Row="4" 
+                                  Grid.Column="2" 
+                                  Style="{StaticResource lanesComboBox}"
+                                  VerticalAlignment="Top">
+                            <ComboBoxItem Tag="1" IsSelected="True" Content="1"/>
+                            <ComboBoxItem Tag="2" Content="2"/>
+                            <ComboBoxItem Tag="3" Content="3"/>
+                        </ComboBox>
+                        
+                        <ComboBox x:Name="lane8" 
+                                  Grid.Row="4" 
+                                  Grid.Column="3" 
+                                  Style="{StaticResource lanesComboBox}"
+                                  VerticalAlignment="Top" >
+                            <ComboBoxItem Tag="1" IsSelected="True" Content="1"/>
+                            <ComboBoxItem Tag="2" Content="2"/>
+                            <ComboBoxItem Tag="3" Content="3"/>
+                        </ComboBox>
+                    </Grid>
                     
                     <Label x:Name="labelSpeed" 
                            Grid.Row="3" 

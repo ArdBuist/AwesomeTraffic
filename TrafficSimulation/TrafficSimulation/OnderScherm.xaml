@@ -13,7 +13,7 @@
         <Style x:Key="styleRadioButton" TargetType="RadioButton">
             <Setter Property="Width" Value="60" />
             <Setter Property="Height" Value="60" />
-            <Setter Property="Background" Value="White"/>
+            <Setter Property="Background" Value="NavajoWhite"/>
             <Setter Property="Margin" Value="1,1,1,1" />
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center" />
@@ -24,10 +24,10 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type RadioButton}">
                         <Border x:Name="RadioButtonBorder"
-                                BorderBrush="Gray" 
+                                BorderBrush="LightSalmon" 
                                 BorderThickness="0" 
-                                Background="Transparent"  
-                                CornerRadius="25,25,25,25">
+                                Background="NavajoWhite"  
+                                CornerRadius="10,10,10,10">
                             
                             <ContentPresenter Margin="{TemplateBinding Padding}" 
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
@@ -37,20 +37,24 @@
                         
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="RadioButtonBorder" Property="Background" Value="white"/>
-                                <Setter TargetName="RadioButtonBorder" Property="Cursor" Value="Hand" />
+                                <Setter TargetName="RadioButtonBorder" Property="Background" Value="Cornsilk"/>
+                                <Setter TargetName="RadioButtonBorder" Property="BorderThickness" Value="3" />
+                                <Setter Property="Cursor" Value="Hand" />
                             </Trigger>
+                            
                             <Trigger Property="IsEnabled" Value="false">
-                                <Setter TargetName="RadioButtonBorder" Property="Background" Value="Green"/>
-                                <Setter TargetName="RadioButtonBorder" Property="BorderBrush" Value="Green"/>
-                                <Setter TargetName="RadioButtonBorder" Property="Opacity" Value="0.25"/>
-                                <Setter TargetName="RadioButtonBorder" Property="Cursor" Value="Hand"/>
+                                <Setter TargetName="RadioButtonBorder" Property="Background" Value="Transparent"/>
+                                <Setter TargetName="RadioButtonBorder" Property="BorderBrush" Value="Transparent"/>
+                                <Setter Property="Opacity" Value="0.25"/>
+                                <Setter Property="Cursor" Value="No"/>
                             </Trigger>
+                            
                             <Trigger Property="IsChecked" Value="true">
-                                <Setter TargetName="RadioButtonBorder" Property="Background" Value="white"/>
-                                <Setter TargetName="RadioButtonBorder" Property="BorderBrush" Value="Green"/>
-                                <Setter TargetName="RadioButtonBorder" Property="Cursor" Value="Hand"/>
+                                <Setter TargetName="RadioButtonBorder" Property="Background" Value="Cornsilk"/>
+                                <Setter Property="BorderBrush" Value="LightSalmon"/>
+                                <Setter Property="Cursor" Value="Hand"/>
                             </Trigger>
+                            
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
@@ -61,10 +65,10 @@
     
     <Grid x:Name="BasicOnder" Background="Green" >
         
-        <Border BorderBrush="Green" 
-                BorderThickness="1" 
+        <Border BorderBrush="LightSalmon" 
+                BorderThickness="3" 
                 CornerRadius="25,25,25,25" 
-                Background="Thistle" 
+                Background="NavajoWhite" 
                 Grid.Row="0" 
                 Grid.Column="0">
             
@@ -88,9 +92,9 @@
                              GroupName="buttonsBelow" 
                              Checked="SelectButton_Checked"
                              LostFocus="Lost_Focus"
-                             Height="30"
-                             Width="30"
-							 Margin="10"
+                             Height="35"
+                             Width="35"
+							 Margin="1,1,1,1"
                              VerticalAlignment="Top"
                              Grid.Row="0"
                              Grid.Column="0" >
@@ -104,9 +108,9 @@
                              LostFocus="Lost_Focus"
                              Grid.Row="0"
                              Grid.Column="0"
-                             Height="30"
-                             Width="30"
-							 Margin="10"
+                             Height="35"
+                             Width="35"
+							 Margin="1,1,1,1"
 							 ToolTip="Eraser"
                              VerticalAlignment="Bottom" >
 					<Image Source="Resources/Buttons/Erase_Button.png" Height="30" Width="30"/>

@@ -46,19 +46,16 @@ namespace TrafficSimulation
 
         private void SelectButton_Checked(object sender, RoutedEventArgs e)
         {
-            
+            AlgemeenClick();
             windowselect.simwindow.simcontrol.state = "selected";
-            
-            windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.ClientSize);
             //hierna moet dan een scherm verschijnen met info en aanpassingsmogelijkheden
             
         }
 
         private void EraserButton_Checked(object sender, RoutedEventArgs e)
-        {         
+        {
+            AlgemeenClick();
             windowselect.simwindow.simcontrol.state = "eraser";
-            extraButtonsOS.Visibility = Visibility.Hidden;
-            windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.ClientSize);
 		}
 
 
@@ -115,9 +112,13 @@ namespace TrafficSimulation
             int xLocationForkMenu = (xLocatieOnderBalk + ((breedteOnderBalk / 6) * 4));
             int yLocationForkMenu = yLocatieOnderBalk - hoogteExtraButtonOSFork;
             windowselect.simwindow.extraButtonsHost.Height = hoogteExtraButtonOSFork;
-            windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(xLocationForkMenu, yLocationForkMenu);
 
-            windowselect.simwindow.extraButtonsHost.BackColor = System.Drawing.Color.Transparent;
+            extraButtonsOS.Visibility = Visibility.Visible;
+            extraButtonsOS.fork12.Visibility = Visibility.Visible;
+            extraButtonsOS.fork14.Visibility = Visibility.Visible;
+            extraButtonsOS.fork23.Visibility = Visibility.Visible;
+            extraButtonsOS.fork34.Visibility = Visibility.Visible;
+            windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(xLocationForkMenu, yLocationForkMenu);
         }
         
         private void SpawnerButton_Checked(object sender, RoutedEventArgs e)

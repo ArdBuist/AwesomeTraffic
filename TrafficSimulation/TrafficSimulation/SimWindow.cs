@@ -34,16 +34,16 @@ namespace TrafficSimulation
             //Variable om de elementhosten afhankelijk te maken van het scherm en andere elementhosten
             breedteScherm = Screen.PrimaryScreen.Bounds.Width;
             hoogteScherm = Screen.PrimaryScreen.Bounds.Height;
-            hoogteBovenBalk = 100;
+            hoogteBovenBalk = 80;
             hoogteOnderBalk = 100;
             hoogteInfoBalk = (hoogteScherm - (hoogteBovenBalk + hoogteOnderBalk));
             yLocatieOnderBalk = (hoogteScherm - hoogteOnderBalk);
             xLocatieOnderBalk = (breedteScherm / 7) * 2;
             breedteInfoBalk = breedteScherm/6;
             breedteBovenSchermLink = 600;
-            breedteBovenSchermRechts = 400;
+            breedteBovenSchermRechts = (70*5);
             breedteOnderBalk = ((breedteScherm / 3) );
-            yLocatieBovenSchermRechts = breedteScherm - breedteBovenSchermRechts;
+            yLocatieBovenSchermRechts = (breedteScherm - breedteBovenSchermRechts);
             
             InfoBalk = new InfoBalk(windowselect);
             ExtraButtonsOS = new ExtraButtonsOS(windowselect, InfoBalk);

@@ -45,5 +45,44 @@ namespace TrafficSimulation
 
         }
 
+        private void HideCombobox()
+        {
+            lane1.IsEnabled = true;
+            lane2.IsEnabled = true;
+            lane3.IsEnabled = true;
+            lane4.IsEnabled = true;
+            lane5.IsEnabled = true;
+            lane6.IsEnabled = true;
+            lane7.IsEnabled = true;
+            lane8.IsEnabled = true;
+            // alle comboboxen laten verdwijnen
+        }
+        public void ShowComboBox(List<int> Directions)
+        {
+            if(Directions.Contains(1))
+            {
+                //laat comboboxen bovenaan zien 
+
             }
+            else if (Directions.Contains(2))
+            {
+
+            }
+            else if (Directions.Contains(3))
+            {
+
+            }
+            else if (Directions.Contains(4))
+            {
+
+            }
+        }
+
+        private void lane1_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+                        
+            
+               // = ((ComboBoxItem)myCombobox.SelectedItem).Content.ToString();
+        }
+      }
 }

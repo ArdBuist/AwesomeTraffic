@@ -36,6 +36,7 @@ namespace TrafficSimulation
         //oude groene golf tile
         private Tile oldGreenWaveTile;
 
+        public Tile selectedTile;
         //de oude geselecteerde tile
         public Tile oldselectedTile;
         //list for all vehicles needs to be removed
@@ -140,12 +141,13 @@ namespace TrafficSimulation
             if (tileList[Methods.CalculateListPlace(this,mea.X, mea.Y)] != null)
             {
                 Bitmap tileImage;
-                Tile selectedTile = new SelectTile();
+                Tile selectTile = new SelectTile();
                 //Er wordt een blauw randje getekend om de geselecteerde tile
-                selectedTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), Methods.CalculateListPlace(this,mea.X, mea.Y));
-                tileImage = selectedTile.DrawImage();
+                selectTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), Methods.CalculateListPlace(this,mea.X, mea.Y));
+                tileImage = selectTile.DrawImage();
                 //de huidige selectedTile wordt de oude selectedtile voor de volgende keer
                 oldselectedTile = tileList[Methods.CalculateListPlace(this,mea.X, mea.Y)];
+                selectedTile = tileList[Methods.CalculateListPlace(this, mea.X, mea.Y)];
                 this.Invalidate();
             }
         }

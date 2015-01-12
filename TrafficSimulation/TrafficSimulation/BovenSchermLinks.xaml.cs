@@ -23,16 +23,12 @@ namespace TrafficSimulation
     {
         public Boolean InfoVisible = true;
         private Boolean simulation = false;
-        //private bool simulationStarted = false;
         InfoBalk infobalk;
         OnderScherm onderscherm;
         WindowSelect windowselect;
-        //int daynightcount = 0;
-
 
         public BovenSchermLinks(WindowSelect ws, InfoBalk info, OnderScherm onder)
         {
-
             windowselect = ws;
             infobalk = info;
             onderscherm = onder;
@@ -51,7 +47,7 @@ namespace TrafficSimulation
         {
             if (simulation)
             {
-                // Buttons in het het bovenschermlinks uitschakelen
+                // Buttons in het het bovenschermlinks inschakelen
                 play.IsEnabled = false;
                 slowDown.IsEnabled = false;
                 speedUp.IsEnabled = false;
@@ -82,12 +78,14 @@ namespace TrafficSimulation
             }
             else
             {
+                // Buttons in het het bovenschermlinks uitschakelen
                 play.IsEnabled = true;
                 slowDown.IsEnabled = true;
                 speedUp.IsEnabled = true;
                 stop.IsEnabled = true;
                 pauze.IsEnabled = true;
-
+                
+                // Buttons in het onderscherm inschakelen
                 onderscherm.selectButton.IsEnabled = false;
                 onderscherm.eraserButton.IsEnabled = false;
                 onderscherm.roadButton.IsEnabled = false;
