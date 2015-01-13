@@ -88,11 +88,19 @@ namespace TrafficSimulation
 				int number = 1;
 				string filename = "Traffic" + number.ToString();
 
-				string path = saveDialog.InitialDirectory.ToString() + "/" + filename + ".trs";
 				
 				/// Extension name (.trs => TRafficSimulation)
 				saveDialog.DefaultExt = ".trs";
-				//saveDialog.InitialDirectory = true;
+				saveDialog.FilterIndex = 1;
+				saveDialog.Filter = "Traffic Simulation Files (*.trs) | *.trs";
+				saveDialog.RestoreDirectory = true;
+
+
+				/// Set the ability to overwrite another file to true
+				saveDialog.OverwritePrompt = true;
+
+				/*
+				string path = saveDialog.InitialDirectory.ToString() + "/" + filename + ".trs";
 
 				while (File.Exists(path))
 				{
@@ -100,17 +108,25 @@ namespace TrafficSimulation
 					filename = "Traffic" + number.ToString();
 					path = saveDialog.InitialDirectory.ToString() + filename + ".trs";
 				}
+				*/
 
+				/// Set the filename
 				saveDialog.FileName = filename;
-
-				/// Set the ability to overwrite another file to true
-				saveDialog.OverwritePrompt = true;
 
 				/// Is the button "Save" pressed?
 				if (saveDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
 				{
+					/// New file
 					StreamWriter file = new StreamWriter(@saveDialog.FileName);
+
+					/// File can be bigger than 1024
 					file.AutoFlush = true;
+
+					/// Save some basic information
+					// Building tile:
+					// file.WriteLine();
+					// Information (not) visible
+					// file.WriteLine();
 
 					/// Get every tile in the list
 					foreach (Tile tile in windowselect.simwindow.simcontrol.tileList)
@@ -123,16 +139,23 @@ namespace TrafficSimulation
 							/// You need different information from different tiles
 							/// So you need multiple cases, one for each tile
 							/// 
-							/// 0: tile name
-							/// 1: place in list
-							/// 2: x position
-							/// 3: y position
-							/// 4: Maxspeed for a tile
-							/// 5: begin direction (notDirection for Fork, direction for Spawner)
-							/// 6: end direction (Crossroad doesn't have any directions)
-							/// 7: laneshightolow, not for crossroad and fork.
-							/// 8: laneslowtohigh, not for crossroad and fork.
-							/// 9: -
+							/// Basic information
+							///		 0: tile
+							///		 1: place in list
+							///		 2: x position
+							///		 3: y position
+							///	Specific information
+							///		 4: trafficlight strat
+							///		 5: Maxspeed for a tile
+							///		 6: begin direction (notDirection for Fork, direction for Spawner)
+							///		 7: end direction (Crossroad doesn't have any directions)
+							///		 8: laneshightolow (For crossroad and fork a number of 8 integers with the road numbers)
+							///		 9: laneslowtohigh, not for crossroad and fork.
+							///	Green Wave info
+							///		10: ?
+							///		11: ?
+							///		12: ?
+
 							switch (currenttile)
 							{
 								/// Save case for a fork
@@ -142,8 +165,9 @@ namespace TrafficSimulation
 										tile.listPlace + "_" +		// 1 Plaats in de lijst
 										tile.position.X + "_" +		// 2 X positie
 										tile.position.Y + "_" +		// 3 Y positie
-										tile.maxSpeed + "_" +		// 4 Maxspeed
-										tile.notDirection);			// 5 De not direction
+										" " /*tile.strat*/ + "_" + 	// 4 strat
+										tile.maxSpeed + "_" +		// 5 Maxspeed
+										tile.notDirection);			// 6 De not direction
 									break;
 
 								/// Save case for a crossroad
@@ -153,7 +177,8 @@ namespace TrafficSimulation
 										tile.listPlace + "_" +		// 1 Plaats in de lijst
 										tile.position.X + "_" +		// 2 X positie
 										tile.position.Y + "_" +		// 3 Y positie
-										tile.maxSpeed);				// 4 Maxspeed
+										" " /*tile.strat*/ + "_" + 	// 4 strat
+										tile.maxSpeed);				// 5 Maxspeed
 									break;
 
 								/// Save case for a road (that is a straight road or a curved road)
@@ -163,11 +188,12 @@ namespace TrafficSimulation
 										tile.listPlace + "_" +		// 1 Plaats in de lijst
 										tile.position.X + "_" +		// 2 X positie
 										tile.position.Y + "_" +		// 3 Y positie
-										tile.maxSpeed + "_"	+		// 4 Maxpeed
-										tile.startDirection + "_" +	// 5 Begin richting
-										tile.endDirection + "_" +	// 6 Eind richting
-										tile.LanesHighToLow + "_" + // 7 Wegen hoog, laag
-										tile.LanesLowToHigh);		// 8 Wegen laag, hoog
+										" " + "_" +					// 4 Empty
+										tile.maxSpeed + "_"	+		// 5 Maxpeed
+										tile.startDirection + "_" +	// 6 Begin richting
+										tile.endDirection + "_" +	// 7 Eind richting
+										tile.LanesHighToLow + "_" + // 8 Wegen hoog, laag
+										tile.LanesLowToHigh);		// 9 Wegen laag, hoog
 									break;
 
 								/// Save case for a spawner
@@ -177,14 +203,15 @@ namespace TrafficSimulation
 										tile.listPlace + "_" +		// 1 Plaats in de lijst
 										tile.position.X + "_" +		// 2 X positie
 										tile.position.Y + "_" +		// 3 Y positie
-										tile.maxSpeed + "_" +		// 4 Maxspeed
-										tile.direction + "_" +		// 5 Richting
-										" " + "_" +					// 6 Empty
-										tile.LanesHighToLow + "_" +	// 7 LanesHighToLow
-										tile.LanesLowToHigh);		// 8 LanesLowToHigh
+										" " + "_" +					// 4 Empty
+										tile.maxSpeed + "_" +		// 5 Maxspeed
+										tile.direction + "_" +		// 6 Richting
+										" " + "_" +					// 7 Empty
+										tile.LanesHighToLow + "_" +	// 8 LanesHighToLow
+										tile.LanesLowToHigh);		// 9 LanesLowToHigh
 									break;
 
-								// TODO: Save options for extra info, such as greenwave, traffic lights
+								// TODO: Save options for extra info, traffic lights strat and other things
 							}
 						}
 					}
