@@ -20,7 +20,6 @@ namespace TrafficSimulation
     /// Interaction logic for InfoBalk.xaml
     /// </summary>
     public partial class InfoBalk : UserControl
-
     {
         //SimControl s;
         //SimWindow simwindow;
@@ -31,7 +30,7 @@ namespace TrafficSimulation
             windowselect = ws;
             //simwindow = sim;
             //s = simwindow.sim; ;
-            
+
             InitializeComponent();
 
         }
@@ -46,75 +45,188 @@ namespace TrafficSimulation
 
         }
 
-        private void Lanes_SelectionChanged(object sender, EventArgs e)
+        private void lane1_Close(object sender, EventArgs e)
         {
-            if (lanes.SelectedItem != null)
+
+            ChangeCasts((string)lane1.Tag, ((ComboBoxItem)lane1.SelectedItem).ToString());
+        }
+
+        private void lane2_Close(object sender, EventArgs e)
+        {
+
+            ChangeCasts((string)lane2.Tag, ((ComboBoxItem)lane2.SelectedItem).ToString());
+        }
+
+        private void lane3_Close(object sender, EventArgs e)
+        {
+
+            ChangeCasts((string)lane3.Tag, ((ComboBoxItem)lane3.SelectedItem).ToString());
+        }
+
+        private void lane4_Close(object sender, EventArgs e)
+        {
+
+            ChangeCasts((string)lane4.Tag, ((ComboBoxItem)lane4.SelectedItem).ToString());
+        }
+
+        private void lane5_Close(object sender, EventArgs e)
+        {
+
+            ChangeCasts((string)lane5.Tag, ((ComboBoxItem)lane5.SelectedItem).ToString());
+        }
+
+        private void lane6_Close(object sender, EventArgs e)
+        {
+
+            ChangeCasts((string)lane6.Tag, ((ComboBoxItem)lane6.SelectedItem).ToString());
+        }
+
+        private void lane7_Close(object sender, EventArgs e)
+        {
+
+            ChangeCasts((string)lane7.Tag, ((ComboBoxItem)lane7.SelectedItem).ToString());
+        }
+
+        private void lane8_Close(object sender, EventArgs e)
+        {
+
+            ChangeCasts((string)lane8.Tag, ((ComboBoxItem)lane8.SelectedItem).ToString());
+        }
+
+        private void speed_Close(object sender, EventArgs e)
+        {
+            int speed1 = speed.SelectedIndex;
+            windowselect.simwindow.simcontrol.selectedTile.MaxSpeed = speed1+2;
+        }
+
+        private void ChangeCasts(string kant,string ob)
+        {
+            string[] kantEnPlaats = kant.Split('_');
+            string[] array = ob.Split(' ');
+            ChangeTileLanes(int.Parse(array[1]), int.Parse(kantEnPlaats[0]), int.Parse(kantEnPlaats[1]));
+        }
+
+        private void ChangeTileLanes(int value, int side, int inOrOut)
+        {
+            if (lane1.SelectedItem != null)
             {
-                string kant = (string)lanes.Tag;
-                string[] kantEnPlaats = kant.Split('_');
-                string ob = ((ComboBoxItem)lanes.SelectedItem).ToString();
-                string[] array = ob.Split(' ');
+                
                 if (windowselect.simwindow != null)
                 {
-                    if (windowselect.simwindow.simcontrol.selectedTile != null && windowselect.simwindow.simcontrol.selectedTile.name != "Fork" && windowselect.simwindow.simcontrol.selectedTile.name!="Crossroad")
+                    if (windowselect.simwindow.simcontrol.selectedTile != null && windowselect.simwindow.simcontrol.selectedTile.name != "Fork" && windowselect.simwindow.simcontrol.selectedTile.name != "Crossroad")
                     {
-                        if(int.Parse(kantEnPlaats[1])==0)
-                            windowselect.simwindow.simcontrol.selectedTile.UpdateLanes(windowselect.simwindow.simcontrol, int.Parse(kantEnPlaats[0]), int.Parse(array[1]), windowselect.simwindow.simcontrol.selectedTile.GetLanesOut(int.Parse(kantEnPlaats[0])));
+                        if (inOrOut == 0)
+                            windowselect.simwindow.simcontrol.selectedTile.UpdateLanes(windowselect.simwindow.simcontrol, side, value, windowselect.simwindow.simcontrol.selectedTile.GetLanesOut(side));
                         else
-                            windowselect.simwindow.simcontrol.selectedTile.UpdateLanes(windowselect.simwindow.simcontrol, int.Parse(kantEnPlaats[0]), windowselect.simwindow.simcontrol.selectedTile.GetLanesOut(int.Parse(kantEnPlaats[0])), int.Parse(array[1]));
-                        //windowselect.simwindow.simcontrol.selectedTile.UpdateLanes(windowselect.simwindow.simcontrol, int.Parse((string)lanes.Tag), int.Parse(array[1]), int.Parse(array[1]));
+                            windowselect.simwindow.simcontrol.selectedTile.UpdateLanes(windowselect.simwindow.simcontrol, side, windowselect.simwindow.simcontrol.selectedTile.GetLanesIn(side), value);
                         windowselect.simwindow.simcontrol.selectedTile.UpdateOtherTiles(windowselect.simwindow.simcontrol, 0);
                     }
                     windowselect.simwindow.simcontrol.backgroundPB.Invalidate();
+                    windowselect.simwindow.simcontrol.UpdateInfoBalkDesign();
                 }
             }
         }
         public void UpdateDesign(int[,] tileLanes, int maxSpeed)
         {
-            lanes.SelectedValue = 2;
-            speed.SelectedIndex = maxSpeed-1;
-            //lane1 = tileLanes[0, 0];
-            //lane2 = tileLanes[0, 1];
-            //lane3 = tileLanes[1, 0];
-            //lane4 = tileLanes[1, 1];
-            //lane5 = tileLanes[2, 0];
-            //lane6 = tileLanes[2, 1];
-            //lane7 = tileLanes[3, 0];
-            //lane8 = tileLanes[3, 1];
-
+            HideCombobox();
+            Boolean CrosOrFork = false;
+            if(windowselect.simwindow.simcontrol.selectedTile.name == "Crossroad" || windowselect.simwindow.simcontrol.selectedTile.name == "Fork")
+                CrosOrFork = true;
+            ShowComboBox(windowselect.simwindow.simcontrol.selectedTile.Directions,CrosOrFork);
+            speed.SelectedIndex = maxSpeed - 2;
+            lane3.SelectedIndex = tileLanes[2, 0] - 1;
+            lane4.SelectedIndex = tileLanes[2, 1] - 1;
+            lane5.SelectedIndex = tileLanes[3, 0] - 1;
+            lane6.SelectedIndex = tileLanes[3, 1] - 1;
+            lane7.SelectedIndex = tileLanes[0, 0] - 1;
+            lane8.SelectedIndex = tileLanes[0, 1] - 1;
+            lane1.SelectedIndex = tileLanes[1, 0] - 1;
+            lane2.SelectedIndex = tileLanes[1, 1] - 1;
         }
-    }
 
         private void HideCombobox()
         {
-            lane1.IsEnabled = true;
-            lane2.IsEnabled = true;
-            lane3.IsEnabled = true;
-            lane4.IsEnabled = true;
-            lane5.IsEnabled = true;
-            lane6.IsEnabled = true;
-            lane7.IsEnabled = true;
-            lane8.IsEnabled = true;
             // alle comboboxen laten verdwijnen
+            lane1.Visibility = Visibility.Hidden;
+            lane2.Visibility = Visibility.Hidden;
+            lane3.Visibility = Visibility.Hidden;
+            lane4.Visibility = Visibility.Hidden;
+            lane5.Visibility = Visibility.Hidden;
+            lane6.Visibility = Visibility.Hidden;
+            lane7.Visibility = Visibility.Hidden;
+            lane8.Visibility = Visibility.Hidden;
+
+            //Make anything not editable
+            lane1.IsEnabled = false;
+            lane2.IsEnabled = false;
+            lane3.IsEnabled = false;
+            lane4.IsEnabled = false;
+            lane5.IsEnabled = false;
+            lane6.IsEnabled = false;
+            lane7.IsEnabled = false;
+            lane8.IsEnabled = false;
+            
         }
-        public void ShowComboBox(List<int> Directions)
+        public void ShowComboBox(List<int> Directions,Boolean CrossOrFork)
         {
-            if(Directions.Contains(1))
+            Boolean simulationStarted = windowselect.simwindow.simcontrol.simulation.simStarted;
+            if (Directions.Contains(1))
             {
-                //laat comboboxen bovenaan zien 
+                lane3.Visibility = Visibility.Visible;
+                lane4.Visibility = Visibility.Visible;
+                if (!CrossOrFork && !simulationStarted)
+                {
+                    lane3.IsEnabled = true;
+                    lane4.IsEnabled = true;
+                }
+
 
             }
-            else if (Directions.Contains(2))
+            if (Directions.Contains(2))
             {
-
+                lane5.Visibility = Visibility.Visible;
+                lane6.Visibility = Visibility.Visible;
+                if (!CrossOrFork && !simulationStarted)
+                {
+                    lane5.IsEnabled = true;
+                    lane6.IsEnabled = true;
+                }
             }
-            else if (Directions.Contains(3))
+            if (Directions.Contains(3))
             {
-
+                lane7.Visibility = Visibility.Visible;
+                lane8.Visibility = Visibility.Visible;
+                if (!CrossOrFork && !simulationStarted)
+                {
+                    lane7.IsEnabled = true;
+                    lane8.IsEnabled = true;
+                }
             }
-            else if (Directions.Contains(4))
+            if (Directions.Contains(4))
             {
-
+                lane1.Visibility = Visibility.Visible;
+                lane2.Visibility = Visibility.Visible;
+                if (!CrossOrFork && !simulationStarted)
+                {
+                    lane1.IsEnabled = true;
+                    lane2.IsEnabled = true;
+                }
             }
         }
+
+        internal void UpdateSimulation(int totalCars, int WaitingCars)
+        {
+            int DrivingCars = totalCars - WaitingCars;
+            labelTotalCarsNumber.Content = totalCars;
+            labelWaitingCarsNumber.Content = WaitingCars;
+            labelDrivingCarsNumber.Content = DrivingCars;
+        }
+        public void UpdateSimulationReset()
+        {
+            labelTotalCarsNumber.Content = 0;
+            labelWaitingCarsNumber.Content = 0;
+            labelDrivingCarsNumber.Content = 0;
+            windowselect.simwindow.simcontrol.ResetSimulationCounters();
+        }
+    }
 }

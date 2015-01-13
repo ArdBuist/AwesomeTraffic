@@ -38,6 +38,8 @@ namespace TrafficSimulation
         protected int lanesHighToLow;
         //place the tile is on the TileList in SimControl
         public int listPlace;
+
+        protected int numberOfVehicles;
         //
         protected List<int> directions;
         //
@@ -45,7 +47,7 @@ namespace TrafficSimulation
 
         public Tile()
         {
-            this.MaxSpeed = 1;
+            this.MaxSpeed = 2;
             adjacenttileList = new Tile[4];
             this.LanesHighToLow = 1;
             this.LanesLowToHigh = 1;
@@ -59,6 +61,10 @@ namespace TrafficSimulation
             get { return this.directions; }
         }
 
+        public int NumberOfVehicles
+        {
+            get { return numberOfVehicles; }
+        }
         public bool[,] Access
         {
             get { return access; }
@@ -248,7 +254,8 @@ namespace TrafficSimulation
         {
             List<List<Vehicle>> sideVehicles = vehicles[Side-1];
             List<Vehicle> laneVehicles = sideVehicles[lane];
-                laneVehicles.Remove(v);
+            laneVehicles.Remove(v);
+            numberOfVehicles--;
             //looks if there is space for other cars to come on the tile
                 if (laneVehicles.Count < 5 && this.name != "Spawner"&&this.name!="Crossroad" && this.name!="Fork")
                 {
@@ -262,6 +269,7 @@ namespace TrafficSimulation
             List<List<Vehicle>> sideVehicles = vehicles[Side-1];
             List<Vehicle> laneVehicles = sideVehicles[lane];
             laneVehicles.Add(v);
+            numberOfVehicles++;
             //looks if the tile is full
             if (laneVehicles.Count > 5 && this.name != "Spawner"&&this.name!="Crossroad" && this.name!="Fork")
             {
@@ -345,8 +353,11 @@ namespace TrafficSimulation
                 //takes a random lane to spawn in
                 spawnLane = ((random[0]*10)/8) % lanesOut;
                 List<List<Vehicle>> vehicleList = vehicles[this.direction - 1];
-                if(vehicleList[spawnLane].Count <4)
+                if (vehicleList[spawnLane].Count < 4)
+                {
                     AddVehicle(sim, createVehicle(spawnLane), direction, spawnLane);
+                    sim.totalCars++;
+                }
             }
             currentSpawn--;
         }
@@ -400,7 +411,12 @@ namespace TrafficSimulation
                 return lanesHighToLow;
             else if ((direction + 1) % 4 + 1 == endDirection)
                 return lanesLowToHigh;
-            else return 1;
+            else if (direction == startDirection)
+                return lanesLowToHigh;
+            else if (direction == endDirection)
+                return lanesHighToLow;
+            else
+                return 1;
         }
 
         public override int GetLanesOut(int direction)
@@ -409,8 +425,14 @@ namespace TrafficSimulation
                 return lanesLowToHigh;
             else if ((direction + 1) % 4 + 1 == endDirection)
                 return lanesHighToLow;
+            else if (direction == startDirection)
+                return lanesHighToLow;
+            else if (direction == endDirection)
+                return lanesLowToHigh;
             else
                 return 1;
+
+               
         }
 
         public override void UpdateLanes(SimControl s, int direction, int lanesIn, int lanesOut)

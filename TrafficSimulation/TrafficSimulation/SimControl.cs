@@ -35,21 +35,20 @@ namespace TrafficSimulation
         private int countGreenWave;
         //oude groene golf tile
         private Tile oldGreenWaveTile;
-
-        public Tile selectedTile;
         //de oude geselecteerde tile
         public Tile oldselectedTile;
-
+        //tile which is selected for the infobalk
         public Tile selectedTile;
         //list for all vehicles needs to be removed
         public List<Vehicle> vehicleList;
-        //
+        //max tiles fitting horizontal on the map
         public int tilesHorizontal;
         //the simulation, has a new thread which is started when the simulation starts
         public Simulation simulation;
         //list for all the trafficlight controls needs to be removed
         public List<TrafficlightControl> controlList = new List<TrafficlightControl>();
 
+        public int totalCars;
         //
         public Tile currentBuildTile;
 
@@ -58,10 +57,6 @@ namespace TrafficSimulation
         public int TimeofDay = 1;
         //
         bool isMoved;
-
-        public Boolean Simulatie;
-        public bool Day;
-        public bool InfoVisible;
 
 
         public SimControl(Size size, SimWindow simulation)
@@ -80,12 +75,7 @@ namespace TrafficSimulation
             //Initialisation of the array in which all the positions of the tiles will be saved.
             tileList = new Tile[(this.Size.Height / 100) * (this.Size.Width / 100)];
      
-            Simulatie = false;
-
-            Simulatie = true;
-            Day = true;
-            InfoVisible = true;
-
+            totalCars = 0;
             //
             isMoved = false;
             //
@@ -479,6 +469,11 @@ namespace TrafficSimulation
             //alle auto's weer verwijderen
             Graphics g = Graphics.FromImage((System.Drawing.Image)vehicleBC.bitmap);
             g.Clear(System.Drawing.Color.Transparent);
+
+            //snelheidswaarden resetten
+            simulation.PauseSeconds = 50;
+            simulation.extraSpeed = 0;
+            backgroundPB.Invalidate();
         }
 
         private void DrawStartImages()
@@ -871,6 +866,17 @@ namespace TrafficSimulation
                 lanes[i,0] = selectedTile.GetLanesOut(i+1);
             }
             simwindow.InfoBalk.UpdateDesign(lanes, selectedTile.maxSpeed);
+        }
+
+        internal void UpdateInfoBalkSimulatie()
+        {
+
+            simwindow.InfoBalk.UpdateSimulation(totalCars,simulation.WaitingCars);
+        }
+        public void ResetSimulationCounters()
+        {
+            this.totalCars = 0;
+            simulation.WaitingCars = 0;
         }
     }
 }
