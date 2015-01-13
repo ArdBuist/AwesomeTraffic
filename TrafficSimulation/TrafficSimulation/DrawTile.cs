@@ -500,7 +500,14 @@ namespace TrafficSimulation
             return selectedTile;
         }
 
-        
+        public Graphics drawSelectGreenWaveTile(Graphics gr)
+        {
+            Graphics selectedTile = gr;
+            Pen selectPen = new Pen(Color.LightGreen, 8);
+            gr.DrawRectangle(selectPen, 5, 5, 90, 90);
+            return selectedTile;
+        }
+
         public Graphics drawRemoveTile(Graphics gr)
         {
             Graphics selectedTile = gr;

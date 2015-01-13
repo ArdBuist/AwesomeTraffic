@@ -102,6 +102,7 @@ namespace TrafficSimulation
 				/*
 				string path = saveDialog.InitialDirectory.ToString() + "/" + filename + ".trs";
 
+				
 				while (File.Exists(path))
 				{
 					number++;
