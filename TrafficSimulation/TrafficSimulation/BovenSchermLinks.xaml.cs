@@ -79,11 +79,14 @@ namespace TrafficSimulation
             else
             {
                 // Buttons in het het bovenschermlinks inschakelen
-                play.IsEnabled = true;
-                pauze.IsEnabled = false;
-                stop.IsEnabled = false;
-                slowDown.IsEnabled = false;
-                speedUp.IsEnabled = false;
+                windowselect.simwindow.simcontrol.simulation.StartSim();
+                windowselect.simwindow.simcontrol.ClearRoad();
+                play.IsEnabled = false;
+                pauze.IsEnabled = true;
+                stop.IsEnabled = true;
+                slowDown.IsEnabled = true;
+                speedUp.IsEnabled = true;
+                windowselect.simwindow.InfoBalk.UpdateSimulationReset();
                 
                 // Buttons in het onderscherm uitschakelen
                 onderscherm.selectButton.IsEnabled = false;

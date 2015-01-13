@@ -332,9 +332,9 @@ namespace TrafficSimulation
             }
         }
 
-        public void Tick(SimControl sim)
+        public void Tick(SimControl sim,int extraSpeed,double extraTime)
         {
-            currentSpawn += spawnPerSec;
+            currentSpawn += (spawnPerSec*(extraSpeed+1))+((extraTime/50)*spawnPerSec);
 
             if (currentSpawn >= 1)
             {

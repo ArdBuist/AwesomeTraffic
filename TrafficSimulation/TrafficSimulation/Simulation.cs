@@ -136,12 +136,12 @@ namespace TrafficSimulation
             //updaten van de trafficlights
             foreach(TrafficlightControl tL in simControl.controlList)
             {
-                tL.Run();
+                tL.Run(extraSpeed,(double)simSleep-(double)50);
             }
             //updaten van de spawners
             foreach (Spawner spawn in spawnerList)
             {
-                spawn.Tick(simControl);
+                spawn.Tick(simControl,extraSpeed,(double)simSleep-(double)50);
             }
             simControl.UpdateInfoBalkSimulatie();
             simControl.Invalidate();
@@ -216,7 +216,7 @@ namespace TrafficSimulation
                 case 1: if (v.position.Y - t.MaxSpeed >= t.position.Y + CarSpace)
                         return true;
                     break;
-                case 2: if (v.position.X + t.MaxSpeed + 15 <= t.position.X + t.size.Width - CarSpace)
+                case 2: if (v.position.X + t.MaxSpeed + t.size.Height+t.maxSpeed <= t.position.X + t.size.Width - CarSpace)
                         return true;
                     break;
                 case 3: if (v.position.Y + t.MaxSpeed + 10 <= t.position.Y + t.size.Height - CarSpace)

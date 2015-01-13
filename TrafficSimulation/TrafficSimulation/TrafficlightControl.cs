@@ -56,9 +56,9 @@ namespace TrafficSimulation
             }
         }
 
-        public void Run()
+        public void Run(int extraSpeed,double extraTime)
         {
-            if (Environment.TickCount - lastTime> secondsPerUpdate*1000)
+            if (Environment.TickCount - lastTime> (secondsPerUpdate*1000)-extraTime)
             {
                 lastTime = Environment.TickCount;
                 Update(turn % NumberOfDirections);
