@@ -141,6 +141,7 @@ namespace TrafficSimulation
                 oldselectedTile = tileList[Methods.CalculateListPlace(this,mea.X, mea.Y)];
                 selectedTile = tileList[Methods.CalculateListPlace(this, mea.X, mea.Y)];
                 UpdateInfoBalkDesign();
+                simwindow.BovenSchermRechts.ShowOrHideInfoBalk(true);
                 this.Invalidate();
             }
         }
@@ -175,6 +176,7 @@ namespace TrafficSimulation
                 backgroundBC.AddObject(tileImage, mea.X / 100 * 100, mea.Y / 100 * 100);
                 selectedTile = currentBuildTile;
                 UpdateInfoBalkDesign();
+                simwindow.BovenSchermRechts.ShowOrHideInfoBalk(true);
                 trafficlightBC.bitmap.MakeTransparent(Color.Green);
                 currentBuildTile = CopyCurrentTile();//hier wordt een nieuwe buildTile gemaakt met dezelfde waardes als daarvoor omdat er dan opnieuw een tile ingeklikt kan worden.
                 this.Invalidate();

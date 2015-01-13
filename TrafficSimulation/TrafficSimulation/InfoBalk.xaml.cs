@@ -126,6 +126,26 @@ namespace TrafficSimulation
                 }
             }
         }
+        
+        
+        //copied from internet
+        public static BitmapSource loadBitmap(System.Drawing.Bitmap source)
+        {
+            IntPtr ip = source.GetHbitmap();
+            BitmapSource bs = null;
+            try
+            {
+                bs = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(ip,
+                   IntPtr.Zero, Int32Rect.Empty,
+                   System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions());
+            }
+            finally
+            {
+                
+            }
+
+            return bs;
+        }
         public void UpdateDesign(int[,] tileLanes, int maxSpeed)
         {
             HideCombobox();
@@ -133,6 +153,7 @@ namespace TrafficSimulation
             if(windowselect.simwindow.simcontrol.selectedTile.name == "Crossroad" || windowselect.simwindow.simcontrol.selectedTile.name == "Fork")
                 CrosOrFork = true;
             ShowComboBox(windowselect.simwindow.simcontrol.selectedTile.Directions,CrosOrFork);
+            ImageInfoBalk.Source = loadBitmap(windowselect.simwindow.simcontrol.selectedTile.DrawImage());
             speed.SelectedIndex = maxSpeed - 2;
             lane3.SelectedIndex = tileLanes[2, 0] - 1;
             lane4.SelectedIndex = tileLanes[2, 1] - 1;

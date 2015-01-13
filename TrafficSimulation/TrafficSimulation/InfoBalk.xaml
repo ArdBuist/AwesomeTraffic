@@ -137,7 +137,7 @@
                            Height="65"
                            Width="65"
                            Margin="1,1,1,1"
-                           Source="Resources\Roads\bendLD.png"/>
+                           Source=""/>
 
                         <Button x:Name="RotateLeft"  
                             Style="{StaticResource infoBalkButtons}"

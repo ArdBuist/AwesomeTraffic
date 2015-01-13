@@ -47,17 +47,26 @@ namespace TrafficSimulation
 
         public void Info_Click(object sender, RoutedEventArgs e)
         {
-			/// Hide info
+            if(InfoVisible)
+                ShowOrHideInfoBalk(false);
+            else
+                ShowOrHideInfoBalk(true);
+        }
+
+        public void ShowOrHideInfoBalk(Boolean infoVisible)
+        {
+            this.InfoVisible = infoVisible;
+            /// Hide info
             if (!InfoVisible)
             {
-                windowselect.simwindow.infoHost.Location = new System.Drawing.Point((breedteScherm - breedteInfoBalk), hoogteBovenBalk);
+                windowselect.simwindow.infoHost.Location = new System.Drawing.Point(windowselect.simwindow.Size);
                 InfoVisible = false;
+                
             }
-			// Show info
+            // Show info
             else
             {
-                windowselect.simwindow.infoHost.Location = new System.Drawing.Point(windowselect.simwindow.Size);
-                //ShowComboBox(windowselect.simwindow.simcontrol.selectedTile.Directions);
+                windowselect.simwindow.infoHost.Location = new System.Drawing.Point((breedteScherm - breedteInfoBalk), hoogteBovenBalk);
                 InfoVisible = true;
             }
         }
