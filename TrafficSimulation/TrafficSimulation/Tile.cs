@@ -184,6 +184,7 @@ namespace TrafficSimulation
                     //de hoeveelheid banen wordt hier van de ene kant van de Fork naar de andere kant overgeheveld.
                     fork.lanes[((NotDirection + 1) % 4 + 1) * 2 - 1] = fork.lanes[NotDirection * 2 - 2];
                     fork.lanes[((NotDirection + 1) % 4 + 1) * 2 - 2] = fork.lanes[NotDirection * 2 - 1];
+                    fork.UpdateLanes(s,0, 1, 1);
                     int d = (NotDirection + 1) % 4 + 1;
                     Tile tile = GetOtherTile(s, d);
                     if (tile != null && tile.doesConnect(d))
@@ -520,9 +521,9 @@ namespace TrafficSimulation
             if (directions.Contains(direction))
             {
                 lanes[direction * 2 - 1] = lanesOut;
-                lanes[direction * 2 - 2] = lanesIn;
-                control = new TrafficlightControl(s, this, 3, notDirection, lanes, position);
+                lanes[direction * 2 - 2] = lanesIn;   
             }
+            control = new TrafficlightControl(s, this, 3, notDirection, lanes, position);
         }
 
         public override bool doesConnect(int side)
@@ -608,7 +609,6 @@ namespace TrafficSimulation
         public override void SetValues(SimControl s, Point position, int listPlace)
         {
             base.SetValues(s, position, listPlace);
-
             control.ChangeValues(position);
         }
     }

@@ -213,16 +213,16 @@ namespace TrafficSimulation
         {
             switch (v.Direction)
             {
-                case 1: if (v.position.Y - t.MaxSpeed >= t.position.Y + CarSpace)
+                case 1: if (v.position.Y - t.MaxSpeed-1 >= t.position.Y + CarSpace)
                         return true;
                     break;
-                case 2: if (v.position.X + t.MaxSpeed + t.size.Height+t.maxSpeed <= t.position.X + t.size.Width - CarSpace)
+                case 2: if (v.position.X + t.MaxSpeed + v.Size.Width+t.maxSpeed + 5<= t.position.X + t.size.Width - CarSpace)
                         return true;
                     break;
-                case 3: if (v.position.Y + t.MaxSpeed + 10 <= t.position.Y + t.size.Height - CarSpace)
+                case 3: if (v.position.Y + t.MaxSpeed + v.Size.Width + t.maxSpeed + 3<= t.position.Y + t.size.Height - CarSpace)
                         return true;
                     break;
-                case 4: if (v.position.X - t.MaxSpeed >= t.position.X + CarSpace)
+                case 4: if (v.position.X - t.MaxSpeed-1 >= t.position.X + CarSpace)
                         return true;
                     break;
             }

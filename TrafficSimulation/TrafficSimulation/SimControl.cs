@@ -151,6 +151,7 @@ namespace TrafficSimulation
         {
             if (tileList[Methods.CalculateListPlace(this,mea.X, mea.Y)] != null)
             {
+                
                 Bitmap tileImage;
                 Tile selectedTile = new removeTile();
                 selectedTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), Methods.CalculateListPlace(this,mea.X, mea.Y));
