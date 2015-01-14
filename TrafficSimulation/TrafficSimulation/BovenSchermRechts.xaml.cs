@@ -86,7 +86,7 @@ namespace TrafficSimulation
 
 				/// Custom filename
 				int number = 1;
-				string filename = "Traffic" + number.ToString();
+				string fileName = "Traffic" + number.ToString();
 
 				
 				/// Extension name (.trs => TRafficSimulation)
@@ -94,25 +94,10 @@ namespace TrafficSimulation
 				saveDialog.FilterIndex = 1;
 				saveDialog.Filter = "Traffic Simulation Files (*.trs) | *.trs";
 				saveDialog.RestoreDirectory = true;
-
+				saveDialog.FileName = fileName;
 
 				/// Set the ability to overwrite another file to true
 				saveDialog.OverwritePrompt = true;
-
-				/*
-				string path = saveDialog.InitialDirectory.ToString() + "/" + filename + ".trs";
-
-				
-				while (File.Exists(path))
-				{
-					number++;
-					filename = "Traffic" + number.ToString();
-					path = saveDialog.InitialDirectory.ToString() + filename + ".trs";
-				}
-				*/
-
-				/// Set the filename
-				saveDialog.FileName = filename;
 
 				/// Is the button "Save" pressed?
 				if (saveDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -132,10 +117,10 @@ namespace TrafficSimulation
 					/// Get every tile in the list
 					foreach (Tile tile in windowselect.simwindow.simcontrol.tileList)
 					{
-						/// If the tile has some value asigned to it
+						/// If the tile has some value asigned to it						
 						if (tile != null)
 						{
-							String currenttile = tile.name;
+							string currenttile = tile.name;
 
 							/// You need different information from different tiles
 							/// So you need multiple cases, one for each tile
@@ -162,7 +147,7 @@ namespace TrafficSimulation
 								/// Save case for a fork
 								case "Fork":
 									file.WriteLine(
-										tile + "_" +				// 0 Welke tile
+										tile.name + "_" +				// 0 Welke tile
 										tile.listPlace + "_" +		// 1 Plaats in de lijst
 										tile.position.X + "_" +		// 2 X positie
 										tile.position.Y + "_" +		// 3 Y positie
@@ -200,16 +185,16 @@ namespace TrafficSimulation
 								/// Save case for a spawner
 								case "Spawner":
 									file.WriteLine(
-										tile + "_" +				// 0 Welke tile
-										tile.listPlace + "_" +		// 1 Plaats in de lijst
-										tile.position.X + "_" +		// 2 X positie
-										tile.position.Y + "_" +		// 3 Y positie
-										" " + "_" +					// 4 Empty
-										tile.maxSpeed + "_" +		// 5 Maxspeed
-										tile.direction + "_" +		// 6 Richting
-										" " + "_" +					// 7 Empty
-										tile.LanesHighToLow + "_" +	// 8 LanesHighToLow
-										tile.LanesLowToHigh);		// 9 LanesLowToHigh
+										tile + "_" +							// 0 Welke tile
+										tile.listPlace + "_" +					// 1 Plaats in de lijst
+										tile.position.X + "_" +					// 2 X positie
+										tile.position.Y + "_" +					// 3 Y positie
+										" " + "_" +								// 4 Empty
+										tile.maxSpeed + "_" +					// 5 Maxspeed
+										tile.direction + "_" +					// 6 Richting
+										" " + "_" +								// 7 Empty
+										tile.GetLanesIn(tile.direction) + "_" +	// 8 LanesHighToLow
+										tile.GetLanesOut(tile.direction));		// 9 LanesLowToHigh
 									break;
 
 								// TODO: Save options for extra info, traffic lights strat and other things
@@ -221,11 +206,12 @@ namespace TrafficSimulation
 			/// Throw an exception
 			catch (Exception exp)
 			{
-				MessageBox.Show("" + exp);
+				MessageBox.Show("Error: Could not write file to disk. Original error:" + exp);
 
 				// TODO: Make a better screen. This isn't very useful to many users...
 			}
-		}	
+		}
+
         private void Help_Click(object sender, RoutedEventArgs e)
         {
 

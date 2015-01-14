@@ -35,7 +35,6 @@ namespace TrafficSimulation
             Size screensize = new Size(WidthStartScreen, HeightStartScreen);
             simwindow = new SimWindow(screensize, this);
             Start();
-
         }
 
 		/// <summary>
@@ -69,7 +68,7 @@ namespace TrafficSimulation
             /// Open simwindow
             simwindow.BackColor = Color.Green;
             //simwindow.Location = new Point(0, 0);
-            this.Controls.Add(simwindow);
+	            this.Controls.Add(simwindow);
         }
         private void Close()
         {

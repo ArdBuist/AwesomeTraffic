@@ -118,7 +118,6 @@ namespace TrafficSimulation
 
 				/// Move the map
                 if (state == "selected" || stateGreenWave == "buildingGreenWave")
-
                     MoveMap(mea);
 
 				/// Erase all the tiles that you come across with your mouse
