@@ -4,26 +4,28 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="100" d:DesignWidth="400">
+             d:DesignHeight="100" d:DesignWidth="300">
     <UserControl.Resources>
         <!--
      Hier moet nog een linear brush achtig komen zodat je en knoppen een mooie leuk overgang kan laten hebben.   
      -->
-        <Style TargetType="{x:Type Button}" x:Key="Style1">
+        <Style TargetType="{x:Type Button}" x:Key="buttonsRechts">
             <Setter Property="Width" Value="50" />
             <Setter Property="Height" Value="50" />
             <Setter Property="Margin" Value="1,1,1,1" />
             <Setter Property="Background" Value="Green"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Border x:Name="BorderStyle"
-                                Background="LightGreen" 
-                                BorderBrush="Green" 
-                                BorderThickness="0" 
-                                CornerRadius="15,15,15,15" >
+                                Background="NavajoWhite" 
+                                BorderBrush="LightSalmon" 
+                                BorderThickness="2" 
+                                CornerRadius="5,5,5,5" >
                             
                             <ContentPresenter Margin="{TemplateBinding Padding}" 
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
@@ -33,13 +35,13 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="BorderStyle" Property="Background" Value="LightGray"/>
+                                <Setter TargetName="BorderStyle" Property="Background" Value="Cornsilk"/>
                                 <Setter Property="Foreground" Value="Black" />
                                 <Setter Property="Cursor" Value="Hand" />
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="false">
                                 <Setter TargetName="BorderStyle" Property="Background" Value="White"/>
-                                <Setter Property="BorderBrush" Value="Green"/>
+                                <Setter Property="BorderBrush" Value="Transparent"/>
                                 <Setter Property="Opacity" Value="0.25"/>
                                 <Setter Property="Cursor" Value="No"/>
 
@@ -63,23 +65,23 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="60"/>
-                    <ColumnDefinition Width="60"/>
-                    <ColumnDefinition Width="60"/>
-                    <ColumnDefinition Width="60"/>
-                    <ColumnDefinition Width="60"/>
+                    <ColumnDefinition Width="55"/>
+                    <ColumnDefinition Width="55"/>
+                    <ColumnDefinition Width="55"/>
+                    <ColumnDefinition Width="55"/>
+                    <ColumnDefinition Width="55"/>
                 </Grid.ColumnDefinitions>
-
-                    <Button x:Name="dayNight"
-                            Style="{StaticResource Style1}" 
+                <!--
+                <Button x:Name="dayNight"
+                            Style="{StaticResource buttonsRechts}" 
                             Grid.Row="0"
                             Grid.Column="0"
                             Click="DayNight_Click" >
 					<Image Source="Resources/Buttons/Day_Button.png" Height="40" Width="40"/>
 				</Button>
-
-                    <Button x:Name="help" 
-                            Style="{StaticResource Style1}" 
+                -->
+                <Button x:Name="help" 
+                            Style="{StaticResource buttonsRechts}" 
                             Grid.Row="0"
                             Grid.Column="1"
                             Click="Help_Click" >
@@ -87,7 +89,7 @@
 				</Button>
 
                     <Button x:Name="info" 
-                            Style="{StaticResource Style1}" 
+                            Style="{StaticResource buttonsRechts}" 
                             Grid.Row="0"
                             Grid.Column="2"
                             Click="Info_Click" >
@@ -95,26 +97,24 @@
 				</Button>
 
                     <Button x:Name="save" 
-                            Style="{StaticResource Style1}"
+                            Style="{StaticResource buttonsRechts}"
                             Grid.Row="0"
                             Grid.Column="3"
                             Click="Save_Click" >
 					<Image Source="Resources/Buttons/Save_Button.png" Height="40" Width="40"/>
 				</Button>
 
-                    <Button x:Name="home" 
-                            Style="{StaticResource Style1}" 
+               <Button x:Name="home" 
+                            Style="{StaticResource buttonsRechts}" 
                             Grid.Row="0"
                             Grid.Column="4"
                             Click="Home_Click" >
-					<Image Source="Resources/Buttons/Home_Button.png" Height="40" Width="40"/>
+					<Image x:Name="imageDay" Source="Resources/Buttons/Home_Button.png" Height="40" Width="40"/>
 				</Button>
+              
                 </Grid>
         </Border>
     </Grid>
 
 </UserControl>
 
-<!--
-        Content="{StaticResource info}" 
-    -->

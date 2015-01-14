@@ -37,19 +37,21 @@ namespace TrafficSimulation
         private Tile oldGreenWaveTile;
         //variabele voor klikmethodes geeft aan: groene golf bouwen of verwijderen
         public String stateGreenWave;
-
         //de oude geselecteerde tile
         public Tile oldselectedTile;
+        //tile which is selected for the infobalk
+        public Tile selectedTile;
         //list for all vehicles needs to be removed
         public List<Vehicle> vehicleList;
-        
-		//number of horizontal tiles on the screen
+
+        //max tiles fitting horizontal on the map
         public int tilesHorizontal;
         //the simulation, has a new thread which is started when the simulation starts
         public Simulation simulation;
         //list for all the trafficlight controls needs to be removed
         public List<TrafficlightControl> controlList = new List<TrafficlightControl>();
 
+        public int totalCars;
         //
         public Tile currentBuildTile;
 
@@ -59,12 +61,11 @@ namespace TrafficSimulation
         //
         bool isMoved;
 
-		bool drawStart = false;
+	bool drawStart = false;
 
         public Boolean Simulatie;
         public bool Day;
         public bool InfoVisible;
-
 
         public SimControl(Size size, SimWindow simulation)
         {
@@ -82,12 +83,7 @@ namespace TrafficSimulation
             //Initialisation of the array in which all the positions of the tiles will be saved.
             tileList = new Tile[(this.Size.Height / 100) * (this.Size.Width / 100)];
 
-            Simulatie = false;
-
-            Simulatie = true;
-            Day = true;
-            InfoVisible = true;
-
+            totalCars = 0;
             //
             isMoved = false;
             //
@@ -147,12 +143,15 @@ namespace TrafficSimulation
             if (tileList[Methods.CalculateListPlace(this,mea.X, mea.Y)] != null)
             {
                 Bitmap tileImage;
-                Tile selectedTile = new SelectTile();
+                Tile selectTile = new SelectTile();
                 //Er wordt een blauw randje getekend om de geselecteerde tile
-                selectedTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), Methods.CalculateListPlace(this,mea.X, mea.Y));
-                tileImage = selectedTile.DrawImage();
+                selectTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), Methods.CalculateListPlace(this,mea.X, mea.Y));
+                tileImage = selectTile.DrawImage();
                 //de huidige selectedTile wordt de oude selectedtile voor de volgende keer
                 oldselectedTile = tileList[Methods.CalculateListPlace(this,mea.X, mea.Y)];
+                selectedTile = tileList[Methods.CalculateListPlace(this, mea.X, mea.Y)];
+                UpdateInfoBalkDesign();
+                simwindow.BovenSchermRechts.ShowOrHideInfoBalk(true);
                 this.Invalidate();
             }
         }
@@ -162,6 +161,7 @@ namespace TrafficSimulation
         {
             if (tileList[Methods.CalculateListPlace(this,mea.X, mea.Y)] != null)
             {
+                
                 Bitmap tileImage;
                 Tile selectedTile = new removeTile();
                 selectedTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), Methods.CalculateListPlace(this,mea.X, mea.Y));
@@ -185,9 +185,13 @@ namespace TrafficSimulation
                 tileList[Methods.CalculateListPlace(this, mea.X, mea.Y)] = currentBuildTile;
                 //Dit zorgt ervoor dat de kaart geupdate wordt met de nieuwe tile
                 backgroundBC.AddObject(tileImage, mea.X / 100 * 100, mea.Y / 100 * 100);
+                selectedTile = currentBuildTile;
+                UpdateInfoBalkDesign();
+                simwindow.BovenSchermRechts.ShowOrHideInfoBalk(true);
                 trafficlightBC.bitmap.MakeTransparent(Color.Green);
                 currentBuildTile = CopyCurrentTile();//hier wordt een nieuwe buildTile gemaakt met dezelfde waardes als daarvoor omdat er dan opnieuw een tile ingeklikt kan worden.
                 this.Invalidate();
+                
             }
         }
 
@@ -507,6 +511,11 @@ namespace TrafficSimulation
             //alle auto's weer verwijderen
             Graphics g = Graphics.FromImage((System.Drawing.Image)vehicleBC.bitmap);
             g.Clear(System.Drawing.Color.Transparent);
+
+            //snelheidswaarden resetten
+            simulation.PauseSeconds = 50;
+            simulation.extraSpeed = 0;
+            backgroundPB.Invalidate();
         }
 
         private void DrawStartImages()
@@ -889,6 +898,28 @@ namespace TrafficSimulation
                     }
                 }
             }
+        }
+        public void UpdateInfoBalkDesign()
+        {
+            //simwindow.InfoBalk.lanes.SelectedIndex =  selectedTile.GetLanesOut(int.Parse((string)simwindow.InfoBalk.lanes.Tag))-1;
+            int[,] lanes = new int[4,2];
+            for(int i = 0; i<4;i++)
+            {
+                lanes[i,1] = selectedTile.GetLanesIn(i+1);
+                lanes[i,0] = selectedTile.GetLanesOut(i+1);
+            }
+            simwindow.InfoBalk.UpdateDesign(lanes, selectedTile.maxSpeed);
+        }
+
+        internal void UpdateInfoBalkSimulatie()
+        {
+
+            simwindow.InfoBalk.UpdateSimulation(totalCars,simulation.WaitingCars);
+        }
+        public void ResetSimulationCounters()
+        {
+            this.totalCars = 0;
+            simulation.WaitingCars = 0;
         }
     }
 }

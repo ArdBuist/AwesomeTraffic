@@ -137,6 +137,21 @@ namespace TrafficSimulation
             {
 
 
+          	/*deze code moet worden gedaan zo als de simulatie wordt gestart.*///weet niet of deze deze code wel moet
+
+		/// De eerder geselecteerde tile wordt opnieuw getekend en verwijdert zo de blauwe rand
+		if (oldselectedTile != null )
+		{
+			backgroundBC.AddObject(oldselectedTile.DrawImage(), oldselectedTile.position.X, oldselectedTile.position.Y);
+			oldselectedTile = null;
+		}
+
+		/// Als de gum-tool is aangeklikt
+		if (state == "eraser")
+		{
+			removeTile(mea);
+		}
+
             //als je een route wil aanklikken voor een groene golf
             if (stateGreenWave == "buildingGreenWave" && state == "selected")
             {

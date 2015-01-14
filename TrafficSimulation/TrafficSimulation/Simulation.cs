@@ -16,16 +16,31 @@ namespace TrafficSimulation
         public delegate void MethodInvoker();
         public Thread thread;
         public bool simStarted;
+        protected int waitingCars;
+        Boolean simPause;
+        protected int simSleep;
+        public int extraSpeed;
 
         public Simulation(SimControl simControl)
         {
             this.simControl = simControl;
             this.simStarted = false;
             spawnerList = new List<Spawner>();
-
+            waitingCars = 0;
+            simSleep = 50;
+            extraSpeed = 0;
             
         }
-
+        public int WaitingCars
+        {
+            get { return waitingCars; }
+            set { waitingCars = value; } 
+        }
+        public int PauseSeconds
+        {
+            get { return simSleep; }
+            set { if(simSleep>10 &&simSleep<800)simSleep = value; }
+        }
         public void StartSim()
         {
             if (simStarted == false)
@@ -63,18 +78,31 @@ namespace TrafficSimulation
             }
         }
 
+        public void StartSimknop()
+        {
+            if (!simStarted)
+                StartSim();
+            else
+                simPause = false;
+              
+        }
+        public void PauseSimknop()
+        {
+            simPause = true;
+        }
         public void Update()
         {
             while (true)
             {
-                if (simControl.InvokeRequired)
-                    simControl.Invoke(new MethodInvoker(UpdateGame));
-                else
-                    UpdateGame();
-                
-                
+                if(!simPause)
+                {
+                    if (simControl.InvokeRequired)
+                        simControl.Invoke(new MethodInvoker(UpdateGame));
+                    else
+                        UpdateGame();
+                }
                 //standaardtijd ingebouwd voor een mooiere weergave.
-                Thread.Sleep(1000/30);
+                Thread.Sleep(simSleep);
             }
         }
         public void UpdateGame()
@@ -108,30 +136,38 @@ namespace TrafficSimulation
             //updaten van de trafficlights
             foreach(TrafficlightControl tL in simControl.controlList)
             {
-                tL.Run();
+                tL.Run(extraSpeed,(double)simSleep-(double)50);
             }
             //updaten van de spawners
             foreach (Spawner spawn in spawnerList)
             {
-                spawn.Tick(simControl);
+                spawn.Tick(simControl,extraSpeed,(double)simSleep-(double)50);
             }
+            simControl.UpdateInfoBalkSimulatie();
             simControl.Invalidate();
         }
 
         private void UpdateVehicle(Tile t, Vehicle v)
         {
-            v.Speed = t.MaxSpeed;
+            if(v.Speed==0)
+                waitingCars--;
+            v.Speed = t.MaxSpeed+extraSpeed;
             //if vehicle has to dissapear ----- moet worden vervangen door zwart vlak over de spawner-----
             if (VehicleIsOnEndSpawner(v, t))
             {
                 simControl.tileList[t.listPlace].RemoveVehicle(simControl, v, v.Direction, v.Lane);
+                simControl.totalCars--;
             }
             if (StaysOnTile(t, v))//if vehicle is still on the tile 
             {
                 if (DistanceFromCars(t, v))//if there are other cars standing in front
                     v.Update();
                 else
+                {
                     v.Speed = 0;
+                    waitingCars++;
+                }
+                
             }
             else
             {
@@ -143,13 +179,16 @@ namespace TrafficSimulation
                     {
                         v.Speed = nextTile.maxSpeed;
                         nextTile.AddVehicle(simControl, v, v.Direction, v.Lane);
+                        simControl.totalCars++;
                         v.Update();
                     }
                     simControl.tileList[t.listPlace].RemoveVehicle(simControl, v, v.Direction, v.Lane);
+                    simControl.totalCars--;
                 }
                 else
                 {
                     v.Speed = 0;
+                    waitingCars++;
                 }
             }
         }
@@ -174,16 +213,16 @@ namespace TrafficSimulation
         {
             switch (v.Direction)
             {
-                case 1: if (v.position.Y - t.MaxSpeed >= t.position.Y + CarSpace)
+                case 1: if (v.position.Y - t.MaxSpeed-1 >= t.position.Y + CarSpace)
                         return true;
                     break;
-                case 2: if (v.position.X + t.MaxSpeed + 15 <= t.position.X + t.size.Width - CarSpace)
+                case 2: if (v.position.X + t.MaxSpeed + v.Size.Width+t.maxSpeed + 5<= t.position.X + t.size.Width - CarSpace)
                         return true;
                     break;
-                case 3: if (v.position.Y + t.MaxSpeed + 10 <= t.position.Y + t.size.Height - CarSpace)
+                case 3: if (v.position.Y + t.MaxSpeed + v.Size.Width + t.maxSpeed + 3<= t.position.Y + t.size.Height - CarSpace)
                         return true;
                     break;
-                case 4: if (v.position.X - t.MaxSpeed >= t.position.X + CarSpace)
+                case 4: if (v.position.X - t.MaxSpeed-1 >= t.position.X + CarSpace)
                         return true;
                     break;
             }
@@ -194,7 +233,6 @@ namespace TrafficSimulation
         {
             if(t.name == "Spawner" && t.Directions.Contains((v.Direction+1)%4+1))
             {
-                
                 switch (v.Direction)
                 {
                     case 1: if (v.position.Y - v.Speed <= t.position.Y + 30)
