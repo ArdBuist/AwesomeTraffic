@@ -251,5 +251,44 @@ namespace TrafficSimulation
             labelDrivingCarsNumber.Content = 0;
             windowselect.simwindow.simcontrol.ResetSimulationCounters();
         }
+
+        private void RotateLeftClick(object sender, RoutedEventArgs e)
+        {
+            RotateTile("Right");
+        }
+
+        private void RotateRight_Click(object sender, RoutedEventArgs e)
+        {
+            RotateTile("Left");
+        }
+
+        private void RotateTile(string LeftOrRight)
+        {
+            int difference;
+            if (LeftOrRight == "Right")
+                difference = 0;
+            else
+                difference = +2;
+
+            Tile originalTile = windowselect.simwindow.simcontrol.selectedTile;
+            SimControl simcontrol = windowselect.simwindow.simcontrol;
+            Tile rotatedTile;
+            switch (originalTile.name)
+            {
+                case "Fork": rotatedTile = new Fork(simcontrol, (originalTile.notDirection+difference) % 4 + 1);
+                    break;
+                case "Crossroad": rotatedTile = new Crossroad(simcontrol);
+                    break;
+                case "Road": rotatedTile = new Road((originalTile.startDirection+difference )% 4 + 1, (originalTile.endDirection +difference)% 4 + 1);
+                    break;
+                case "Spawner": rotatedTile = new Spawner((originalTile.direction + difference) % 4 + 1);
+                    break;
+                default: rotatedTile = new Crossroad(simcontrol);
+                    break;
+            }
+            simcontrol.DrawTile(originalTile.position, rotatedTile);
+            rotatedTile.UpdateFromOtherTile(simcontrol, 0);
+
+        }
     }
 }

@@ -151,7 +151,7 @@ namespace TrafficSimulation
         }
 
         //"verwijdert" een tile (d.m.v. tekenen groen vlak)
-        public void removeTile(MouseEventArgs mea)
+        public void removeTile(Point mea)
         {
             if (tileList[Methods.CalculateListPlace(this,mea.X, mea.Y)] != null)
             {
@@ -167,23 +167,23 @@ namespace TrafficSimulation
             }
         }
 
-        private void DrawTile(MouseEventArgs mea)
+        public void DrawTile(Point mea, Tile buildTile)
         {
             Bitmap tileImage;
             if (TileConnectionisValid(Methods.CalculateListPlace(this, mea.X, mea.Y)))
             {
                 removeTile(mea);
-                currentBuildTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), Methods.CalculateListPlace(this, mea.X, mea.Y));
-                tileImage = currentBuildTile.DrawImage();
+                buildTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), Methods.CalculateListPlace(this, mea.X, mea.Y));
+                tileImage = buildTile.DrawImage();
                 //tile wordt in de lijst van tiles gezet
-                tileList[Methods.CalculateListPlace(this, mea.X, mea.Y)] = currentBuildTile;
+                tileList[Methods.CalculateListPlace(this, mea.X, mea.Y)] = buildTile;
                 //Dit zorgt ervoor dat de kaart geupdate wordt met de nieuwe tile
                 backgroundBC.AddObject(tileImage, mea.X / 100 * 100, mea.Y / 100 * 100);
-                selectedTile = currentBuildTile;
+                selectedTile = buildTile;
                 UpdateInfoBalkDesign();
                 simwindow.BovenSchermRechts.ShowOrHideInfoBalk(true);
                 trafficlightBC.bitmap.MakeTransparent(Color.Green);
-                currentBuildTile = CopyCurrentTile();//hier wordt een nieuwe buildTile gemaakt met dezelfde waardes als daarvoor omdat er dan opnieuw een tile ingeklikt kan worden.
+                buildTile = CopyCurrentTile();//hier wordt een nieuwe buildTile gemaakt met dezelfde waardes als daarvoor omdat er dan opnieuw een tile ingeklikt kan worden.
                 this.Invalidate();
                 
             }

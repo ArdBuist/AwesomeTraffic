@@ -92,11 +92,11 @@ namespace TrafficSimulation
 
 			/// Remove a tile by clicking with the right mouse button
 			if (mea.Button == System.Windows.Forms.MouseButtons.Right)
-				removeTile(mea);
+				removeTile(mea.Location);
 
 			/// Als je een weg wil bouwen
 			else if (state == "building")
-				DrawTile(mea);
+				DrawTile(mea.Location,currentBuildTile);
 
 			/// Als je een route wil aanklikken voor een groene golf
 			/// deze aanpassen, zodat het nummer overeenkomt met nummer voor het selecteren van de groene golf
@@ -114,7 +114,7 @@ namespace TrafficSimulation
 
 				/// Draws a line of straight roads on mousedown
 				if (TileIsStraight(mouseDownPoint, mea.Location) && state == "building" && simulation.simStarted == false && mea.Button == System.Windows.Forms.MouseButtons.Left)
-		 			DrawTile(mea);
+		 			DrawTile(mea.Location,currentBuildTile);
 
 				/// Move the map
                 if (state == "selected" || stateGreenWave == "buildingGreenWave")
@@ -123,7 +123,7 @@ namespace TrafficSimulation
 
 				/// Erase all the tiles that you come across with your mouse
 				if (state == "eraser" && simulation.simStarted == false)
-					removeTile(mea);
+					removeTile(mea.Location);
             }
         }
 
@@ -140,42 +140,29 @@ namespace TrafficSimulation
 
           	/*deze code moet worden gedaan zo als de simulatie wordt gestart.*///weet niet of deze deze code wel moet
 
-		/// De eerder geselecteerde tile wordt opnieuw getekend en verwijdert zo de blauwe rand
-		if (oldselectedTile != null )
-		{
-			backgroundBC.AddObject(oldselectedTile.DrawImage(), oldselectedTile.position.X, oldselectedTile.position.Y);
-			oldselectedTile = null;
-		}
+		    /// De eerder geselecteerde tile wordt opnieuw getekend en verwijdert zo de blauwe rand
+		    if (oldselectedTile != null )
+		    {
+			    backgroundBC.AddObject(oldselectedTile.DrawImage(), oldselectedTile.position.X, oldselectedTile.position.Y);
+			    oldselectedTile = null;
+		    }
 
-		/// Als de gum-tool is aangeklikt
-		if (state == "eraser")
-		{
-			removeTile(mea);
-		}
+		    /// Als de gum-tool is aangeklikt
+		    if (state == "eraser")
+		    {
+			    removeTile(mea.Location);
+		    }
 
             //als je een route wil aanklikken voor een groene golf
             if (stateGreenWave == "buildingGreenWave" && state == "selected")
             {
                 DrawGreenWave(mea);
             }            
-
-				/// De eerder geselecteerde tile wordt opnieuw getekend en verwijdert zo de blauwe rand
-				if (oldselectedTile != null)
-				{
-					backgroundBC.AddObject(oldselectedTile.DrawImage(), oldselectedTile.position.X, oldselectedTile.position.Y);
-					oldselectedTile = null;
-				}
-
-				/// Als de gum-tool is aangeklikt
-				if (state == "eraser")
-				{
-					removeTile(mea);
-				}
               
 
-				/// Als de select-tool is aangeklikt
-				else if (state == "selected")
-					DrawSelectLine(mea);
+		    /// Als de select-tool is aangeklikt
+		    else if (state == "selected")
+			    DrawSelectLine(mea);
 
             }
 

@@ -145,6 +145,7 @@
                             Grid.Column="4"  
                             HorizontalAlignment="Left" 
                             VerticalAlignment="Bottom" 
+                            Click="RotateLeftClick"
                             >
                             <Image Source="Resources\Buttons\TurnRight_Button.png" />
                         </Button>
@@ -154,7 +155,8 @@
                             Grid.Row="4" 
                             Grid.Column="1" 
                             HorizontalAlignment="Right" 
-                            VerticalAlignment="Bottom" >
+                            VerticalAlignment="Bottom" 
+                             Click="RotateRight_Click">
                             <Image Source="Resources\Buttons\TurnLeft_Button.png" />
                         </Button>
                         <ComboBox x:Name="lane1" 
