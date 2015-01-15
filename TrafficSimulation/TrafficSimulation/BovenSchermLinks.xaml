@@ -158,7 +158,7 @@
                              
                     <RadioButton x:Name="slowDown" 
                             Style="{StaticResource kleineButtons}" 
-                            Checked="SlowDown_Click" 
+                            Click="SlowDown_Click" 
                             Grid.Row="0"
                             Grid.Column="0"
                             VerticalAlignment="Top">
@@ -168,7 +168,7 @@
 
                     <RadioButton x:Name="speedUp" 
                             Style="{StaticResource kleineButtons}"  
-                            Checked="SpeedUp_Click"
+                            Click="SpeedUp_Click"
                             Grid.Row="0"
                             Grid.Column="2"
                              

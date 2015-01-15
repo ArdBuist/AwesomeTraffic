@@ -38,6 +38,8 @@ namespace TrafficSimulation
         protected int lanesHighToLow;
         //place the tile is on the TileList in SimControl
         public int listPlace;
+
+        protected int numberOfVehicles;
         //
         protected List<int> directions;
         //
@@ -45,7 +47,7 @@ namespace TrafficSimulation
 
         public Tile()
         {
-            this.MaxSpeed = 1;
+            this.MaxSpeed = 2;
             adjacenttileList = new Tile[4];
             this.LanesHighToLow = 1;
             this.LanesLowToHigh = 1;
@@ -59,6 +61,10 @@ namespace TrafficSimulation
             get { return this.directions; }
         }
 
+        public int NumberOfVehicles
+        {
+            get { return numberOfVehicles; }
+        }
         public bool[,] Access
         {
             get { return access; }
@@ -178,6 +184,7 @@ namespace TrafficSimulation
                     //de hoeveelheid banen wordt hier van de ene kant van de Fork naar de andere kant overgeheveld.
                     fork.lanes[((NotDirection + 1) % 4 + 1) * 2 - 1] = fork.lanes[NotDirection * 2 - 2];
                     fork.lanes[((NotDirection + 1) % 4 + 1) * 2 - 2] = fork.lanes[NotDirection * 2 - 1];
+                    fork.UpdateLanes(s,0, 1, 1);
                     int d = (NotDirection + 1) % 4 + 1;
                     Tile tile = GetOtherTile(s, d);
                     if (tile != null && tile.doesConnect(d))
@@ -248,7 +255,8 @@ namespace TrafficSimulation
         {
             List<List<Vehicle>> sideVehicles = vehicles[Side-1];
             List<Vehicle> laneVehicles = sideVehicles[lane];
-                laneVehicles.Remove(v);
+            laneVehicles.Remove(v);
+            numberOfVehicles--;
             //looks if there is space for other cars to come on the tile
                 if (laneVehicles.Count < 5 && this.name != "Spawner"&&this.name!="Crossroad" && this.name!="Fork")
                 {
@@ -262,6 +270,7 @@ namespace TrafficSimulation
             List<List<Vehicle>> sideVehicles = vehicles[Side-1];
             List<Vehicle> laneVehicles = sideVehicles[lane];
             laneVehicles.Add(v);
+            numberOfVehicles++;
             //looks if the tile is full
             if (laneVehicles.Count > 5 && this.name != "Spawner"&&this.name!="Crossroad" && this.name!="Fork")
             {
@@ -324,9 +333,9 @@ namespace TrafficSimulation
             }
         }
 
-        public void Tick(SimControl sim)
+        public void Tick(SimControl sim,int extraSpeed,double extraTime)
         {
-            currentSpawn += spawnPerSec;
+            currentSpawn += (spawnPerSec*(extraSpeed+1))+((extraTime/50)*spawnPerSec);
 
             if (currentSpawn >= 1)
             {
@@ -345,8 +354,11 @@ namespace TrafficSimulation
                 //takes a random lane to spawn in
                 spawnLane = ((random[0]*10)/8) % lanesOut;
                 List<List<Vehicle>> vehicleList = vehicles[this.direction - 1];
-                if(vehicleList[spawnLane].Count <4)
+                if (vehicleList[spawnLane].Count < 4)
+                {
                     AddVehicle(sim, createVehicle(spawnLane), direction, spawnLane);
+                    sim.totalCars++;
+                }
             }
             currentSpawn--;
         }
@@ -400,7 +412,12 @@ namespace TrafficSimulation
                 return lanesHighToLow;
             else if ((direction + 1) % 4 + 1 == endDirection)
                 return lanesLowToHigh;
-            else return 1;
+            else if (direction == startDirection)
+                return lanesLowToHigh;
+            else if (direction == endDirection)
+                return lanesHighToLow;
+            else
+                return 1;
         }
 
         public override int GetLanesOut(int direction)
@@ -409,8 +426,14 @@ namespace TrafficSimulation
                 return lanesLowToHigh;
             else if ((direction + 1) % 4 + 1 == endDirection)
                 return lanesHighToLow;
+            else if (direction == startDirection)
+                return lanesHighToLow;
+            else if (direction == endDirection)
+                return lanesLowToHigh;
             else
                 return 1;
+
+               
         }
 
         public override void UpdateLanes(SimControl s, int direction, int lanesIn, int lanesOut)
@@ -498,9 +521,9 @@ namespace TrafficSimulation
             if (directions.Contains(direction))
             {
                 lanes[direction * 2 - 1] = lanesOut;
-                lanes[direction * 2 - 2] = lanesIn;
-                control = new TrafficlightControl(s, this, 3, notDirection, lanes, position);
+                lanes[direction * 2 - 2] = lanesIn;   
             }
+            control = new TrafficlightControl(s, this, 3, notDirection, lanes, position);
         }
 
         public override bool doesConnect(int side)
@@ -586,7 +609,6 @@ namespace TrafficSimulation
         public override void SetValues(SimControl s, Point position, int listPlace)
         {
             base.SetValues(s, position, listPlace);
-
             control.ChangeValues(position);
         }
     }
@@ -630,6 +652,47 @@ namespace TrafficSimulation
         {
         }
     }
+
+    public class SelectGreenWaveTile : Tile
+    {
+        public SelectGreenWaveTile()
+        {
+        }
+
+        public override Bitmap DrawImage()
+        { // hier wordt een bitmap gemaakt en getekend door de andere methode. 
+            Bitmap image = new Bitmap(100, 100);
+            DrawTile t = new DrawTile();
+            t.drawSelectGreenWaveTile(Graphics.FromImage(image));
+            return image;
+        }
+
+        //returnt de banen die er bij een bepaalde kant uitgaan.
+        public override int GetLanesIn(int direction)
+        {
+            int noLanes = 0;
+            return noLanes;
+        }
+
+        //returnt de banen die er bij een bepaald kant ingaan.
+        public override int GetLanesOut(int direction)
+        {
+            int noLanes = 0;
+            return noLanes;
+        }
+
+        //controleert of aan de aangegeven zijkant ook echt een weg ligt.
+        public override bool doesConnect(int side)
+        {
+            bool noLanes = false;
+            return noLanes;
+        }
+
+        public override void UpdateLanes(SimControl s, int direction, int lanesIn, int lanesOut)
+        {
+        }
+    }
+
 
     public class removeTile : Tile
     {

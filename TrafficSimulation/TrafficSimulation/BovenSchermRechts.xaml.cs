@@ -21,7 +21,8 @@ namespace TrafficSimulation
     /// </summary>
     public partial class BovenSchermRechts : UserControl
     {
-        public Boolean InfoVisible = true;
+        public Boolean InfoVisible = false;
+        //private bool simulationStarted = false;
         InfoBalk infoBalk;
         OnderScherm onderScherm;
         WindowSelect windowselect;
@@ -46,17 +47,26 @@ namespace TrafficSimulation
 
         public void Info_Click(object sender, RoutedEventArgs e)
         {
-			// Hide info
-            if (InfoVisible)
-            {
-                windowselect.simwindow.infoHost.Location = new System.Drawing.Point((breedteScherm - breedteInfoBalk), hoogteBovenBalk);
-                InfoVisible = false;
-            }
-			// Show info
+            if(InfoVisible)
+                ShowOrHideInfoBalk(false);
             else
+                ShowOrHideInfoBalk(true);
+        }
+
+        public void ShowOrHideInfoBalk(Boolean infoVisible)
+        {
+            this.InfoVisible = infoVisible;
+            /// Hide info
+            if (!InfoVisible)
             {
                 windowselect.simwindow.infoHost.Location = new System.Drawing.Point(windowselect.simwindow.Size);
-                //ShowComboBox(windowselect.simwindow.simcontrol.selectedTile.Directions);
+                InfoVisible = false;
+                
+            }
+            // Show info
+            else
+            {
+                windowselect.simwindow.infoHost.Location = new System.Drawing.Point((breedteScherm - breedteInfoBalk), hoogteBovenBalk);
                 InfoVisible = true;
             }
         }
@@ -89,14 +99,16 @@ namespace TrafficSimulation
 				
 				// Extension name (.trs => TRafficSimulation)
 				saveDialog.DefaultExt = ".trs";
-				//saveDialog.InitialDirectory = true;
+				saveDialog.Filter = "Traffic Simulation files (*.trs) | *.trs";
 
+				/*
 				while (File.Exists(path))
 				{
 					number++;
 					filename = "Traffic" + number.ToString();
 					path = saveDialog.InitialDirectory.ToString() + filename + ".trs";
 				}
+				*/
 
 				saveDialog.FileName = filename;
 

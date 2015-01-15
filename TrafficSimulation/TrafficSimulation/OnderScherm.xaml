@@ -69,6 +69,7 @@
                 BorderThickness="3" 
                 CornerRadius="25,25,25,25" 
                 Background="NavajoWhite" 
+                MouseLeave="Lost_Focus"
                 Grid.Row="0" 
                 Grid.Column="0">
             
@@ -145,7 +146,6 @@
                              Checked="CrossRoadButton_Checked"
 							 MouseEnter="CrossRoadButton_Checked"
 							 Click="CrossRoadButton_Checked"
-                             LostFocus="Lost_Focus"
                              Grid.Row="0"
                              Grid.Column="3">
                     <Image Source="Resources/Crossroads/Crossroadstandaard.png" Height="50" Width="50"/>
@@ -165,7 +165,6 @@
                 <RadioButton x:Name="spawnerButton" 
                              Style="{StaticResource styleRadioButton}" 
                              GroupName="buttonsBelow" 
-                             Checked="SpawnerButton_Checked"
                              Click="SpawnerButton_Checked"
 							 MouseEnter="SpawnerButton_Checked"
                              Grid.Row="0"
