@@ -42,7 +42,8 @@ namespace TrafficSimulation
         {
             HideButtons();
             windowselect.simwindow.simcontrol.currentBuildTile = new Road(1, 3);
-            windowselect.simwindow.simcontrol.state = "building";           
+            windowselect.simwindow.simcontrol.state = "building";
+            windowselect.simwindow.OnderScherm.roadButton.IsChecked = true;
         }
 
         //klikmethode rechte weg 2 naar 4 (horizontaal)
@@ -51,6 +52,7 @@ namespace TrafficSimulation
             HideButtons();
             windowselect.simwindow.simcontrol.currentBuildTile = new Road(2, 4);
             windowselect.simwindow.simcontrol.state = "building";
+            windowselect.simwindow.OnderScherm.roadButton.IsChecked = true;
         }
 
         //klikmethode bocht 1 naar 2
@@ -59,6 +61,7 @@ namespace TrafficSimulation
             HideButtons(); 
             windowselect.simwindow.simcontrol.currentBuildTile = new Road(1, 2);
             windowselect.simwindow.simcontrol.state = "building";
+            windowselect.simwindow.OnderScherm.bendButton.IsChecked = true;
         }
 
         //klikmethode bocht 2 naar 3
@@ -67,6 +70,7 @@ namespace TrafficSimulation
             HideButtons(); 
             windowselect.simwindow.simcontrol.currentBuildTile = new Road(2, 3);
             windowselect.simwindow.simcontrol.state = "building";
+            windowselect.simwindow.OnderScherm.bendButton.IsChecked = true;
         }
 
         //klikmethode bocht 3 naar 4
@@ -75,6 +79,7 @@ namespace TrafficSimulation
             HideButtons(); 
             windowselect.simwindow.simcontrol.currentBuildTile = new Road(3, 4);
             windowselect.simwindow.simcontrol.state = "building";
+            windowselect.simwindow.OnderScherm.bendButton.IsChecked = true;
         }
 
         //klikmethode bocht 1 naar 4
@@ -83,6 +88,7 @@ namespace TrafficSimulation
             HideButtons(); 
             windowselect.simwindow.simcontrol.currentBuildTile = new Road(1, 4);
             windowselect.simwindow.simcontrol.state = "building";
+            windowselect.simwindow.OnderScherm.bendButton.IsChecked = true;
         }
 
         private void Fork12_Click(object sender, RoutedEventArgs e)
@@ -90,6 +96,7 @@ namespace TrafficSimulation
             HideButtons();
             windowselect.simwindow.simcontrol.currentBuildTile = new Fork(windowselect.simwindow.simcontrol, 4);
             windowselect.simwindow.simcontrol.state = "building";
+            windowselect.simwindow.OnderScherm.forkButton.IsChecked = true;
         }
 
         private void Fork23_Click(object sender, RoutedEventArgs e)
@@ -97,6 +104,7 @@ namespace TrafficSimulation
             HideButtons();
             windowselect.simwindow.simcontrol.currentBuildTile = new Fork(windowselect.simwindow.simcontrol,3);
             windowselect.simwindow.simcontrol.state = "building";
+            windowselect.simwindow.OnderScherm.forkButton.IsChecked = true;
         }
 
         private void Fork34_Click(object sender, RoutedEventArgs e)
@@ -104,6 +112,7 @@ namespace TrafficSimulation
             HideButtons(); 
             windowselect.simwindow.simcontrol.currentBuildTile = new Fork(windowselect.simwindow.simcontrol, 2);
             windowselect.simwindow.simcontrol.state = "building";
+            windowselect.simwindow.OnderScherm.forkButton.IsChecked = true;
         }
 
         private void Fork14_Click(object sender, RoutedEventArgs e)
@@ -111,6 +120,7 @@ namespace TrafficSimulation
             HideButtons();
             windowselect.simwindow.simcontrol.currentBuildTile = new Fork(windowselect.simwindow.simcontrol, 1);
             windowselect.simwindow.simcontrol.state = "building";
+            windowselect.simwindow.OnderScherm.forkButton.IsChecked = true;
         }
 
         private void Spawnerdown_Click(object sender, RoutedEventArgs e)
@@ -118,6 +128,7 @@ namespace TrafficSimulation
             HideButtons();
             windowselect.simwindow.simcontrol.currentBuildTile = new Spawner(1);
             windowselect.simwindow.simcontrol.state = "building";
+            windowselect.simwindow.OnderScherm.spawnerButton.IsChecked = true;
         }
 
         private void Spawnerleft_Click(object sender, RoutedEventArgs e)
@@ -125,6 +136,7 @@ namespace TrafficSimulation
             HideButtons();
             windowselect.simwindow.simcontrol.currentBuildTile = new Spawner(2);
             windowselect.simwindow.simcontrol.state = "building";
+            windowselect.simwindow.OnderScherm.spawnerButton.IsChecked = true;
         }
 
         private void Spawnerup_Click(object sender, RoutedEventArgs e)
@@ -132,6 +144,7 @@ namespace TrafficSimulation
             HideButtons(); 
             windowselect.simwindow.simcontrol.currentBuildTile = new Spawner(3);
             windowselect.simwindow.simcontrol.state = "building";
+            windowselect.simwindow.OnderScherm.spawnerButton.IsChecked = true;
         }
 
         private void Spawnerright_Click(object sender, RoutedEventArgs e)
@@ -139,6 +152,7 @@ namespace TrafficSimulation
             HideButtons();
             windowselect.simwindow.simcontrol.currentBuildTile = new Spawner(4);
             windowselect.simwindow.simcontrol.state = "building";
+            windowselect.simwindow.OnderScherm.spawnerButton.IsChecked = true;
         }
 
         private void HideButtons()

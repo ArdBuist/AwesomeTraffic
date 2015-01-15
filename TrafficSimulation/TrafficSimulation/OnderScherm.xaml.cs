@@ -46,7 +46,7 @@ namespace TrafficSimulation
 
         private void SelectButton_Checked(object sender, RoutedEventArgs e)
         {
-            AlgemeenClick();
+            //AlgemeenClick();
             windowselect.simwindow.simcontrol.state = "selected";
             //hierna moet dan een scherm verschijnen met info en aanpassingsmogelijkheden
             
@@ -54,7 +54,7 @@ namespace TrafficSimulation
 
         private void EraserButton_Checked(object sender, RoutedEventArgs e)
         {
-            AlgemeenClick();
+            //AlgemeenClick();
             windowselect.simwindow.simcontrol.state = "eraser";
 		}
 
@@ -62,7 +62,6 @@ namespace TrafficSimulation
         private void RoadButton_Checked(object sender, RoutedEventArgs e)
         {
             AlgemeenClick();
-
             int hoogteExtraButtonOSRoad = 150 ;
             int xLocationRoadMenu = (xLocatieOnderBalk + (breedteOnderBalk / 6));
             int yLocationRoadMenu = yLocatieOnderBalk - hoogteExtraButtonOSRoad;
@@ -79,7 +78,6 @@ namespace TrafficSimulation
         private void BendButton_Checked(object sender, RoutedEventArgs e)
         {
             AlgemeenClick();
-
             int hoogteExtraButtonOSBend = 300;
             int xLocationBendMenu = (xLocatieOnderBalk + ((breedteOnderBalk / 6) * 2));
             int yLocationBendMenu = yLocatieOnderBalk - hoogteExtraButtonOSBend;
@@ -107,7 +105,6 @@ namespace TrafficSimulation
         private void ForkButton_Checked(object sender, RoutedEventArgs e)
         {
             AlgemeenClick();
-
             int hoogteExtraButtonOSFork = 300;
             int xLocationForkMenu = (xLocatieOnderBalk + ((breedteOnderBalk / 6) * 4));
             int yLocationForkMenu = yLocatieOnderBalk - hoogteExtraButtonOSFork;
@@ -124,7 +121,6 @@ namespace TrafficSimulation
         private void SpawnerButton_Checked(object sender, RoutedEventArgs e)
         {   
             AlgemeenClick();
-
             int hoogteExtraButtonOSSpawner = 300;
             int xLocationSpawnerMenu = (xLocatieOnderBalk + ((breedteOnderBalk / 6) * 5));
             int yLocationSpawnerMenu = yLocatieOnderBalk - hoogteExtraButtonOSSpawner;
@@ -148,6 +144,8 @@ namespace TrafficSimulation
 
      private void AlgemeenClick()
         {
+            
+            
             extraButtonsOS.Visibility = Visibility.Hidden;
             extraButtonsOS.roadhor.Visibility = Visibility.Hidden;
             extraButtonsOS.roadver.Visibility = Visibility.Hidden;
