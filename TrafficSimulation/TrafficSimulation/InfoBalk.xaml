@@ -230,6 +230,7 @@
                         <RowDefinition Height="*" />
                         <RowDefinition Height="*" />
                         <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
                     <Grid.ColumnDefinitions>
@@ -383,14 +384,14 @@
                         </ComboBox>
                     </Grid>
 
-                    <Label x:Name="labelSpeed" Visibility="Hidden"
-                           Grid.Row="3" 
+                    <Label x:Name="labelSpeed" 
+                           Grid.Row="2" 
                            Grid.Column="0" 
                            Style="{StaticResource infoBalkLabels}" 
                            Content="speedlimit" />
 
-                    <ComboBox x:Name="speed" Visibility="Hidden"
-                              Grid.Row="3" 
+                    <ComboBox x:Name="speed" 
+                              Grid.Row="2" 
                               Grid.Column="1" 
                               DropDownClosed="speed_Close"
                               Style="{StaticResource infoBalkComboBox}">
@@ -400,15 +401,15 @@
                         <ComboBoxItem Tag="100">100 km/h</ComboBoxItem>
                     </ComboBox>
 
-                    <Label x:Name="labelStrategie" Visibility="Hidden"
+                    <Label x:Name="labelStrategie" 
                            Grid.Row="3" 
                            Grid.Column="0"
                            Style="{StaticResource infoBalkLabels}"
                            Content="Choose your traffic strategy" />
 
-                    <ComboBox x:Name="listboxStrategie" Visibility="Hidden"
-                             Grid.Row="2" 
-                             Grid.Column="0"
+                    <ComboBox x:Name="listboxStrategie" 
+                             Grid.Row="3" 
+                             Grid.Column="1"
                              Style="{StaticResource infoBalkComboBox}"
                              >
                         <ComboBoxItem Tag="Tijd" IsSelected="True">Tijd</ComboBoxItem>
@@ -416,12 +417,18 @@
 
                     </ComboBox>
 
-                    <Label x:Name="labelEfficientie" Visibility="Hidden"
-                           Grid.Row="1" 
-                           Grid.Column="1" 
+                    <Label x:Name="labelCarsOnTile" 
+                           Grid.Row="4" 
+                           Grid.Column="0" 
                            Style="{StaticResource infoBalkLabels}" 
-                           Content="The efficiency of your crossroad" />
-
+                           Content="Amount of cars on the tile" />
+                    
+                    <Label x:Name="labelCarsOnTileNumber" 
+                           Grid.Row="4" 
+                           Grid.Column="1" 
+                           HorizontalAlignment="Left"
+                           Style="{StaticResource infoBalkLabels}" 
+                           Content="0" />
                 </Grid>
 
                 <Grid Grid.Row="2" Grid.Column="0">
