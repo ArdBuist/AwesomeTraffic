@@ -92,7 +92,7 @@
                                FontStyle="Italic"
                                VerticalAlignment="Center"
                                HorizontalAlignment="Center"
-                               Text="Information about current Lane"/>
+                               Text="Information about current Tile"/>
                 </Grid>
 
                 <Grid Grid.Row="1" Grid.Column="0">
@@ -258,7 +258,7 @@
                            Grid.Row="3" 
                            Grid.Column="0" 
                            Style="{StaticResource infoBalkLabels}" 
-                           Content="Maximum speedlimit" />
+                           Content="speedlimit" />
 
                     <ComboBox x:Name="speed" 
                               Grid.Row="3" 
