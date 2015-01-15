@@ -90,6 +90,11 @@ namespace TrafficSimulation
             mouseDownPoint = new Point(mea.X / 100 * 100, mea.Y / 100 * 100);
             mouseMovePoint = mea.Location;
 
+            if (oldselectedTile != null)
+            {
+                backgroundBC.AddObject(selectedTile.DrawImage(), selectedTile.position.X, selectedTile.position.Y);
+                oldselectedTile = null;
+            }
 			/// Remove a tile by clicking with the right mouse button
 			if (mea.Button == System.Windows.Forms.MouseButtons.Right)
 				removeTile(mea.Location);
@@ -132,36 +137,35 @@ namespace TrafficSimulation
         private void MouseClickUp(object obj, MouseEventArgs mea)
         {
             mouseDownPoint = new Point(0, 0); mouseMovePoint = new Point(0, 0);
+            if (oldselectedTile != null)
+            {
+                backgroundBC.AddObject(selectedTile.DrawImage(), selectedTile.position.X, selectedTile.position.Y);
+                oldselectedTile = null;
+            }
 
             if (isMoved == false)
             {
+          	    /*deze code moet worden gedaan zo als de simulatie wordt gestart.*///weet niet of deze deze code wel moet
 
+		        /// De eerder geselecteerde tile wordt opnieuw getekend en verwijdert zo de blauwe rand
+		        
 
-          	/*deze code moet worden gedaan zo als de simulatie wordt gestart.*///weet niet of deze deze code wel moet
+		        /// Als de gum-tool is aangeklikt
+		        if (state == "eraser")
+		        {
+			        removeTile(mea.Location);
+		        }
 
-		    /// De eerder geselecteerde tile wordt opnieuw getekend en verwijdert zo de blauwe rand
-		    if (oldselectedTile != null )
-		    {
-			    backgroundBC.AddObject(oldselectedTile.DrawImage(), oldselectedTile.position.X, oldselectedTile.position.Y);
-			    oldselectedTile = null;
-		    }
-
-		    /// Als de gum-tool is aangeklikt
-		    if (state == "eraser")
-		    {
-			    removeTile(mea.Location);
-		    }
-
-            //als je een route wil aanklikken voor een groene golf
-            if (stateGreenWave == "buildingGreenWave" && state == "selected")
-            {
-                DrawGreenWave(mea);
-            }            
+                //als je een route wil aanklikken voor een groene golf
+                if (stateGreenWave == "buildingGreenWave" && state == "selected")
+                {
+                    DrawGreenWave(mea);
+                }            
               
 
-		    /// Als de select-tool is aangeklikt
-		    else if (state == "selected")
-			    DrawSelectLine(mea);
+		        /// Als de select-tool is aangeklikt
+		        else if (state == "selected")
+			        DrawSelectLine(mea.Location);
 
             }
 

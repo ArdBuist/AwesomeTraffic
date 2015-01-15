@@ -77,6 +77,7 @@ namespace TrafficSimulation
             {
                 thread.Abort();
                 simStarted = false;
+                simControl.UpdateInfoBalkDesign();
                 return false;
             }
         }
@@ -104,6 +105,7 @@ namespace TrafficSimulation
                     else
                         UpdateGame();
                 }
+                //simControl.DrawSelectLine(simControl.selectedTile.position);
                 //standaardtijd ingebouwd voor een mooiere weergave.
                 Thread.Sleep(simSleep);
             }
@@ -146,6 +148,8 @@ namespace TrafficSimulation
             {
                 spawn.Tick(simControl,extraSpeed,(double)simSleep-(double)50);
             }
+            if(simControl.selectedTile != null)
+                simControl.DrawSelectLine(simControl.selectedTile.position);
             simControl.UpdateInfoBalkSimulatie();
             simControl.Invalidate();
         }

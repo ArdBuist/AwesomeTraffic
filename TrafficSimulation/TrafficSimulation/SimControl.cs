@@ -132,22 +132,30 @@ namespace TrafficSimulation
         }
 
         //tekent een blauwe lijn om de geselecteerde tile
-        private void DrawSelectLine(MouseEventArgs mea)
+        public void DrawSelectLine(Point mea)
         {
-            if (tileList[Methods.CalculateListPlace(this,mea.X, mea.Y)] != null)
+            if (tileList[Methods.CalculateListPlace(this, mea.X, mea.Y)] != null)
             {
-                Bitmap tileImage;
                 Tile selectTile = new SelectTile();
                 //Er wordt een blauw randje getekend om de geselecteerde tile
-                selectTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), Methods.CalculateListPlace(this,mea.X, mea.Y));
-                tileImage = selectTile.DrawImage();
+                selectTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), Methods.CalculateListPlace(this, mea.X, mea.Y));
+                selectTile.DrawImage();
                 //de huidige selectedTile wordt de oude selectedtile voor de volgende keer
-                oldselectedTile = tileList[Methods.CalculateListPlace(this,mea.X, mea.Y)];
+                oldselectedTile = tileList[Methods.CalculateListPlace(this, mea.X, mea.Y)];
                 selectedTile = tileList[Methods.CalculateListPlace(this, mea.X, mea.Y)];
                 UpdateInfoBalkDesign();
                 simwindow.BovenSchermRechts.ShowOrHideInfoBalk(true);
-                this.Invalidate();
+                
             }
+            else 
+            {
+                if (selectedTile != null)
+                    backgroundBC.AddObject(selectedTile.DrawImage(), selectedTile.position.X, selectedTile.position.Y);
+                oldselectedTile = null;
+                selectedTile = null;
+                simwindow.BovenSchermRechts.ShowOrHideInfoBalk(false);
+            }
+            this.Invalidate();
         }
 
         //"verwijdert" een tile (d.m.v. tekenen groen vlak)
@@ -155,7 +163,7 @@ namespace TrafficSimulation
         {
             if (tileList[Methods.CalculateListPlace(this,mea.X, mea.Y)] != null)
             {
-                
+                simwindow.BovenSchermRechts.ShowOrHideInfoBalk(false);
                 Bitmap tileImage;
                 Tile selectedTile = new removeTile();
                 selectedTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), Methods.CalculateListPlace(this,mea.X, mea.Y));
@@ -172,6 +180,7 @@ namespace TrafficSimulation
             Bitmap tileImage;
             if (TileConnectionisValid(Methods.CalculateListPlace(this, mea.X, mea.Y)))
             {
+                simwindow.BovenSchermRechts.ShowOrHideInfoBalk(false);
                 removeTile(mea);
                 buildTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), Methods.CalculateListPlace(this, mea.X, mea.Y));
                 tileImage = buildTile.DrawImage();
@@ -180,11 +189,11 @@ namespace TrafficSimulation
                 //Dit zorgt ervoor dat de kaart geupdate wordt met de nieuwe tile
                 backgroundBC.AddObject(tileImage, mea.X / 100 * 100, mea.Y / 100 * 100);
                 selectedTile = buildTile;
-                UpdateInfoBalkDesign();
-                simwindow.BovenSchermRechts.ShowOrHideInfoBalk(true);
                 trafficlightBC.bitmap.MakeTransparent(Color.Green);
                 buildTile = CopyCurrentTile();//hier wordt een nieuwe buildTile gemaakt met dezelfde waardes als daarvoor omdat er dan opnieuw een tile ingeklikt kan worden.
-                this.Invalidate();
+                //oldselectedTile = null;
+                //selectedTile = null;
+                    this.Invalidate();
                 
             }
         }

@@ -60,6 +60,7 @@ namespace TrafficSimulation
             if (!InfoVisible)
             {
                 windowselect.simwindow.infoHost.Location = new System.Drawing.Point(windowselect.simwindow.Size);
+                windowselect.simwindow.InfoBalk.HideCombobox();
                 InfoVisible = false;
                 
             }

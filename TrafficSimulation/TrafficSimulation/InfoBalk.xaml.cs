@@ -30,8 +30,9 @@ namespace TrafficSimulation
             windowselect = ws;
             //simwindow = sim;
             //s = simwindow.sim; ;
-
+            
             InitializeComponent();
+            HideCombobox();
 
         }
 
@@ -125,6 +126,7 @@ namespace TrafficSimulation
                     }
                     windowselect.simwindow.simcontrol.backgroundPB.Invalidate();
                     windowselect.simwindow.simcontrol.UpdateInfoBalkDesign();
+                    windowselect.simwindow.simcontrol.DrawSelectLine(windowselect.simwindow.simcontrol.selectedTile.position);
                 }
             }
         }
@@ -151,6 +153,17 @@ namespace TrafficSimulation
         public void UpdateDesign(int[,] tileLanes, int maxSpeed)
         {
             HideCombobox();
+            speed.Visibility = Visibility.Visible;
+            RotatedRight.Visibility = Visibility.Visible;
+            RotateLeft.Visibility = Visibility.Visible;
+            labelSpeed.Visibility = Visibility.Visible;
+            if (windowselect.simwindow.simcontrol.simulation.simStarted)
+            {
+                speed.IsEnabled = false;
+                RotatedRight.IsEnabled = false;
+                RotateLeft.IsEnabled = false;
+            }
+
             Boolean CrosOrFork = false;
             if(windowselect.simwindow.simcontrol.selectedTile.name == "Crossroad" || windowselect.simwindow.simcontrol.selectedTile.name == "Fork")
                 CrosOrFork = true;
@@ -167,8 +180,9 @@ namespace TrafficSimulation
             lane2.SelectedIndex = tileLanes[1, 1] - 1;
         }
 
-        private void HideCombobox()
+        public void HideCombobox()
         {
+            ImageInfoBalk.Source = null;
             // alle comboboxen laten verdwijnen
             lane1.Visibility = Visibility.Hidden;
             lane2.Visibility = Visibility.Hidden;
@@ -188,6 +202,15 @@ namespace TrafficSimulation
             lane6.IsEnabled = false;
             lane7.IsEnabled = false;
             lane8.IsEnabled = false;
+
+            speed.Visibility = Visibility.Hidden;
+            RotatedRight.Visibility = Visibility.Hidden;
+            RotateLeft.Visibility = Visibility.Hidden;
+            labelSpeed.Visibility = Visibility.Hidden;
+
+            RotatedRight.IsEnabled = true;
+            RotateLeft.IsEnabled = true;
+            speed.IsEnabled = true;
             
         }
         public void ShowComboBox(List<int> Directions,Boolean CrossOrFork)
@@ -288,6 +311,7 @@ namespace TrafficSimulation
             }
             simcontrol.DrawTile(originalTile.position, rotatedTile);
             rotatedTile.UpdateFromOtherTile(simcontrol, 0);
+            windowselect.simwindow.simcontrol.DrawSelectLine(windowselect.simwindow.simcontrol.selectedTile.position);
 
         }
     }

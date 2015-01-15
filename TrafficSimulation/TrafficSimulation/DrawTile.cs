@@ -9,18 +9,14 @@ using System.Threading;
 
 namespace TrafficSimulation
 {
-    public class DrawTile
+    public static class DrawTile
     {
         //roadW is de breedte van de weg
         const int roadW = 16;
 
-        public DrawTile()
-        {
-
-        }
 
         //aanmaken pen die in 1 lijn streepjes zet van 5 px per stuk
-        public Pen strPen()
+        public static Pen strPen()
         {
             float[] stripesLine = new float[20];
 
@@ -39,7 +35,7 @@ namespace TrafficSimulation
          * sideOut(welke kant de weg uitgaat), lanesIn(hoeveel wegen er in gaan bij sideIn),
          * lanesOut(hoeveel wegen er uit gaan bij sideIn). sideIn is altijd het laagste getal, sideOut het hoogste.
          */
-        public Graphics drawRoad(Graphics gr, int lanesIn, int lanesOut, int sideIn, int sideOut)
+        public static Graphics drawRoad(Graphics gr, int lanesIn, int lanesOut, int sideIn, int sideOut)
         {
             Graphics road = gr;
             road.SmoothingMode = SmoothingMode.AntiAlias;
@@ -232,7 +228,7 @@ namespace TrafficSimulation
         }
 
         //Deze methode tekent een t-splitsing m.b.v. parameters die aangeven hoeveel wegen er in en uit gaan bij elke zijde.
-        public Graphics drawForkroad(Graphics gr, int[] lanes)
+        public static Graphics drawForkroad(Graphics gr, int[] lanes)
         {
             Graphics fork = gr;
             fork.SmoothingMode = SmoothingMode.AntiAlias;
@@ -321,7 +317,7 @@ namespace TrafficSimulation
         }
 
         //Deze methode tekent het kruispunt m.b.v. parameters die aangeven hoeveel wegen er in en uit gaan bij elke zijde.
-        public Graphics drawCrossroad(Graphics gr, int[] lanes)
+        public static Graphics drawCrossroad(Graphics gr, int[] lanes)
         {
             Graphics crossRoad = gr;
             crossRoad.SmoothingMode = SmoothingMode.AntiAlias;
@@ -366,7 +362,7 @@ namespace TrafficSimulation
             return crossRoad;
         }
 
-        public Graphics drawSpawner(Graphics gr, int side, int lanesIn, int lanesOut)
+        public static Graphics drawSpawner(Graphics gr, int side, int lanesIn, int lanesOut)
         {
             Graphics bmSpawner = gr;
             bmSpawner.FillRectangle(Brushes.Green, 0, 0, 100, 100);
@@ -492,7 +488,7 @@ namespace TrafficSimulation
             return bmSpawner;
         }
 
-        public Graphics drawSelectTile(Graphics gr)
+        public static Graphics drawSelectTile(Graphics gr)
         {
             Graphics selectedTile = gr;           
             Pen selectPen = new Pen(Color.LightBlue, 8);
@@ -500,7 +496,7 @@ namespace TrafficSimulation
             return selectedTile;
         }
 
-        public Graphics drawSelectGreenWaveTile(Graphics gr)
+        public static Graphics drawSelectGreenWaveTile(Graphics gr)
         {
             Graphics selectedTile = gr;
             Pen selectPen = new Pen(Color.LightGreen, 8);
@@ -508,7 +504,7 @@ namespace TrafficSimulation
             return selectedTile;
         }
 
-        public Graphics drawRemoveTile(Graphics gr)
+        public static Graphics drawRemoveTile(Graphics gr)
         {
             Graphics selectedTile = gr;
             gr.FillRectangle(Brushes.Green, 0, 0, 100, 100);

@@ -378,8 +378,7 @@ namespace TrafficSimulation
         public override Bitmap DrawImage()
         {
             Bitmap image = new Bitmap(100, 100);
-            DrawTile t = new DrawTile();
-            t.drawSpawner(Graphics.FromImage(image), direction, lanesOut, lanesIn);
+            DrawTile.drawSpawner(Graphics.FromImage(image), direction, lanesOut, lanesIn);
             return image;
         }
     }
@@ -464,8 +463,7 @@ namespace TrafficSimulation
         public override Bitmap DrawImage()
         {
             Bitmap image = new Bitmap(100, 100);
-            DrawTile t = new DrawTile();
-            t.drawRoad(Graphics.FromImage(image), lanesLowToHigh, lanesHighToLow, startDirection, endDirection);
+            DrawTile.drawRoad(Graphics.FromImage(image), lanesLowToHigh, lanesHighToLow, startDirection, endDirection);
             return image;
         }
     }
@@ -537,8 +535,7 @@ namespace TrafficSimulation
         {
 
             Bitmap image = new Bitmap(100, 100);
-            DrawTile t = new DrawTile();
-            t.drawForkroad(Graphics.FromImage(image), lanes);
+            DrawTile.drawForkroad(Graphics.FromImage(image), lanes);
             return image;
         }
 
@@ -601,8 +598,7 @@ namespace TrafficSimulation
         public override Bitmap DrawImage()
         { // hier wordt een bitmap gemaakt en getekend door de andere methode. 
             Bitmap image = new Bitmap(100, 100);
-            DrawTile t = new DrawTile();
-            t.drawCrossroad(Graphics.FromImage(image), lanes);
+            DrawTile.drawCrossroad(Graphics.FromImage(image), lanes);
             return image;
         }
 
@@ -622,8 +618,7 @@ namespace TrafficSimulation
         public override Bitmap DrawImage()
         { // hier wordt een bitmap gemaakt en getekend door de andere methode. 
             Bitmap image = new Bitmap(100, 100);
-            DrawTile t = new DrawTile();
-            t.drawSelectTile(Graphics.FromImage(image));
+            DrawTile.drawSelectTile(Graphics.FromImage(image));
             return image;
         }
 
@@ -662,8 +657,7 @@ namespace TrafficSimulation
         public override Bitmap DrawImage()
         { // hier wordt een bitmap gemaakt en getekend door de andere methode. 
             Bitmap image = new Bitmap(100, 100);
-            DrawTile t = new DrawTile();
-            t.drawSelectGreenWaveTile(Graphics.FromImage(image));
+            DrawTile.drawSelectGreenWaveTile(Graphics.FromImage(image));
             return image;
         }
 
@@ -703,8 +697,7 @@ namespace TrafficSimulation
         public override Bitmap DrawImage()
         { // hier wordt een bitmap gemaakt en getekend door de andere methode. 
             Bitmap image = new Bitmap(100, 100);
-            DrawTile t = new DrawTile();
-            t.drawRemoveTile(Graphics.FromImage(image));
+            DrawTile.drawRemoveTile(Graphics.FromImage(image));
             return image;
         }
 
