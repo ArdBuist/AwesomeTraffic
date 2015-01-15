@@ -14,35 +14,79 @@
         
         <Style x:Key="infoBalkLabels" TargetType="Label">
             <Setter Property="Width" Value="auto" />
-            <Setter Property="Height" Value="20" />
+            <Setter Property="Height" Value="30" />
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="HorizontalAlignment" Value="Right" />
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Margin" Value="1,1,1,1" />
             <Setter Property="FontFamily" Value="Verdana"/>
-            <Setter Property="FontSize" Value="8" />
-            <Setter Property="FontWeight" Value="Black" />
+            <Setter Property="FontStretch" Value="Normal" />
+            <Setter Property="FontSize" Value="10" />
+            
         </Style>
 
-        <Style x:Key="infoBalkComboBox" TargetType="ComboBox">
-            <Setter Property="Height" Value="20" />
-            <Setter Property="Width" Value="80" />
-            <Setter Property="HorizontalAlignment" Value="Left" />
-            <Setter Property="VerticalAlignment" Value="Center"   />
+        <Style x:Key="styleRadioButton" TargetType="RadioButton">
+            <Setter Property="Width" Value="60" />
+            <Setter Property="Height" Value="25" />
+            <Setter Property="Background" Value="NavajoWhite"/>
+            <Setter Property="Margin" Value="10,0,10,0" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalContentAlignment" Value="center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
 
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type RadioButton}">
+                        <Border x:Name="RadioButtonBorder"
+                                BorderBrush="LightSalmon" 
+                                BorderThickness="3" 
+                                Background="Cornsilk"  
+                                CornerRadius="10,10,10,10"
+                                >
+
+                            <ContentPresenter Margin="{TemplateBinding Padding}" 
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              ClipToBounds="True" />
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="RadioButtonBorder" Property="Background" Value="NavajoWhite"/>
+                                <Setter TargetName="RadioButtonBorder" Property="BorderThickness" Value="3" />
+                                <Setter Property="Cursor" Value="Hand" />
+                            </Trigger>
+
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter TargetName="RadioButtonBorder" Property="Background" Value="Transparent"/>
+                                <Setter TargetName="RadioButtonBorder" Property="BorderBrush" Value="Transparent"/>
+                                <Setter Property="Opacity" Value="0.25"/>
+                                <Setter Property="Cursor" Value="No"/>
+                            </Trigger>
+
+                            <Trigger Property="IsChecked" Value="true">
+                                <Setter TargetName="RadioButtonBorder" Property="Background" Value="NavajoWhite"/>
+                                <Setter Property="BorderBrush" Value="LightSalmon"/>
+                                <Setter Property="Cursor" Value="Hand"/>
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
-
+        
         <Style x:Key="infoBalkButtons" TargetType="Button" >
-            <Setter Property="Width" Value="20" />
-            <Setter Property="Height" Value="20" />
+            <Setter Property="Width" Value="30" />
+            <Setter Property="Height" Value="30" />
             <Setter Property="Margin" Value="1,1,1,1" />
-            <Setter Property="Background" Value="Green"/>
+            <Setter Property="Background" Value="Cornsilk"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Border x:Name="BorderStyle"
-                                Background="Green" 
-                                BorderBrush="White" 
+                                Background="Cornsilk" 
+                                BorderBrush="LightSalmon" 
                                 BorderThickness="3" 
                                 CornerRadius="5,5,5,5" >
                             <ContentPresenter Margin="{TemplateBinding Padding}" 
@@ -107,7 +151,7 @@
             </Setter>
         </Style>
 
-        <Style x:Key="lanesComboBox" TargetType="{x:Type ComboBox}">
+        <Style x:Key="infoBalkComboBox" TargetType="{x:Type ComboBox}">
             <Setter Property="Foreground" Value="Black"/>
             <Setter Property="Height" Value="20" />
             <Setter Property="Width" Value="35" />
@@ -206,7 +250,7 @@
                     <RowDefinition Height="50"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="50"/>
-                    <RowDefinition Height="3*"/>
+                    <RowDefinition Height="2*"/>
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
@@ -215,9 +259,10 @@
 
                 <Grid Grid.Row="0" Grid.Column="0">
                     <TextBlock FontFamily="Verdana" 
-                               FontSize="11" 
+                               FontSize="14" 
                                FontWeight="Black" 
                                FontStyle="Italic"
+                               Foreground="SaddleBrown"
                                VerticalAlignment="Center"
                                HorizontalAlignment="Center"
                                Text="Information about current Tile"/>
@@ -227,6 +272,8 @@
 
                     <Grid.RowDefinitions>
                         <RowDefinition Height="2*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
                         <RowDefinition Height="*" />
                         <RowDefinition Height="*" />
                         <RowDefinition Height="*" />
@@ -268,20 +315,22 @@
                            Margin="1,1,1,1"
                            />
 
-                        <Button x:Name="RotateLeft"  Visibility="Hidden"
+                        <Button x:Name="RotateLeft"  
                             Style="{StaticResource infoBalkButtons}"
-                            Grid.Row="4" 
-                            Grid.Column="4"  
+                            Grid.Row="2"
+                            Grid.RowSpan="2"
+                            Grid.Column="5"  
                             HorizontalAlignment="Left" 
                             VerticalAlignment="Bottom" 
                             >
                             <Image Source="Resources\Buttons\TurnRight_Button.png" />
                         </Button>
 
-                        <Button x:Name="RotatedRight" Visibility="Hidden"
+                        <Button x:Name="RotatedRight" 
                             Style="{StaticResource infoBalkButtons}"
-                            Grid.Row="4" 
-                            Grid.Column="1" 
+                            Grid.Row="2" 
+                            Grid.RowSpan="2"
+                            Grid.Column="0" 
                             HorizontalAlignment="Right" 
                             VerticalAlignment="Bottom" >
                             <Image Source="Resources\Buttons\TurnLeft_Button.png" />
@@ -292,7 +341,7 @@
                               Grid.Column="1" 
                                   Tag="4_0"
                               DropDownClosed="lane1_Close"
-                              Style="{StaticResource lanesComboBox}"
+                              Style="{StaticResource infoBalkComboBox}"
                               HorizontalAlignment="Right">
                             <ComboBoxItem Tag="1" IsSelected="True" Content="1"/>
                             <ComboBoxItem Tag="2" Content="2"/>
@@ -304,7 +353,7 @@
                                   Grid.Column="1" 
                                   Tag="4_1"
                                   DropDownClosed="lane2_Close"
-                                  Style="{StaticResource lanesComboBox}" 
+                                  Style="{StaticResource infoBalkComboBox}" 
                                   HorizontalAlignment="Right" >
                             <ComboBoxItem Tag="1" IsSelected="True" Content="1"/>
                             <ComboBoxItem Tag="2" Content="2"/>
@@ -316,7 +365,7 @@
                                   Grid.Column="2"
                                   Tag="1_0"
                                   DropDownClosed="lane3_Close"
-                                  Style="{StaticResource lanesComboBox}"
+                                  Style="{StaticResource infoBalkComboBox}"
                                   VerticalAlignment="Bottom">
                             <ComboBoxItem Tag="1" IsSelected="True" Content="1"/>
                             <ComboBoxItem Tag="2" Content="2"/>
@@ -328,7 +377,7 @@
                                   Grid.Column="3" 
                                   Tag="1_1"
                                   DropDownClosed="lane4_Close"
-                                  Style="{StaticResource lanesComboBox}"
+                                  Style="{StaticResource infoBalkComboBox}"
                                   VerticalAlignment="Bottom">
                             <ComboBoxItem Tag="1" IsSelected="True" Content="1"/>
                             <ComboBoxItem Tag="2" Content="2"/>
@@ -340,7 +389,7 @@
                                   Grid.Column="4" 
                                   Tag="2_0"
                                   DropDownClosed="lane5_Close"
-                                  Style="{StaticResource lanesComboBox}" 
+                                  Style="{StaticResource infoBalkComboBox}" 
                                   HorizontalAlignment="left">
                             <ComboBoxItem Tag="1" IsSelected="True" Content="1"/>
                             <ComboBoxItem Tag="2" Content="2"/>
@@ -352,7 +401,7 @@
                                   Grid.Column="4" 
                                   Tag="2_1"
                                   DropDownClosed="lane6_Close"
-                                  Style="{StaticResource lanesComboBox}"
+                                  Style="{StaticResource infoBalkComboBox}"
                                   HorizontalAlignment="left">
                             <ComboBoxItem Tag="1" IsSelected="True" Content="1"/>
                             <ComboBoxItem Tag="2" Content="2"/>
@@ -364,7 +413,7 @@
                                   Grid.Column="3" 
                                   Tag="3_0"
                                   DropDownClosed="lane7_Close"
-                                  Style="{StaticResource lanesComboBox}"
+                                  Style="{StaticResource infoBalkComboBox}"
                                   VerticalAlignment="Top" Grid.RowSpan="2">
                             <ComboBoxItem Tag="1" IsSelected="True" Content="1"/>
                             <ComboBoxItem Tag="2" Content="2"/>
@@ -376,7 +425,7 @@
                                   Grid.Column="2" 
                                   Tag="3_1"
                                   DropDownClosed="lane8_Close"
-                                  Style="{StaticResource lanesComboBox}"
+                                  Style="{StaticResource infoBalkComboBox}"
                                   VerticalAlignment="Top" Grid.RowSpan="2" >
                             <ComboBoxItem Tag="1" IsSelected="True" Content="1"/>
                             <ComboBoxItem Tag="2" Content="2"/>
@@ -385,14 +434,15 @@
                     </Grid>
 
                     <Label x:Name="labelSpeed" 
-                           Grid.Row="2" 
+                           Grid.Row="3" 
                            Grid.Column="0" 
                            Style="{StaticResource infoBalkLabels}" 
                            Content="speedlimit" />
 
                     <ComboBox x:Name="speed" 
-                              Grid.Row="2" 
+                              Grid.Row="3" 
                               Grid.Column="1" 
+                              Width="70"
                               DropDownClosed="speed_Close"
                               Style="{StaticResource infoBalkComboBox}">
                         <ComboBoxItem Tag="30" IsSelected="True">30 km/h</ComboBoxItem>
@@ -402,14 +452,15 @@
                     </ComboBox>
 
                     <Label x:Name="labelStrategie" 
-                           Grid.Row="3" 
+                           Grid.Row="4" 
                            Grid.Column="0"
                            Style="{StaticResource infoBalkLabels}"
                            Content="Choose your traffic strategy" />
 
                     <ComboBox x:Name="listboxStrategie" 
-                             Grid.Row="3" 
+                             Grid.Row="4" 
                              Grid.Column="1"
+                              Width="70"
                              Style="{StaticResource infoBalkComboBox}"
                              >
                         <ComboBoxItem Tag="Tijd" IsSelected="True">Tijd</ComboBoxItem>
@@ -418,27 +469,59 @@
                     </ComboBox>
 
                     <Label x:Name="labelCarsOnTile" 
-                           Grid.Row="4" 
+                           Grid.Row="5" 
                            Grid.Column="0" 
                            Style="{StaticResource infoBalkLabels}" 
                            Content="Amount of cars on the tile" />
                     
                     <Label x:Name="labelCarsOnTileNumber" 
-                           Grid.Row="4" 
+                           Grid.Row="5" 
                            Grid.Column="1" 
                            HorizontalAlignment="Left"
                            Style="{StaticResource infoBalkLabels}" 
                            Content="0" />
+
+                    <RadioButton x:Name="spwanerCarsLow"
+                                 Style="{StaticResource styleRadioButton}"
+                                 GroupName="spwaner"
+                                 Grid.Row="6"
+                                 Grid.Column="0"  
+                                 Grid.ColumnSpan="2"
+                                 HorizontalAlignment="Left" 
+                                 Content="Low">
+                    </RadioButton>
+
+                    <RadioButton x:Name="spwanerCarsNormal"
+                                 Style="{StaticResource styleRadioButton}"
+                                 IsChecked="True"
+                                 GroupName="spwaner"
+                                 Grid.Row="6"
+                                 Grid.Column="0"  
+                                 Grid.ColumnSpan="2"
+                                 HorizontalAlignment="Center" 
+                                 Content="Normal">
+                    </RadioButton>
+                    
+                    <RadioButton x:Name="spwanerCarHigh"
+                                 Style="{StaticResource styleRadioButton}"
+                                 GroupName="spwaner"
+                                 Grid.Row="6"
+                                 Grid.Column="0"  
+                                 Grid.ColumnSpan="2"
+                                 HorizontalAlignment="Right" 
+                                 Content="High">
+                    </RadioButton>
                 </Grid>
 
                 <Grid Grid.Row="2" Grid.Column="0">
                     <TextBlock Text="Information about the World" 
-                                FontFamily="Verdana" 
-                                FontSize="11" 
-                                FontWeight="Black" 
-                                FontStyle="Italic"
-                                VerticalAlignment="Center" 
-                                HorizontalAlignment="Center"/>
+                               FontFamily="Verdana" 
+                               FontSize="14" 
+                               FontWeight="Black" 
+                               FontStyle="Italic"
+                               Foreground="SaddleBrown"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center"/>
                 </Grid>
 
                 <Grid Grid.Row="3" Grid.Column="0">
@@ -449,7 +532,7 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="4*"/>
-                        <RowDefinition Height="4*"/>
+                        <RowDefinition Height="3*"/>
                     </Grid.RowDefinitions>
 
                     <Grid.ColumnDefinitions>
@@ -516,16 +599,43 @@
                            VerticalAlignment="Top"
                            Content="Efficientie" />
 
+                    <Label x:Name="labelGreenwave" 
+                           Grid.Row="5" 
+                           Grid.Column="0" 
+                           Grid.ColumnSpan="2"
+                           Style="{StaticResource infoBalkLabels}"
+                           VerticalAlignment="Top"
+                           Width="250"
+                           Height="50"
+                           HorizontalAlignment="Left">
+                        bla bla bla  uitleg over de greenwave en het 
+                        aanklikken van meerdere kruispunten
+                    </Label>
+
                     <Button x:Name="greenWave" 
+                            Style="{StaticResource infoBalkButtons}"
+                            Height="40"
+                            Width="100"
+                            VerticalAlignment="Bottom"
+                            Margin="10"
+                            HorizontalAlignment="Left"
                             Click="GreenWave_Click"
                             Grid.Row="5"
+                            Grid.ColumnSpan="2"
                             Grid.Column="0"
                             Content="Add Greenwave"/>
 
                     <Button x:Name="greenWaveDelete" 
+                            Style="{StaticResource infoBalkButtons}"
+                            Height="40"
+                            Width="100"
+                            VerticalAlignment="Bottom"
+                            Margin="10"
+                            HorizontalAlignment="Right"
                             Click="GreenWaveDelete_Click"
                             Grid.Row="5"
-                            Grid.Column="1"
+                            Grid.ColumnSpan="2"
+                            Grid.Column="0"
                             Content="Delete Greenwave"/>
 
                 </Grid>
