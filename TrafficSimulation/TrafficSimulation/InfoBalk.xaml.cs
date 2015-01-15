@@ -21,15 +21,11 @@ namespace TrafficSimulation
     /// </summary>
     public partial class InfoBalk : UserControl
     {
-        //SimControl s;
-        //SimWindow simwindow;
         WindowSelect windowselect;
 
         public InfoBalk(WindowSelect ws)
         {
             windowselect = ws;
-            //simwindow = sim;
-            //s = simwindow.sim; ;
 
             InitializeComponent();
 
@@ -98,10 +94,10 @@ namespace TrafficSimulation
         private void speed_Close(object sender, EventArgs e)
         {
             int speed1 = speed.SelectedIndex;
-            windowselect.simwindow.simcontrol.selectedTile.MaxSpeed = speed1+2;
+            windowselect.simwindow.simcontrol.selectedTile.MaxSpeed = speed1 + 2;
         }
 
-        private void ChangeCasts(string kant,string ob)
+        private void ChangeCasts(string kant, string ob)
         {
             string[] kantEnPlaats = kant.Split('_');
             string[] array = ob.Split(' ');
@@ -112,7 +108,7 @@ namespace TrafficSimulation
         {
             if (lane1.SelectedItem != null)
             {
-                
+
                 if (windowselect.simwindow != null)
                 {
                     if (windowselect.simwindow.simcontrol.selectedTile != null && windowselect.simwindow.simcontrol.selectedTile.name != "Fork" && windowselect.simwindow.simcontrol.selectedTile.name != "Crossroad")
@@ -128,8 +124,8 @@ namespace TrafficSimulation
                 }
             }
         }
-        
-        
+
+
         //copied from internet
         public static BitmapSource loadBitmap(System.Drawing.Bitmap source)
         {
@@ -143,18 +139,19 @@ namespace TrafficSimulation
             }
             finally
             {
-                
+
             }
 
             return bs;
         }
+
         public void UpdateDesign(int[,] tileLanes, int maxSpeed)
         {
             HideCombobox();
             Boolean CrosOrFork = false;
-            if(windowselect.simwindow.simcontrol.selectedTile.name == "Crossroad" || windowselect.simwindow.simcontrol.selectedTile.name == "Fork")
+            if (windowselect.simwindow.simcontrol.selectedTile.name == "Crossroad" || windowselect.simwindow.simcontrol.selectedTile.name == "Fork")
                 CrosOrFork = true;
-            ShowComboBox(windowselect.simwindow.simcontrol.selectedTile.Directions,CrosOrFork);
+            ShowComboBox(windowselect.simwindow.simcontrol.selectedTile.Directions, CrosOrFork);
             ImageInfoBalk.Source = loadBitmap(windowselect.simwindow.simcontrol.selectedTile.DrawImage());
             speed.SelectedIndex = maxSpeed - 2;
             lane3.SelectedIndex = tileLanes[2, 0] - 1;
@@ -188,9 +185,10 @@ namespace TrafficSimulation
             lane6.IsEnabled = false;
             lane7.IsEnabled = false;
             lane8.IsEnabled = false;
-            
+
         }
-        public void ShowComboBox(List<int> Directions,Boolean CrossOrFork)
+
+        public void ShowComboBox(List<int> Directions, Boolean CrossOrFork)
         {
             Boolean simulationStarted = windowselect.simwindow.simcontrol.simulation.simStarted;
             if (Directions.Contains(1))
@@ -202,8 +200,6 @@ namespace TrafficSimulation
                     lane3.IsEnabled = true;
                     lane4.IsEnabled = true;
                 }
-
-
             }
             if (Directions.Contains(2))
             {
@@ -244,6 +240,7 @@ namespace TrafficSimulation
             labelWaitingCarsNumber.Content = WaitingCars;
             labelDrivingCarsNumber.Content = DrivingCars;
         }
+
         public void UpdateSimulationReset()
         {
             labelTotalCarsNumber.Content = 0;
