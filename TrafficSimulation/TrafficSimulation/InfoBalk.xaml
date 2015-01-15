@@ -39,7 +39,7 @@
                     <ControlTemplate TargetType="{x:Type RadioButton}">
                         <Border x:Name="RadioButtonBorder"
                                 BorderBrush="LightSalmon" 
-                                BorderThickness="3" 
+                                BorderThickness="2" 
                                 Background="Cornsilk"  
                                 CornerRadius="10,10,10,10"
                                 >
@@ -87,7 +87,7 @@
                         <Border x:Name="BorderStyle"
                                 Background="Cornsilk" 
                                 BorderBrush="LightSalmon" 
-                                BorderThickness="3" 
+                                BorderThickness="2" 
                                 CornerRadius="5,5,5,5" >
                             <ContentPresenter Margin="{TemplateBinding Padding}" 
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
@@ -96,7 +96,7 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="BorderStyle" Property="Background" Value="LightGray"/>
+                                <Setter TargetName="BorderStyle" Property="Background" Value="NavajoWhite"/>
                                 <Setter Property="Cursor" Value="Hand" />
                             </Trigger>
                         </ControlTemplate.Triggers>
@@ -531,6 +531,7 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
                         <RowDefinition Height="4*"/>
                         <RowDefinition Height="3*"/>
                     </Grid.RowDefinitions>
@@ -592,15 +593,28 @@
                            HorizontalAlignment="Left"
                            Content="Number" />
 
-                    <Label x:Name="labelEfficientieTabel" 
+                    <Label x:Name="labelGameSpeed" 
                            Grid.Row="4" 
+                           Grid.Column="0" 
+                           Style="{StaticResource infoBalkLabels}"
+                           Content="Game Speed" />
+                    
+                    <Label x:Name="labelGameSpeedNumber" 
+                           Grid.Row="4" 
+                           Grid.Column="1" 
+                           Style="{StaticResource infoBalkLabels}"
+                           HorizontalAlignment="Left"
+                           Content="Number" />
+
+                    <Label x:Name="labelEfficientieTabel" 
+                           Grid.Row="5" 
                            Grid.Column="0" 
                            Style="{StaticResource infoBalkLabels}"
                            VerticalAlignment="Top"
                            Content="Efficientie" />
 
                     <Label x:Name="labelGreenwave" 
-                           Grid.Row="5" 
+                           Grid.Row="6" 
                            Grid.Column="0" 
                            Grid.ColumnSpan="2"
                            Style="{StaticResource infoBalkLabels}"
@@ -620,7 +634,7 @@
                             Margin="10"
                             HorizontalAlignment="Left"
                             Click="GreenWave_Click"
-                            Grid.Row="5"
+                            Grid.Row="6"
                             Grid.ColumnSpan="2"
                             Grid.Column="0"
                             Content="Add Greenwave"/>
@@ -633,7 +647,7 @@
                             Margin="10"
                             HorizontalAlignment="Right"
                             Click="GreenWaveDelete_Click"
-                            Grid.Row="5"
+                            Grid.Row="6"
                             Grid.ColumnSpan="2"
                             Grid.Column="0"
                             Content="Delete Greenwave"/>
