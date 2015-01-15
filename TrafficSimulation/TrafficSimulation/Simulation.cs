@@ -41,7 +41,7 @@ namespace TrafficSimulation
             get { return simSleep; }
             set { if(simSleep>10 &&simSleep<800)simSleep = value; }
         }
-        public void StartSim()
+        public bool StartSim()
         {
             if (simStarted == false)
             {
@@ -64,10 +64,12 @@ namespace TrafficSimulation
                     thread = new Thread(threadDelegate);
                     thread.Start();
                     simStarted = true;
+                    return true;
                 }
                 else
                 {
                     simControl.simwindow.windowselect.ShowMessage("niet alle tiles liggen aan elkaar");
+                    return false;
 
                 }
             }
@@ -75,6 +77,7 @@ namespace TrafficSimulation
             {
                 thread.Abort();
                 simStarted = false;
+                return false;
             }
         }
 
@@ -118,11 +121,11 @@ namespace TrafficSimulation
                 if (t != null)
                 {
                     List<List<Vehicle>> tileVehicles = new List<List<Vehicle>>();
-                        foreach(List<List<Vehicle>> list in t.vehicles)
-                        {
-                            foreach(List<Vehicle> vehiclelist in list)
-                            tileVehicles.Add(new List<Vehicle>(vehiclelist));
-                        }
+                    foreach(List<List<Vehicle>> list in t.vehicles)
+                    {
+                        foreach(List<Vehicle> vehiclelist in list)
+                        tileVehicles.Add(new List<Vehicle>(vehiclelist));
+                    }
                     foreach (List<Vehicle> list in tileVehicles)
                     {
                         foreach (Vehicle v in list)

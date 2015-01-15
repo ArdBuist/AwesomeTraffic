@@ -79,30 +79,32 @@ namespace TrafficSimulation
             else
             {
                 // Buttons in het het bovenschermlinks inschakelen
-                windowselect.simwindow.simcontrol.simulation.StartSim();
-                windowselect.simwindow.simcontrol.ClearRoad();
-                play.IsEnabled = false;
-                pauze.IsEnabled = true;
-                stop.IsEnabled = true;
-                slowDown.IsEnabled = true;
-                speedUp.IsEnabled = true;
-                windowselect.simwindow.InfoBalk.UpdateSimulationReset();
-                
-                // Buttons in het onderscherm uitschakelen
-                onderscherm.selectButton.IsEnabled = false;
-                onderscherm.eraserButton.IsEnabled = false;
-                onderscherm.roadButton.IsEnabled = false;
-                onderscherm.bendButton.IsEnabled = false;
-                onderscherm.crossRoadButton.IsEnabled = false;
-                onderscherm.forkButton.IsEnabled = false;
-                onderscherm.spawnerButton.IsEnabled = false;
-                windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.ClientSize);
+                if (windowselect.simwindow.simcontrol.simulation.StartSim())
+                {
+                    windowselect.simwindow.simcontrol.ClearRoad();
+                    play.IsEnabled = false;
+                    pauze.IsEnabled = true;
+                    stop.IsEnabled = true;
+                    slowDown.IsEnabled = true;
+                    speedUp.IsEnabled = true;
+                    windowselect.simwindow.InfoBalk.UpdateSimulationReset();
 
-                //zorgen dat er niet meer getekend kan worden, er kan alleen verschoven worden
-                windowselect.simwindow.simcontrol.state = "selected";
+                    // Buttons in het onderscherm uitschakelen
+                    onderscherm.selectButton.IsEnabled = false;
+                    onderscherm.eraserButton.IsEnabled = false;
+                    onderscherm.roadButton.IsEnabled = false;
+                    onderscherm.bendButton.IsEnabled = false;
+                    onderscherm.crossRoadButton.IsEnabled = false;
+                    onderscherm.forkButton.IsEnabled = false;
+                    onderscherm.spawnerButton.IsEnabled = false;
+                    windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.ClientSize);
 
-                simulationDesign.Content = "Design";
-                simulation = true;
+                    //zorgen dat er niet meer getekend kan worden, er kan alleen verschoven worden
+                    windowselect.simwindow.simcontrol.state = "selected";
+
+                    simulationDesign.Content = "Design";
+                    simulation = true;
+                }
             }
             windowselect.Invalidate();
         }

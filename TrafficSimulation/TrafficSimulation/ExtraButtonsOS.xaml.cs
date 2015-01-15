@@ -22,12 +22,14 @@ namespace TrafficSimulation
     {
         InfoBalk Infobalk;
         WindowSelect windowselect;
+        public Boolean mouseEntered;
   
         public ExtraButtonsOS(WindowSelect ws, InfoBalk info)
         {
             windowselect = ws;
             Infobalk = info;
             InitializeComponent();
+            mouseEntered = false;
         }
 
         private void LostFocusExtra(object sender, RoutedEventArgs e)
@@ -158,9 +160,21 @@ namespace TrafficSimulation
             this.spawnerright.Visibility = Visibility.Hidden;
             windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.ClientSize);
             windowselect.simwindow.extraButtonsHost.BackColor = System.Drawing.Color.Transparent;
+            mouseEntered = false;
 
             
             
+        }
+
+        private void Mouse_Enter(object sender, MouseEventArgs e)
+        {
+            mouseEntered = true;
+        }
+        public bool ContainsMouse()
+        {
+            if (this.IsMouseOver)
+                return true;
+            return false;
         }
                
     }

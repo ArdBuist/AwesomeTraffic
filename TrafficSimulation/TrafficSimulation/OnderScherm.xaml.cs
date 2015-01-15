@@ -142,7 +142,8 @@ namespace TrafficSimulation
         }
         private void Lost_Focus(object sender, RoutedEventArgs e) 
         {
-            AlgemeenClick();
+            if(!windowselect.simwindow.ExtraButtonsOS.ContainsMouse())
+                AlgemeenClick();
         }
 
      private void AlgemeenClick()
@@ -164,5 +165,6 @@ namespace TrafficSimulation
             extraButtonsOS.spawnerright.Visibility = Visibility.Hidden;
             windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.ClientSize);
         }
+
     }
 }
