@@ -90,8 +90,10 @@
 
 				<RadioButton x:Name="selectButton" 
                              Style="{StaticResource styleRadioButton}" 
+                             
                              GroupName="buttonsBelow" 
                              Checked="SelectButton_Checked"
+                             
                              LostFocus="Lost_Focus"
                              Height="35"
                              Width="35"

@@ -22,12 +22,13 @@ namespace TrafficSimulation
         public ExtraButtonsOS ExtraButtonsOS;
         public OnderScherm OnderScherm;
         public int hoogteBovenBalk, hoogteOnderBalk, hoogteInfoBalk,  hoogteScherm, yLocatieOnderBalk, xLocatieOnderBalk, yLocatieBovenSchermRechts;
-        public int breedteInfoBalk, breedteScherm, breedteBovenSchermLink, breedteBovenSchermRechts, breedteOnderBalk;
+        public int breedteInfoBalk, breedteScherm, breedteBovenSchermLinks, breedteBovenSchermRechts, breedteOnderBalk;
 
         public SimWindow(Size size, WindowSelect windowselect)
         {
             this.Size = size;
             this.windowselect = windowselect;
+            
             sim = new SimControl(this.ClientSize, this);
             sim.Location = new Point(0, 0);
           
@@ -38,10 +39,13 @@ namespace TrafficSimulation
             hoogteOnderBalk = 100;
             hoogteInfoBalk = (hoogteScherm - (hoogteBovenBalk + hoogteOnderBalk));
             yLocatieOnderBalk = (hoogteScherm - hoogteOnderBalk);
-            xLocatieOnderBalk = (breedteScherm / 7) * 2;
-            breedteInfoBalk = breedteScherm/6;
-            breedteBovenSchermLink = 55*6;
-            breedteBovenSchermRechts = (70*4);
+            breedteInfoBalk = 350;
+            using (Graphics graphics = this.CreateGraphics())
+            {
+                breedteBovenSchermLinks = (260 * (int)graphics.DpiX) / 96;
+                breedteBovenSchermRechts = ((55*4) * (int)graphics.DpiX) / 96;
+                xLocatieOnderBalk = (((breedteScherm / 7) * 2)* (int)graphics.DpiX) / 96;
+            }
             breedteOnderBalk = ((breedteScherm / 3) );
             yLocatieBovenSchermRechts = (breedteScherm - breedteBovenSchermRechts);
             
@@ -64,7 +68,7 @@ namespace TrafficSimulation
             {
                 BackColor = Color.Transparent,
                 Height = hoogteBovenBalk,
-                Width = breedteBovenSchermLink,
+                Width = breedteBovenSchermLinks,
                 Location = new Point(10, 10),
                 Child = BovenSchermLinks,
             };
