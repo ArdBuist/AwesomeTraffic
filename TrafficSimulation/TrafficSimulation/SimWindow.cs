@@ -40,8 +40,8 @@ namespace TrafficSimulation
             yLocatieOnderBalk = (hoogteScherm - hoogteOnderBalk);
             xLocatieOnderBalk = (breedteScherm / 7) * 2;
             breedteInfoBalk = breedteScherm/6;
-            breedteBovenSchermLink = 600;
-            breedteBovenSchermRechts = (70*5);
+            breedteBovenSchermLink = 55*6;
+            breedteBovenSchermRechts = (70*4);
             breedteOnderBalk = ((breedteScherm / 3) );
             yLocatieBovenSchermRechts = (breedteScherm - breedteBovenSchermRechts);
             
