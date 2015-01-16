@@ -129,32 +129,30 @@ namespace TrafficSimulation
 						{
 							string currenttile = tile.name;
 
-							/// You need different information from different tiles
-							/// So you need multiple cases, one for each tile
+							/// Every tile has his own information
+							/// For saving them, you need the specific information for each tile
+							/// This is done with multiple cases, on for each tile
 							/// 
 							/// Basic information
-							///		 0: tile
-							///		 1: place in list
-							///		 2: x position
-							///		 3: y position
+							///		 0: Tile
+							///		 1: Place in list
+							///		 2: X position
+							///		 3: Y position
 							///	Specific information
-							///		 4: trafficlight strat
+							///		 4: Trafficlight strat
 							///		 5: Maxspeed for a tile
-							///		 6: begin direction (notDirection for Fork, direction for Spawner)
-							///		 7: end direction (Crossroad doesn't have any directions)
-							///		 8: laneshightolow (For crossroad and fork a number of 8 integers with the road numbers)
-							///		 9: laneslowtohigh, not for crossroad and fork.
-							///	Green Wave info
-							///		10: ?
-							///		11: ?
-							///		12: ?
+							///		 6: Begin direction (notDirection for Fork, direction for Spawner)
+							///		 7: End direction (only for Road)
+							///		 8: laneshightolow, not for Crossroad and Fork
+							///		 9: laneslowtohigh, not for Crossroad and Fork
+							///		10: Cars per second in spawner
 
 							switch (currenttile)
 							{
-								/// Save case for a fork
+								// Save case for a fork
 								case "Fork":
 									file.WriteLine(
-										tile.name + "_" +				// 0 Welke tile
+										tile.name + "_" +			// 0 Welke tile
 										tile.listPlace + "_" +		// 1 Plaats in de lijst
 										tile.position.X + "_" +		// 2 X positie
 										tile.position.Y + "_" +		// 3 Y positie
@@ -166,7 +164,7 @@ namespace TrafficSimulation
 								// Save case for a crossroad
 								case "Crossroad":
 									file.WriteLine(
-										tile + "_" +				// 0 Welke tile
+										tile.name + "_" +			// 0 Welke tile
 										tile.listPlace + "_" +		// 1 Plaats in de lijst
 										tile.position.X + "_" +		// 2 X positie
 										tile.position.Y + "_" +		// 3 Y positie
@@ -177,7 +175,7 @@ namespace TrafficSimulation
 								// Save case for a road (that is a straight road or a curved road)
 								case "Road":
 									file.WriteLine(
-										tile + "_" +				// 0 Welke tile
+										tile.name + "_" +			// 0 Welke tile
 										tile.listPlace + "_" +		// 1 Plaats in de lijst
 										tile.position.X + "_" +		// 2 X positie
 										tile.position.Y + "_" +		// 3 Y positie
@@ -192,19 +190,20 @@ namespace TrafficSimulation
 								// Save case for a spawner
 								case "Spawner":
 									file.WriteLine(
-										tile + "_" +							// 0 Welke tile
-										tile.listPlace + "_" +					// 1 Plaats in de lijst
-										tile.position.X + "_" +					// 2 X positie
-										tile.position.Y + "_" +					// 3 Y positie
-										" " + "_" +								// 4 Empty
-										tile.maxSpeed + "_" +					// 5 Maxspeed
-										tile.direction + "_" +					// 6 Richting
-										" " + "_" +								// 7 Empty
-										tile.GetLanesIn(tile.direction) + "_" +	// 8 LanesHighToLow
-										tile.GetLanesOut(tile.direction));		// 9 LanesLowToHigh
+										tile.name + "_" +			// 0 Welke tile
+										tile.listPlace + "_" +		// 1 Plaats in de lijst
+										tile.position.X + "_" +		// 2 X positie
+										tile.position.Y + "_" +		// 3 Y positie
+										" " + "_" +					// 4 Empty
+										tile.maxSpeed + "_" +		// 5 Maxspeed
+										tile.direction + "_" +		// 6 Richting
+										" " + "_" +					// 7 Empty
+										tile.GetLanesOut((tile.direction + 1) % 4 + 1) + "_" +	// 8 LanesHighToLow
+										tile.GetLanesIn((tile.direction + 1) % 4 + 1) /* + "_ "	+	// 9 LanesLowToHigh
+										tile.carsPerSec*/);			
 									break;
 
-								// TODO: Save options for extra info, traffic lights strat and other things
+								// TODO: Save options for extra info (Such as..?), traffic lights strat (Maybe done..) and other things
 							}
 						}
 					}

@@ -23,6 +23,7 @@ namespace TrafficSimulation
     {
         public Boolean InfoVisible = true;
         private Boolean simulation = false;
+		Boolean checkTileList = false;
         InfoBalk infobalk;
         OnderScherm onderscherm;
         WindowSelect windowselect;
@@ -78,32 +79,53 @@ namespace TrafficSimulation
             }
             else
             {
-                // Buttons in het het bovenschermlinks inschakelen
-                windowselect.simwindow.simcontrol.simulation.StartSim();
-                windowselect.simwindow.simcontrol.ClearRoad();
-                play.IsEnabled = false;
-                pauze.IsEnabled = true;
-                stop.IsEnabled = true;
-                slowDown.IsEnabled = true;
-                speedUp.IsEnabled = true;
-                windowselect.simwindow.InfoBalk.UpdateSimulationReset();
-                
-                // Buttons in het onderscherm uitschakelen
-                onderscherm.selectButton.IsEnabled = false;
-                onderscherm.eraserButton.IsEnabled = false;
-                onderscherm.roadButton.IsEnabled = false;
-                onderscherm.bendButton.IsEnabled = false;
-                onderscherm.crossRoadButton.IsEnabled = false;
-                onderscherm.forkButton.IsEnabled = false;
-                onderscherm.spawnerButton.IsEnabled = false;
-                windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.ClientSize);
+				foreach (Tile tile in windowselect.simwindow.simcontrol.tileList)
+				{
+					if (tile != null)
+					{
+						checkTileList = true;
+						break;
+					}
+				}
 
-                //zorgen dat er niet meer getekend kan worden, er kan alleen verschoven worden
-                windowselect.simwindow.simcontrol.state = "selected";
+				if (Methods.CheckValidConnections(windowselect.simwindow.simcontrol) && checkTileList)
+				{
+					// Buttons in het het bovenschermlinks inschakelen
+					windowselect.simwindow.simcontrol.simulation.StartSim();
+					windowselect.simwindow.simcontrol.ClearRoad();
+					play.IsEnabled = false;
+					pauze.IsEnabled = true;
+					stop.IsEnabled = true;
+					slowDown.IsEnabled = true;
+					speedUp.IsEnabled = true;
+					windowselect.simwindow.InfoBalk.UpdateSimulationReset();
 
-                simulationDesign.Content = "Design";
-                simulation = true;
+					// Buttons in het onderscherm uitschakelen
+					onderscherm.selectButton.IsEnabled = false;
+					onderscherm.eraserButton.IsEnabled = false;
+					onderscherm.roadButton.IsEnabled = false;
+					onderscherm.bendButton.IsEnabled = false;
+					onderscherm.crossRoadButton.IsEnabled = false;
+					onderscherm.forkButton.IsEnabled = false;
+					onderscherm.spawnerButton.IsEnabled = false;
+					windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.ClientSize);
+
+					//zorgen dat er niet meer getekend kan worden, er kan alleen verschoven worden
+					windowselect.simwindow.simcontrol.state = "selected";
+
+					simulationDesign.Content = "Design";
+					simulation = true;
+				}
+
+				else
+				{
+					if (!checkTileList)
+						windowselect.ShowMessage("Maak een weg voordat u de simulatie start.");
+					else
+						windowselect.ShowMessage("Niet alle tiles liggen aan elkaar.");
+				}
             }
+
             windowselect.Invalidate();
         }
 

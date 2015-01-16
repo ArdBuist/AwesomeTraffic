@@ -14,27 +14,29 @@ namespace TrafficSimulation
     {
         StartWindow startwindow;
         public SimWindow simwindow;
+		Size screensize;
 
         public WindowSelect()
-        {
-            
+        {           
             // Scherm maximaliseren
             this.WindowState = FormWindowState.Maximized;
 
             // Alle schermranden weghalen
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 
-            int WidthStartScreen;
-            int HeightStartScreen;
-            using (Graphics graphics = this.CreateGraphics()) 
-            {
-                WidthStartScreen = (Screen.PrimaryScreen.Bounds.Width * (int)graphics.DpiX) / 96;
-                HeightStartScreen = (Screen.PrimaryScreen.Bounds.Height * (int) graphics.DpiY) / 96;
-            }
-            
-            Size screensize = new Size(WidthStartScreen, HeightStartScreen);
-            simwindow = new SimWindow(screensize, this);
+			int WidthStartScreen;
+			int HeightStartScreen;
+			using (Graphics graphics = this.CreateGraphics())
+			{
+				WidthStartScreen = (Screen.PrimaryScreen.Bounds.Width * (int)graphics.DpiX) / 96;
+				HeightStartScreen = (Screen.PrimaryScreen.Bounds.Height * (int)graphics.DpiY) / 96;
+			}
+
+			screensize = new Size(WidthStartScreen, HeightStartScreen);
+			simwindow = new SimWindow(screensize, this);
+
             Start();
+
         }
 
 		/// <summary>
@@ -68,8 +70,9 @@ namespace TrafficSimulation
             /// Open simwindow
             simwindow.BackColor = Color.Green;
             //simwindow.Location = new Point(0, 0);
-	            this.Controls.Add(simwindow);
+            this.Controls.Add(simwindow);
         }
+
         private void Close()
         {
             simwindow.simcontrol.simulation.StartSim();

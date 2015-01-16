@@ -50,18 +50,18 @@ namespace TrafficSimulation
         public Simulation simulation;
         //list for all the trafficlight controls needs to be removed
         public List<TrafficlightControl> controlList = new List<TrafficlightControl>();
-
+		//total amount of cars on the road
         public int totalCars;
-        //
+        //the current tile you are building with
         public Tile currentBuildTile;
-
         //variabelen voor klikmethodes: state geeft aan op welke knop er is geklikt en dus wat voor actie de klikmethode moet uitvoeren
         public String state = "selected";
+
         public int TimeofDay = 1;
         //
         bool isMoved;
 
-	bool drawStart = false;
+		bool drawStart = false;
 
         public Boolean Simulatie;
         public bool Day;
@@ -160,8 +160,7 @@ namespace TrafficSimulation
         public void removeTile(MouseEventArgs mea)
         {
             if (tileList[Methods.CalculateListPlace(this,mea.X, mea.Y)] != null)
-            {
-                
+            {               
                 Bitmap tileImage;
                 Tile selectedTile = new removeTile();
                 selectedTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), Methods.CalculateListPlace(this,mea.X, mea.Y));
@@ -169,7 +168,6 @@ namespace TrafficSimulation
                 trafficlightBC.AddObject(tileImage, mea.X / 100 * 100, mea.Y / 100 * 100);
                 tileList[Methods.CalculateListPlace(this,mea.X, mea.Y)] = null;
                 this.Invalidate();
-
             }
         }
 
@@ -190,8 +188,7 @@ namespace TrafficSimulation
                 simwindow.BovenSchermRechts.ShowOrHideInfoBalk(true);
                 trafficlightBC.bitmap.MakeTransparent(Color.Green);
                 currentBuildTile = CopyCurrentTile();//hier wordt een nieuwe buildTile gemaakt met dezelfde waardes als daarvoor omdat er dan opnieuw een tile ingeklikt kan worden.
-                this.Invalidate();
-                
+                this.Invalidate();               
             }
         }
 
@@ -236,7 +233,7 @@ namespace TrafficSimulation
 
                     else
                     {
-                        //pop-up scherm of info in het infoscherm: "U kunt alleen de laatst geselecteerde groene golf tegel verwijderen."
+						MessageBox.Show("U kunt alleen de laatst geselecteerde groene golf tegel verwijderen.");
                     }
                 }
             }
@@ -264,7 +261,6 @@ namespace TrafficSimulation
             //als er op een tile wordt geklikt die niet mag en die nog geen groene golf tile is
 
             else if (ValidSelect(selectedTile, mea.X, mea.Y) == false && greenWaveRemoveList[Methods.CalculateListPlace(this,mea.X, mea.Y)] == null)
-
             {
                 //in infoscherm zetten: "U kunt alleen aansluitende wegen of kruispunten selecteren. Kies een andere tegel."
             }
@@ -908,7 +904,7 @@ namespace TrafficSimulation
                 lanes[i,1] = selectedTile.GetLanesIn(i+1);
                 lanes[i,0] = selectedTile.GetLanesOut(i+1);
             }
-            simwindow.InfoBalk.UpdateDesign(lanes, selectedTile.maxSpeed);
+			simwindow.InfoBalk.UpdateDesign(lanes, selectedTile.maxSpeed);
         }
 
         internal void UpdateInfoBalkSimulatie()

@@ -16,8 +16,8 @@ namespace TrafficSimulation
 {
     public partial class StartWindow : UserControl
     {
-        ElementHost StartHost;
-        WindowSelect windowselect;
+        public WindowSelect windowselect;
+		ElementHost StartHost;
 		AboutWindow about;
 		SimControl simcontrol;
         InterfaceStart StartScherm;
@@ -81,24 +81,22 @@ namespace TrafficSimulation
 
 			if (openDialog.ShowDialog() == DialogResult.OK)
 			{
+				foreach (Tile tile in simcontrol.tileList)
+				{
+					if (tile != null)
+					{
+						Bitmap tileImage;
+						Tile selectedTile = new removeTile();
+						selectedTile.SetValues(simcontrol, tile.position, tile.listPlace);
+						tileImage = selectedTile.DrawImage();
+						simcontrol.trafficlightBC.AddObject(tileImage, tile.position.X, tile.position.Y);
+						simcontrol.tileList[tile.listPlace] = null;
+						simcontrol.Invalidate();
+					}
+				}
+
 				try
 				{
-					/*
-					if (windowselect.simwindow.simcontrol.tileList != null)
-					{
-						foreach (Tile tile in windowselect.simwindow.simcontrol.tileList)
-						{
-							if (tile != null)
-							{
-								Bitmap tileImage;
-								Tile selectedTile = new removeTile();
-								tileImage = selectedTile.DrawImage();
-								windowselect.simwindow.simcontrol.trafficlightBC.AddObject(tileImage, tile.position.X, tile.position.Y);
-							}
-						}
-					}
-					*/
-
 					if ((myStream1 = openDialog.OpenFile()) != null && (myStream2 = openDialog.OpenFile()) != null)
 					{
 						/// Add al the roads to the map
@@ -110,12 +108,12 @@ namespace TrafficSimulation
 
 							while (r1.Peek() >= 0)
 							{
-								String t = r1.ReadLine();
+								string t = r1.ReadLine();
 
-								// Char die de data splitst
+								// Char that splits the data
 								char[] splitChar = { '_' };
 
-								// Array van info over de tile
+								// Array of strings with info about tile
 								string[] information = t.Split(splitChar);
 
 								Bitmap tileImage;
@@ -146,7 +144,7 @@ namespace TrafficSimulation
 								///		11: ?
 								///		12: ?
 								
-								if(information[0] == "TrafficSimulation.Road")
+								if(information[0] == "Road")
 								{
 									/// Make new tile
 									currentBuildTile = new Road(Convert.ToInt32(information[6]), Convert.ToInt32(information[7]));
@@ -190,12 +188,12 @@ namespace TrafficSimulation
 
 							while (r2.Peek() >= 0)
 							{
-								String t = r2.ReadLine();
+								string t = r2.ReadLine();
 
-								// Char die de data splitst
+								// Char that splits the string
 								char[] splitChar = { '_' };
 
-								// Array van info over de tile
+								// Array of strings with info about tile
 								string[] information = t.Split(splitChar);
 
 								Bitmap tileImage;
@@ -209,27 +207,22 @@ namespace TrafficSimulation
 								/// So you need multiple cases, one for each tile
 								/// 
 								/// Basic information
-								///		 0: tile
-								///		 1: place in list
-								///		 2: x position
-								///		 3: y position
+								///		 0: Tile
+								///		 1: Place in list
+								///		 2: X position
+								///		 3: Y position
 								///	Specific information
-								///		 4: trafficlight strat
+								///		 4: Trafficlight strat
 								///		 5: Maxspeed for a tile
-								///		 6: begin direction (notDirection for Fork, direction for Spawner)
-								///		 7: end direction (Crossroad doesn't have any directions)
-								///		 8: laneshightolow (For crossroad and fork a number of 8 integers with the road numbers)
-								///		 9: laneslowtohigh, not for crossroad and fork.
-								///		10: number of 8 integers with the road numbers
-								///	Green Wave info
-								///		10: ?
-								///		11: ?
-								///		12: ?
+								///		 6: Begin direction (notDirection for Fork, direction for Spawner)
+								///		 7: End direction (Crossroad doesn't have any directions)
+								///		 8: Laneshightolow, not for Crossroad and Fork
+								///		 9: Laneslowtohigh, not for Crossroad and Fork
 
 								switch (information[0])
 								{
 									/// Load a fork into the list
-									case "TrafficSimulation.Fork":
+									case "Fork":
 										/// Make new tile
 										currentBuildTile = new Fork(simcontrol, Convert.ToInt32(information[6]));
 
@@ -248,11 +241,12 @@ namespace TrafficSimulation
 										/// Draw the tile
 										tileImage = currentBuildTile.DrawImage();
 										simcontrol.backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+										simcontrol.Invalidate();
 
 										break;
 
 									/// Load a crossroad to the list
-									case "TrafficSimulation.Crossroad":
+									case "Crossroad":
 										/// Make new tile
 										currentBuildTile = new Crossroad(simcontrol);
 
@@ -271,11 +265,12 @@ namespace TrafficSimulation
 										/// Draw the tile
 										tileImage = currentBuildTile.DrawImage();
 										simcontrol.backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+										simcontrol.Invalidate();
 
 										break;
 
 									/// Load a spawner to the list
-									case "TrafficSimulation.Spawner":
+									case "Spawner":
 										/// Make new tile
 										currentBuildTile = new Spawner(Convert.ToInt32(information[6]));
 
@@ -294,6 +289,7 @@ namespace TrafficSimulation
 										/// Draw the tile
 										tileImage = currentBuildTile.DrawImage();
 										simcontrol.backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+										simcontrol.Invalidate();
 
 										break;
 								}
@@ -306,19 +302,17 @@ namespace TrafficSimulation
 						{
 							if (tile != null)
 							{
-								windowselect.simwindow.simcontrol.tileList[tile.listPlace] = tempTileList[tile.listPlace];
+								simcontrol.tileList[tile.listPlace] = tempTileList[tile.listPlace];
 							}
 						}
 					}
-
-					windowselect.simwindow.simcontrol.currentBuildTile = new Road(1, 3);
-					windowselect.simwindow.simcontrol.state = "selected";
-					//windowselect.simwindow.simcontrol.tileList = tempTileList;
+					simcontrol.currentBuildTile = new Road(1, 3);
+					simcontrol.state = "selected";
 
 					windowselect.New();
 				}
 
-				// Throw exception when something is wrong
+				/// Throw exception when something is wrong
 				catch (Exception ex)
 				{
 					MessageBox.Show("Error: Could not read file from disk. Original error: " + ex.Message);

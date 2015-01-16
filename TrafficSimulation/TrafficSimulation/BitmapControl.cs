@@ -18,7 +18,7 @@ namespace TrafficSimulation
             bitmap = new Bitmap(size.Width, size.Height);
 
 			Graphics gr = GetBitmapGraphics;
-
+			/*
 			/// Adds a grid to the map
 			float[] dashValues = { 5, 3};
 			Pen blackPen = new Pen(Color.DarkGreen, 1);
@@ -27,6 +27,7 @@ namespace TrafficSimulation
 				gr.DrawLine(blackPen, new Point(x, 0), new Point(x, size.Height));
 			for (int y = 0; y < size.Height; y += 100)
 				gr.DrawLine(blackPen, new Point(0, y), new Point(size.Width, y));
+			 */
         }
         // altijd aanroepen als er in de bitmap getekend moet worden.
         public Graphics GetBitmapGraphics

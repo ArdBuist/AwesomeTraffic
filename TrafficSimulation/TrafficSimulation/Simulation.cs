@@ -18,6 +18,7 @@ namespace TrafficSimulation
         public bool simStarted;
         protected int waitingCars;
         Boolean simPause;
+		Boolean checkTileList = false;
         protected int simSleep;
         public int extraSpeed;
 
@@ -45,31 +46,24 @@ namespace TrafficSimulation
         {
             if (simStarted == false)
             {
-                //spawners verzamelen
-                if (Methods.CheckValidConnections(simControl))
+                /// Spawners verzamelen
+                spawnerList.Clear();
+                simControl.controlList.Clear();
+                foreach (Tile t in simControl.tileList)
                 {
-                    spawnerList.Clear();
-                    simControl.controlList.Clear();
-                    foreach (Tile t in simControl.tileList)
+                    if (t != null)
                     {
-                        if (t != null)
-                        {
-                            t.Initialize();
-                            if (t.name.Equals("Spawner"))
-                                spawnerList.Add((Spawner)t);
-                        }
+                        t.Initialize();
+                        if (t.name.Equals("Spawner"))
+                            spawnerList.Add((Spawner)t);
                     }
-                    simControl.MakeTrafficControlList();
-                    ThreadStart threadDelegate = new ThreadStart(Update);
-                    thread = new Thread(threadDelegate);
-                    thread.Start();
-                    simStarted = true;
                 }
-                else
-                {
-                    simControl.simwindow.windowselect.ShowMessage("niet alle tiles liggen aan elkaar");
-
-                }
+                simControl.MakeTrafficControlList();
+                ThreadStart threadDelegate = new ThreadStart(Update);
+                thread = new Thread(threadDelegate);
+                thread.Start();
+                simStarted = true;
+                
             }
             else
             {
