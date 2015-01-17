@@ -134,9 +134,12 @@ namespace TrafficSimulation
                                 Tile otherTile = Methods.GetOtherTile(simcontrol, this, CounterDirection);
                                 if (otherTile != null)
                                 {
-                                    otherTile.UpdateLanes(simcontrol, (CounterDirection + 1) % 4 + 1, this.GetLanesOut(CounterDirection), this.GetLanesIn(CounterDirection));
-                                    otherTile.UpdateOtherTiles(simcontrol, (CounterDirection + 1) % 4 + 1);
-                                    break;
+                                    if (this.GetLanesOut(d) != otherTile.GetLanesIn(CounterDirection) && otherTile.GetLanesOut(CounterDirection) != this.GetLanesIn(d))
+                                    {
+                                        otherTile.UpdateLanes(simcontrol, (CounterDirection + 1) % 4 + 1, this.GetLanesOut(CounterDirection), this.GetLanesIn(CounterDirection));
+                                        otherTile.UpdateOtherTiles(simcontrol, (CounterDirection + 1) % 4 + 1);
+                                        break;
+                                    }
                                 }
                             }
                             if (this.name == "Fork")
@@ -177,8 +180,11 @@ namespace TrafficSimulation
                             Tile nextTile = Methods.GetOtherTile(simcontrol, this, d);
                             if (nextTile != null)
                             {
-                                nextTile.UpdateLanes(simcontrol, CounterDirection, this.GetLanesOut(d), this.GetLanesIn(d));
-                                nextTile.UpdateOtherTiles(simcontrol, CounterDirection);
+                                if (this.GetLanesOut(d) != nextTile.GetLanesIn(CounterDirection) && nextTile.GetLanesOut(CounterDirection) != this.GetLanesIn(d))
+                                {
+                                    nextTile.UpdateLanes(simcontrol, CounterDirection, this.GetLanesOut(d), this.GetLanesIn(d));
+                                    nextTile.UpdateOtherTiles(simcontrol, CounterDirection);
+                                }
                             }
                         }
                     }
