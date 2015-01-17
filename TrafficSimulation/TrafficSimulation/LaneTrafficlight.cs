@@ -75,7 +75,7 @@ namespace TrafficSimulation
         }
         private void UpdateTileAccess(int lane, Color kleur)
         {
-            Tile Othertile = road.GetOtherTile(simcontrol,direction);
+            Tile Othertile = Methods.GetOtherTile(simcontrol,road,direction);
             if (Othertile != null)
             {
                 int tileDirection = (direction + 1) % 4 + 1;

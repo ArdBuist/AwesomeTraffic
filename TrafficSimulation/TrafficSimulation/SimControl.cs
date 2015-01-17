@@ -50,7 +50,8 @@ namespace TrafficSimulation
         //list for all the trafficlight controls needs to be removed
         public List<TrafficlightControl> controlList = new List<TrafficlightControl>();
 
-        public int totalCars;
+        
+
         //
         public Tile currentBuildTile;
 
@@ -59,6 +60,14 @@ namespace TrafficSimulation
         public int TimeofDay = 1;
         //
         bool isMoved;
+        //number for gamespeed for infobalk
+        public double gameSpeed;
+        //counter for all trafficlights for in the infobalk
+        public int AmountOfTrafficlights;
+        //counter of tiles for in the infobalk
+        public int AmountOfTiles;
+        //counter for cars for in infobalk
+        public int totalCars;
 
 
         public SimControl(Size size, SimWindow simulation)
@@ -90,6 +99,8 @@ namespace TrafficSimulation
             //
             //this.DoubleBuffered = true;
             this.Visible = true;
+
+            gameSpeed = 1;
 
 
             //Initialisatie van de array waarin alle tiles worden opgeslagen
@@ -166,9 +177,17 @@ namespace TrafficSimulation
                 simwindow.BovenSchermRechts.ShowOrHideInfoBalk(false);
                 Bitmap tileImage;
                 Tile selectedTile = new removeTile();
-                selectedTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), Methods.CalculateListPlace(this,mea.X, mea.Y));
+                //selectedTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), Methods.CalculateListPlace(this,mea.X, mea.Y));
                 tileImage = selectedTile.DrawImage();
+                backgroundBC.AddObject(tileImage, mea.X / 100 * 100, mea.Y / 100 * 100);
                 trafficlightBC.AddObject(tileImage, mea.X / 100 * 100, mea.Y / 100 * 100);
+                AmountOfTiles--;
+                if (tileList[Methods.CalculateListPlace(this, mea.X, mea.Y)].name == "Crossroad" || tileList[Methods.CalculateListPlace(this, mea.X, mea.Y)].name == "Fork")
+                {
+                    
+                    AmountOfTrafficlights--;
+                    UpdateInfoBalkDesign();
+                }
                 tileList[Methods.CalculateListPlace(this,mea.X, mea.Y)] = null;
                 this.Invalidate();
 
@@ -178,39 +197,35 @@ namespace TrafficSimulation
         public void DrawTile(Point mea, Tile buildTile)
         {
             Bitmap tileImage;
-            if (TileConnectionisValid(Methods.CalculateListPlace(this, mea.X, mea.Y)))
+            if (Methods.TileConnectionisValid(this, Methods.CalculateListPlace(this, mea.X, mea.Y), buildTile))
             {
                 simwindow.BovenSchermRechts.ShowOrHideInfoBalk(false);
                 removeTile(mea);
-                buildTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), Methods.CalculateListPlace(this, mea.X, mea.Y));
-                tileImage = buildTile.DrawImage();
+
+                AmountOfTiles++;
                 //tile wordt in de lijst van tiles gezet
                 tileList[Methods.CalculateListPlace(this, mea.X, mea.Y)] = buildTile;
+                buildTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), Methods.CalculateListPlace(this, mea.X, mea.Y));
+                tileImage = buildTile.DrawImage();
                 //Dit zorgt ervoor dat de kaart geupdate wordt met de nieuwe tile
                 backgroundBC.AddObject(tileImage, mea.X / 100 * 100, mea.Y / 100 * 100);
                 selectedTile = buildTile;
                 trafficlightBC.bitmap.MakeTransparent(Color.Green);
-                buildTile = CopyCurrentTile();//hier wordt een nieuwe buildTile gemaakt met dezelfde waardes als daarvoor omdat er dan opnieuw een tile ingeklikt kan worden.
+                currentBuildTile = CopyCurrentTile(buildTile);//hier wordt een nieuwe buildTile gemaakt met dezelfde waardes als daarvoor omdat er dan opnieuw een tile ingeklikt kan worden.
                 //oldselectedTile = null;
                 //selectedTile = null;
+                if (buildTile.name == "Crossroad" || buildTile.name == "Fork")
+                {
+                    this.AmountOfTrafficlights++;
+                    
+                }
+                UpdateInfoBalkDesign();
                     this.Invalidate();
                 
             }
         }
 
-        private bool TileConnectionisValid(int listplace)
-        {
-            currentBuildTile.listPlace = listplace;
-            if(currentBuildTile.name == "Crossroad" || currentBuildTile.name == "Fork")
-            {
-                foreach(int direction in currentBuildTile.Directions)
-                {
-                    if (currentBuildTile.GetOtherTile(this, direction) != null && (currentBuildTile.GetOtherTile(this, direction).name == "Crossroad" || currentBuildTile.GetOtherTile(this, direction).name == "Fork") )
-                        return false;
-                }
-            }
-            return true;
-        }
+        
         //methode om een groene golf te selecteren
         private void DrawGreenWave(MouseEventArgs mea)
         {
@@ -846,6 +861,8 @@ namespace TrafficSimulation
             currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
             tileImage = currentBuildTile.DrawImage();
             backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+            this.MakeTrafficControlList();
+            UpdateInfoBalkDesign();
 			
         }
 
@@ -855,21 +872,21 @@ namespace TrafficSimulation
         }
 
         //methode maakt een kopie van de huidige tile die net getekend is, zodat dezelfde tile nog een keer getekend kan worden.
-        private Tile CopyCurrentTile()
+        private Tile CopyCurrentTile(Tile startTile)
         {
             Tile tile;
-            string tileName = currentBuildTile.name;
+            string tileName = startTile.name;
             switch (tileName)
             {
-                case "Spawner": Spawner currentSpawnerTile = (Spawner)currentBuildTile;
+                case "Spawner": Spawner currentSpawnerTile = (Spawner)startTile;
                     tile = new Spawner(currentSpawnerTile.direction);
                     break;
                 case "Crossroad": tile = new Crossroad(this);
                     break;
-                case "Road": Road currentRoadTile = (Road)currentBuildTile;
+                case "Road": Road currentRoadTile = (Road)startTile;
                     tile = new Road(currentRoadTile.startDirection, currentRoadTile.endDirection);
                     break;
-                case "Fork": Fork currentForkTile = (Fork)currentBuildTile;
+                case "Fork": Fork currentForkTile = (Fork)startTile;
                     tile = new Fork(this, currentForkTile.NotDirection);
                     break;
                 default: tile = new Crossroad(this);
@@ -880,6 +897,7 @@ namespace TrafficSimulation
 
         public void MakeTrafficControlList()
         {
+            int tempTrafficlightCount = 0;
             foreach (Tile t in tileList)
             {
                 if (t != null)
@@ -889,6 +907,7 @@ namespace TrafficSimulation
                         Crossroad Cr = (Crossroad)t;
                         if (Cr.control != null)
                         {
+                            tempTrafficlightCount++;
                             controlList.Add(Cr.control);
                         }
                     }
@@ -897,33 +916,51 @@ namespace TrafficSimulation
                         Fork f = (Fork)t;
                         if (f.control != null)
                         {
+                            tempTrafficlightCount++;
                             controlList.Add(f.control);
                         }
                     }
                 }
             }
+            this.AmountOfTrafficlights = tempTrafficlightCount;
         }
         public void UpdateInfoBalkDesign()
         {
-            //simwindow.InfoBalk.lanes.SelectedIndex =  selectedTile.GetLanesOut(int.Parse((string)simwindow.InfoBalk.lanes.Tag))-1;
-            int[,] lanes = new int[4,2];
-            for(int i = 0; i<4;i++)
+            if (selectedTile != null)
             {
-                lanes[i,1] = selectedTile.GetLanesIn(i+1);
-                lanes[i,0] = selectedTile.GetLanesOut(i+1);
+                int trafficStrategy = 0;
+                if (selectedTile.name == "Fork")
+                {
+                    Fork tile = (Fork)selectedTile;
+                    trafficStrategy = tile.control.strat;
+                }
+                else if (selectedTile.name == "Crossroad")
+                {
+                    Crossroad tile = (Crossroad)selectedTile;
+                    trafficStrategy = tile.control.strat;
+                }
+                int[,] lanes = new int[4, 2];
+                for (int i = 0; i < 4; i++)
+                {
+                    lanes[i, 1] = selectedTile.GetLanesIn(i + 1);
+                    lanes[i, 0] = selectedTile.GetLanesOut(i + 1);
+                }
+                simwindow.InfoBalk.UpdateDesign(lanes, selectedTile.maxSpeed,AmountOfTiles, AmountOfTrafficlights,trafficStrategy,gameSpeed);
             }
-            simwindow.InfoBalk.UpdateDesign(lanes, selectedTile.maxSpeed);
         }
 
         internal void UpdateInfoBalkSimulatie()
         {
-
-            simwindow.InfoBalk.UpdateSimulation(totalCars,simulation.WaitingCars);
+            int vehicleNumber = 0;
+            if (selectedTile != null)
+                vehicleNumber = selectedTile.NumberOfVehicles;
+            simwindow.InfoBalk.UpdateSimulation(totalCars,simulation.WaitingCars,vehicleNumber,gameSpeed);
         }
         public void ResetSimulationCounters()
         {
             this.totalCars = 0;
             simulation.WaitingCars = 0;
+            gameSpeed = 1;
         }
     }
 }

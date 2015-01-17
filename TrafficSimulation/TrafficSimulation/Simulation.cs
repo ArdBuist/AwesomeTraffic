@@ -50,6 +50,7 @@ namespace TrafficSimulation
                 {
                     spawnerList.Clear();
                     simControl.controlList.Clear();
+                    
                     foreach (Tile t in simControl.tileList)
                     {
                         if (t != null)
@@ -77,7 +78,7 @@ namespace TrafficSimulation
             {
                 thread.Abort();
                 simStarted = false;
-                simControl.UpdateInfoBalkDesign();
+                simControl.UpdateInfoBalkSimulatie();
                 return false;
             }
         }
@@ -181,7 +182,7 @@ namespace TrafficSimulation
                 if (t.Access[v.Direction - 1, v.Lane])//if the next tile is accessible
                 {
                     //remove vehicle from old tile and add vehicle to new tile
-                    Tile nextTile = simControl.tileList[t.listPlace].GetOtherTile(simControl, v.Direction);
+                    Tile nextTile = Methods.GetOtherTile(simControl,simControl.tileList[t.listPlace], v.Direction);
                     if (nextTile != null)
                     {
                         v.Speed = nextTile.maxSpeed;

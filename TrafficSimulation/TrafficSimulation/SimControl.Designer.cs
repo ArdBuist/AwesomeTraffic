@@ -89,14 +89,13 @@ namespace TrafficSimulation
         {
             mouseDownPoint = new Point(mea.X / 100 * 100, mea.Y / 100 * 100);
             mouseMovePoint = mea.Location;
-
             if (oldselectedTile != null)
             {
-                backgroundBC.AddObject(selectedTile.DrawImage(), selectedTile.position.X, selectedTile.position.Y);
+                backgroundBC.AddObject(oldselectedTile.DrawImage(), oldselectedTile.position.X, oldselectedTile.position.Y);
                 oldselectedTile = null;
             }
 			/// Remove a tile by clicking with the right mouse button
-			if (mea.Button == System.Windows.Forms.MouseButtons.Right)
+			if (mea.Button == System.Windows.Forms.MouseButtons.Right && simwindow.BovenSchermLinks.Simulation == false)
 				removeTile(mea.Location);
 
 			/// Als je een weg wil bouwen
@@ -114,20 +113,20 @@ namespace TrafficSimulation
 		/// </summary>
         private void MouseMoveEvent(object o, MouseEventArgs mea)
         {
-            if (mouseDownPoint != new Point(0, 0))
+            if (mouseDownPoint != new Point(0, 0) )
             {
-
-				/// Draws a line of straight roads on mousedown
-				if (TileIsStraight(mouseDownPoint, mea.Location) && state == "building" && simulation.simStarted == false && mea.Button == System.Windows.Forms.MouseButtons.Left)
-		 			DrawTile(mea.Location,currentBuildTile);
-
-				/// Move the map
+                /// Move the map
                 if (state == "selected" || stateGreenWave == "buildingGreenWave")
                     MoveMap(mea);
-
-				/// Erase all the tiles that you come across with your mouse
-				if (state == "eraser" && simulation.simStarted == false)
-					removeTile(mea.Location);
+                if (simwindow.BovenSchermLinks.Simulation == false)
+                {
+                    /// Draws a line of straight roads on mousedown
+                    if (TileIsStraight(mouseDownPoint, mea.Location) && state == "building" && simulation.simStarted == false && mea.Button == System.Windows.Forms.MouseButtons.Left)
+                        DrawTile(mea.Location, currentBuildTile);
+                    /// Erase all the tiles that you come across with your mouse
+                    if (state == "eraser")
+                        removeTile(mea.Location);
+                }
             }
         }
 
@@ -137,42 +136,31 @@ namespace TrafficSimulation
         private void MouseClickUp(object obj, MouseEventArgs mea)
         {
             mouseDownPoint = new Point(0, 0); mouseMovePoint = new Point(0, 0);
+            /// De eerder geselecteerde tile wordt opnieuw getekend en verwijdert zo de blauwe rand
             if (oldselectedTile != null)
             {
-                backgroundBC.AddObject(selectedTile.DrawImage(), selectedTile.position.X, selectedTile.position.Y);
+                backgroundBC.AddObject(oldselectedTile.DrawImage(), oldselectedTile.position.X, oldselectedTile.position.Y);
                 oldselectedTile = null;
             }
 
             if (isMoved == false)
             {
-          	    /*deze code moet worden gedaan zo als de simulatie wordt gestart.*///weet niet of deze deze code wel moet
-
-		        /// De eerder geselecteerde tile wordt opnieuw getekend en verwijdert zo de blauwe rand
-		        
-
-		        /// Als de gum-tool is aangeklikt
-		        if (state == "eraser")
-		        {
-			        removeTile(mea.Location);
-		        }
-
+                /// Als de gum-tool is aangeklikt
+                if (state == "eraser")
+                {
+                    removeTile(mea.Location);
+                }
                 //als je een route wil aanklikken voor een groene golf
-                if (stateGreenWave == "buildingGreenWave" && state == "selected")
+                else if (stateGreenWave == "buildingGreenWave" && state == "selected")
                 {
                     DrawGreenWave(mea);
-                }            
-              
-
-		        /// Als de select-tool is aangeklikt
-		        else if (state == "selected")
-			        DrawSelectLine(mea.Location);
-
+                }
+                /// Als de select-tool is aangeklikt
+                else if (state == "selected")
+                    DrawSelectLine(mea.Location);
             }
-
             isMoved = false;
-
         }
-
         #endregion
     }
 }
