@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -97,9 +98,9 @@ namespace TrafficSimulation
 
 				
 				// Extension name (.trs => TRafficSimulation)
-				saveDialog.DefaultExt = ".trs";
+				saveDialog.DefaultExt = ".trx";
 				saveDialog.FilterIndex = 1;
-				saveDialog.Filter = "Traffic Simulation Files (*.trs) | *.trs";
+				saveDialog.Filter = "Traffic Simulation Files (*.trx) | *.trx";
 				saveDialog.RestoreDirectory = true;
 				saveDialog.FileName = fileName;
 
@@ -113,13 +114,7 @@ namespace TrafficSimulation
 					StreamWriter file = new StreamWriter(@saveDialog.FileName);
 
 					/// File can be bigger than 1024
-					file.AutoFlush = true;
-
-					/// Save some basic information
-					// Building tile:
-					// file.WriteLine();
-					// Information (not) visible
-					// file.WriteLine();
+					file.AutoFlush = true;	
 
 					/// Get every tile in the list
 					foreach (Tile tile in windowselect.simwindow.simcontrol.tileList)
@@ -128,6 +123,47 @@ namespace TrafficSimulation
 						if (tile != null)
 						{
 							string currenttile = tile.name;
+
+							/// Save some basic information
+							// Building tile:
+							switch (windowselect.simwindow.simcontrol.currentBuildTile.name)
+							{
+								case "Road":
+									file.WriteLine(
+										windowselect.simwindow.simcontrol.currentBuildTile.name + "_" +	// Name
+										tile.startDirection + "_" +										// Begin direction
+										tile.endDirection + "_");										// End direction
+									break;
+
+								case "Spawner":
+									file.WriteLine(
+										windowselect.simwindow.simcontrol.currentBuildTile.name + "_" +	// Name
+										tile.direction													// Direction of tile
+										);
+									break;
+
+								case "Fork":
+									file.WriteLine(
+										windowselect.simwindow.simcontrol.currentBuildTile.name + "_" +	// Name
+										tile.notDirection												// The notDirction
+										);
+									break;
+
+								case "Crossroad":
+									file.WriteLine(
+										windowselect.simwindow.simcontrol.currentBuildTile.name			// Name
+										);
+									break;
+
+							}
+							// Information (not) visible
+							file.WriteLine();
+							// Something
+							file.WriteLine();
+							// Something
+							file.WriteLine();
+							// Something
+							file.WriteLine();
 
 							/// Every tile has his own information
 							/// For saving them, you need the specific information for each tile
