@@ -180,7 +180,7 @@ namespace TrafficSimulation
                             Tile nextTile = Methods.GetOtherTile(simcontrol, this, d);
                             if (nextTile != null)
                             {
-                                if (this.GetLanesOut(d) != nextTile.GetLanesIn(CounterDirection) && nextTile.GetLanesOut(CounterDirection) != this.GetLanesIn(d))
+                                if (this.GetLanesOut(d) != nextTile.GetLanesIn(CounterDirection) || nextTile.GetLanesOut(CounterDirection) != this.GetLanesIn(d))
                                 {
                                     nextTile.UpdateLanes(simcontrol, CounterDirection, this.GetLanesOut(d), this.GetLanesIn(d));
                                     nextTile.UpdateOtherTiles(simcontrol, CounterDirection);
