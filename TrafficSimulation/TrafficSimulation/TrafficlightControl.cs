@@ -15,6 +15,7 @@ namespace TrafficSimulation
         int NumberOfDirections;
         Tile road;
         int turn = 0;
+        public int strat = 1;
         long lastTime = 0;
         int secondsPerUpdate = 2;
 

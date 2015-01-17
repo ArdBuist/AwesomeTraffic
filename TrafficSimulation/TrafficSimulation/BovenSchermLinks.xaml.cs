@@ -42,6 +42,10 @@ namespace TrafficSimulation
             pauze.IsEnabled = false;
         }
 
+        public Boolean Simulation
+        {
+            get { return simulation; }
+        }
         //Klikmethode om te kunnen wisselen tussen de simulatie en designer
         public void SimulationDesign_Click(object sender, RoutedEventArgs e)
         {
@@ -88,6 +92,7 @@ namespace TrafficSimulation
                     slowDown.IsEnabled = true;
                     speedUp.IsEnabled = true;
                     windowselect.simwindow.InfoBalk.UpdateSimulationReset();
+                   
 
                     // Buttons in het onderscherm uitschakelen
                     onderscherm.selectButton.IsEnabled = false;
@@ -104,6 +109,7 @@ namespace TrafficSimulation
 
                     simulationDesign.Content = "Design";
                     simulation = true;
+                    windowselect.simwindow.simcontrol.UpdateInfoBalkDesign();
                 }
             }
             windowselect.Invalidate();
@@ -142,6 +148,7 @@ namespace TrafficSimulation
             slowDown.IsEnabled = false;
             speedUp.IsEnabled = false;
             windowselect.simwindow.InfoBalk.UpdateSimulationReset();
+            windowselect.simwindow.simcontrol.UpdateInfoBalkDesign();
             
         }
 
@@ -152,7 +159,7 @@ namespace TrafficSimulation
                 windowselect.simwindow.simcontrol.simulation.extraSpeed--;
             else
                 windowselect.simwindow.simcontrol.simulation.PauseSeconds += 10;
-            
+            windowselect.simwindow.simcontrol.gameSpeed -= 0.1;
         }
 
         //klikmethode voor het versnellen van de simulatie
@@ -162,6 +169,7 @@ namespace TrafficSimulation
                 windowselect.simwindow.simcontrol.simulation.PauseSeconds -= 10;
             else
                 windowselect.simwindow.simcontrol.simulation.extraSpeed++;
+            windowselect.simwindow.simcontrol.gameSpeed +=0.1;
         }
 
     }

@@ -11,7 +11,7 @@
      Hier moet nog een linear brush achtig komen zodat je en knoppen een mooie leuk overgang kan laten hebben.   
      -->
         <Geometry x:Key="DownArrowGeometry">M0,0 L1,0 0.5,17</Geometry>
-        
+
         <Style x:Key="infoBalkLabels" TargetType="Label">
             <Setter Property="Width" Value="auto" />
             <Setter Property="Height" Value="30" />
@@ -22,7 +22,7 @@
             <Setter Property="FontFamily" Value="Verdana"/>
             <Setter Property="FontStretch" Value="Normal" />
             <Setter Property="FontSize" Value="10" />
-            
+
         </Style>
 
         <Style x:Key="styleRadioButton" TargetType="RadioButton">
@@ -75,7 +75,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        
+
         <Style x:Key="infoBalkButtons" TargetType="Button" >
             <Setter Property="Width" Value="30" />
             <Setter Property="Height" Value="30" />
@@ -119,17 +119,17 @@
                                 BorderThickness="1" 
                                 CornerRadius="4,4,4,4" 
                                 Background="Cornsilk">
-                            
+
                             <Grid HorizontalAlignment="Right" Width="20">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="3"/>
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
-                                
+
                                 <Rectangle Width="1" 
                                            Fill="{DynamicResource BurshDots}" 
                                            Margin="0,3,0,4"/>
-                                
+
                                 <Path x:Name="Arrow" 
                                       Data="{StaticResource DownArrowGeometry}" 
                                       Grid.Column="1" 
@@ -138,7 +138,7 @@
                                       Height="10" 
                                       Stretch="Fill" />
                             </Grid>
-                            
+
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsChecked" Value="True">
@@ -170,7 +170,7 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition MinWidth="{DynamicResource {x:Static SystemParameters.VerticalScrollBarWidthKey}}" Width="0"/>
                             </Grid.ColumnDefinitions>
-                            
+
                             <Popup Margin="1" 
                                    x:Name="PART_Popup" 
                                    AllowsTransparency="true" 
@@ -179,7 +179,7 @@
                                    Placement="Bottom" 
                                    PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}" 
                                    Grid.ColumnSpan="2">
-                               
+
                                 <Border x:Name="DropDownBorder" 
                                         Background="Cornsilk" 
                                         MaxHeight="{TemplateBinding MaxDropDownHeight}" 
@@ -192,13 +192,13 @@
                                     </ScrollViewer>
                                 </Border>
                             </Popup>
-                            
+
                             <ToggleButton Style="{StaticResource ComboBoxReadonlyToggleButton}" 
                                           Background="{TemplateBinding Background}" 
                                           BorderBrush="{TemplateBinding BorderBrush}" 
                                           Grid.ColumnSpan="2" 
                                           IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
-                            
+
                             <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
                                               Margin="{TemplateBinding Padding}" 
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}" 
@@ -208,7 +208,7 @@
                                               ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" 
                                               ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"/>
                         </Grid>
-                        
+
                         <ControlTemplate.Triggers>
                             <Trigger Property="HasItems" Value="false">
                                 <Setter Property="Height" TargetName="DropDownBorder" Value="95"/>
@@ -232,7 +232,7 @@
                     <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
                     <Setter Property="IsTabStop" Value="false"/>
                     <Setter Property="Padding" Value="3"/>
-                    
+
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -462,6 +462,7 @@
                     <ComboBox x:Name="listboxStrategie" 
                              Grid.Row="4" 
                              Grid.Column="1"
+                              DropDownClosed="listboxStrategie_Closing"
                               Width="70"
                              Style="{StaticResource infoBalkComboBox}"
                              >
@@ -475,7 +476,7 @@
                            Grid.Column="0" 
                            Style="{StaticResource infoBalkLabels}" 
                            Content="Amount of cars on the tile" />
-                    
+
                     <Label x:Name="labelCarsOnTileNumber" 
                            Grid.Row="5" 
                            Grid.Column="1" 
@@ -483,9 +484,10 @@
                            Style="{StaticResource infoBalkLabels}" 
                            Content="0" />
 
-                    <RadioButton x:Name="spwanerCarsLow"
+                    <RadioButton x:Name="spawnerCarsLow"
                                  Style="{StaticResource styleRadioButton}"
                                  GroupName="spwaner"
+                                 Click="SpawnerLow_Checked"
                                  Grid.Row="6"
                                  Grid.Column="0"  
                                  Grid.ColumnSpan="2"
@@ -493,9 +495,9 @@
                                  Content="Low">
                     </RadioButton>
 
-                    <RadioButton x:Name="spwanerCarsNormal"
+                    <RadioButton x:Name="spawnerCarsNormal"
                                  Style="{StaticResource styleRadioButton}"
-                                 IsChecked="True"
+                                 Click="SpawnerNormal_Checked"
                                  GroupName="spwaner"
                                  Grid.Row="6"
                                  Grid.Column="0"  
@@ -503,10 +505,11 @@
                                  HorizontalAlignment="Center" 
                                  Content="Normal">
                     </RadioButton>
-                    
-                    <RadioButton x:Name="spwanerCarHigh"
+
+                    <RadioButton x:Name="spawnerCarHigh"
                                  Style="{StaticResource styleRadioButton}"
                                  GroupName="spwaner"
+                                 Click="SpawnerHigh_Checked"
                                  Grid.Row="6"
                                  Grid.Column="0"  
                                  Grid.ColumnSpan="2"
@@ -534,7 +537,8 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
-                        <RowDefinition Height="4*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
                         <RowDefinition Height="3*"/>
                     </Grid.RowDefinitions>
 
@@ -554,7 +558,7 @@
                            Grid.Column="1" 
                            Style="{StaticResource infoBalkLabels}" 
                            HorizontalAlignment="Left"
-                           Content="Number" />
+                           Content="0" />
 
                     <Label x:Name="labelWaitingCars" 
                            Grid.Row="1" 
@@ -567,7 +571,7 @@
                            Grid.Column="1" 
                            Style="{StaticResource infoBalkLabels}" 
                            HorizontalAlignment="Left"
-                           Content="Number" />
+                           Content="0" />
 
                     <Label x:Name="labelDrivingCars" 
                            Grid.Row="2" 
@@ -580,43 +584,64 @@
                            Grid.Column="1" 
                            Style="{StaticResource infoBalkLabels}"
                            HorizontalAlignment="Left"
-                           Content="Number" />
+                           Content="0" />
 
                     <Label x:Name="labelCrossroads" 
                            Grid.Row="3" 
                            Grid.Column="0" 
                            Style="{StaticResource infoBalkLabels}"
-                           Content="Amount of crossroads" />
+                           Content="Amount of trafficlights" />
 
                     <Label x:Name="labelCrossroadsNumber" 
                            Grid.Row="3" 
                            Grid.Column="1" 
                            Style="{StaticResource infoBalkLabels}"
                            HorizontalAlignment="Left"
-                           Content="Number" />
+                           Content="0" />
 
                     <Label x:Name="labelGameSpeed" 
+                           Grid.Row="5" 
+                           Grid.Column="0" 
+                           Style="{StaticResource infoBalkLabels}"
+                           Content="Game Speed"  />
+
+                    <Label x:Name="labelGameSpeedNumber" 
+                           Grid.Row="5" 
+                           Grid.Column="1" 
+                           Style="{StaticResource infoBalkLabels}"
+                           HorizontalAlignment="Left"
+                           Content="0"  />
+
+                    <Label x:Name="labelEfficientieTabel" 
+                           Grid.Row="6" 
+                           Grid.Column="0" 
+                           Style="{StaticResource infoBalkLabels}"
+
+                           Content="Efficientie"  />
+
+                    <Label x:Name="labelEfficientieNumber" 
+                           Grid.Row="6" 
+                           Grid.Column="1" 
+                           Style="{StaticResource infoBalkLabels}"
+                           HorizontalAlignment="Left"
+                           Content="0"  />
+
+                    <Label x:Name="labeltotalTiles" 
                            Grid.Row="4" 
                            Grid.Column="0" 
                            Style="{StaticResource infoBalkLabels}"
-                           Content="Game Speed" />
-                    
-                    <Label x:Name="labelGameSpeedNumber" 
+
+                           Content="Amount of tiles"  />
+
+                    <Label x:Name="labelTilesNumber" 
                            Grid.Row="4" 
                            Grid.Column="1" 
                            Style="{StaticResource infoBalkLabels}"
                            HorizontalAlignment="Left"
-                           Content="Number" />
-
-                    <Label x:Name="labelEfficientieTabel" 
-                           Grid.Row="5" 
-                           Grid.Column="0" 
-                           Style="{StaticResource infoBalkLabels}"
-                           VerticalAlignment="Top"
-                           Content="Efficientie" />
+                           Content="0"  />
 
                     <Label x:Name="labelGreenwave" 
-                           Grid.Row="6" 
+                           Grid.Row="7" 
                            Grid.Column="0" 
                            Grid.ColumnSpan="2"
                            Style="{StaticResource infoBalkLabels}"
@@ -636,7 +661,7 @@
                             Margin="10"
                             HorizontalAlignment="Left"
                             Click="GreenWave_Click"
-                            Grid.Row="6"
+                            Grid.Row="7"
                             Grid.ColumnSpan="2"
                             Grid.Column="0"
                             Content="Add Greenwave"/>
@@ -649,7 +674,7 @@
                             Margin="10"
                             HorizontalAlignment="Right"
                             Click="GreenWaveDelete_Click"
-                            Grid.Row="6"
+                            Grid.Row="7"
                             Grid.ColumnSpan="2"
                             Grid.Column="0"
                             Content="Delete Greenwave"/>

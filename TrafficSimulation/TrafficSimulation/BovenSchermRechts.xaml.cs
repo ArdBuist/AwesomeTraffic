@@ -94,24 +94,15 @@ namespace TrafficSimulation
 
 				// Custom filename
 				int number = 1;
-				string filename = "Traffic" + number.ToString();
+				string fileName = "Traffic" + number.ToString();
 
-				string path = saveDialog.InitialDirectory.ToString() + "/" + filename + ".trs";
 				
 				// Extension name (.trs => TRafficSimulation)
 				saveDialog.DefaultExt = ".trs";
-				saveDialog.Filter = "Traffic Simulation files (*.trs) | *.trs";
-
-				/*
-				while (File.Exists(path))
-				{
-					number++;
-					filename = "Traffic" + number.ToString();
-					path = saveDialog.InitialDirectory.ToString() + filename + ".trs";
-				}
-				*/
-
-				saveDialog.FileName = filename;
+				saveDialog.FilterIndex = 1;
+				saveDialog.Filter = "Traffic Simulation Files (*.trs) | *.trs";
+				saveDialog.RestoreDirectory = true;
+				saveDialog.FileName = fileName;
 
 				// Set the ability to overwrite another file to true
 				saveDialog.OverwritePrompt = true;
@@ -119,30 +110,58 @@ namespace TrafficSimulation
 				// Is the button "Save" pressed?
 				if (saveDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
 				{
+					/// New file
 					StreamWriter file = new StreamWriter(@saveDialog.FileName);
+
+					/// File can be bigger than 1024
 					file.AutoFlush = true;
 
-					// Get every tile in the list
+					/// Save some basic information
+					// Building tile:
+					// file.WriteLine();
+					// Information (not) visible
+					// file.WriteLine();
+
+					/// Get every tile in the list
 					foreach (Tile tile in windowselect.simwindow.simcontrol.tileList)
 					{
-						// If the tile has some value asigned to it
+						/// If the tile has some value asigned to it						
 						if (tile != null)
 						{
-							String currenttile = tile.name;
+							string currenttile = tile.name;
 
-							// You need different information from different tiles
-							// So you need multiple cases, one for each tile
+							/// You need different information from different tiles
+							/// So you need multiple cases, one for each tile
+							/// 
+							/// Basic information
+							///		 0: tile
+							///		 1: place in list
+							///		 2: x position
+							///		 3: y position
+							///	Specific information
+							///		 4: trafficlight strat
+							///		 5: Maxspeed for a tile
+							///		 6: begin direction (notDirection for Fork, direction for Spawner)
+							///		 7: end direction (Crossroad doesn't have any directions)
+							///		 8: laneshightolow (For crossroad and fork a number of 8 integers with the road numbers)
+							///		 9: laneslowtohigh, not for crossroad and fork.
+							///	Green Wave info
+							///		10: ?
+							///		11: ?
+							///		12: ?
+
 							switch (currenttile)
 							{
 								/// Save case for a fork
 								case "Fork":
 									file.WriteLine(
-										tile + "_" +				// 0 Welke tile
-										tile.notDirection + "_" +	// 1 De not direction
-										tile.listPlace + "_" +		// 2 Plaats in de lijst
-										tile.position.X + "_" +		// 3 X positie
-										tile.position.Y);			// 4 Y positie
-									// lanes
+										tile.name + "_" +				// 0 Welke tile
+										tile.listPlace + "_" +		// 1 Plaats in de lijst
+										tile.position.X + "_" +		// 2 X positie
+										tile.position.Y + "_" +		// 3 Y positie
+										" " /*tile.strat*/ + "_" + 	// 4 strat
+										tile.maxSpeed + "_" +		// 5 Maxspeed
+										tile.notDirection);			// 6 De not direction
 									break;
 
 								// Save case for a crossroad
@@ -151,38 +170,42 @@ namespace TrafficSimulation
 										tile + "_" +				// 0 Welke tile
 										tile.listPlace + "_" +		// 1 Plaats in de lijst
 										tile.position.X + "_" +		// 2 X positie
-										tile.position.Y);			// 3 Y positie
-									// lanes
+										tile.position.Y + "_" +		// 3 Y positie
+										" " /*tile.strat*/ + "_" + 	// 4 strat
+										tile.maxSpeed);				// 5 Maxspeed
 									break;
 
 								// Save case for a road (that is a straight road or a curved road)
 								case "Road":
 									file.WriteLine(
 										tile + "_" +				// 0 Welke tile
-										tile.startDirection + "_" +	// 1 Begin richting
-										tile.endDirection + "_" +	// 2 Eind richting
-										tile.listPlace + "_" +		// 3 Plaats in de lijst
-										tile.position.X + "_" +		// 4 X positie
-										tile.position.Y + "_" /* +		// 5 Y positie
-										tile.LanesHighToLow + "_" + // 6 Wegen hoog, laag
-										tile.LanesLowToHigh*/);		// 7 Wegen laag, hoog
+										tile.listPlace + "_" +		// 1 Plaats in de lijst
+										tile.position.X + "_" +		// 2 X positie
+										tile.position.Y + "_" +		// 3 Y positie
+										" " + "_" +					// 4 Empty
+										tile.maxSpeed + "_"	+		// 5 Maxpeed
+										tile.startDirection + "_" +	// 6 Begin richting
+										tile.endDirection + "_" +	// 7 Eind richting
+										tile.LanesHighToLow + "_" + // 8 Wegen hoog, laag
+										tile.LanesLowToHigh);		// 9 Wegen laag, hoog
 									break;
 
 								// Save case for a spawner
 								case "Spawner":
 									file.WriteLine(
-										tile + "_" +				// 0 Welke tile
-										tile.direction + "_" +		// 1 Richting
-										tile.listPlace + "_" +		// 2 Plaats in de lijst
-										tile.position.X + "_" +		// 3 X positie
-										tile.position.Y);			// 4 Y positie
-									// lanes
-									// carspersecond
-									// other info
-									// more info
+										tile + "_" +							// 0 Welke tile
+										tile.listPlace + "_" +					// 1 Plaats in de lijst
+										tile.position.X + "_" +					// 2 X positie
+										tile.position.Y + "_" +					// 3 Y positie
+										" " + "_" +								// 4 Empty
+										tile.maxSpeed + "_" +					// 5 Maxspeed
+										tile.direction + "_" +					// 6 Richting
+										" " + "_" +								// 7 Empty
+										tile.GetLanesIn(tile.direction) + "_" +	// 8 LanesHighToLow
+										tile.GetLanesOut(tile.direction));		// 9 LanesLowToHigh
 									break;
 
-								// TODO: Save options for extra info, such as greenwave, traffic lights
+								// TODO: Save options for extra info, traffic lights strat and other things
 							}
 						}
 					}
@@ -191,7 +214,7 @@ namespace TrafficSimulation
 			/// Throw an exception
 			catch (Exception exp)
 			{
-				MessageBox.Show("" + exp);
+				MessageBox.Show("Error: Could not write file to disk. Original error:" + exp);
 
 				// TODO: Make a better screen. This isn't very useful to many users...
 			}

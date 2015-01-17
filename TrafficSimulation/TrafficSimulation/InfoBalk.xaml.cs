@@ -97,6 +97,25 @@ namespace TrafficSimulation
             windowselect.simwindow.simcontrol.selectedTile.MaxSpeed = speed1 + 2;
         }
 
+        private void SpawnerHigh_Checked(object sender, EventArgs e)
+        {
+            Spawner spawner = (Spawner)windowselect.simwindow.simcontrol.selectedTile;
+            spawner.CarsSpawnChance = 1;
+        }
+        private void SpawnerLow_Checked(object sender, EventArgs e)
+        {
+            Spawner spawner = (Spawner)windowselect.simwindow.simcontrol.selectedTile;
+            spawner.CarsSpawnChance = 5;
+        }
+        private void SpawnerNormal_Checked(object sender, EventArgs e)
+        {
+            Spawner spawner = (Spawner)windowselect.simwindow.simcontrol.selectedTile;
+            spawner.CarsSpawnChance = 3;
+        }
+
+
+
+
         private void ChangeCasts(string kant, string ob)
         {
             string[] kantEnPlaats = kant.Split('_');
@@ -112,13 +131,11 @@ namespace TrafficSimulation
                 if (windowselect.simwindow != null)
                 {
                     if (windowselect.simwindow.simcontrol.selectedTile != null && windowselect.simwindow.simcontrol.selectedTile.name != "Fork" && windowselect.simwindow.simcontrol.selectedTile.name != "Crossroad")
-                    {
                         if (inOrOut == 0)
                             windowselect.simwindow.simcontrol.selectedTile.UpdateLanes(windowselect.simwindow.simcontrol, side, value, windowselect.simwindow.simcontrol.selectedTile.GetLanesOut(side));
                         else
                             windowselect.simwindow.simcontrol.selectedTile.UpdateLanes(windowselect.simwindow.simcontrol, side, windowselect.simwindow.simcontrol.selectedTile.GetLanesIn(side), value);
-                        windowselect.simwindow.simcontrol.selectedTile.UpdateOtherTiles(windowselect.simwindow.simcontrol, 0);
-                    }
+                    windowselect.simwindow.simcontrol.selectedTile.UpdateOtherTiles(windowselect.simwindow.simcontrol, 0);
                     windowselect.simwindow.simcontrol.backgroundPB.Invalidate();
                     windowselect.simwindow.simcontrol.UpdateInfoBalkDesign();
                     windowselect.simwindow.simcontrol.DrawSelectLine(windowselect.simwindow.simcontrol.selectedTile.position);
@@ -146,35 +163,46 @@ namespace TrafficSimulation
             return bs;
         }
 
-        public void UpdateDesign(int[,] tileLanes, int maxSpeed)
+        public void UpdateDesign(int[,] tileLanes, int maxSpeed,int totalTiles, int trafficlights,int strategie,double gameSpeed)
         {
             HideCombobox();
             speed.Visibility = Visibility.Visible;
             RotatedRight.Visibility = Visibility.Visible;
             RotateLeft.Visibility = Visibility.Visible;
             labelSpeed.Visibility = Visibility.Visible;
-            if (windowselect.simwindow.simcontrol.simulation.simStarted)
+            if(windowselect.simwindow.BovenSchermLinks.Simulation)
             {
-                speed.IsEnabled = false;
                 RotatedRight.IsEnabled = false;
                 RotateLeft.IsEnabled = false;
+                if (windowselect.simwindow.simcontrol.simulation.simStarted )
+                {
+                    speed.IsEnabled = false;
+                    listboxStrategie.IsEnabled = false;
+                    
+                }
             }
-
             Boolean CrosOrFork = false;
             if (windowselect.simwindow.simcontrol.selectedTile.name == "Crossroad" || windowselect.simwindow.simcontrol.selectedTile.name == "Fork")
                 CrosOrFork = true;
             ShowComboBox(windowselect.simwindow.simcontrol.selectedTile.Directions, CrosOrFork);
             ImageInfoBalk.Source = loadBitmap(windowselect.simwindow.simcontrol.selectedTile.DrawImage());
             speed.SelectedIndex = maxSpeed - 2;
-            lane3.SelectedIndex = tileLanes[2, 0] - 1;
-            lane4.SelectedIndex = tileLanes[2, 1] - 1;
-            lane5.SelectedIndex = tileLanes[3, 0] - 1;
-            lane6.SelectedIndex = tileLanes[3, 1] - 1;
-            lane7.SelectedIndex = tileLanes[0, 0] - 1;
-            lane8.SelectedIndex = tileLanes[0, 1] - 1;
-            lane1.SelectedIndex = tileLanes[1, 0] - 1;
-            lane2.SelectedIndex = tileLanes[1, 1] - 1;
+            lane3.SelectedIndex = tileLanes[0, 1] - 1;
+            lane4.SelectedIndex = tileLanes[0, 0] - 1;
+            lane5.SelectedIndex = tileLanes[1, 1] - 1;
+            lane6.SelectedIndex = tileLanes[1, 0] - 1;
+            lane7.SelectedIndex = tileLanes[2, 1] - 1;
+            lane8.SelectedIndex = tileLanes[2, 0] - 1;
+            lane1.SelectedIndex = tileLanes[3, 1] - 1;
+            lane2.SelectedIndex = tileLanes[3, 0] - 1;
+            labelCrossroadsNumber.Content = trafficlights;
+            labelTilesNumber.Content = totalTiles;
+            listboxStrategie.SelectedIndex = strategie-1;
+            labelGameSpeedNumber.Content = Math.Round(gameSpeed, 1); 
         }
+
+
+
 
         public void HideCombobox()
         {
@@ -207,12 +235,22 @@ namespace TrafficSimulation
             RotatedRight.IsEnabled = true;
             RotateLeft.IsEnabled = true;
             speed.IsEnabled = true;
+            spawnerCarHigh.Visibility = Visibility.Hidden;
+            spawnerCarsNormal.Visibility = Visibility.Hidden;
+            spawnerCarsLow.Visibility = Visibility.Hidden;
+            labelStrategie.Visibility = Visibility.Hidden;
+            listboxStrategie.Visibility = Visibility.Hidden;
             
         }
 
         public void ShowComboBox(List<int> Directions, Boolean CrossOrFork)
         {
             Boolean simulationStarted = windowselect.simwindow.simcontrol.simulation.simStarted;
+            if(CrossOrFork)
+            {
+                labelStrategie.Visibility = Visibility.Visible;
+                listboxStrategie.Visibility = Visibility.Visible;
+            }
             if (Directions.Contains(1))
             {
                 lane3.Visibility = Visibility.Visible;
@@ -253,14 +291,38 @@ namespace TrafficSimulation
                     lane2.IsEnabled = true;
                 }
             }
+            if(windowselect.simwindow.simcontrol.selectedTile.name=="Spawner")
+            {
+                spawnerCarHigh.Visibility = Visibility.Visible;
+                spawnerCarsNormal.Visibility = Visibility.Visible;
+                spawnerCarsLow.Visibility = Visibility.Visible;
+                Spawner spawner = (Spawner)windowselect.simwindow.simcontrol.selectedTile;
+                switch(spawner.CarsSpawnChance)
+                {
+                    case 5: spawnerCarsLow.IsChecked = true;
+                        break;
+                    case 3: spawnerCarsNormal.IsChecked = true;
+                        break;
+                    case 1: spawnerCarHigh.IsChecked = true;
+                        break;
+
+                }
+            }
         }
 
-        internal void UpdateSimulation(int totalCars, int WaitingCars)
+        public void UpdateSimulation(int totalCars, int WaitingCars,int TileCars,double gameSpeed)
         {
             int DrivingCars = totalCars - WaitingCars;
             labelTotalCarsNumber.Content = totalCars;
             labelWaitingCarsNumber.Content = WaitingCars;
             labelDrivingCarsNumber.Content = DrivingCars;
+            labelCarsOnTileNumber.Content = TileCars;
+            labelGameSpeedNumber.Content = Math.Round(gameSpeed,1);
+            labelEfficientieNumber.Content = (int)((double)((double)DrivingCars / (totalCars))*100);
+            if(windowselect.simwindow.simcontrol.selectedTile != null && lane1.Visibility == Visibility.Hidden)
+            {
+                windowselect.simwindow.simcontrol.UpdateInfoBalkDesign();
+            }
         }
 
         public void UpdateSimulationReset()
@@ -268,6 +330,9 @@ namespace TrafficSimulation
             labelTotalCarsNumber.Content = 0;
             labelWaitingCarsNumber.Content = 0;
             labelDrivingCarsNumber.Content = 0;
+            labelCarsOnTileNumber.Content = 0;
+            labelGameSpeedNumber.Content = 1;
+            labelEfficientieNumber.Content = 0;
             windowselect.simwindow.simcontrol.ResetSimulationCounters();
         }
 
@@ -306,9 +371,24 @@ namespace TrafficSimulation
                     break;
             }
             simcontrol.DrawTile(originalTile.position, rotatedTile);
-            rotatedTile.UpdateFromOtherTile(simcontrol, 0);
-            windowselect.simwindow.simcontrol.DrawSelectLine(windowselect.simwindow.simcontrol.selectedTile.position);
+            windowselect.simwindow.simcontrol.DrawSelectLine(originalTile.position);
 
+        }
+
+        private void listboxStrategie_Closing(object sender, EventArgs e)
+        {
+            Tile selectedTile = windowselect.simwindow.simcontrol.selectedTile;
+            int strategie = listboxStrategie.SelectedIndex;
+            if (selectedTile.name == "Crossroad")
+            {
+                Crossroad crosTile = (Crossroad)selectedTile;
+                crosTile.control.strat = strategie+1;
+            }
+            else
+            {
+                Fork crosTile = (Fork)selectedTile;
+                crosTile.control.strat = strategie+1;
+            }
         }
     }
 }
