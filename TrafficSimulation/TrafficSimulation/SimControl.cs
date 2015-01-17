@@ -43,6 +43,7 @@ namespace TrafficSimulation
         public Tile selectedTile;
         //list for all vehicles needs to be removed
         public List<Vehicle> vehicleList;
+
         //max tiles fitting horizontal on the map
         public int tilesHorizontal;
         //the simulation, has a new thread which is started when the simulation starts
@@ -69,6 +70,11 @@ namespace TrafficSimulation
         //counter for cars for in infobalk
         public int totalCars;
 
+	bool drawStart = false;
+
+        public Boolean Simulatie;
+        public bool Day;
+        public bool InfoVisible;
 
         public SimControl(Size size, SimWindow simulation)
         {
@@ -238,7 +244,6 @@ namespace TrafficSimulation
             {
                 if (countGreenWave > 0)
                 {
-
                     //als de hiervoor aangeklikte groene golf tile is aangeklikt
                     if (mea.X / 100 * 100 == greenWaveList[(countGreenWave - 1)].position.X && mea.Y / 100 * 100 == greenWaveList[(countGreenWave - 1)].position.Y)
                     {
@@ -252,7 +257,6 @@ namespace TrafficSimulation
                         backgroundBC.AddObject(tileImage, mea.X / 100 * 100, mea.Y / 100 * 100);
                         backgroundPB.Invalidate();                                           
                     }
-
 
                     else
                     {
@@ -290,7 +294,6 @@ namespace TrafficSimulation
             }
         }
 
-
         //methode om de groene golf te verwijderen
         public void RemoveGreenWave()
         {
@@ -318,7 +321,6 @@ namespace TrafficSimulation
                 greenWaveRemoveList[s] = null;
             }
         }
-
 
         //kijk of de geklikte tile wel een groene golf mag zijn
         private bool ValidSelect(Tile selectedTile, int x, int y)
@@ -494,31 +496,33 @@ namespace TrafficSimulation
             }
         }
 
-
+		//verplaatst de map als er gesleept wordt
         private void MoveMap(MouseEventArgs mea)
         {
-            if (Math.Abs(mea.X - mouseMovePoint.X) > 5 || Math.Abs(mea.Y - mouseMovePoint.Y) > 5)
+            if (Math.Abs(mea.X - mouseMovePoint.X) > 3 || Math.Abs(mea.Y - mouseMovePoint.Y) > 3)
             {
-                Rectangle moveGround = new Rectangle(new Point(Screen.PrimaryScreen.Bounds.X - backgroundPB.Size.Width, Screen.PrimaryScreen.Bounds.Y - backgroundPB.Size.Height), new Size(backgroundPB.Size.Width - Screen.PrimaryScreen.Bounds.X, backgroundPB.Size.Height - Screen.PrimaryScreen.Bounds.Y));
-                Point newPosition = new Point(backgroundPB.Location.X + (mea.X - mouseMovePoint.X), backgroundPB.Location.Y + (mea.Y - mouseMovePoint.Y));
-
+                Rectangle moveGround = new Rectangle(new Point(Screen.PrimaryScreen.Bounds.Width - backgroundPB.Size.Width, Screen.PrimaryScreen.Bounds.Height - backgroundPB.Size.Height), new Size(backgroundPB.Size.Width - Screen.PrimaryScreen.Bounds.Width, backgroundPB.Size.Height - Screen.PrimaryScreen.Bounds.Height));
+				Point newPosition = new Point(backgroundPB.Location.X + (mea.X - mouseMovePoint.X), backgroundPB.Location.Y + (mea.Y - mouseMovePoint.Y));
+				
                 if (moveGround.Contains(newPosition))
                 {
                     backgroundPB.Location = newPosition;
                     isMoved = true;
                 }
+
                 this.Update();
             }
         }
        
-
+		/// <summary>
+		/// Remove tile from the map.
+		/// </summary>
         public void ClearRoad()
         {
             foreach (Tile t in tileList)
             {
                 if (t != null)
                 {
-
                     foreach(List<List<Vehicle>> list in t.vehicles)
                     {
                         foreach(List<Vehicle> l in list)
@@ -540,330 +544,329 @@ namespace TrafficSimulation
 
         private void DrawStartImages()
         {
-            Bitmap tileImage;
-            int roadX, roadY;
+			if (drawStart)
+			{
+				Bitmap tileImage;
+				int roadX, roadY;
 
-			
-            currentBuildTile = new Spawner(3);
-            roadX = 5;
-            roadY = 2;
-            tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
-            currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage();
-            backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
-            currentBuildTile = new Spawner(3);
-            roadX = 6;
-            roadY = 5;
-            tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
-            currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage();
-            backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
-            currentBuildTile = new Spawner(4);
-            roadX = 11;
-            roadY = 2;
-            tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
-            currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage();
-            backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
-            currentBuildTile = new Spawner(2);
-            roadX = 5;
-            roadY = 9;
-            tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
-            currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage();
-            backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
-            currentBuildTile = new Spawner(1);
-            roadX = 11;
-            roadY = 9;
-            tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
-            currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage();
-            backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
-            currentBuildTile = new Road(1, 2);
-            roadX = 5;
-            roadY = 3;
-            tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
-            currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage();
-            backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
-            currentBuildTile = new Road(2, 3);
-            roadX = 5;
-            roadY = 4;
-            tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
-            currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage();
-            backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
-            currentBuildTile = new Road(1, 2);
-            roadX = 5;
-            roadY = 6;
-            tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
-            currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage();
-            backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
-            currentBuildTile = new Road(1, 3);
-            roadX = 5;
-            roadY = 5;
-            tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
-            currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage();
-            backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
-            currentBuildTile = new Road(2, 3);
-            roadX = 6;
-            roadY = 2;
-            tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
-            currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage();
-            backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
-            currentBuildTile = new Fork(this, 3);
-            roadX = 6;
-            roadY = 3;
-            tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
-            currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage();
-            backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
-            currentBuildTile = new Road(2, 4);
-            roadX = 6;
-            roadY = 4;
-            tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
-            currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage();
-            backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
-            currentBuildTile = new Crossroad(this);
-            roadX = 6;
-            roadY = 6;
-            tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
-            currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage();
-            backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
-            currentBuildTile = new Road(1, 3);
-            roadX = 6;
-            roadY = 7;
-            tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
-            currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage();
-            backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
-            currentBuildTile = new Fork(this, 4);
-            roadX = 6;
-            roadY = 8;
-            tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
-            currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage();
-            backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
-            currentBuildTile = new Road(1, 4);
-            roadX = 6;
-            roadY = 9;
-            tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
-            currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage();
-            backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
-            currentBuildTile = new Road(2, 4);
-            roadX = 7;
-            roadY = 2;
-            tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
-            currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage();
-            backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
-            currentBuildTile = new Road(2, 4);
-            roadX = 7;
-            roadY = 3;
-            tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
-            currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage();
-            backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
-            currentBuildTile = new Fork(this, 1);
-            roadX = 7;
-            roadY = 4;
-            tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
-            currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage();
-            backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
-            currentBuildTile = new Road(2, 1);
-            roadX = 7;
-            roadY = 5;
-            tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
-            currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage();
-            backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
-            currentBuildTile = new Road(2, 4);
-            roadX = 7;
-            roadY = 6;
-            tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
-            currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage();
-            backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
-            currentBuildTile = new Road(4, 2);
-            roadX = 7;
-            roadY = 8;
-            tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
-            currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage();
-            backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
-            currentBuildTile = new Road(2, 4);
-            roadX = 8;
-            roadY = 2;
-            tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
-            currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage();
-            backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
-            currentBuildTile = new Road(2, 4);
-            roadX = 8;
-            roadY = 3;
-            tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
-            currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage();
-            backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
-            currentBuildTile = new Road(2, 4);
-            roadX = 8;
-            roadY = 4;
-            tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
-            currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage();
-            backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
-            currentBuildTile = new Road(3, 4);
-            roadX = 8;
-            roadY = 5;
-            tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
-            currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage();
-            backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
-            currentBuildTile = new Fork(this, 3);
-            roadX = 8;
-            roadY = 6;
-            tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
-            currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage();
-            backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
-            currentBuildTile = new Road(4, 2);
-            roadX = 8;
-            roadY = 8;
-            tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
-            currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage();
-            backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
-            currentBuildTile = new Road(2, 4);
-            roadX = 9;
-            roadY = 2;
-            tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
-            currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage();
-            backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
-            currentBuildTile = new Road(3, 4);
-            roadX = 9;
-            roadY = 3;
-            tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
-            currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage();
-            backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
-            currentBuildTile = new Crossroad(this);
-            roadX = 9;
-            roadY = 4;
-            tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
-            currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage();
-            backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
-            currentBuildTile = new Road(2, 1);
-            roadX = 9;
-            roadY = 5;
-            tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
-            currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage();
-            backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
-            currentBuildTile = new Road(2, 4);
-            roadX = 9;
-            roadY = 6;
-            tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
-            currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage();
-            backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
-            currentBuildTile = new Road(2, 3);
-            roadX = 9;
-            roadY = 7;
-            tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
-            currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage();
-            backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
-            currentBuildTile = new Fork(this, 3);
-            roadX = 9;
-            roadY = 8;
-            tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
-            currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage();
-            backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
-            currentBuildTile = new Fork(this, 1);
-            roadX = 10;
-            roadY = 2;
-            tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
-            currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage();
-            backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
-            currentBuildTile = new Road(3, 1);
-            roadX = 10;
-            roadY = 3;
-            tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
-            currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage();
-            backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
-            currentBuildTile = new Road(4, 1);
-            roadX = 10;
-            roadY = 4;
-            tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
-            currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage();
-            backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
-            currentBuildTile = new Road(4, 3);
-            roadX = 10;
-            roadY = 5;
-            tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
-            currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage();
-            backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
-            currentBuildTile = new Crossroad(this);
-            roadX = 10;
-            roadY = 6;
-            tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
-            currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage();
-            backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
-            currentBuildTile = new Road(1, 4);
-            roadX = 10;
-            roadY = 7;
-            tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
-            currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage();
-            backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
-            currentBuildTile = new Road(2, 4);
-            roadX = 10;
-            roadY = 8;
-            tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
-            currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage();
-            backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
-            currentBuildTile = new Road(3, 4);
-            roadX = 11;
-            roadY = 6;
-            tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
-            currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage();
-            backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
-            currentBuildTile = new Road(3, 1);
-            roadX = 11;
-            roadY = 7;
-            tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
-            currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage();
-            backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
-            currentBuildTile.LanesHighToLow = 3;
-            currentBuildTile.UpdateOtherTiles(this, 0);
-            currentBuildTile = new Fork(this, 2);
-            roadX = 11;
-            roadY = 8;
-            tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
-            currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
-            tileImage = currentBuildTile.DrawImage();
-            backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
-            this.MakeTrafficControlList();
-            UpdateInfoBalkDesign();
-			
+				currentBuildTile = new Spawner(3);
+				roadX = 5;
+				roadY = 2;
+				tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
+				currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
+				tileImage = currentBuildTile.DrawImage();
+				backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+				currentBuildTile = new Spawner(3);
+				roadX = 6;
+				roadY = 5;
+				tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
+				currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
+				tileImage = currentBuildTile.DrawImage();
+				backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+				currentBuildTile = new Spawner(4);
+				roadX = 11;
+				roadY = 2;
+				tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
+				currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
+				tileImage = currentBuildTile.DrawImage();
+				backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+				currentBuildTile = new Spawner(2);
+				roadX = 5;
+				roadY = 9;
+				tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
+				currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
+				tileImage = currentBuildTile.DrawImage();
+				backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+				currentBuildTile = new Spawner(1);
+				roadX = 11;
+				roadY = 9;
+				tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
+				currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
+				tileImage = currentBuildTile.DrawImage();
+				backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+				currentBuildTile = new Road(1, 2);
+				roadX = 5;
+				roadY = 3;
+				tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
+				currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
+				tileImage = currentBuildTile.DrawImage();
+				backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+				currentBuildTile = new Road(2, 3);
+				roadX = 5;
+				roadY = 4;
+				tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
+				currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
+				tileImage = currentBuildTile.DrawImage();
+				backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+				currentBuildTile = new Road(1, 2);
+				roadX = 5;
+				roadY = 6;
+				tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
+				currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
+				tileImage = currentBuildTile.DrawImage();
+				backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+				currentBuildTile = new Road(1, 3);
+				roadX = 5;
+				roadY = 5;
+				tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
+				currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
+				tileImage = currentBuildTile.DrawImage();
+				backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+				currentBuildTile = new Road(2, 3);
+				roadX = 6;
+				roadY = 2;
+				tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
+				currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
+				tileImage = currentBuildTile.DrawImage();
+				backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+				currentBuildTile = new Fork(this, 3);
+				roadX = 6;
+				roadY = 3;
+				tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
+				currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
+				tileImage = currentBuildTile.DrawImage();
+				backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+				currentBuildTile = new Road(2, 4);
+				roadX = 6;
+				roadY = 4;
+				tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
+				currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
+				tileImage = currentBuildTile.DrawImage();
+				backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+				currentBuildTile = new Crossroad(this);
+				roadX = 6;
+				roadY = 6;
+				tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
+				currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
+				tileImage = currentBuildTile.DrawImage();
+				backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+				currentBuildTile = new Road(1, 3);
+				roadX = 6;
+				roadY = 7;
+				tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
+				currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
+				tileImage = currentBuildTile.DrawImage();
+				backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+				currentBuildTile = new Fork(this, 4);
+				roadX = 6;
+				roadY = 8;
+				tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
+				currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
+				tileImage = currentBuildTile.DrawImage();
+				backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+				currentBuildTile = new Road(1, 4);
+				roadX = 6;
+				roadY = 9;
+				tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
+				currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
+				tileImage = currentBuildTile.DrawImage();
+				backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+				currentBuildTile = new Road(2, 4);
+				roadX = 7;
+				roadY = 2;
+				tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
+				currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
+				tileImage = currentBuildTile.DrawImage();
+				backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+				currentBuildTile = new Road(2, 4);
+				roadX = 7;
+				roadY = 3;
+				tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
+				currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
+				tileImage = currentBuildTile.DrawImage();
+				backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+				currentBuildTile = new Fork(this, 1);
+				roadX = 7;
+				roadY = 4;
+				tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
+				currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
+				tileImage = currentBuildTile.DrawImage();
+				backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+				currentBuildTile = new Road(2, 1);
+				roadX = 7;
+				roadY = 5;
+				tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
+				currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
+				tileImage = currentBuildTile.DrawImage();
+				backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+				currentBuildTile = new Road(2, 4);
+				roadX = 7;
+				roadY = 6;
+				tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
+				currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
+				tileImage = currentBuildTile.DrawImage();
+				backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+				currentBuildTile = new Road(4, 2);
+				roadX = 7;
+				roadY = 8;
+				tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
+				currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
+				tileImage = currentBuildTile.DrawImage();
+				backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+				currentBuildTile = new Road(2, 4);
+				roadX = 8;
+				roadY = 2;
+				tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
+				currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
+				tileImage = currentBuildTile.DrawImage();
+				backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+				currentBuildTile = new Road(2, 4);
+				roadX = 8;
+				roadY = 3;
+				tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
+				currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
+				tileImage = currentBuildTile.DrawImage();
+				backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+				currentBuildTile = new Road(2, 4);
+				roadX = 8;
+				roadY = 4;
+				tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
+				currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
+				tileImage = currentBuildTile.DrawImage();
+				backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+				currentBuildTile = new Road(3, 4);
+				roadX = 8;
+				roadY = 5;
+				tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
+				currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
+				tileImage = currentBuildTile.DrawImage();
+				backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+				currentBuildTile = new Fork(this, 3);
+				roadX = 8;
+				roadY = 6;
+				tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
+				currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
+				tileImage = currentBuildTile.DrawImage();
+				backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+				currentBuildTile = new Road(4, 2);
+				roadX = 8;
+				roadY = 8;
+				tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
+				currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
+				tileImage = currentBuildTile.DrawImage();
+				backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+				currentBuildTile = new Road(2, 4);
+				roadX = 9;
+				roadY = 2;
+				tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
+				currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
+				tileImage = currentBuildTile.DrawImage();
+				backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+				currentBuildTile = new Road(3, 4);
+				roadX = 9;
+				roadY = 3;
+				tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
+				currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
+				tileImage = currentBuildTile.DrawImage();
+				backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+				currentBuildTile = new Crossroad(this);
+				roadX = 9;
+				roadY = 4;
+				tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
+				currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
+				tileImage = currentBuildTile.DrawImage();
+				backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+				currentBuildTile = new Road(2, 1);
+				roadX = 9;
+				roadY = 5;
+				tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
+				currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
+				tileImage = currentBuildTile.DrawImage();
+				backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+				currentBuildTile = new Road(2, 4);
+				roadX = 9;
+				roadY = 6;
+				tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
+				currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
+				tileImage = currentBuildTile.DrawImage();
+				backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+				currentBuildTile = new Road(2, 3);
+				roadX = 9;
+				roadY = 7;
+				tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
+				currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
+				tileImage = currentBuildTile.DrawImage();
+				backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+				currentBuildTile = new Fork(this, 3);
+				roadX = 9;
+				roadY = 8;
+				tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
+				currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
+				tileImage = currentBuildTile.DrawImage();
+				backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+				currentBuildTile = new Fork(this, 1);
+				roadX = 10;
+				roadY = 2;
+				tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
+				currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
+				tileImage = currentBuildTile.DrawImage();
+				backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+				currentBuildTile = new Road(3, 1);
+				roadX = 10;
+				roadY = 3;
+				tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
+				currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
+				tileImage = currentBuildTile.DrawImage();
+				backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+				currentBuildTile = new Road(4, 1);
+				roadX = 10;
+				roadY = 4;
+				tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
+				currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
+				tileImage = currentBuildTile.DrawImage();
+				backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+				currentBuildTile = new Road(4, 3);
+				roadX = 10;
+				roadY = 5;
+				tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
+				currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
+				tileImage = currentBuildTile.DrawImage();
+				backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+				currentBuildTile = new Crossroad(this);
+				roadX = 10;
+				roadY = 6;
+				tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
+				currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
+				tileImage = currentBuildTile.DrawImage();
+				backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+				currentBuildTile = new Road(1, 4);
+				roadX = 10;
+				roadY = 7;
+				tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
+				currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
+				tileImage = currentBuildTile.DrawImage();
+				backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+				currentBuildTile = new Road(2, 4);
+				roadX = 10;
+				roadY = 8;
+				tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
+				currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
+				tileImage = currentBuildTile.DrawImage();
+				backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+				currentBuildTile = new Road(3, 4);
+				roadX = 11;
+				roadY = 6;
+				tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
+				currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
+				tileImage = currentBuildTile.DrawImage();
+				backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+				currentBuildTile = new Road(3, 1);
+				roadX = 11;
+				roadY = 7;
+				tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
+				currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
+				tileImage = currentBuildTile.DrawImage();
+				backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+				currentBuildTile.LanesHighToLow = 3;
+				currentBuildTile.UpdateOtherTiles(this, 0);
+				currentBuildTile = new Fork(this, 2);
+				roadX = 11;
+				roadY = 8;
+				tileList[roadY * tilesHorizontal + roadX] = currentBuildTile;
+				currentBuildTile.SetValues(this, new Point((roadX * 100), roadY * 100), roadY * tilesHorizontal + roadX);
+				tileImage = currentBuildTile.DrawImage();
+				backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+			}
         }
 
         private void SimControl_Load(object sender, EventArgs e)

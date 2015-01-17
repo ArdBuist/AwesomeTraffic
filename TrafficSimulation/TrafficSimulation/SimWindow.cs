@@ -103,6 +103,7 @@ namespace TrafficSimulation
             this.Controls.Add(sim);
             
         }
+
         public SimControl simcontrol { get { return sim; } }
     }
 }

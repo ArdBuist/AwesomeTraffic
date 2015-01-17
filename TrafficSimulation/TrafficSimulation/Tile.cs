@@ -373,7 +373,7 @@ namespace TrafficSimulation
             carsSpawnChance = 3;
             spawnLane = 0;
             this.lanesIn = 1;
-            this.lanesOut = 1;
+            this.lanesOut = 1; 
             this.spawnPerSec = 0.05;
             directions.Add(direction);
             currentSpawn = 1;
