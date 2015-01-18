@@ -80,7 +80,7 @@ namespace TrafficSimulation
 
 			/// Few basic settings for the opendialog
 			//openFileDialog1.InitialDirectory = "c:\\";
-			openDialog.Filter = "TrafficSimulation files (*.trx)|*.trx";
+			openDialog.Filter = "TrafficSimulation files (*.trs)|*.trs";
 			openDialog.FilterIndex = 1;
 			openDialog.RestoreDirectory = true;
 
@@ -406,6 +406,7 @@ namespace TrafficSimulation
 				catch (Exception ex)
 				{
 					LoadWin.Close();
+					this.Cursor = Cursors.Arrow;
 
 					MessageBox.Show("Error: Could not read file from disk. Original error: " + ex.Message);
 				}

@@ -98,9 +98,9 @@ namespace TrafficSimulation
 
 				
 				// Extension name (.trs => TRafficSimulation)
-				saveDialog.DefaultExt = ".trx";
+				saveDialog.DefaultExt = ".trs";
 				saveDialog.FilterIndex = 1;
-				saveDialog.Filter = "Traffic Simulation Files (*.trx) | *.trx";
+				saveDialog.Filter = "Traffic Simulation Files (*.trs) | *.trs";
 				saveDialog.RestoreDirectory = true;
 				saveDialog.FileName = fileName;
 
@@ -122,8 +122,11 @@ namespace TrafficSimulation
 						/// If the tile has some value asigned to it						
 						if (tile != null)
 						{
+
 							string currenttile = tile.name;
 
+							/* Something with saving extra info, not ready yet
+							 * 
 							/// Save some basic information
 							// Building tile:
 							switch (windowselect.simwindow.simcontrol.currentBuildTile.name)
@@ -164,6 +167,10 @@ namespace TrafficSimulation
 							file.WriteLine();
 							// Something
 							file.WriteLine();
+
+							*/
+
+							// TODO: Extra save options
 
 							/// Every tile has his own information
 							/// For saving them, you need the specific information for each tile
