@@ -110,6 +110,9 @@ namespace TrafficSimulation
 				// Is the button "Save" pressed?
 				if (saveDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
 				{
+					/// change cursor to wait cursor
+					this.Cursor = Cursors.Wait;
+
 					/// New file
 					StreamWriter file = new StreamWriter(@saveDialog.FileName);
 
@@ -250,11 +253,18 @@ namespace TrafficSimulation
 							}
 						}
 					}
+
+					/// Change cursor back to arrow
+					this.Cursor = Cursors.Arrow;
 				}
 			}
 			/// Throw an exception
 			catch (Exception exp)
 			{
+				/// Change cursor back to arrow
+				this.Cursor = Cursors.Arrow;
+
+				/// Show exception and the error message
 				MessageBox.Show("Error: Could not write file to disk. Original error:" + exp);
 
 				// TODO: Make a better screen. This isn't very useful to many users...
