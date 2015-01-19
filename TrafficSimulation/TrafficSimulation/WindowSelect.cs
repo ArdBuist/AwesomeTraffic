@@ -80,5 +80,22 @@ namespace TrafficSimulation
         {
             MessageBox.Show(message);
         }
+
+		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+		{
+			switch (keyData)
+			{
+				case (Keys.Control | Keys.S):
+					this.simwindow.BovenSchermRechts.Save_Click(new object(), new System.Windows.RoutedEventArgs());
+					return true;
+				case (Keys.Control | Keys.H):
+					this.simwindow.BovenSchermRechts.Home_Click(new object(), new System.Windows.RoutedEventArgs());
+					return true;
+				case (Keys.Control | Keys.I):
+					this.simwindow.BovenSchermRechts.Info_Click(new object(), new System.Windows.RoutedEventArgs());
+					return true;
+			}
+			return base.ProcessCmdKey(ref msg, keyData);
+		}
     }
 }
