@@ -199,6 +199,7 @@ namespace TrafficSimulation
             labelTilesNumber.Content = totalTiles;
             listboxStrategie.SelectedIndex = strategie-1;
             labelGameSpeedNumber.Content = Math.Round(gameSpeed, 1); 
+            //kijken of het kan
         }
 
 
