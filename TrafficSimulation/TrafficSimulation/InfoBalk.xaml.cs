@@ -40,7 +40,7 @@ namespace TrafficSimulation
         private void GreenWaveDelete_Click(object sender, RoutedEventArgs e)
         {
             windowselect.simwindow.simcontrol.state = "greenWave";
-            windowselect.simwindow.simcontrol.RemoveGreenWave();
+            //windowselect.simwindow.simcontrol.RemoveGreenWave();
         }
 
         private void lane1_Close(object sender, EventArgs e)

@@ -109,9 +109,9 @@ namespace TrafficSimulation
             //Initialisatie van de array waarin alle tiles worden opgeslagen
             //tileList = new Tile[(this.Size.Height / 100) * (this.Size.Width / 100)];
             //Initialisatie van de array waarin alle geselecteerde tiles voor de groene golf in worden opgeslagen
-            greenWaveList = new Tile[(this.Size.Height / 100) * (this.Size.Width / 100)];
+            //greenWaveList = new Tile[(this.Size.Height / 100) * (this.Size.Width / 100)];
             //Initialisatie van de array waarin alle geselecteerde tiles voor de groene golf in worden opgeslagen
-            greenWaveRemoveList = new Tile[(this.Size.Height / 100) * (this.Size.Width / 100)];
+            //greenWaveRemoveList = new Tile[(this.Size.Height / 100) * (this.Size.Width / 100)];
             //Nog niet zeker of deze nodig is, nu nog ongebruikt
             vehicleList = new List<Vehicle>();
             //De simulatie zelf, hierin word ervoor gezorgd dat de simulatie daadwerkelijk loopt
@@ -152,7 +152,7 @@ namespace TrafficSimulation
             {
                 Tile selectTile = new SelectTile();
                 //Er wordt een blauw randje getekend om de geselecteerde tile
-                selectTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), simulationMap.GetPosition(new Point(this, mea.X, mea.Y)));
+                selectTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100));
                 selectTile.DrawImage();
                 //de huidige selectedTile wordt de oude selectedtile voor de volgende keer
                 oldselectedTile = simulationMap.GetTileMea(mea.X, mea.Y);
@@ -164,7 +164,7 @@ namespace TrafficSimulation
             else
             {
                 if (selectedTile != null)
-                    backgroundBC.AddObject(selectedTile.DrawImage(), selectedTile.position.X, selectedTile.position.Y);
+                    backgroundBC.AddObject(selectedTile.DrawImage(), selectedTile.position);
                 oldselectedTile = null;
                 selectedTile = null;
                 simwindow.BovenSchermRechts.ShowOrHideInfoBalk(false);
@@ -180,10 +180,10 @@ namespace TrafficSimulation
                 simwindow.BovenSchermRechts.ShowOrHideInfoBalk(false);
                 Bitmap tileImage;
                 Tile selectedTile = new removeTile();
-                //selectedTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), Methods.CalculateListPlace(this,mea.X, mea.Y));
+                //selectedTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100));
                 tileImage = selectedTile.DrawImage();
-                backgroundBC.AddObject(tileImage, mea.X / 100 * 100, mea.Y / 100 * 100);
-                trafficlightBC.AddObject(tileImage, mea.X / 100 * 100, mea.Y / 100 * 100);
+                backgroundBC.AddObject(tileImage, simulationMap.GetPosition(new Point(mea.X, mea.Y)));
+                trafficlightBC.AddObject(tileImage, simulationMap.GetPosition(new Point(mea.X, mea.Y)));
                 AmountOfTiles--;
                 if (simulationMap.GetTileMea(mea.X, mea.Y).name == "Crossroad" || simulationMap.GetTileMea(mea.X, mea.Y).name == "Fork")
                 {
@@ -199,7 +199,7 @@ namespace TrafficSimulation
         public void DrawTile(Point mea, Tile buildTile)
         {
             Bitmap tileImage;
-            if (Methods.TileConnectionisValid(this, Methods.CalculateListPlace(this, mea.X, mea.Y), buildTile))
+            if (Methods.TileConnectionisValid(this, buildTile))
             {
                 simwindow.BovenSchermRechts.ShowOrHideInfoBalk(false);
                 removeTile(mea);
@@ -207,10 +207,10 @@ namespace TrafficSimulation
                 AmountOfTiles++;
                 //tile wordt in de lijst van tiles gezet
                 simulationMap.AddTile(buildTile);
-                buildTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), Methods.CalculateListPlace(this, mea.X, mea.Y));
+                buildTile.SetValues(this, simulationMap.GetPosition(new Point(mea.X, mea.Y)));
                 tileImage = buildTile.DrawImage();
                 //Dit zorgt ervoor dat de kaart geupdate wordt met de nieuwe tile
-                backgroundBC.AddObject(tileImage, mea.X / 100 * 100, mea.Y / 100 * 100);
+                backgroundBC.AddObject(tileImage, simulationMap.GetPosition(new Point(mea.X, mea.Y)));
                 selectedTile = buildTile;
                 trafficlightBC.bitmap.MakeTransparent(Color.Green);
                 currentBuildTile = CopyCurrentTile(buildTile);//hier wordt een nieuwe buildTile gemaakt met dezelfde waardes als daarvoor omdat er dan opnieuw een tile ingeklikt kan worden.
@@ -229,123 +229,123 @@ namespace TrafficSimulation
 
 
         //methode om een groene golf te selecteren
-        private void DrawGreenWave(MouseEventArgs mea)
-        {
+        //private void DrawGreenWave(MouseEventArgs mea)
+        //{
 
-            Bitmap tileImage;
-            Tile selectedTile = new SelectGreenWaveTile();
+        //    Bitmap tileImage;
+        //    Tile selectedTile = new SelectGreenWaveTile();
 
-            //als er op een al geselecteerde groene golf tile wordt geklikt
-            if (greenWaveRemoveList[Methods.CalculateListPlace(this, mea.X, mea.Y)] != null)
-            {
-                if (countGreenWave > 0)
-                {
-                    //als de hiervoor aangeklikte groene golf tile is aangeklikt
-                    if (mea.X / 100 * 100 == greenWaveList[(countGreenWave - 1)].position.X && mea.Y / 100 * 100 == greenWaveList[(countGreenWave - 1)].position.Y)
-                    {
-                        oldGreenWaveTile = greenWaveList[countGreenWave - 2];
-                        //verwijder deze tile uit de removelist + andere groene golf list en teken de tile opnieuw
-                        greenWaveRemoveList[Methods.CalculateListPlace(this, mea.X, mea.Y)] = null;
-                        greenWaveList[(countGreenWave - 1)] = null;
-                        countGreenWave = countGreenWave - 1;
+        //    //als er op een al geselecteerde groene golf tile wordt geklikt
+        //    if (greenWaveRemoveList[Methods.CalculateListPlace(this, mea.X, mea.Y)] != null)
+        //    {
+        //        if (countGreenWave > 0)
+        //        {
+        //            //als de hiervoor aangeklikte groene golf tile is aangeklikt
+        //            if (mea.X / 100 * 100 == greenWaveList[(countGreenWave - 1)].position.X && mea.Y / 100 * 100 == greenWaveList[(countGreenWave - 1)].position.Y)
+        //            {
+        //                oldGreenWaveTile = greenWaveList[countGreenWave - 2];
+        //                //verwijder deze tile uit de removelist + andere groene golf list en teken de tile opnieuw
+        //                greenWaveRemoveList[Methods.CalculateListPlace(this, mea.X, mea.Y)] = null;
+        //                greenWaveList[(countGreenWave - 1)] = null;
+        //                countGreenWave = countGreenWave - 1;
 
-                        tileImage = simulationMap.GetTileMea(mea.X, mea.Y).DrawImage();
-                        backgroundBC.AddObject(tileImage, mea.X / 100 * 100, mea.Y / 100 * 100);
-                        backgroundPB.Invalidate();
-                    }
+        //                tileImage = simulationMap.GetTileMea(mea.X, mea.Y).DrawImage();
+        //                backgroundBC.AddObject(tileImage, mea.X / 100 * 100, mea.Y / 100 * 100);
+        //                backgroundPB.Invalidate();
+        //            }
 
-                    else
-                    {
-                        //pop-up scherm of info in het infoscherm: "U kunt alleen de laatst geselecteerde groene golf tegel verwijderen."
-                    }
-                }
-            }
+        //            else
+        //            {
+        //                //pop-up scherm of info in het infoscherm: "U kunt alleen de laatst geselecteerde groene golf tegel verwijderen."
+        //            }
+        //        }
+        //    }
 
-            //als er geklikt wordt op een tile die een groene golf mag hebben
-            else if (ValidSelect(selectedTile, mea.X, mea.Y) == true)
-            {
-                //tekenen selectielijn om de tile
-                selectedTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), Methods.CalculateListPlace(this, mea.X, mea.Y));
-                tileImage = selectedTile.DrawImage();
-                backgroundBC.AddObject(tileImage, mea.X / 100 * 100, mea.Y / 100 * 100);
+        //    //als er geklikt wordt op een tile die een groene golf mag hebben
+        //    else if (ValidSelect(selectedTile, mea.X, mea.Y) == true)
+        //    {
+        //        //tekenen selectielijn om de tile
+        //        selectedTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100), Methods.CalculateListPlace(this, mea.X, mea.Y));
+        //        tileImage = selectedTile.DrawImage();
+        //        backgroundBC.AddObject(tileImage, mea.X / 100 * 100, mea.Y / 100 * 100);
 
 
-                //de geselecteerde tile wordt toegevoegd aan de 2 groene golflijsten en de counter wordt opgehoogd
-                greenWaveRemoveList[Methods.CalculateListPlace(this, mea.X, mea.Y)] = simulationMap.GetTileMea(mea.X, mea.Y);
-                greenWaveList[countGreenWave] = simulationMap.GetTileMea(mea.X, mea.Y);
-                countGreenWave++;
+        //        //de geselecteerde tile wordt toegevoegd aan de 2 groene golflijsten en de counter wordt opgehoogd
+        //        greenWaveRemoveList[Methods.CalculateListPlace(this, mea.X, mea.Y)] = simulationMap.GetTileMea(mea.X, mea.Y);
+        //        greenWaveList[countGreenWave] = simulationMap.GetTileMea(mea.X, mea.Y);
+        //        countGreenWave++;
 
-                //de huidige selectedTile wordt de oude selectedtile voor de volgende keer
-                oldGreenWaveTile = simulationMap.GetTileMea(mea.X, mea.Y);
+        //        //de huidige selectedTile wordt de oude selectedtile voor de volgende keer
+        //        oldGreenWaveTile = simulationMap.GetTileMea(mea.X, mea.Y);
 
-                this.Invalidate();
-            }
+        //        this.Invalidate();
+        //    }
 
-            //als er op een tile wordt geklikt die niet mag en die nog geen groene golf tile is
+        //    //als er op een tile wordt geklikt die niet mag en die nog geen groene golf tile is
 
-            else if (ValidSelect(selectedTile, mea.X, mea.Y) == false && greenWaveRemoveList[Methods.CalculateListPlace(this, mea.X, mea.Y)] == null)
-            {
-                //in infoscherm zetten: "U kunt alleen aansluitende wegen of kruispunten selecteren. Kies een andere tegel."
-            }
-        }
+        //    else if (ValidSelect(selectedTile, mea.X, mea.Y) == false && greenWaveRemoveList[Methods.CalculateListPlace(this, mea.X, mea.Y)] == null)
+        //    {
+        //        //in infoscherm zetten: "U kunt alleen aansluitende wegen of kruispunten selecteren. Kies een andere tegel."
+        //    }
+        //}
 
-        //methode om de groene golf te verwijderen
-        public void RemoveGreenWave()
-        {
-            Bitmap tileImageGreen;
-            //als er een groene golf is, dan worden alle groene golf tiles overgetekend
-            for (int i = 0; i < greenWaveRemoveList.Length; i++)
-            {
-                if (greenWaveRemoveList[i] != null)
-                {
-                    tileImageGreen = tileList[i].DrawImage();
-                    backgroundBC.AddObject(tileImageGreen, tileList[i].position.X, tileList[i].position.Y);
-                    this.Invalidate();
-                }
-            }
+        ////methode om de groene golf te verwijderen
+        //public void RemoveGreenWave()
+        //{
+        //    Bitmap tileImageGreen;
+        //    //als er een groene golf is, dan worden alle groene golf tiles overgetekend
+        //    for (int i = 0; i < greenWaveRemoveList.Length; i++)
+        //    {
+        //        if (greenWaveRemoveList[i] != null)
+        //        {
+        //            tileImageGreen = tileList[i].DrawImage();
+        //            backgroundBC.AddObject(tileImageGreen, tileList[i].position.X, tileList[i].position.Y);
+        //            this.Invalidate();
+        //        }
+        //    }
 
-            //counter en de lijst worden weer leeggemaakt
-            countGreenWave = 0;
-            oldGreenWaveTile = null;
-            for (int t = 0; t < greenWaveList.Length; t++)
-            {
-                greenWaveList[t] = null;
-            }
-            for (int s = 0; s < greenWaveRemoveList.Length; s++)
-            {
-                greenWaveRemoveList[s] = null;
-            }
-        }
+        //    //counter en de lijst worden weer leeggemaakt
+        //    countGreenWave = 0;
+        //    oldGreenWaveTile = null;
+        //    for (int t = 0; t < greenWaveList.Length; t++)
+        //    {
+        //        greenWaveList[t] = null;
+        //    }
+        //    for (int s = 0; s < greenWaveRemoveList.Length; s++)
+        //    {
+        //        greenWaveRemoveList[s] = null;
+        //    }
+        //}
 
-        //kijk of de geklikte tile wel een groene golf mag zijn
-        private bool ValidSelect(Tile selectedTile, int x, int y)
-        {
-            //als uit de 4 specifieke ValidSelects true komt, dan is de tile true, anders false
-            if (ValidSelectnoGreenWave(x, y) == true && ValidSelecthasRoad(x, y) == true && ValidSelectnexttoOldGreenWave(x, y) == true
-                && ValidSelectendsinRoad(x, y) == true)
-            {
-                return true;
-            }
+        ////kijk of de geklikte tile wel een groene golf mag zijn
+        //private bool ValidSelect(Tile selectedTile, int x, int y)
+        //{
+        //    //als uit de 4 specifieke ValidSelects true komt, dan is de tile true, anders false
+        //    if (ValidSelectnoGreenWave(x, y) == true && ValidSelecthasRoad(x, y) == true && ValidSelectnexttoOldGreenWave(x, y) == true
+        //        && ValidSelectendsinRoad(x, y) == true)
+        //    {
+        //        return true;
+        //    }
 
-            else
-            {
-                return false;
-            }
-        }
+        //    else
+        //    {
+        //        return false;
+        //    }
+        //}
 
-        //checken of de tile niet al een groene golf tile is. True als het geen groene golf tile is
-        private bool ValidSelectnoGreenWave(int x, int y)
-        {
+        ////checken of de tile niet al een groene golf tile is. True als het geen groene golf tile is
+        //private bool ValidSelectnoGreenWave(int x, int y)
+        //{
 
-            if (greenWaveRemoveList[Methods.CalculateListPlace(this, x, y)] == null)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
+        //    if (greenWaveRemoveList[Methods.CalculateListPlace(this, x, y)] == null)
+        //    {
+        //        return true;
+        //    }
+        //    else
+        //    {
+        //        return false;
+        //    }
+        //}
 
         //checken of de tile naast de eerder geselecteerde groene golf tile ligt. True als dat zo is
         private bool ValidSelectnexttoOldGreenWave(int x, int y)

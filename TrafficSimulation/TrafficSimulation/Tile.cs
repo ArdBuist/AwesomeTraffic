@@ -36,8 +36,6 @@ namespace TrafficSimulation
         protected int lanesLowToHigh;
         //number of lanes from the highest direction to the lowest direction
         protected int lanesHighToLow;
-        //place the tile is on the TileList in SimControl
-        public int listPlace;
 
         protected int numberOfVehicles;
         //
@@ -311,11 +309,10 @@ namespace TrafficSimulation
         //returnt de tile die aan één van de vier zijkanten van de tile ligt.
         
         //verwerkt de waarden die verkregen worden als de tile op de kaart wordt geplaatst.
-        public virtual void SetValues(SimControl s, Point position, int listPlace)
+        public virtual void SetValues(SimControl s, Point position)
         {
             this.position.X = (position.X / 100) * 100;
             this.position.Y = (position.Y / 100) * 100;
-            this.listPlace = listPlace;
             this.UpdateFromOtherTile(s, 0);
         }
 
@@ -621,9 +618,9 @@ namespace TrafficSimulation
             return image;
         }
 
-        public override void SetValues(SimControl s, Point position, int listPlace)
+        public override void SetValues(SimControl s, Point position)
         {
-            base.SetValues(s, position, listPlace);
+            base.SetValues(s, position);
 
             control.ChangeValues(position);
         }
@@ -679,9 +676,9 @@ namespace TrafficSimulation
             return image;
         }
 
-        public override void SetValues(SimControl s, Point position, int listPlace)
+        public override void SetValues(SimControl s, Point position)
         {
-            base.SetValues(s, position, listPlace);
+            base.SetValues(s, position);
             control.ChangeValues(position);
         }
     }
@@ -763,7 +760,7 @@ namespace TrafficSimulation
         public override void UpdateLanes(SimControl s, int direction, int lanesIn, int lanesOut)
         {
         }
-        public override void SetValues(SimControl s, Point position, int listPlace)
+        public override void SetValues(SimControl s, Point position)
         {
         }
     }
@@ -806,7 +803,7 @@ namespace TrafficSimulation
         public override void UpdateLanes(SimControl s, int direction, int lanesIn, int lanesOut)
         {
         }
-        public override void SetValues(SimControl s, Point position, int listPlace)
+        public override void SetValues(SimControl s, Point position)
         {
         }
     }
