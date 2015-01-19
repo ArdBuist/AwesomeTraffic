@@ -112,7 +112,7 @@ namespace TrafficSimulation
 
         public Tile GetTileBelow(Point position)
         {
-            if (ToGrid(position).Y < Map.GetLength(0) - 1)
+            if (ToGrid(position).Y < Map.GetLength(1) - 1)
             {
                 return map[ToGrid(position).X, ToGrid(position).Y + 1];
             }

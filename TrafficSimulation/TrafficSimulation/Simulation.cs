@@ -172,14 +172,13 @@ namespace TrafficSimulation
                     v.Speed = 0;
                     waitingCars++;
                 }
-
             }
             else
             {
                 if (t.Access[v.Direction - 1, v.Lane])//if the next tile is accessible
                 {
                     //remove vehicle from old tile and add vehicle to new tile
-                    Tile nextTile = simControl.simulationMap.GetSurroundingTiles(t.position)[v.Direction-1];
+                    Tile nextTile = simControl.simulationMap.GetSurroundingTilesSim(t.position)[v.Direction-1];
                     if (nextTile != null)
                     {
                         v.Speed = nextTile.maxSpeed;
