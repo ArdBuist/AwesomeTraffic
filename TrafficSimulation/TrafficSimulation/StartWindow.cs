@@ -21,7 +21,6 @@ namespace TrafficSimulation
 		AboutWindow about;
         InterfaceStart interfaceStart;
 		Tile[] tempTileList = new Tile[300];
-        int WidthStartScreen, HeightStartScreen;
 
         public StartWindow(Size size, WindowSelect sim)
         {
@@ -54,9 +53,7 @@ namespace TrafficSimulation
             windowselect.New();
         }
 
-		/// <summary>
-		/// When the button "Open" is clicked, this method will start.
-		/// </summary>
+		// When the button "Open" is clicked, this method will start.
 		public void Open_Click()
 		{
 			Stream myStream = null;
@@ -187,6 +184,7 @@ namespace TrafficSimulation
 			// Niewe form met info over 't programma
 			about = new AboutWindow();
 			about.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            //about.Size = new Size(1000, 1000);
 
 			// Sluit form als dit niet de active form is
 			about.Deactivate += About_LostFocus;
