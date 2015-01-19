@@ -117,7 +117,7 @@ namespace TrafficSimulation
                 {
                     if (d != ForkNotDirection)
                     {
-                        Tile nextTile = Methods.GetOtherTile(simcontrol, this, d);
+                        Tile nextTile = simcontrol.simulationMap.GetSurroundingTiles(this.position)[d - 1];
                         if (nextTile != null && nextTile.doesConnect(d)) 
                         {
                             this.UpdateLanes(simcontrol, d, nextTile.GetLanesOut((d + 1) % 4 + 1), nextTile.GetLanesIn((d + 1) % 4 + 1));
@@ -129,7 +129,7 @@ namespace TrafficSimulation
                                     CounterDirection = endDirection;
                                 else
                                     CounterDirection = startDirection;
-                                Tile otherTile = Methods.GetOtherTile(simcontrol, this, CounterDirection);
+                                Tile otherTile = simcontrol.simulationMap.GetSurroundingTiles(this.position)[CounterDirection - 1];
                                 if (otherTile != null)
                                 {
                                     if (this.GetLanesOut(d) != otherTile.GetLanesIn(CounterDirection) && otherTile.GetLanesOut(CounterDirection) != this.GetLanesIn(d))
@@ -147,7 +147,7 @@ namespace TrafficSimulation
                                 {
                                     ForkNotDirection = (d + 1) % 4 + 1;
                                     forkTile.UpdateLanes(simcontrol, ForkNotDirection, this.GetLanesOut(d), this.GetLanesIn(d));
-                                    Tile otherTile = Methods.GetOtherTile(simcontrol, this, (ForkNotDirection));
+                                    Tile otherTile = simcontrol.simulationMap.GetSurroundingTiles(this.position)[ForkNotDirection - 1];
                                     if (otherTile != null)
                                     {
                                         otherTile.UpdateLanes(simcontrol, d, this.GetLanesIn(d), this.GetLanesOut(d));
@@ -161,7 +161,7 @@ namespace TrafficSimulation
                     }
                 }
             }
-            simcontrol.backgroundBC.AddObject(this.DrawImage(), this.position.X, this.position.Y);
+            simcontrol.backgroundBC.AddObject(this.DrawImage(), this.position);
         }
 
         public void UpdateOtherTiles(SimControl simcontrol, int NotDirection)
@@ -175,7 +175,7 @@ namespace TrafficSimulation
                         if (d != NotDirection)
                         {
                             int CounterDirection = (d + 1) % 4 + 1;
-                            Tile nextTile = Methods.GetOtherTile(simcontrol, this, d);
+                            Tile nextTile = simcontrol.simulationMap.GetSurroundingTiles(this.position)[d - 1];
                             if (nextTile != null)
                             {
                                 if (this.GetLanesOut(d) != nextTile.GetLanesIn(CounterDirection) && nextTile.GetLanesOut(CounterDirection) != this.GetLanesIn(d))
@@ -194,7 +194,7 @@ namespace TrafficSimulation
                     {
                         int ForkNotDirection = (NotDirection + 1) % 4 + 1;
                         forkTile.UpdateLanes(simcontrol, ForkNotDirection, this.GetLanesOut(NotDirection), this.GetLanesIn(NotDirection));
-                        Tile otherTile = Methods.GetOtherTile(simcontrol, this, (ForkNotDirection));
+                        Tile otherTile = simcontrol.simulationMap.GetSurroundingTiles(this.position)[ForkNotDirection - 1];
                         if (otherTile != null)
                         {
                             otherTile.UpdateLanes(simcontrol, NotDirection, this.GetLanesIn(NotDirection), this.GetLanesOut(NotDirection));
@@ -204,7 +204,7 @@ namespace TrafficSimulation
                     }
                 }
             }
-            simcontrol.backgroundBC.AddObject(this.DrawImage(), this.position.X, this.position.Y);
+            simcontrol.backgroundBC.AddObject(this.DrawImage(), this.position);
         }
         //wordt gebruikt als de tile geplaatst wordt, of een aanliggende tile veranderd wordt.
         //public void UpdateFromOtherTile(SimControl s, int direction)
@@ -338,7 +338,7 @@ namespace TrafficSimulation
             //looks if there is space for other cars to come on the tile
                 if (laneVehicles.Count < 5 && this.name != "Spawner"&&this.name!="Crossroad" && this.name!="Fork")
                 {
-                    Tile lastTile = Methods.GetOtherTile(sim,this, (Side + 1) % 4 + 1);
+                    Tile lastTile = sim.simulationMap.GetSurroundingTiles(this.position)[(Side + 1) % 4];
                     lastTile.Access[Side - 1, lane] = true;
                 }
         }
@@ -352,7 +352,7 @@ namespace TrafficSimulation
             //looks if the tile is full
             if (laneVehicles.Count > 5 && this.name != "Spawner"&&this.name!="Crossroad" && this.name!="Fork")
             {
-                Tile lastTile = Methods.GetOtherTile(sim,this, (Side + 1) % 4 + 1);
+                Tile lastTile = sim.simulationMap.GetSurroundingTiles(this.position)[(Side + 1) % 4];
                 lastTile.Access[Side - 1, lane] = false;
             }
         }

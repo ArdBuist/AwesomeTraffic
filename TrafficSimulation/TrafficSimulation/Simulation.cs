@@ -113,8 +113,8 @@ namespace TrafficSimulation
             //de vehiclemap wordt weer helemaal leeg gemaakt zodat de auto's maar 1 keer getekend worden
             Graphics g = Graphics.FromImage((Image)simControl.vehicleBC.bitmap);
             g.Clear(Color.Transparent);
-            Tile[] tiles = simControl.tileList;
-            Array.Copy(simControl.tileList, tiles, simControl.tileList.Count());
+            Tile[] tiles = simControl.simulationMap.GetMap().ToArray();
+            Array.Copy(simControl.simulationMap.GetMap().ToArray(), tiles, simControl.simulationMap.GetMap().Count());
             //alle auto's updaten en weer tekenen
             foreach (Tile t in tiles)
             {
@@ -131,7 +131,7 @@ namespace TrafficSimulation
                         foreach (Vehicle v in list)
                         {
                             UpdateVehicle(t, v);
-                            simControl.vehicleBC.AddObject(v.Bitmap, v.position.X, v.position.Y);
+                            simControl.vehicleBC.AddObject(v.Bitmap, v.position);
                         }
                     }
                 }
@@ -160,7 +160,7 @@ namespace TrafficSimulation
             //if vehicle has to dissapear ----- moet worden vervangen door zwart vlak over de spawner-----
             if (VehicleIsOnEndSpawner(v, t))
             {
-                simControl.tileList[t.listPlace].RemoveVehicle(simControl, v, v.Direction, v.Lane);
+                simControl.simulationMap.GetTileMea(t.position.X,t.position.Y).RemoveVehicle(simControl, v, v.Direction, v.Lane);
                 simControl.totalCars--;
             }
             if (StaysOnTile(t, v))//if vehicle is still on the tile 
@@ -179,7 +179,7 @@ namespace TrafficSimulation
                 if (t.Access[v.Direction - 1, v.Lane])//if the next tile is accessible
                 {
                     //remove vehicle from old tile and add vehicle to new tile
-                    Tile nextTile = Methods.GetOtherTile(simControl, simControl.tileList[t.listPlace], v.Direction);
+                    Tile nextTile = simControl.simulationMap.GetSurroundingTiles(t.position)[v.Direction-1];
                     if (nextTile != null)
                     {
                         v.Speed = nextTile.maxSpeed;
@@ -187,7 +187,7 @@ namespace TrafficSimulation
                         simControl.totalCars++;
                         v.Update();
                     }
-                    simControl.tileList[t.listPlace].RemoveVehicle(simControl, v, v.Direction, v.Lane);
+                    simControl.simulationMap.GetTileMea(t.position.X, t.position.Y).RemoveVehicle(simControl, v, v.Direction, v.Lane);
                     simControl.totalCars--;
                 }
                 else
@@ -208,7 +208,7 @@ namespace TrafficSimulation
         private bool DistanceFromCars(Tile t, Vehicle v)
         {
             int distance = 0;//distance between the end of the tile and the last car standing still.
-            List<List<Vehicle>> vehicleList = simControl.tileList[t.listPlace].vehicles[v.Direction - 1];
+            List<List<Vehicle>> vehicleList = simControl.simulationMap.GetTileMea(t.position.X,t.position.Y).vehicles[v.Direction - 1];
             distance = vehicleList[v.Lane].IndexOf(v) * 16;
             return CorrectDistance(t, v, distance);
         }

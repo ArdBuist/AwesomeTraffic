@@ -9,13 +9,15 @@ namespace TrafficSimulation
     public class SimulationMap
     {
         public Tile[,] map;
-        
+
+        private SimControl simControl;
         private int smallX, smallY;
         private int largeX, largeY;
         private List<Tile> tileList;
 
-        public SimulationMap()
+        public SimulationMap(SimControl simControl)
         {
+            this.simControl = simControl;
             tileList = new List<Tile>();
         }
 
@@ -112,8 +114,6 @@ namespace TrafficSimulation
         {
             if (ToGrid(position).Y < Map.GetLength(0) - 1)
             {
-                int x = ToGrid(position).X;
-                int y = ToGrid(position).Y;
                 return map[ToGrid(position).X, ToGrid(position).Y + 1];
             }
             else
@@ -136,7 +136,7 @@ namespace TrafficSimulation
 
         public Tile GetTileRight(Point position)
         {
-            if (ToGrid(position).X < Map.GetLength(0) - 1)
+            if (ToGrid(position).X < Map.GetLength(0) - 2)
             {
                 int x = ToGrid(position).X;
                 int y = ToGrid(position).Y;
@@ -149,9 +149,43 @@ namespace TrafficSimulation
             }
         }
 
+        public Tile[] GetSurroundingTilesSim(Point pos)
+        {
+            //createMap has to have been called
+            Tile[] tileArray = { GetTileAbove(pos), GetTileRight(pos), GetTileBelow(pos), GetTileLeft(pos) };
+            return tileArray;
+        }
+
         public Tile[] GetSurroundingTiles(Point pos)
         {
-            Tile[] tileArray = { GetTileAbove(pos), GetTileRight(pos), GetTileBelow(pos), GetTileLeft(pos) };
+            Tile[] tileArray = new Tile[4];
+
+            foreach (Tile t in tileList)
+            {
+                if (t.position.X == pos.X)
+                {
+                    if (t.position.Y == pos.Y - 100)
+                    {
+                        tileArray[0] = t;
+                    }
+                    else if (t.position.Y == pos.Y + 100)
+                    {
+                        tileArray[2] = t;
+                    }
+                }
+                if (t.position.Y == pos.Y)
+                {
+                    if (t.position.X == pos.X - 100)
+                    {
+                        tileArray[3] = t;
+                    }
+                    else if (t.position.X == pos.X + 100)
+                    {
+                        tileArray[1] = t;
+                    }
+                }
+            }
+
             return tileArray;
         }
 

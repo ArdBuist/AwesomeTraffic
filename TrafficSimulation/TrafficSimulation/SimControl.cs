@@ -78,9 +78,10 @@ namespace TrafficSimulation
         public bool Day;
         public bool InfoVisible;
 
-        public SimControl(Size size, SimWindow simulation)
+        public SimControl(Size size, SimWindow simwindow)
         {
-            simwindow = simulation;
+            this.simwindow = simwindow;
+            simulationMap = new SimulationMap(this);
             //methode in the partial class creating all the objects needed for the simulation
             this.Size = new Size(3500, 2000);//has to be changed to the windowsize
             /* 
@@ -119,8 +120,6 @@ namespace TrafficSimulation
 
             //tekenfunctie voor de tileList (tijdelijke functie)
             InitializeComponent();
-
-            simulationMap = new SimulationMap();
             //The simulation thread will be started here, the whole simulation will be regulated in this class.
             this.simulation = new Simulation(this);
         }

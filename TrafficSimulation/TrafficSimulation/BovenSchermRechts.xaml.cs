@@ -29,7 +29,7 @@ namespace TrafficSimulation
         Boolean day = false;
         int breedteScherm, breedteInfoBalk, hoogteBovenBalk;
 
-        public BovenSchermRechts(WindowSelect ws,  InfoBalk info, OnderScherm Onder, int bs, int bib, int hbb)
+        public BovenSchermRechts(WindowSelect ws, InfoBalk info, OnderScherm Onder, int bs, int bib, int hbb)
         {
             windowselect = ws;
             infoBalk = info;
@@ -40,14 +40,14 @@ namespace TrafficSimulation
             InitializeComponent();
         }
 
-		/// <summary>
-		/// Opens and closes the information thing.
-		/// It's by default hidden.
-		/// </summary>
+        /// <summary>
+        /// Opens and closes the information thing.
+        /// It's by default hidden.
+        /// </summary>
 
         public void Info_Click(object sender, RoutedEventArgs e)
         {
-            if(InfoVisible)
+            if (InfoVisible)
                 ShowOrHideInfoBalk(false);
             else
                 ShowOrHideInfoBalk(true);
@@ -62,7 +62,7 @@ namespace TrafficSimulation
                 windowselect.simwindow.infoHost.Location = new System.Drawing.Point(windowselect.simwindow.Size);
                 windowselect.simwindow.InfoBalk.HideCombobox();
                 InfoVisible = false;
-                
+
             }
             // Show info
             else
@@ -72,160 +72,153 @@ namespace TrafficSimulation
             }
         }
 
-		// Gets the user to the homescreen
-		private void Home_Click(object sender, RoutedEventArgs e)
+        // Gets the user to the homescreen
+        private void Home_Click(object sender, RoutedEventArgs e)
         {
             windowselect.Start();
 
-			if (windowselect.simwindow.simcontrol.simulation.simStarted == true)
-			{
-				windowselect.simwindow.simcontrol.simulation.thread.Abort();
-				windowselect.simwindow.simcontrol.simulation.simStarted = false;
-			}
+            if (windowselect.simwindow.simcontrol.simulation.simStarted == true)
+            {
+                windowselect.simwindow.simcontrol.simulation.thread.Abort();
+                windowselect.simwindow.simcontrol.simulation.simStarted = false;
+            }
         }
 
-		// Method for saving the map.
-		private void Save_Click(object sender, RoutedEventArgs e)
-		{
-			try
-			{
-				// New savedialog
-				System.Windows.Forms.SaveFileDialog saveDialog = new System.Windows.Forms.SaveFileDialog();
+        // Method for saving the map.
+        private void Save_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                // New savedialog
+                System.Windows.Forms.SaveFileDialog saveDialog = new System.Windows.Forms.SaveFileDialog();
 
-				// Custom filename
-				int number = 1;
-				string fileName = "Traffic" + number.ToString();
+                // Custom filename
+                int number = 1;
+                string fileName = "Traffic" + number.ToString();
 
-				
-				// Extension name (.trs => TRafficSimulation)
-				saveDialog.DefaultExt = ".trs";
-				saveDialog.FilterIndex = 1;
-				saveDialog.Filter = "Traffic Simulation Files (*.trs) | *.trs";
-				saveDialog.RestoreDirectory = true;
-				saveDialog.FileName = fileName;
 
-				// Set the ability to overwrite another file to true
-				saveDialog.OverwritePrompt = true;
+                // Extension name (.trs => TRafficSimulation)
+                saveDialog.DefaultExt = ".trs";
+                saveDialog.FilterIndex = 1;
+                saveDialog.Filter = "Traffic Simulation Files (*.trs) | *.trs";
+                saveDialog.RestoreDirectory = true;
+                saveDialog.FileName = fileName;
 
-				// Is the button "Save" pressed?
-				if (saveDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-				{
-					/// New file
-					StreamWriter file = new StreamWriter(@saveDialog.FileName);
+                // Set the ability to overwrite another file to true
+                saveDialog.OverwritePrompt = true;
 
-					/// File can be bigger than 1024
-					file.AutoFlush = true;
+                // Is the button "Save" pressed?
+                if (saveDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    /// New file
+                    StreamWriter file = new StreamWriter(@saveDialog.FileName);
 
-					/// Save some basic information
-					// Building tile:
-					// file.WriteLine();
-					// Information (not) visible
-					// file.WriteLine();
+                    /// File can be bigger than 1024
+                    file.AutoFlush = true;
 
-					/// Get every tile in the list
-					foreach (Tile tile in windowselect.simwindow.simcontrol.tileList)
-					{
-						/// If the tile has some value asigned to it						
-						if (tile != null)
-						{
-							string currenttile = tile.name;
+                    /// Save some basic information
+                    // Building tile:
+                    // file.WriteLine();
+                    // Information (not) visible
+                    // file.WriteLine();
 
-							/// You need different information from different tiles
-							/// So you need multiple cases, one for each tile
-							/// 
-							/// Basic information
-							///		 0: tile
-							///		 1: place in list
-							///		 2: x position
-							///		 3: y position
-							///	Specific information
-							///		 4: trafficlight strat
-							///		 5: Maxspeed for a tile
-							///		 6: begin direction (notDirection for Fork, direction for Spawner)
-							///		 7: end direction (Crossroad doesn't have any directions)
-							///		 8: laneshightolow (For crossroad and fork a number of 8 integers with the road numbers)
-							///		 9: laneslowtohigh, not for crossroad and fork.
-							///	Green Wave info
-							///		10: ?
-							///		11: ?
-							///		12: ?
+                    /// Get every tile in the list
+                    foreach (Tile tile in windowselect.simwindow.simcontrol.simulationMap.GetMap())
+                    {
+                        /// If the tile has some value asigned to it						
+                        string currenttile = tile.name;
 
-							switch (currenttile)
-							{
-								/// Save case for a fork
-								case "Fork":
-									file.WriteLine(
-										tile.name + "_" +				// 0 Welke tile
-										tile.listPlace + "_" +		// 1 Plaats in de lijst
-										tile.position.X + "_" +		// 2 X positie
-										tile.position.Y + "_" +		// 3 Y positie
-										" " /*tile.strat*/ + "_" + 	// 4 strat
-										tile.maxSpeed + "_" +		// 5 Maxspeed
-										tile.notDirection);			// 6 De not direction
-									break;
+                        /// You need different information from different tiles
+                        /// So you need multiple cases, one for each tile
+                        /// 
+                        /// Basic information
+                        ///		 0: tile
+                        ///		 1: place in list
+                        ///		 2: x position
+                        ///		 3: y position
+                        ///	Specific information
+                        ///		 4: trafficlight strat
+                        ///		 5: Maxspeed for a tile
+                        ///		 6: begin direction (notDirection for Fork, direction for Spawner)
+                        ///		 7: end direction (Crossroad doesn't have any directions)
+                        ///		 8: laneshightolow (For crossroad and fork a number of 8 integers with the road numbers)
+                        ///		 9: laneslowtohigh, not for crossroad and fork.
+                        ///	Green Wave info
+                        ///		10: ?
+                        ///		11: ?
+                        ///		12: ?
 
-								// Save case for a crossroad
-								case "Crossroad":
-									file.WriteLine(
-										tile + "_" +				// 0 Welke tile
-										tile.listPlace + "_" +		// 1 Plaats in de lijst
-										tile.position.X + "_" +		// 2 X positie
-										tile.position.Y + "_" +		// 3 Y positie
-										" " /*tile.strat*/ + "_" + 	// 4 strat
-										tile.maxSpeed);				// 5 Maxspeed
-									break;
+                        switch (currenttile)
+                        {
+                            /// Save case for a fork
+                            case "Fork":
+                                file.WriteLine(
+                                    tile.name + "_" +		    // 0 Welke tile
+                                    tile.position.X + "_" +		// 1 X positie
+                                    tile.position.Y + "_" +		// 2 Y positie
+                                    " " /*tile.strat*/ + "_" + 	// 3 strat
+                                    tile.maxSpeed + "_" +		// 4 Maxspeed
+                                    tile.notDirection);			// 5 De not direction
+                                break;
 
-								// Save case for a road (that is a straight road or a curved road)
-								case "Road":
-									file.WriteLine(
-										tile + "_" +				// 0 Welke tile
-										tile.listPlace + "_" +		// 1 Plaats in de lijst
-										tile.position.X + "_" +		// 2 X positie
-										tile.position.Y + "_" +		// 3 Y positie
-										" " + "_" +					// 4 Empty
-										tile.maxSpeed + "_"	+		// 5 Maxpeed
-										tile.startDirection + "_" +	// 6 Begin richting
-										tile.endDirection + "_" +	// 7 Eind richting
-										tile.LanesHighToLow + "_" + // 8 Wegen hoog, laag
-										tile.LanesLowToHigh);		// 9 Wegen laag, hoog
-									break;
+                            // Save case for a crossroad
+                            case "Crossroad":
+                                file.WriteLine(
+                                    tile + "_" +				// 0 Welke tile
+                                    tile.position.X + "_" +		// 1 X positie
+                                    tile.position.Y + "_" +		// 2 Y positie
+                                    " " /*tile.strat*/ + "_" + 	// 3 strat
+                                    tile.maxSpeed);				// 4 Maxspeed
+                                break;
 
-								// Save case for a spawner
-								case "Spawner":
-									file.WriteLine(
-										tile + "_" +							// 0 Welke tile
-										tile.listPlace + "_" +					// 1 Plaats in de lijst
-										tile.position.X + "_" +					// 2 X positie
-										tile.position.Y + "_" +					// 3 Y positie
-										" " + "_" +								// 4 Empty
-										tile.maxSpeed + "_" +					// 5 Maxspeed
-										tile.direction + "_" +					// 6 Richting
-										" " + "_" +								// 7 Empty
-										tile.GetLanesIn(tile.direction) + "_" +	// 8 LanesHighToLow
-										tile.GetLanesOut(tile.direction));		// 9 LanesLowToHigh
-									break;
+                            // Save case for a road (that is a straight road or a curved road)
+                            case "Road":
+                                file.WriteLine(
+                                    tile + "_" +				// 0 Welke tile
+                                    tile.position.X + "_" +		// 1 X positie
+                                    tile.position.Y + "_" +		// 2 Y positie
+                                    " " + "_" +					// 3 Empty
+                                    tile.maxSpeed + "_" +		// 4 Maxpeed
+                                    tile.startDirection + "_" +	// 5 Begin richting
+                                    tile.endDirection + "_" +	// 6 Eind richting
+                                    tile.LanesHighToLow + "_" + // 7 Wegen hoog, laag
+                                    tile.LanesLowToHigh);		// 8 Wegen laag, hoog
+                                break;
 
-								// TODO: Save options for extra info, traffic lights strat and other things
-							}
-						}
-					}
-				}
-			}
-			/// Throw an exception
-			catch (Exception exp)
-			{
-				MessageBox.Show("Error: Could not write file to disk. Original error:" + exp);
+                            // Save case for a spawner
+                            case "Spawner":
+                                file.WriteLine(
+                                    tile + "_" +							// 0 Welke tile
+                                    tile.position.X + "_" +					// 1 X positie
+                                    tile.position.Y + "_" +					// 2 Y positie
+                                    " " + "_" +								// 3 Empty
+                                    tile.maxSpeed + "_" +					// 4 Maxspeed
+                                    tile.direction + "_" +					// 5 Richting
+                                    " " + "_" +								// 6 Empty
+                                    tile.GetLanesIn(tile.direction) + "_" +	// 7 LanesHighToLow
+                                    tile.GetLanesOut(tile.direction));		// 8 LanesLowToHigh
+                                break;
 
-				// TODO: Make a better screen. This isn't very useful to many users...
-			}
-		}	
-        
+                            // TODO: Save options for extra info, traffic lights strat and other things
+                        }
+                    }
+                }
+            }
+            /// Throw an exception
+            catch (Exception exp)
+            {
+                MessageBox.Show("Error: Could not write file to disk. Original error:" + exp);
+
+                // TODO: Make a better screen. This isn't very useful to many users...
+            }
+        }
+
         private void Help_Click(object sender, RoutedEventArgs e)
         {
 
         }
 
-       
+
         // Method for day and night.
         /*
         private void DayNight_Click(object sender, RoutedEventArgs e)

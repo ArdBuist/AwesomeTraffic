@@ -10,12 +10,14 @@ namespace TrafficSimulation
     {
         public static bool CheckValidConnections(SimControl s)
         {
+            s.simulationMap.CreateMap();
             foreach (Tile t in s.simulationMap.GetMap())
             {
                 foreach (int direction in t.Directions)
                 {
                     if (s.simulationMap.GetSurroundingTiles(t.position)[direction - 1] == null)
                     {
+                        Tile[] tile = s.simulationMap.GetSurroundingTiles(t.position);
                         return false;
                     }
                 }
