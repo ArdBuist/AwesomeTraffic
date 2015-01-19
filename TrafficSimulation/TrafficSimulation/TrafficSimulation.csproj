@@ -86,6 +86,12 @@
       <DependentUpon>InterfaceStart.xaml</DependentUpon>
     </Compile>
     <Compile Include="LaneTrafficlight.cs" />
+	<Compile Include="LoadWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Loadwindow.Designer.cs">
+      <DependentUpon>LoadWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="OnderScherm.xaml.cs">
       <DependentUpon>OnderScherm.xaml</DependentUpon>
     </Compile>

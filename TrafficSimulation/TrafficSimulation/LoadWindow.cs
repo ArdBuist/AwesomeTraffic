@@ -15,6 +15,10 @@ namespace TrafficSimulation
 		public LoadWindow()
 		{
 			InitializeComponent();
+
+			progressBar1.Step = 1;
+			progressBar1.Value = 0;
+			progressBar1.Visible = true;
 		}
 	}
 }
