@@ -70,7 +70,7 @@ namespace TrafficSimulation
         //counter for cars for in infobalk
         public int totalCars;
 
-	bool drawStart = true;
+	bool drawStart = false;
 
         public Boolean Simulatie;
         public bool Day;
@@ -80,7 +80,7 @@ namespace TrafficSimulation
         {
             simwindow = simulation;
             //methode in the partial class creating all the objects needed for the simulation
-            this.Size = new Size(3500, 2000);//has to be changed to the windowsize
+            this.Size = new Size(2000, 1500);//has to be changed to the windowsize
             /* 
              * De bitmapControls in which the simulation takes place, all the bitmapcontrols have a bitmap with
              * which it interacts. Use the BitmapControl to change the bitmaps used for the simulation

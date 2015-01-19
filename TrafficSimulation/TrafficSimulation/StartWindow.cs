@@ -16,8 +16,8 @@ namespace TrafficSimulation
 {
     public partial class StartWindow : UserControl
     {
-        ElementHost StartHost;
-        WindowSelect windowselect;
+        public WindowSelect windowselect;
+		ElementHost StartHost;
 		AboutWindow about;
 		SimControl simcontrol;
         InterfaceStart StartScherm;
@@ -69,6 +69,11 @@ namespace TrafficSimulation
 			///Make new stream
 			Stream myStream1 = null;
 			Stream myStream2 = null;
+			Stream dummyStream = null;
+
+			int deleteLines;
+			int addLines = 0;
+			int totalLines;
 
 			/// New open dialog
 			OpenFileDialog openDialog = new OpenFileDialog();
@@ -81,41 +86,91 @@ namespace TrafficSimulation
 
 			if (openDialog.ShowDialog() == DialogResult.OK)
 			{
+				/// Change cursor to wait cursor
+				this.Cursor = Cursors.WaitCursor;
+
+				/// Make new loadwindow with the startposition in the middle
+				LoadWindow LoadWin = new LoadWindow();
+				LoadWin.StartPosition = FormStartPosition.CenterScreen;
+				LoadWin.FormBorderStyle = FormBorderStyle.FixedDialog;
+				LoadWin.ControlBox = false;
+
+				/// Try to open the file
 				try
 				{
-					/*
-					if (windowselect.simwindow.simcontrol.tileList != null)
+					if (openDialog.OpenFile() != null)
 					{
-						foreach (Tile tile in windowselect.simwindow.simcontrol.tileList)
+						/// Make 3 streams, 1 for the road and spawners, 2 for the forks and crossroads and the dummy for counting
+						myStream1 = openDialog.OpenFile();
+						myStream2 = openDialog.OpenFile();
+						dummyStream = openDialog.OpenFile();
+
+						/// Streamreaders for each stream
+						StreamReader dummyReader = new StreamReader(dummyStream);
+						StreamReader r1, r2;
+
+						/// Set the number of lines of code that has to be deleted and added
+						deleteLines = simcontrol.tileList.Length;
+						addLines = 0;
+
+						/// Count the numbers of lines in the file
+						string line;
+						while ((line = dummyReader.ReadLine()) != null)
 						{
+							addLines++;
+						}
+
+						/// Total amount of lines that has to be run through while loading
+						totalLines = addLines * 2 + deleteLines;
+
+						/// Set maximums of the progressbar
+						LoadWin.progressBar1.Maximum = totalLines;
+
+						/// Show the LoadWindow
+						LoadWin.Show();
+
+						/// Go by each tile in the tile list
+						foreach (Tile tile in simcontrol.tileList)
+						{
+							/// Add 1 to both progressbars
+							LoadWin.progressBar1.PerformStep();
+
+							/// Remove the tile (if it's not empty)
 							if (tile != null)
 							{
 								Bitmap tileImage;
 								Tile selectedTile = new removeTile();
+								selectedTile.SetValues(simcontrol, tile.position, tile.listPlace);
 								tileImage = selectedTile.DrawImage();
-								windowselect.simwindow.simcontrol.trafficlightBC.AddObject(tileImage, tile.position.X, tile.position.Y);
+								simcontrol.trafficlightBC.AddObject(tileImage, tile.position.X, tile.position.Y);
+								simcontrol.tileList[tile.listPlace] = null;
+								simcontrol.trafficlightBC.bitmap.MakeTransparent(Color.Green);
+								simcontrol.Invalidate();
 							}
+							
 						}
-					}
-					*/
 
-					if ((myStream1 = openDialog.OpenFile()) != null && (myStream2 = openDialog.OpenFile()) != null)
-					{
 						/// Add al the roads to the map
 						using (myStream1)
 						{
-							StreamReader r1 = new StreamReader(myStream1);
+							// Streamreader for stream 1
+							r1 = new StreamReader(myStream1);
 
-							#region Add roads to the map
+							// Set value of progressBar1 back to 0 and change maximum
+							LoadWin.progressBar1.Value = 0;
+							LoadWin.progressBar1.Maximum = (addLines * 2);
 
+							#region Add roads and spawners to the map
+
+							/// Read the file line for line
 							while (r1.Peek() >= 0)
 							{
-								String t = r1.ReadLine();
+								string t = r1.ReadLine();
 
-								// Char die de data splitst
+								// Char that splits the data
 								char[] splitChar = { '_' };
 
-								// Array van info over de tile
+								// Array of strings with info about tile
 								string[] information = t.Split(splitChar);
 
 								Bitmap tileImage;
@@ -129,109 +184,24 @@ namespace TrafficSimulation
 								/// So you need multiple cases, one for each tile
 								/// 
 								/// Basic information
-								///		 0: tile
-								///		 1: place in list
-								///		 2: x position
-								///		 3: y position
+								///		 0: Tile
+								///		 1: Place in list
+								///		 2: X position
+								///		 3: Y position
 								///	Specific information
-								///		 4: trafficlight strat
+								///		 4: Trafficlight strat
 								///		 5: Maxspeed for a tile
-								///		 6: begin direction (notDirection for Fork, direction for Spawner)
-								///		 7: end direction (Crossroad doesn't have any directions)
-								///		 8: laneshightolow (For crossroad and fork a number of 8 integers with the road numbers)
-								///		 9: laneslowtohigh, not for crossroad and fork.
-								///		10: number of 8 integers with the road numbers
-								///	Green Wave info
-								///		10: ?
-								///		11: ?
-								///		12: ?
+								///		 6: Begin direction (notDirection for Fork, direction for Spawner)
+								///		 7: End direction (only for Road)
+								///		 8: laneshightolow, not for Crossroad and Fork
+								///		 9: laneslowtohigh, not for Crossroad and Fork
+								///		10: Cars per second in spawner
 								
-								if(information[0] == "TrafficSimulation.Road")
-								{
-									/// Make new tile
-									currentBuildTile = new Road(Convert.ToInt32(information[6]), Convert.ToInt32(information[7]));
-
-									/// Get the location
-									roadX = Convert.ToInt32(information[2]) / 100;
-									roadY = Convert.ToInt32(information[3]) / 100;
-
-									/// Set some values
-									currentBuildTile.SetValues(simcontrol, new Point((roadX * 100), roadY * 100), Convert.ToInt32(information[1]));
-									currentBuildTile.LanesHighToLow = Convert.ToInt32(information[8]);
-									currentBuildTile.LanesLowToHigh = Convert.ToInt32(information[9]);
-									currentBuildTile.maxSpeed = Convert.ToInt32(information[5]);
-
-									/// Add to list
-									tempTileList[Convert.ToInt32(information[1])] = currentBuildTile;
-
-									/// Draw the tile
-									tileImage = currentBuildTile.DrawImage();
-									simcontrol.backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
-								}
-							}
-                            windowselect.simwindow.simcontrol.trafficlightBC.bitmap.MakeTransparent(Color.Green);
-							#endregion
-						}
-						
-						foreach (Tile tile in tempTileList)
-						{
-							if (tile != null)
-							{
-								windowselect.simwindow.simcontrol.tileList[tile.listPlace] = tempTileList[tile.listPlace];
-							}
-						}
-
-						/// Add the rest to the map
-						using (myStream2)
-						{
-							StreamReader r2 = new StreamReader(myStream2);
-
-							#region Add the rest to the map
-
-							while (r2.Peek() >= 0)
-							{
-								String t = r2.ReadLine();
-
-								// Char die de data splitst
-								char[] splitChar = { '_' };
-
-								// Array van info over de tile
-								string[] information = t.Split(splitChar);
-
-								Bitmap tileImage;
-								Tile currentBuildTile;
-								int roadX;
-								int roadY;
-
-								int tilesHorizontal = Size.Width / 100;
-
-								/// You need different information from different tiles
-								/// So you need multiple cases, one for each tile
-								/// 
-								/// Basic information
-								///		 0: tile
-								///		 1: place in list
-								///		 2: x position
-								///		 3: y position
-								///	Specific information
-								///		 4: trafficlight strat
-								///		 5: Maxspeed for a tile
-								///		 6: begin direction (notDirection for Fork, direction for Spawner)
-								///		 7: end direction (Crossroad doesn't have any directions)
-								///		 8: laneshightolow (For crossroad and fork a number of 8 integers with the road numbers)
-								///		 9: laneslowtohigh, not for crossroad and fork.
-								///		10: number of 8 integers with the road numbers
-								///	Green Wave info
-								///		10: ?
-								///		11: ?
-								///		12: ?
-
 								switch (information[0])
 								{
-									/// Load a fork into the list
-									case "TrafficSimulation.Fork":
+									case "Road":
 										/// Make new tile
-										currentBuildTile = new Fork(simcontrol, Convert.ToInt32(information[6]));
+										currentBuildTile = new Road(Convert.ToInt32(information[6]), Convert.ToInt32(information[7]));
 
 										/// Get the location
 										roadX = Convert.ToInt32(information[2]) / 100;
@@ -239,8 +209,9 @@ namespace TrafficSimulation
 
 										/// Set some values
 										currentBuildTile.SetValues(simcontrol, new Point((roadX * 100), roadY * 100), Convert.ToInt32(information[1]));
+										currentBuildTile.LanesHighToLow = Convert.ToInt32(information[8]);
+										currentBuildTile.LanesLowToHigh = Convert.ToInt32(information[9]);
 										currentBuildTile.maxSpeed = Convert.ToInt32(information[5]);
-										/*currentBuildTile.strat = Convert.ToInt32(information[4]);*/
 
 										/// Add to list
 										tempTileList[Convert.ToInt32(information[1])] = currentBuildTile;
@@ -249,33 +220,13 @@ namespace TrafficSimulation
 										tileImage = currentBuildTile.DrawImage();
 										simcontrol.backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
 
-										break;
-
-									/// Load a crossroad to the list
-									case "TrafficSimulation.Crossroad":
-										/// Make new tile
-										currentBuildTile = new Crossroad(simcontrol);
-
-										/// Get location
-										roadX = Convert.ToInt32(information[2]) / 100;
-										roadY = Convert.ToInt32(information[3]) / 100;
-
-										/// Set some values
-										currentBuildTile.SetValues(simcontrol, new Point((roadX * 100), roadY * 100), Convert.ToInt32(information[1]));
-										currentBuildTile.maxSpeed = Convert.ToInt32(information[5]);
-										//currentBuildTile.strat = Convert.ToInt32(information[4]);
-
-										/// Add to list
-										tempTileList[Convert.ToInt32(information[1])] = currentBuildTile;
-
-										/// Draw the tile
-										tileImage = currentBuildTile.DrawImage();
-										simcontrol.backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+										/// Add 1 to progressBar1/2
+										LoadWin.progressBar1.PerformStep();
 
 										break;
 
 									/// Load a spawner to the list
-									case "TrafficSimulation.Spawner":
+									case "Spawner":
 										/// Make new tile
 										currentBuildTile = new Spawner(Convert.ToInt32(information[6]));
 
@@ -294,33 +245,163 @@ namespace TrafficSimulation
 										/// Draw the tile
 										tileImage = currentBuildTile.DrawImage();
 										simcontrol.backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+										simcontrol.Invalidate();
 
+										/// Add 1 to progressBar1/2
+										LoadWin.progressBar1.PerformStep();
+
+										break;
+
+									default:
 										break;
 								}
 							}
 
+							/// Copy the tempTileList to tileList
+							foreach (Tile tile in tempTileList)
+							{
+								if (tile != null)
+								{
+									windowselect.simwindow.simcontrol.tileList[tile.listPlace] = tempTileList[tile.listPlace];
+								}
+							}
 							#endregion
 						}
 
-						foreach (Tile tile in tempTileList)
+						using (myStream2)
 						{
-							if (tile != null)
+							r2 = new StreamReader(myStream2);
+
+							#region Add the rest to the map
+						
+							/// Read the file line for line
+							while (r2.Peek() >= 0)
 							{
-								windowselect.simwindow.simcontrol.tileList[tile.listPlace] = tempTileList[tile.listPlace];
+								string t = r2.ReadLine();
+
+								// Char that splits the string
+								char[] splitChar = { '_' };
+
+								// Array of strings with info about tile
+								string[] information = t.Split(splitChar);
+
+								Bitmap tileImage;
+								Tile currentBuildTile;
+								int roadX;
+								int roadY;
+
+								int tilesHorizontal = Size.Width / 100;
+
+								/// You need different information from different tiles
+								/// So you need multiple cases, one for each tile
+								/// 
+								/// Basic information
+								///		 0: Tile
+								///		 1: Place in list
+								///		 2: X position
+								///		 3: Y position
+								///	Specific information
+								///		 4: Trafficlight strat
+								///		 5: Maxspeed for a tile
+								///		 6: Begin direction (notDirection for Fork, direction for Spawner)
+								///		 7: End direction (only for Road)
+								///		 8: laneshightolow, not for Crossroad and Fork
+								///		 9: laneslowtohigh, not for Crossroad and Fork
+								///		10: Cars per second in spawner
+
+								switch (information[0])
+								{
+									/// Load a fork into the list
+									case "Fork":
+										/// Make new tile
+										currentBuildTile = new Fork(simcontrol, Convert.ToInt32(information[6]));
+
+										/// Get the location
+										roadX = Convert.ToInt32(information[2]) / 100;
+										roadY = Convert.ToInt32(information[3]) / 100;
+
+										/// Set some values
+										currentBuildTile.SetValues(simcontrol, new Point((roadX * 100), roadY * 100), Convert.ToInt32(information[1]));
+										currentBuildTile.maxSpeed = Convert.ToInt32(information[5]);
+										/*currentBuildTile.strat = Convert.ToInt32(information[4]);*/
+
+										/// Add to list
+										tempTileList[Convert.ToInt32(information[1])] = currentBuildTile;
+
+										/// Draw the tile
+										tileImage = currentBuildTile.DrawImage();
+										simcontrol.backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+										simcontrol.Invalidate();
+
+										/// Add 1 to progressBar1/2
+										LoadWin.progressBar1.PerformStep();
+
+										break;
+
+									/// Load a crossroad to the list
+									case "Crossroad":
+										/// Make new tile
+										currentBuildTile = new Crossroad(simcontrol);
+
+										/// Get location
+										roadX = Convert.ToInt32(information[2]) / 100;
+										roadY = Convert.ToInt32(information[3]) / 100;
+
+										/// Set some values
+										currentBuildTile.SetValues(simcontrol, new Point((roadX * 100), roadY * 100), Convert.ToInt32(information[1]));
+										currentBuildTile.maxSpeed = Convert.ToInt32(information[5]);
+										//currentBuildTile.strat = Convert.ToInt32(information[4]);
+
+										/// Add to list
+										tempTileList[Convert.ToInt32(information[1])] = currentBuildTile;
+
+										/// Draw the tile
+										tileImage = currentBuildTile.DrawImage();
+										simcontrol.backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+										simcontrol.Invalidate();
+
+										/// Add 1 to progressBar1/2
+										LoadWin.progressBar1.PerformStep();
+
+										break;
+
+									default:
+										break;
+								}
 							}
+
+							/// Copy the tempTileList to tileList
+							foreach (Tile tile in tempTileList)
+							{
+								if (tile != null)
+								{
+									simcontrol.tileList[tile.listPlace] = tempTileList[tile.listPlace];
+								}
+							}
+							#endregion
 						}
 					}
 
-					windowselect.simwindow.simcontrol.currentBuildTile = new Road(1, 3);
-					windowselect.simwindow.simcontrol.state = "selected";
-					//windowselect.simwindow.simcontrol.tileList = tempTileList;
+					/// Set the current building tile to a straight road
+					simcontrol.currentBuildTile = new Road(1, 3);
+					///Set the state to selected
+					simcontrol.state = "selected";
 
+					LoadWin.Close();
+
+					/// Set cursor back to an arrow
+					this.Cursor = Cursors.Arrow;
+
+					/// New screen
 					windowselect.New();
 				}
 
-				// Throw exception when something is wrong
+				/// Throw exception when something is wrong
 				catch (Exception ex)
 				{
+					LoadWin.Close();
+					this.Cursor = Cursors.Arrow;
+
 					MessageBox.Show("Error: Could not read file from disk. Original error: " + ex.Message);
 				}
 			}
