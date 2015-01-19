@@ -124,8 +124,7 @@ namespace TrafficSimulation
 						totalLines = addLines * 2 + deleteLines;
 
 						/// Set maximums of the progressbar
-						LoadWin.progressBar1.Maximum = deleteLines;
-						LoadWin.progressBar2.Maximum = totalLines;
+						LoadWin.progressBar1.Maximum = totalLines;
 
 						/// Show the LoadWindow
 						LoadWin.Show();
@@ -135,7 +134,6 @@ namespace TrafficSimulation
 						{
 							/// Add 1 to both progressbars
 							LoadWin.progressBar1.PerformStep();
-							LoadWin.progressBar2.PerformStep();
 
 							/// Remove the tile (if it's not empty)
 							if (tile != null)
@@ -224,7 +222,6 @@ namespace TrafficSimulation
 
 										/// Add 1 to progressBar1/2
 										LoadWin.progressBar1.PerformStep();
-										LoadWin.progressBar2.PerformStep();
 
 										break;
 
@@ -252,7 +249,6 @@ namespace TrafficSimulation
 
 										/// Add 1 to progressBar1/2
 										LoadWin.progressBar1.PerformStep();
-										LoadWin.progressBar2.PerformStep();
 
 										break;
 
@@ -339,7 +335,6 @@ namespace TrafficSimulation
 
 										/// Add 1 to progressBar1/2
 										LoadWin.progressBar1.PerformStep();
-										LoadWin.progressBar2.PerformStep();
 
 										break;
 
@@ -367,7 +362,6 @@ namespace TrafficSimulation
 
 										/// Add 1 to progressBar1/2
 										LoadWin.progressBar1.PerformStep();
-										LoadWin.progressBar2.PerformStep();
 
 										break;
 

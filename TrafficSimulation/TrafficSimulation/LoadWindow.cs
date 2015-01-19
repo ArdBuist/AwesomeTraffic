@@ -19,10 +19,6 @@ namespace TrafficSimulation
 			progressBar1.Step = 1;
 			progressBar1.Value = 0;
 			progressBar1.Visible = true;
-
-			progressBar2.Step = 1;
-			progressBar2.Value = 0;
-			progressBar2.Visible = true;
 		}
 	}
 }

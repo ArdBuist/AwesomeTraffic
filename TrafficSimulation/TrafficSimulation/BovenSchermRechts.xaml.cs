@@ -45,7 +45,6 @@ namespace TrafficSimulation
 		/// Opens and closes the information thing.
 		/// It's by default hidden.
 		/// </summary>
-
         public void Info_Click(object sender, RoutedEventArgs e)
         {
             if(InfoVisible)
@@ -72,8 +71,10 @@ namespace TrafficSimulation
             }
         }
 
-		// Gets the user to the homescreen
-		private void Home_Click(object sender, RoutedEventArgs e)
+		/// <summary>
+		/// Go back to the homescreen.
+		/// </summary>
+		public void Home_Click(object sender, RoutedEventArgs e)
         {
             windowselect.Start();
 
@@ -84,33 +85,33 @@ namespace TrafficSimulation
 			}
         }
 
-		// Method for saving the map.
-		private void Save_Click(object sender, RoutedEventArgs e)
+		/// <summary>
+		/// Method for saving all the tiles
+		/// </summary>
+		public void Save_Click(object sender, RoutedEventArgs e)
 		{
 			try
 			{
 				// New savedialog
 				System.Windows.Forms.SaveFileDialog saveDialog = new System.Windows.Forms.SaveFileDialog();
 
-				// Custom filename
+				/// Custom filename
 				int number = 1;
 				string fileName = "Traffic" + number.ToString();
 
 				
-				// Extension name (.trs => TRafficSimulation)
-				saveDialog.DefaultExt = ".trs";
-				saveDialog.FilterIndex = 1;
-				saveDialog.Filter = "Traffic Simulation Files (*.trs) | *.trs";
-				saveDialog.RestoreDirectory = true;
-				saveDialog.FileName = fileName;
+				/// Set some information
+				saveDialog.DefaultExt = ".trs"; // Extension name
+				saveDialog.FilterIndex = 1;		// Fiter index in save form
+				saveDialog.Filter = "Traffic Simulation Files (*.trs) | *.trs";	// Filter for files
+				saveDialog.RestoreDirectory = true;	// Saves the directory you're in
+				saveDialog.FileName = fileName;		// Set filename
+				saveDialog.OverwritePrompt = true;	// Set the ability to overwrite another file to true
 
-				// Set the ability to overwrite another file to true
-				saveDialog.OverwritePrompt = true;
-
-				// Is the button "Save" pressed?
+				/// Is the button "Save" pressed?
 				if (saveDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
 				{
-					/// change cursor to wait cursor
+					/// Change cursor to wait cursor
 					this.Cursor = Cursors.Wait;
 
 					/// New file
@@ -127,51 +128,6 @@ namespace TrafficSimulation
 						{
 
 							string currenttile = tile.name;
-
-							/* Something with saving extra info, not ready yet
-							 * 
-							/// Save some basic information
-							// Building tile:
-							switch (windowselect.simwindow.simcontrol.currentBuildTile.name)
-							{
-								case "Road":
-									file.WriteLine(
-										windowselect.simwindow.simcontrol.currentBuildTile.name + "_" +	// Name
-										tile.startDirection + "_" +										// Begin direction
-										tile.endDirection + "_");										// End direction
-									break;
-
-								case "Spawner":
-									file.WriteLine(
-										windowselect.simwindow.simcontrol.currentBuildTile.name + "_" +	// Name
-										tile.direction													// Direction of tile
-										);
-									break;
-
-								case "Fork":
-									file.WriteLine(
-										windowselect.simwindow.simcontrol.currentBuildTile.name + "_" +	// Name
-										tile.notDirection												// The notDirction
-										);
-									break;
-
-								case "Crossroad":
-									file.WriteLine(
-										windowselect.simwindow.simcontrol.currentBuildTile.name			// Name
-										);
-									break;
-
-							}
-							// Information (not) visible
-							file.WriteLine();
-							// Something
-							file.WriteLine();
-							// Something
-							file.WriteLine();
-							// Something
-							file.WriteLine();
-
-							*/
 
 							// TODO: Extra save options
 
@@ -248,8 +204,6 @@ namespace TrafficSimulation
 										tile.GetLanesIn((tile.direction + 1) % 4 + 1) /* + "_ "	+	// 9 LanesLowToHigh
 										tile.carsPerSec*/);			
 									break;
-
-								// TODO: Save options for extra info (Such as..?), traffic lights strat (Maybe done..) and other things
 							}
 						}
 					}
@@ -275,37 +229,5 @@ namespace TrafficSimulation
         {
 
         }
-
-       
-        // Method for day and night.
-        /*
-        private void DayNight_Click(object sender, RoutedEventArgs e)
-        {
-            BitmapImage bm = new BitmapImage(new Uri("@Buttons/Day_Button.png", UriKind.RelativeOrAbsolute));
-            imageDay.Source = bm;
-            
-            if (day == true)
-            {
-                imageDay.Source = bm;
-                day = false;
-            }
-            else if (day == false)
-            {
-                imageDay.Source = bm;
-                day = true;
-            }
-            //if (windowselect.simwindow.Day == true)
-            //{
-            //    DayNight.Content = "Day";
-            //    s.Day = false;
-            //}
-            //else
-            //{
-            //    DayNight.Content = "Night";
-            //    s.Day = true;
-            //}
-        }
-         * */
-
     }
 }

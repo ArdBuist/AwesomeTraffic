@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace TrafficSimulation
@@ -79,7 +80,7 @@ namespace TrafficSimulation
             #region ClickEvents
             trafficlightPB.MouseDown += MouseDownEvent;
             trafficlightPB.MouseMove += MouseMoveEvent;
-            trafficlightPB.MouseUp += MouseClickUp;
+            trafficlightPB.MouseUp += MouseClickUp;			
         }
 
 		/// <summary>
@@ -164,7 +165,6 @@ namespace TrafficSimulation
             isMoved = false;
 
         }
-
         #endregion
     }
 }
