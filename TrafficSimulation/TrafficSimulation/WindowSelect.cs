@@ -14,61 +14,52 @@ namespace TrafficSimulation
     {
         StartWindow startwindow;
         public SimWindow simwindow;
+        public Size screensize;
 
         public WindowSelect()
         {
-            
+            int widthStartScreen, heightStartScreen;
+
             // Scherm maximaliseren
             this.WindowState = FormWindowState.Maximized;
 
             // Alle schermranden weghalen
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 
-            int WidthStartScreen;
-            int HeightStartScreen;
+            //Schermgroote bepalen
             using (Graphics graphics = this.CreateGraphics()) 
             {
-                WidthStartScreen = (Screen.PrimaryScreen.Bounds.Width * (int)graphics.DpiX) / 96;
-                HeightStartScreen = (Screen.PrimaryScreen.Bounds.Height * (int) graphics.DpiY) / 96;
+                widthStartScreen = Screen.PrimaryScreen.Bounds.Width;
+                heightStartScreen = Screen.PrimaryScreen.Bounds.Height ;
             }
-            
-            Size screensize = new Size(WidthStartScreen, HeightStartScreen);
+
+            screensize = new Size(widthStartScreen, heightStartScreen);
             simwindow = new SimWindow(screensize, this);
             Start();
-
         }
 
-		/// <summary>
-		/// Open the homescreen.
-		/// </summary>
+		// Open the homescreen.
         public void Start()
         {
             this.Controls.Remove(simwindow);
-            int widthstartscreen = Screen.PrimaryScreen.Bounds.Width, heightstartscreen = Screen.PrimaryScreen.Bounds.Height;
-            Size screensize = new Size(widthstartscreen, heightstartscreen);
-
-            /// Open homescreen
+            
+            // Open homescreen
             startwindow = new StartWindow(screensize, this);
             this.BackColor = Color.Black;
 
-            //startwindow.Left = ((widthstartscreen - 300) / 2);
-            //startwindow.Top = ((heightstartscreen - 300) / 2);
-
-			/// Add the control
+			// Add the control
             this.Controls.Add(startwindow);
         }
 
-		/// <summary>
-		/// Create a new field for the traffic simulation.
-		/// </summary>
+
+		// Create a new field for the traffic simulation.
         public void New()
         {
-            /// Verwijder start menu
+            // Verwijder start menu
             this.Controls.Remove(startwindow);
 
-            /// Open simwindow
+            // Open simwindow
             simwindow.BackColor = Color.Green;
-            //simwindow.Location = new Point(0, 0);
             this.Controls.Add(simwindow);
         }
         private void Close()

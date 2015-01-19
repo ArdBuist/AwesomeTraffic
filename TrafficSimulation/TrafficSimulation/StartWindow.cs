@@ -19,26 +19,26 @@ namespace TrafficSimulation
         ElementHost StartHost;
         WindowSelect windowselect;
 		AboutWindow about;
-        InterfaceStart StartScherm;
+        InterfaceStart interfaceStart;
 		Tile[] tempTileList = new Tile[300];
+        int WidthStartScreen, HeightStartScreen;
 
         public StartWindow(Size size, WindowSelect sim)
         {
             this.Size = size;
             windowselect = sim;
 
-            StartScherm = new InterfaceStart(this);
-			
+            interfaceStart = new InterfaceStart(this);
             StartHost = new ElementHost()
             {
-                Height = 1000,
-                Width = 1000,
-                Child = StartScherm
+                Height = size.Height,
+                Width = size.Width,
+                Location = new Point(0,0),
+                Child = interfaceStart,
             };
-			// Voeg de startknoppen toe
-            
+			// Voeg de startknoppen toe   
             this.Controls.Add(StartHost);
-            StartHost.Left = (this.Size.Width-StartHost.Size.Width) / 2;
+            //StartHost.Left = (this.Size.Width-StartHost.Size.Width) / 2;
         }
 
 		// Klik op "Nieuw"
