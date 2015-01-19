@@ -44,8 +44,10 @@ namespace TrafficSimulation
                         break;
                 }
             }
-            catch
-            { }
+            catch(Exception e)
+            {
+
+            }
             return tile;
         }
         public static bool TileConnectionisValid(SimControl simcontrol, int listplace,Tile currentBuildTile)
