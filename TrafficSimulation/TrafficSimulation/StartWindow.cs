@@ -169,7 +169,7 @@ namespace TrafficSimulation
 									simcontrol.backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
 								}
 							}
-
+                            windowselect.simwindow.simcontrol.trafficlightBC.bitmap.MakeTransparent(Color.Green);
 							#endregion
 						}
 						
