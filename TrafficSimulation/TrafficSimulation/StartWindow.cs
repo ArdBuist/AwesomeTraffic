@@ -21,19 +21,19 @@ namespace TrafficSimulation
 		AboutWindow about;
 		SimControl simcontrol;
         InterfaceStart StartScherm;
-		Tile[] tempTileList = new Tile[300];
+        Tile[] tempTileList = new Tile[300];
 
         public StartWindow(Size size, WindowSelect sim)
         {
             this.Size = size;
             windowselect = sim;
 
-			/// I use this, a lot..
-			simcontrol = windowselect.simwindow.simcontrol;
+            /// I use this, a lot..
+            simcontrol = windowselect.simwindow.simcontrol;
 
-			/// New start screen
+            /// New start screen
             StartScherm = new InterfaceStart(this);
-			
+
             StartHost = new ElementHost()
             {
                 Height = 1000,
@@ -41,21 +41,21 @@ namespace TrafficSimulation
                 Child = StartScherm
             };
 
-			/// Add startbuttons
+            /// Add startbuttons
             this.Controls.Add(StartHost);
-            StartHost.Left = (this.Size.Width-StartHost.Size.Width) / 2;
+            StartHost.Left = (this.Size.Width - StartHost.Size.Width) / 2;
         }
 
-		/// <summary>
-		/// Click New
-		/// </summary>
+        /// <summary>
+        /// Click New
+        /// </summary>
         public void New_Click()
-        {   
-			/// Set current build tile to a straight road
-			windowselect.simwindow.simcontrol.currentBuildTile = new Road(1, 3);
+        {
+            /// Set current build tile to a straight road
+            windowselect.simwindow.simcontrol.currentBuildTile = new Road(1, 3);
 
-			/// Set state to building mode
-			//windowselect.simwindow.simcontrol.state = "building";
+            /// Set state to building mode
+            //windowselect.simwindow.simcontrol.state = "building";
 
             /// Open simcontrol
             windowselect.New();
@@ -410,85 +410,86 @@ namespace TrafficSimulation
 		/// <summary>
 		/// Click on option...?
 		/// </summary>
+
         public void Option_Click()
         {
 
         }
 
-		/// <summary>
-		/// Click About
-		/// </summary> 
-		public void About_Click()
-		{
-			/// New form with info about the program
-			about = new AboutWindow();
-			about.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+        /// <summary>
+        /// Click About
+        /// </summary> 
+        public void About_Click()
+        {
+            /// New form with info about the program
+            about = new AboutWindow();
+            about.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 
-			/// Close form on deactivation
-			about.Deactivate += About_LostFocus;
+            /// Close form on deactivation
+            about.Deactivate += About_LostFocus;
 
-			/// Open form
-			about.Show();
-		}
+            /// Open form
+            about.Show();
+        }
 
-		/// <summary>
-		/// When AboutForm is not the main form anymore
-		/// </summary>
-		public void About_LostFocus(object sender, EventArgs e)
-		{
-			/// Close form
-			about.Close();
-		}
+        /// <summary>
+        /// When AboutForm is not the main form anymore
+        /// </summary>
+        public void About_LostFocus(object sender, EventArgs e)
+        {
+            /// Close form
+            about.Close();
+        }
 
-		/// <summary>
-		/// Click How-To
-		/// </summary>
-		public void HowTo_Click()
-		{
-			/// Adobe Acrobat is geïnstaleerd
-			try
-			{
-				/// Path of the file
-				string path = Path.Combine(Directory.GetCurrentDirectory(), @"Resources\Projectdocument.pdf");
+        /// <summary>
+        /// Click How-To
+        /// </summary>
+        public void HowTo_Click()
+        {
+            /// Adobe Acrobat is geïnstaleerd
+            try
+            {
+                /// Path of the file
+                string path = Path.Combine(Directory.GetCurrentDirectory(), @"Resources\Projectdocument.pdf");
 
-				/// Make new process and open set Adobe Acrobat as the program to open
-				Process P = new Process
-				{
-					StartInfo = { FileName = "AcroRd32.exe", Arguments = path }
-				};
+                /// Make new process and open set Adobe Acrobat as the program to open
+                Process P = new Process
+                {
+                    StartInfo = { FileName = "AcroRd32.exe", Arguments = path }
+                };
 
-				/// Set process to fullscreen and start the procees
-				P.StartInfo.WindowStyle = ProcessWindowStyle.Maximized;
-				P.Start();
-			}
-			/// Acrobat reader is not installed, the user has to select his own program
-			catch
-			{
-				string path = Path.Combine(Directory.GetCurrentDirectory(), @"Resources\Projectdocument.pdf");
-				string args = "shell32.dll,OpenAs_RunDLL " + path;
+                /// Set process to fullscreen and start the procees
+                P.StartInfo.WindowStyle = ProcessWindowStyle.Maximized;
+                P.Start();
+            }
+            /// Acrobat reader is not installed, the user has to select his own program
+            catch
+            {
+                string path = Path.Combine(Directory.GetCurrentDirectory(), @"Resources\Projectdocument.pdf");
+                string args = "shell32.dll,OpenAs_RunDLL " + path;
 
-				/// Make new process and open the program searcher thing
-				Process P = new Process
-				{
-					StartInfo = { FileName = "rundll32.exe", Arguments = args }
-				};
+                /// Make new process and open the program searcher thing
+                Process P = new Process
+                {
+                    StartInfo = { FileName = "rundll32.exe", Arguments = args }
+                };
 
-				/// Set process to fullscreen and start the process
-				P.Start();
-			}
-		}
+                /// Set process to fullscreen and start the process
+                P.Start();
+            }
+        }
 
-		/// <summary>
-		/// Click Exit
-		/// </summary>
+        /// <summary>
+        /// Click Exit
+        /// </summary>
         public void Exit_Click()
         {
-			/// Stop the simulation (if true)
-			if (windowselect.simwindow.simcontrol.simulation.simStarted == true)
-			{
-				windowselect.simwindow.simcontrol.simulation.thread.Abort();
-				windowselect.simwindow.simcontrol.simulation.simStarted = false;
-			}
+            /// Stop the simulation (if true)
+            if (windowselect.simwindow.simcontrol.simulation.simStarted == true)
+            {
+                windowselect.simwindow.simcontrol.simulation.thread.Abort();
+                windowselect.simwindow.simcontrol.simulation.simStarted = false;
+            }
 
             /// Close application
             Application.Exit();

@@ -29,17 +29,17 @@ namespace TrafficSimulation
             waitingCars = 0;
             simSleep = 50;
             extraSpeed = 0;
-            
+
         }
         public int WaitingCars
         {
             get { return waitingCars; }
-            set { waitingCars = value; } 
+            set { waitingCars = value; }
         }
         public int PauseSeconds
         {
             get { return simSleep; }
-            set { if(simSleep>10 &&simSleep<800)simSleep = value; }
+            set { if (simSleep > 10 && simSleep < 800)simSleep = value; }
         }
         public bool StartSim()
         {
@@ -50,15 +50,12 @@ namespace TrafficSimulation
                 {
                     spawnerList.Clear();
                     simControl.controlList.Clear();
-                    
-                    foreach (Tile t in simControl.tileList)
+
+                    foreach (Tile t in simControl.simulationMap.GetMap())
                     {
-                        if (t != null)
-                        {
-                            t.Initialize();
-                            if (t.name.Equals("Spawner"))
-                                spawnerList.Add((Spawner)t);
-                        }
+                        t.Initialize();
+                        if (t.name.Equals("Spawner"))
+                            spawnerList.Add((Spawner)t);
                     }
                     simControl.MakeTrafficControlList();
                     ThreadStart threadDelegate = new ThreadStart(Update);
@@ -89,7 +86,7 @@ namespace TrafficSimulation
                 StartSim();
             else
                 simPause = false;
-              
+
         }
         public void PauseSimknop()
         {
@@ -99,7 +96,7 @@ namespace TrafficSimulation
         {
             while (true)
             {
-                if(!simPause)
+                if (!simPause)
                 {
                     if (simControl.InvokeRequired)
                         simControl.Invoke(new MethodInvoker(UpdateGame));
@@ -116,40 +113,40 @@ namespace TrafficSimulation
             //de vehiclemap wordt weer helemaal leeg gemaakt zodat de auto's maar 1 keer getekend worden
             Graphics g = Graphics.FromImage((Image)simControl.vehicleBC.bitmap);
             g.Clear(Color.Transparent);
-            Tile[] tiles =simControl.tileList;
-            Array.Copy(simControl.tileList, tiles, simControl.tileList.Count());
+            Tile[] tiles = simControl.simulationMap.GetMap().ToArray();
+            Array.Copy(simControl.simulationMap.GetMap().ToArray(), tiles, simControl.simulationMap.GetMap().Count());
             //alle auto's updaten en weer tekenen
             foreach (Tile t in tiles)
             {
                 if (t != null)
                 {
                     List<List<Vehicle>> tileVehicles = new List<List<Vehicle>>();
-                    foreach(List<List<Vehicle>> list in t.vehicles)
+                    foreach (List<List<Vehicle>> list in t.vehicles)
                     {
-                        foreach(List<Vehicle> vehiclelist in list)
-                        tileVehicles.Add(new List<Vehicle>(vehiclelist));
+                        foreach (List<Vehicle> vehiclelist in list)
+                            tileVehicles.Add(new List<Vehicle>(vehiclelist));
                     }
                     foreach (List<Vehicle> list in tileVehicles)
                     {
                         foreach (Vehicle v in list)
                         {
                             UpdateVehicle(t, v);
-                            simControl.vehicleBC.AddObject(v.Bitmap, v.position.X, v.position.Y);
+                            simControl.vehicleBC.AddObject(v.Bitmap, v.position);
                         }
                     }
                 }
             }
             //updaten van de trafficlights
-            foreach(TrafficlightControl tL in simControl.controlList)
+            foreach (TrafficlightControl tL in simControl.controlList)
             {
-                tL.Run(extraSpeed,(double)simSleep-(double)50);
+                tL.Run(extraSpeed, (double)simSleep - (double)50);
             }
             //updaten van de spawners
             foreach (Spawner spawn in spawnerList)
             {
-                spawn.Tick(simControl,extraSpeed,(double)simSleep-(double)50);
+                spawn.Tick(simControl, extraSpeed, (double)simSleep - (double)50);
             }
-            if(simControl.selectedTile != null)
+            if (simControl.selectedTile != null)
                 simControl.DrawSelectLine(simControl.selectedTile.position);
             simControl.UpdateInfoBalkSimulatie();
             simControl.Invalidate();
@@ -157,13 +154,13 @@ namespace TrafficSimulation
 
         private void UpdateVehicle(Tile t, Vehicle v)
         {
-            if(v.Speed==0)
+            if (v.Speed == 0)
                 waitingCars--;
-            v.Speed = t.MaxSpeed+extraSpeed;
+            v.Speed = t.MaxSpeed + extraSpeed;
             //if vehicle has to dissapear ----- moet worden vervangen door zwart vlak over de spawner-----
             if (VehicleIsOnEndSpawner(v, t))
             {
-                simControl.tileList[t.listPlace].RemoveVehicle(simControl, v, v.Direction, v.Lane);
+                simControl.simulationMap.GetTileMea(t.position.X,t.position.Y).RemoveVehicle(simControl, v, v.Direction, v.Lane);
                 simControl.totalCars--;
             }
             if (StaysOnTile(t, v))//if vehicle is still on the tile 
@@ -175,14 +172,13 @@ namespace TrafficSimulation
                     v.Speed = 0;
                     waitingCars++;
                 }
-                
             }
             else
             {
                 if (t.Access[v.Direction - 1, v.Lane])//if the next tile is accessible
                 {
                     //remove vehicle from old tile and add vehicle to new tile
-                    Tile nextTile = Methods.GetOtherTile(simControl,simControl.tileList[t.listPlace], v.Direction);
+                    Tile nextTile = simControl.simulationMap.GetSurroundingTilesSim(t.position)[v.Direction-1];
                     if (nextTile != null)
                     {
                         v.Speed = nextTile.maxSpeed;
@@ -190,7 +186,7 @@ namespace TrafficSimulation
                         simControl.totalCars++;
                         v.Update();
                     }
-                    simControl.tileList[t.listPlace].RemoveVehicle(simControl, v, v.Direction, v.Lane);
+                    simControl.simulationMap.GetTileMea(t.position.X, t.position.Y).RemoveVehicle(simControl, v, v.Direction, v.Lane);
                     simControl.totalCars--;
                 }
                 else
@@ -211,7 +207,7 @@ namespace TrafficSimulation
         private bool DistanceFromCars(Tile t, Vehicle v)
         {
             int distance = 0;//distance between the end of the tile and the last car standing still.
-            List<List<Vehicle>> vehicleList = simControl.tileList[t.listPlace].vehicles[v.Direction - 1];
+            List<List<Vehicle>> vehicleList = simControl.simulationMap.GetTileMea(t.position.X,t.position.Y).vehicles[v.Direction - 1];
             distance = vehicleList[v.Lane].IndexOf(v) * 16;
             return CorrectDistance(t, v, distance);
         }
@@ -221,35 +217,35 @@ namespace TrafficSimulation
         {
             switch (v.Direction)
             {
-                case 1: if (v.position.Y - t.MaxSpeed-1 >= t.position.Y + CarSpace)
+                case 1: if (v.position.Y - t.MaxSpeed - 1 >= t.position.Y + CarSpace)
                         return true;
                     break;
-                case 2: if (v.position.X + t.MaxSpeed + v.Size.Width+t.maxSpeed + 5<= t.position.X + t.size.Width - CarSpace)
+                case 2: if (v.position.X + t.MaxSpeed + v.Size.Width + t.maxSpeed + 5 <= t.position.X + t.size.Width - CarSpace)
                         return true;
                     break;
-                case 3: if (v.position.Y + t.MaxSpeed + v.Size.Width + t.maxSpeed + 3<= t.position.Y + t.size.Height - CarSpace)
+                case 3: if (v.position.Y + t.MaxSpeed + v.Size.Width + t.maxSpeed + 3 <= t.position.Y + t.size.Height - CarSpace)
                         return true;
                     break;
-                case 4: if (v.position.X - t.MaxSpeed-1 >= t.position.X + CarSpace)
+                case 4: if (v.position.X - t.MaxSpeed - 1 >= t.position.X + CarSpace)
                         return true;
                     break;
             }
             return false;
         }
-        
+
         private bool VehicleIsOnEndSpawner(Vehicle v, Tile t)
         {
-            if(t.name == "Spawner" && t.Directions.Contains((v.Direction+1)%4+1))
+            if (t.name == "Spawner" && t.Directions.Contains((v.Direction + 1) % 4 + 1))
             {
                 switch (v.Direction)
                 {
                     case 1: if (v.position.Y - v.Speed <= t.position.Y + 30)
                             return true;
                         break;
-                    case 2: if (v.position.X + v.Speed+15 >= t.position.X + 70)
+                    case 2: if (v.position.X + v.Speed + 15 >= t.position.X + 70)
                             return true;
                         break;
-                    case 3: if (v.position.Y + v.Speed+15 >= t.position.Y + 70)
+                    case 3: if (v.position.Y + v.Speed + 15 >= t.position.Y + 70)
                             return true;
                         break;
                     case 4: if (v.position.X - v.Speed <= t.position.X + 30)
@@ -257,10 +253,10 @@ namespace TrafficSimulation
                         break;
 
                 }
-                              
-               {
 
-               }
+                {
+
+                }
             }
             return false;
         }

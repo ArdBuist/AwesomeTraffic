@@ -34,10 +34,10 @@ namespace TrafficSimulation
             get { return Graphics.FromImage(bitmap); }
         }
 
-        public void AddObject(Bitmap bitmap, int x, int y)
+        public void AddObject(Bitmap bitmap, Point p)
         {//zorgt ervoor dat de nieuwe tile op de kaart komt in het grid.
             Graphics gr = GetBitmapGraphics;
-            gr.DrawImage(bitmap, x, y);
+            gr.DrawImage(bitmap, p.X, p.Y);
 
         }
     }

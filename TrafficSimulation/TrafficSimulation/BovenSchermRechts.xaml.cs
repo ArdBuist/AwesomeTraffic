@@ -30,7 +30,7 @@ namespace TrafficSimulation
         Boolean day = false;
         int breedteScherm, breedteInfoBalk, hoogteBovenBalk;
 
-        public BovenSchermRechts(WindowSelect ws,  InfoBalk info, OnderScherm Onder, int bs, int bib, int hbb)
+        public BovenSchermRechts(WindowSelect ws, InfoBalk info, OnderScherm Onder, int bs, int bib, int hbb)
         {
             windowselect = ws;
             infoBalk = info;
@@ -47,7 +47,7 @@ namespace TrafficSimulation
 		/// </summary>
         public void Info_Click(object sender, RoutedEventArgs e)
         {
-            if(InfoVisible)
+            if (InfoVisible)
                 ShowOrHideInfoBalk(false);
             else
                 ShowOrHideInfoBalk(true);
@@ -61,7 +61,7 @@ namespace TrafficSimulation
             {
                 windowselect.simwindow.infoHost.Location = new System.Drawing.Point(windowselect.simwindow.Size);
                 InfoVisible = false;
-                
+
             }
             // Show info
             else
@@ -78,11 +78,11 @@ namespace TrafficSimulation
         {
             windowselect.Start();
 
-			if (windowselect.simwindow.simcontrol.simulation.simStarted == true)
-			{
-				windowselect.simwindow.simcontrol.simulation.thread.Abort();
-				windowselect.simwindow.simcontrol.simulation.simStarted = false;
-			}
+            if (windowselect.simwindow.simcontrol.simulation.simStarted == true)
+            {
+                windowselect.simwindow.simcontrol.simulation.thread.Abort();
+                windowselect.simwindow.simcontrol.simulation.simStarted = false;
+            }
         }
 
 		/// <summary>
@@ -221,10 +221,9 @@ namespace TrafficSimulation
 				/// Show exception and the error message
 				MessageBox.Show("Error: Could not write file to disk. Original error:" + exp);
 
-				// TODO: Make a better screen. This isn't very useful to many users...
-			}
-		}	
-        
+            }
+        }
+
         private void Help_Click(object sender, RoutedEventArgs e)
         {
 
