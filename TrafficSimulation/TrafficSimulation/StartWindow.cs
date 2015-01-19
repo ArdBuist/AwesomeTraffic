@@ -110,7 +110,7 @@ namespace TrafficSimulation
 						StreamReader r1, r2;
 
 						/// Set the number of lines of code that has to be deleted and added
-						deleteLines = simcontrol.tileList.Length;
+                        deleteLines = simcontrol.simulationMap.GetMap().Count;
 						addLines = 0;
 
 						/// Count the numbers of lines in the file
@@ -130,7 +130,7 @@ namespace TrafficSimulation
 						LoadWin.Show();
 
 						/// Go by each tile in the tile list
-						foreach (Tile tile in simcontrol.tileList)
+						foreach (Tile tile in simcontrol.simulationMap.GetMap())
 						{
 							/// Add 1 to both progressbars
 							LoadWin.progressBar1.PerformStep();
@@ -140,10 +140,10 @@ namespace TrafficSimulation
 							{
 								Bitmap tileImage;
 								Tile selectedTile = new removeTile();
-								selectedTile.SetValues(simcontrol, tile.position, tile.listPlace);
+								selectedTile.SetValues(simcontrol, tile.position);
 								tileImage = selectedTile.DrawImage();
-								simcontrol.trafficlightBC.AddObject(tileImage, tile.position.X, tile.position.Y);
-								simcontrol.tileList[tile.listPlace] = null;
+								simcontrol.trafficlightBC.AddObject(tileImage, new Point(tile.position.X, tile.position.Y));
+                                simcontrol.simulationMap.RemoveTile(tile);
 								simcontrol.trafficlightBC.bitmap.MakeTransparent(Color.Green);
 								simcontrol.Invalidate();
 							}
@@ -208,7 +208,7 @@ namespace TrafficSimulation
 										roadY = Convert.ToInt32(information[3]) / 100;
 
 										/// Set some values
-										currentBuildTile.SetValues(simcontrol, new Point((roadX * 100), roadY * 100), Convert.ToInt32(information[1]));
+										currentBuildTile.SetValues(simcontrol, new Point((roadX * 100), roadY * 100));
 										currentBuildTile.LanesHighToLow = Convert.ToInt32(information[8]);
 										currentBuildTile.LanesLowToHigh = Convert.ToInt32(information[9]);
 										currentBuildTile.maxSpeed = Convert.ToInt32(information[5]);
@@ -218,7 +218,7 @@ namespace TrafficSimulation
 
 										/// Draw the tile
 										tileImage = currentBuildTile.DrawImage();
-										simcontrol.backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+										simcontrol.backgroundBC.AddObject(tileImage, new Point(roadX * 100, roadY * 100));
 
 										/// Add 1 to progressBar1/2
 										LoadWin.progressBar1.PerformStep();
@@ -235,7 +235,7 @@ namespace TrafficSimulation
 										roadY = Convert.ToInt32(information[3]) / 100;
 
 										/// Set some values
-										currentBuildTile.SetValues(simcontrol, new Point((roadX * 100), roadY * 100), Convert.ToInt32(information[1]));
+										currentBuildTile.SetValues(simcontrol, new Point((roadX * 100), roadY * 100));
 										currentBuildTile.maxSpeed = Convert.ToInt32(information[5]);
 										currentBuildTile.UpdateLanes(simcontrol, Convert.ToInt32(information[6]), Convert.ToInt32(information[8]), Convert.ToInt32(information[9]));
 
@@ -244,7 +244,7 @@ namespace TrafficSimulation
 
 										/// Draw the tile
 										tileImage = currentBuildTile.DrawImage();
-										simcontrol.backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+										simcontrol.backgroundBC.AddObject(tileImage, new Point(roadX * 100, roadY * 100));
 										simcontrol.Invalidate();
 
 										/// Add 1 to progressBar1/2
@@ -262,7 +262,7 @@ namespace TrafficSimulation
 							{
 								if (tile != null)
 								{
-									windowselect.simwindow.simcontrol.tileList[tile.listPlace] = tempTileList[tile.listPlace];
+                                    windowselect.simwindow.simcontrol.simulationMap.AddTile(tile);
 								}
 							}
 							#endregion
@@ -321,7 +321,7 @@ namespace TrafficSimulation
 										roadY = Convert.ToInt32(information[3]) / 100;
 
 										/// Set some values
-										currentBuildTile.SetValues(simcontrol, new Point((roadX * 100), roadY * 100), Convert.ToInt32(information[1]));
+										currentBuildTile.SetValues(simcontrol, new Point((roadX * 100), roadY * 100));
 										currentBuildTile.maxSpeed = Convert.ToInt32(information[5]);
 										/*currentBuildTile.strat = Convert.ToInt32(information[4]);*/
 
@@ -330,7 +330,7 @@ namespace TrafficSimulation
 
 										/// Draw the tile
 										tileImage = currentBuildTile.DrawImage();
-										simcontrol.backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+										simcontrol.backgroundBC.AddObject(tileImage, new Point(roadX * 100, roadY * 100));
 										simcontrol.Invalidate();
 
 										/// Add 1 to progressBar1/2
@@ -348,7 +348,7 @@ namespace TrafficSimulation
 										roadY = Convert.ToInt32(information[3]) / 100;
 
 										/// Set some values
-										currentBuildTile.SetValues(simcontrol, new Point((roadX * 100), roadY * 100), Convert.ToInt32(information[1]));
+										currentBuildTile.SetValues(simcontrol, new Point((roadX * 100), roadY * 100));
 										currentBuildTile.maxSpeed = Convert.ToInt32(information[5]);
 										//currentBuildTile.strat = Convert.ToInt32(information[4]);
 
@@ -357,7 +357,7 @@ namespace TrafficSimulation
 
 										/// Draw the tile
 										tileImage = currentBuildTile.DrawImage();
-										simcontrol.backgroundBC.AddObject(tileImage, roadX * 100, roadY * 100);
+										simcontrol.backgroundBC.AddObject(tileImage, new Point(roadX * 100, roadY * 100));
 										simcontrol.Invalidate();
 
 										/// Add 1 to progressBar1/2
@@ -375,7 +375,7 @@ namespace TrafficSimulation
 							{
 								if (tile != null)
 								{
-									simcontrol.tileList[tile.listPlace] = tempTileList[tile.listPlace];
+									windowselect.simwindow.simcontrol.simulationMap.AddTile(tile);
 								}
 							}
 							#endregion

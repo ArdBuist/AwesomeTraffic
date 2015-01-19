@@ -121,7 +121,7 @@ namespace TrafficSimulation
 					file.AutoFlush = true;	
 
 					/// Get every tile in the list
-					foreach (Tile tile in windowselect.simwindow.simcontrol.tileList)
+					foreach (Tile tile in windowselect.simwindow.simcontrol.simulationMap.GetMap())
 					{
 						/// If the tile has some value asigned to it						
 						if (tile != null)
@@ -155,51 +155,47 @@ namespace TrafficSimulation
 								case "Fork":
 									file.WriteLine(
 										tile.name + "_" +			// 0 Welke tile
-										tile.listPlace + "_" +		// 1 Plaats in de lijst
-										tile.position.X + "_" +		// 2 X positie
-										tile.position.Y + "_" +		// 3 Y positie
-										" " /*tile.strat*/ + "_" + 	// 4 strat
-										tile.maxSpeed + "_" +		// 5 Maxspeed
-										tile.notDirection);			// 6 De not direction
+										tile.position.X + "_" +		// 1 X positie
+										tile.position.Y + "_" +		// 2 Y positie
+										" " /*tile.strat*/ + "_" + 	// 3 strat
+										tile.maxSpeed + "_" +		// 4 Maxspeed
+										tile.notDirection);			// 5 De not direction
 									break;
 
 								// Save case for a crossroad
 								case "Crossroad":
 									file.WriteLine(
 										tile.name + "_" +			// 0 Welke tile
-										tile.listPlace + "_" +		// 1 Plaats in de lijst
-										tile.position.X + "_" +		// 2 X positie
-										tile.position.Y + "_" +		// 3 Y positie
-										" " /*tile.strat*/ + "_" + 	// 4 strat
-										tile.maxSpeed);				// 5 Maxspeed
+										tile.position.X + "_" +		// 1 X positie
+										tile.position.Y + "_" +		// 2 Y positie
+										" " /*tile.strat*/ + "_" + 	// 3 strat
+										tile.maxSpeed);				// 4 Maxspeed
 									break;
 
 								// Save case for a road (that is a straight road or a curved road)
 								case "Road":
 									file.WriteLine(
 										tile.name + "_" +			// 0 Welke tile
-										tile.listPlace + "_" +		// 1 Plaats in de lijst
-										tile.position.X + "_" +		// 2 X positie
-										tile.position.Y + "_" +		// 3 Y positie
-										" " + "_" +					// 4 Empty
-										tile.maxSpeed + "_"	+		// 5 Maxpeed
-										tile.startDirection + "_" +	// 6 Begin richting
-										tile.endDirection + "_" +	// 7 Eind richting
-										tile.LanesHighToLow + "_" + // 8 Wegen hoog, laag
-										tile.LanesLowToHigh);		// 9 Wegen laag, hoog
+										tile.position.X + "_" +		// 1 X positie
+										tile.position.Y + "_" +		// 2 Y positie
+										" " + "_" +					// 3 Empty
+										tile.maxSpeed + "_"	+		// 4 Maxpeed
+										tile.startDirection + "_" +	// 5 Begin richting
+										tile.endDirection + "_" +	// 6 Eind richting
+										tile.LanesHighToLow + "_" + // 7 Wegen hoog, laag
+										tile.LanesLowToHigh);		// 8 Wegen laag, hoog
 									break;
 
 								// Save case for a spawner
 								case "Spawner":
 									file.WriteLine(
 										tile.name + "_" +			// 0 Welke tile
-										tile.listPlace + "_" +		// 1 Plaats in de lijst
-										tile.position.X + "_" +		// 2 X positie
-										tile.position.Y + "_" +		// 3 Y positie
-										" " + "_" +					// 4 Empty
-										tile.maxSpeed + "_" +		// 5 Maxspeed
-										tile.direction + "_" +		// 6 Richting
-										" " + "_" +					// 7 Empty
+										tile.position.X + "_" +		// 1 X positie
+										tile.position.Y + "_" +		// 2 Y positie
+										" " + "_" +					// 3 Empty
+										tile.maxSpeed + "_" +		// 4 Maxspeed
+										tile.direction + "_" +		// 5 Richting
+										" " + "_" +					// 6 Empty
 										tile.GetLanesOut((tile.direction + 1) % 4 + 1) + "_" +	// 8 LanesHighToLow
 										tile.GetLanesIn((tile.direction + 1) % 4 + 1) /* + "_ "	+	// 9 LanesLowToHigh
 										tile.carsPerSec*/);			

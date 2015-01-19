@@ -229,6 +229,8 @@ namespace TrafficSimulation
                 if (t.position == tile.position)
                 {
                     RemoveTile(tile);
+                    tileList.Add(t);
+                    break;
                 }
             }
             tileList.Add(t);
