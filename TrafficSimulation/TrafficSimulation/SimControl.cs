@@ -70,7 +70,7 @@ namespace TrafficSimulation
         //counter for cars for in infobalk
         public int totalCars;
 
-	bool drawStart = false;
+	bool drawStart = true;
 
         public Boolean Simulatie;
         public bool Day;
