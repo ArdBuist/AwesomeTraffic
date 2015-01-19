@@ -22,10 +22,6 @@ namespace TrafficSimulation
             }
             return true;
         }
-        public static int CalculateListPlace(SimControl s,int mouseX, int mouseY)
-        {
-            return mouseY / 100 * s.tilesHorizontal + mouseX / 100;
-        }
 
         public static Tile GetOtherTile(SimControl s,Tile startTile, int direction)
         {
