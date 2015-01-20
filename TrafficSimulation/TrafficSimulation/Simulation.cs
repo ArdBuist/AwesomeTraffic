@@ -27,7 +27,7 @@ namespace TrafficSimulation
             this.simStarted = false;
             spawnerList = new List<Spawner>();
             waitingCars = 0;
-            simSleep = 50;
+            simSleep = 70;
             extraSpeed = 0;
 
         }
@@ -130,6 +130,10 @@ namespace TrafficSimulation
                     {
                         foreach (Vehicle v in list)
                         {
+                            if(v.Direction == 2 && t.name=="Crossroad")
+                            {
+
+                            }
                             UpdateVehicle(t, v);
                             simControl.vehicleBC.AddObject(v.Bitmap, v.position);
                         }

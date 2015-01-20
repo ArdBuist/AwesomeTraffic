@@ -132,7 +132,7 @@ namespace TrafficSimulation
                                 Tile otherTile = simcontrol.simulationMap.GetSurroundingTiles(this.position)[CounterDirection - 1];
                                 if (otherTile != null)
                                 {
-                                    if (this.GetLanesOut(d) != otherTile.GetLanesIn(CounterDirection) || otherTile.GetLanesOut(CounterDirection) != this.GetLanesIn(d))
+                                    if (this.GetLanesOut(CounterDirection) != otherTile.GetLanesIn((CounterDirection + 1) % 4 + 1) || otherTile.GetLanesOut((CounterDirection + 1) % 4 + 1) != this.GetLanesIn(CounterDirection))
                                     {
                                         otherTile.UpdateLanes(simcontrol, (CounterDirection + 1) % 4 + 1, this.GetLanesOut(CounterDirection), this.GetLanesIn(CounterDirection));
                                         otherTile.UpdateOtherTiles(simcontrol, (CounterDirection + 1) % 4 + 1);
@@ -206,94 +206,7 @@ namespace TrafficSimulation
             }
             simcontrol.backgroundBC.AddObject(this.DrawImage(), this.position);
         }
-        //wordt gebruikt als de tile geplaatst wordt, of een aanliggende tile veranderd wordt.
-        //public void UpdateFromOtherTile(SimControl s, int direction)
-        //{
-        //    int ForkDirection = 0;
-        //    if (direction == 0)
-        //    {
-        //        foreach (int d in directions)
-        //        {
-        //            Tile tile = GetOtherTile(s, d);
-        //            if (tile != null && d != ForkDirection)
-        //            {
-        //                UpdateLanes(s, d, tile.GetLanesIn(d), tile.GetLanesOut(d));
-        //                //Als aan de lange kant bij een Fork aan één kant de banen worden veranderd moet dat natuurlijk ook aan de andere kant gebeuren
-        //                if (name == "Fork")
-        //                {
-        //                    Fork fork = (Fork)this;
-        //                    //Als de verandering van een kant van de lange kant komt
-        //                    if ((d == (fork.NotDirection + 2) % 4 + 1 || d == (fork.NotDirection) % 4 + 1))
-        //                    {
-        //                        ForkDirection = (d + 1) % 4 + 1;
-        //                        UpdateLanes(s, (d + 1) % 4 + 1, tile.GetLanesOut(d), tile.GetLanesIn(d));
-        //                        //Een verkorte versie van UpdateOtherTiles, hier hoeft namelijk alleen de andere kant van de lange kant geupdate worden.
-        //                        Tile tile1 = GetOtherTile(s, ForkDirection);
-        //                        if (tile1 != null)
-        //                            tile1.UpdateFromOtherTile(s, ForkDirection);
-        //                        break;
-        //                    }
-        //                }
-        //            }
-        //        }
-        //        s.backgroundBC.AddObject(DrawImage(), position.X, position.Y);
-        //    }
-        //    else
-        //    {
-        //        int notSide = (direction + 1) % 4 + 1;
-        //        Tile tile = GetOtherTile(s, notSide);
-        //        if (tile != null && tile.name != "Crossroad")
-        //        {
-        //            //if (tile.name == "Fork")
-        //            //{
-        //            //    UpdateLanes(s, notSide, tile.GetLanesOut(direction), tile.GetLanesIn(direction));
-        //            //    UpdateOtherTiles(s, notSide);
-        //            //}
-        //            //else
-        //            {
-        //                UpdateLanes(s, notSide, tile.GetLanesIn(notSide), tile.GetLanesOut(notSide));
-        //                UpdateOtherTiles(s, notSide);
-        //            }
 
-        //        }
-        //    }
-        //}
-
-        ////roept een tile aan als hij veranderd is, om ook de andere tiles te laten veranderen.
-        //public void UpdateOtherTiles(SimControl s, int NotDirection)
-        //{
-        //    if (name != "Fork")
-        //    {
-        //        foreach (int d in directions)
-        //        {
-        //            if (d != NotDirection)
-        //            {
-        //                Tile tile = GetOtherTile(s, d);
-        //                if (tile != null && tile.doesConnect(d))
-        //                    tile.UpdateFromOtherTile(s, d);
-        //            }
-        //        }
-        //    }
-        //    else
-        //    {
-        //        //een Fork is speciaal, want aan de lange kant moet de hoeveelheid banen doorlopen terwijl er nog een derde uitgang is.
-        //        Fork fork = (Fork)this;
-        //        if (NotDirection == (fork.NotDirection + 2) % 4 + 1 || NotDirection == (fork.NotDirection) % 4 + 1)
-        //        {
-        //            //de hoeveelheid banen wordt hier van de ene kant van de Fork naar de andere kant overgeheveld.
-        //            fork.lanes[((NotDirection + 1) % 4 + 1) * 2 - 1] = fork.lanes[NotDirection * 2 - 2];
-        //            fork.lanes[((NotDirection + 1) % 4 + 1) * 2 - 2] = fork.lanes[NotDirection * 2 - 1];
-        //            fork.UpdateLanes(s,0, 1, 1);
-        //            int d = (NotDirection + 1) % 4 + 1;
-        //            Tile tile = GetOtherTile(s, d);
-        //            if (tile != null && tile.doesConnect(d))
-        //                tile.UpdateFromOtherTile(s, d);
-        //        }
-
-
-        //    }
-        //    s.backgroundBC.AddObject(DrawImage(), position.X, position.Y);
-        //}
         //krijgt een aantal banen die binnenkomen en eruit moeten gaan voor een bepaald richting. Tile moet dat dan in zijn gegevens verwerken.
         public abstract void UpdateLanes(SimControl s, int direction, int lanesIn, int lanesOut);
 
@@ -633,8 +546,6 @@ namespace TrafficSimulation
 
         public Crossroad(SimControl sim)
         {
-            this.position = position;
-            this.maxSpeed = maxSpeed;
             this.name = "Crossroad";
             this.lanes = new int[] { 1, 1, 1, 1, 1, 1, 1, 1 };
 

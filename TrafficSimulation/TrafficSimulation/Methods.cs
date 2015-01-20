@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,11 +26,12 @@ namespace TrafficSimulation
             return true;
         }
 
-        public static bool TileConnectionisValid(SimControl simcontrol, Tile currentBuildTile)
+        public static bool TileConnectionisValid(SimControl simcontrol, Tile currentBuildTile,Point tilePosition)
         {
+            //simcontrol.simulationMap.CreateMap();
             if (currentBuildTile.name == "Crossroad" || currentBuildTile.name == "Fork")
             {
-                foreach (Tile t in simcontrol.simulationMap.GetSurroundingTiles(currentBuildTile.position))
+                foreach (Tile t in simcontrol.simulationMap.GetSurroundingTiles(new Point((tilePosition.X/100)*100,(tilePosition.Y/100)*100)))
                 {
                     if (t != null && (t.name.Equals("Fork") || t.name.Equals("Crossroad")))
                     {

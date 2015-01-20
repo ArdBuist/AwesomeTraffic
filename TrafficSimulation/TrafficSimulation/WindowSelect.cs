@@ -70,11 +70,7 @@ namespace TrafficSimulation
             //simwindow.Location = new Point(0, 0);
 	            this.Controls.Add(simwindow);
         }
-        private void Close()
-        {
-            simwindow.simcontrol.simulation.StartSim();
-            this.Close();
-        }
+
 
         public void ShowMessage(string message)
         {
@@ -94,8 +90,19 @@ namespace TrafficSimulation
 				case (Keys.Control | Keys.I):
 					this.simwindow.BovenSchermRechts.Info_Click(new object(), new System.Windows.RoutedEventArgs());
 					return true;
+                case (Keys.Alt | Keys.F4):
+                    WindowSelect_FormClosing(null, null);
+                    return true;
 			}
 			return base.ProcessCmdKey(ref msg, keyData);
 		}
+
+        private void WindowSelect_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if(simwindow.simcontrol.simulation.simStarted)
+                simwindow.simcontrol.simulation.StartSim();
+            this.Close();
+
+        }
     }
 }

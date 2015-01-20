@@ -198,7 +198,7 @@ namespace TrafficSimulation
         public void DrawTile(Point mea, Tile buildTile)
         {
             Bitmap tileImage;
-            if (Methods.TileConnectionisValid(this, buildTile))
+            if (Methods.TileConnectionisValid(this, buildTile, mea))
             {
                 simwindow.BovenSchermRechts.ShowOrHideInfoBalk(false);
                 removeTile(mea);

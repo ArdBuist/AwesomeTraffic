@@ -136,7 +136,7 @@ namespace TrafficSimulation
 
         public Tile GetTileRight(Point position)
         {
-            if (ToGrid(position).X < Map.GetLength(0) - 2)
+            if (ToGrid(position).X < Map.GetLength(0) - 1)
             {
                 int x = ToGrid(position).X;
                 int y = ToGrid(position).Y;
