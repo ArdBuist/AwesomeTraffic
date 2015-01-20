@@ -20,6 +20,7 @@ namespace TrafficSimulation
         Boolean simPause;
         protected int simSleep;
         public int extraSpeed;
+        public List<string[]> efficiencyNumbers;
 
         public Simulation(SimControl simControl)
         {
@@ -29,7 +30,8 @@ namespace TrafficSimulation
             waitingCars = 0;
             simSleep = 70;
             extraSpeed = 0;
-
+            efficiencyNumbers = new List<string[]>();
+            
         }
         public int WaitingCars
         {
@@ -45,6 +47,8 @@ namespace TrafficSimulation
         {
             if (simStarted == false)
             {
+                //clearing list for calculating efficiency
+                efficiencyNumbers.Clear();
                 //spawners verzamelen
                 if (Methods.CheckValidConnections(simControl))
                 {
@@ -153,6 +157,11 @@ namespace TrafficSimulation
             if (simControl.selectedTile != null)
                 simControl.DrawSelectLine(simControl.selectedTile.position);
             simControl.UpdateInfoBalkSimulatie();
+            string date = DateTime.Now.ToString("H:mm:ss");
+            string[] efficiencyTime = new string[] { DateTime.Now.ToString("H:mm:ss:fff"), ""+simControl.simwindow.InfoBalk.labelEfficientieNumber.Content };
+            efficiencyNumbers.Add(efficiencyTime);
+            if (simControl.simwindow.InfoBalk.EfWindow != null)
+                simControl.simwindow.InfoBalk.EfWindow.t_Tick(null, null);
             simControl.Invalidate();
         }
 

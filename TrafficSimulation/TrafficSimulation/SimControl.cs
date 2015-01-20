@@ -495,15 +495,17 @@ namespace TrafficSimulation
         {
             if (Math.Abs(mea.X - mouseMovePoint.X) > 3 || Math.Abs(mea.Y - mouseMovePoint.Y) > 3)
             {
-                Rectangle moveGround = new Rectangle(new Point(Screen.PrimaryScreen.Bounds.Width - backgroundPB.Size.Width, Screen.PrimaryScreen.Bounds.Height - backgroundPB.Size.Height), new Size(backgroundPB.Size.Width - Screen.PrimaryScreen.Bounds.Width, backgroundPB.Size.Height - Screen.PrimaryScreen.Bounds.Height));
-                Point newPosition = new Point(backgroundPB.Location.X + (mea.X - mouseMovePoint.X), backgroundPB.Location.Y + (mea.Y - mouseMovePoint.Y));
+                //Rectangle moveGround = new Rectangle(new Point(Screen.PrimaryScreen.Bounds.Width - backgroundPB.Size.Width, Screen.PrimaryScreen.Bounds.Height - backgroundPB.Size.Height), new Size(backgroundPB.Size.Width - Screen.PrimaryScreen.Bounds.Width, backgroundPB.Size.Height - Screen.PrimaryScreen.Bounds.Height));
 
-                if (moveGround.Contains(newPosition))
+		Point newPosition = new Point(backgroundPB.Location.X + (mea.X - mouseMovePoint.X), backgroundPB.Location.Y + (mea.Y - mouseMovePoint.Y));
+				
+                Rectangle trafficGround = new Rectangle(trafficlightPB.Location,trafficlightPB.Size);
+
+                if(trafficGround.Contains(mea.Location))
                 {
                     backgroundPB.Location = newPosition;
                     isMoved = true;
                 }
-
                 this.Update();
             }
         }

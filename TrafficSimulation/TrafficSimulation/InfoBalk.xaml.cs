@@ -22,6 +22,7 @@ namespace TrafficSimulation
     public partial class InfoBalk : UserControl
     {
         WindowSelect windowselect;
+        public EfficientieWindow EfWindow;
 
         public InfoBalk(WindowSelect ws)
         {
@@ -390,6 +391,14 @@ namespace TrafficSimulation
                 Fork crosTile = (Fork)selectedTile;
                 crosTile.control.strat = strategie+1;
             }
+        }
+
+        private void Efficientie_Click(object sender, RoutedEventArgs e)
+        {
+            EfWindow = new EfficientieWindow(windowselect.simwindow);
+
+            EfWindow.Show();
+            EfWindow.TopMost = true;
         }
     }
 }

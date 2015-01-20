@@ -28,6 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WindowSelect));
+
             this.SuspendLayout();
             // 
             // WindowSelect
@@ -35,9 +38,10 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 261);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.WindowSelect_FormClosing);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "WindowSelect";
             this.Text = "Form1";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.WindowSelect_FormClosing);
             this.ResumeLayout(false);
 
         }
