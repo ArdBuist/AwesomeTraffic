@@ -22,7 +22,7 @@ namespace TrafficSimulation
             this.WindowState = FormWindowState.Maximized;
 
             // Alle schermranden weghalen
-            //this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 
             int WidthStartScreen;
             int HeightStartScreen;
