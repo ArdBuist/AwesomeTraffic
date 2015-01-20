@@ -617,7 +617,7 @@
                            Grid.Column="0" 
                            Style="{StaticResource infoBalkLabels}"
 
-                           Content="Efficientie"  />
+                           Content="Efficiency"  />
 
                     <Label x:Name="labelEfficientieNumber" 
                            Grid.Row="6" 
@@ -640,18 +640,19 @@
                            HorizontalAlignment="Left"
                            Content="0"  />
 
-                    <Label x:Name="labelGreenwave" 
-                           Grid.Row="7" 
-                           Grid.Column="0" 
-                           Grid.ColumnSpan="2"
-                           Style="{StaticResource infoBalkLabels}"
-                           VerticalAlignment="Top"
-                           Width="250"
-                           Height="50"
-                           HorizontalAlignment="Left">
-                        bla bla bla  uitleg over de greenwave en het 
-                        aanklikken van meerdere kruispunten
-                    </Label>
+
+                    <Button x:Name="Efficientie" 
+                            Style="{StaticResource infoBalkButtons}"
+                            Height="40"
+                            Width="100"
+                            VerticalAlignment="Bottom"
+                            Margin="0,0,1,89"
+                            HorizontalAlignment="Right"
+                            Click="Efficientie_Click"
+                            Grid.Row="7"
+                            Grid.ColumnSpan="1"
+                            Grid.Column="0"
+                            Content="Efficiency"/>
 
                     <Button x:Name="greenWave" 
                             Style="{StaticResource infoBalkButtons}"
