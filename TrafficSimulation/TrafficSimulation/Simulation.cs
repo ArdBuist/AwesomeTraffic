@@ -160,7 +160,7 @@ namespace TrafficSimulation
             //if vehicle has to dissapear ----- moet worden vervangen door zwart vlak over de spawner-----
             if (VehicleIsOnEndSpawner(v, t))
             {
-                simControl.simulationMap.GetTileMea(t.position.X,t.position.Y).RemoveVehicle(simControl, v, v.Direction, v.Lane);
+                simControl.simulationMap.GetTileMea(t.position.X, t.position.Y).RemoveVehicle(simControl, v, v.Direction, v.Lane);
                 simControl.totalCars--;
             }
             if (StaysOnTile(t, v))//if vehicle is still on the tile 
@@ -178,7 +178,7 @@ namespace TrafficSimulation
                 if (t.Access[v.Direction - 1, v.Lane])//if the next tile is accessible
                 {
                     //remove vehicle from old tile and add vehicle to new tile
-                    Tile nextTile = simControl.simulationMap.GetSurroundingTilesSim(t.position)[v.Direction-1];
+                    Tile nextTile = simControl.simulationMap.GetSurroundingTilesSim(t.position)[v.Direction - 1];
                     if (nextTile != null)
                     {
                         v.Speed = nextTile.maxSpeed;
@@ -207,7 +207,7 @@ namespace TrafficSimulation
         private bool DistanceFromCars(Tile t, Vehicle v)
         {
             int distance = 0;//distance between the end of the tile and the last car standing still.
-            List<List<Vehicle>> vehicleList = simControl.simulationMap.GetTileMea(t.position.X,t.position.Y).vehicles[v.Direction - 1];
+            List<List<Vehicle>> vehicleList = simControl.simulationMap.GetTileMea(t.position.X, t.position.Y).vehicles[v.Direction - 1];
             distance = vehicleList[v.Lane].IndexOf(v) * 16;
             return CorrectDistance(t, v, distance);
         }
@@ -259,6 +259,38 @@ namespace TrafficSimulation
                 }
             }
             return false;
+        }
+
+        private Point GetStartDirection(Vehicle v)
+        {
+            return v.position;
+        }
+
+        private Point GetEndPosition(Tile tile, Vehicle v)
+        {
+            Point endPosition;
+            int lane = v.Lane;
+            int startDirection = v.Direction;
+
+            int endDirection = getRandomOutDirection(tile, v);
+
+            Tile endTile = simControl.simulationMap.GetSurroundingTiles(tile.position)[endDirection - 1];
+            int tileLanes = endTile.GetLanesIn(endDirection);
+            int randomLane = Math.Abs(Guid.NewGuid().GetHashCode()) % tileLanes;
+            switch (endDirection)
+            {
+                case 1: endPosition = new Point(endPosition.X + 37 - (randomLane * 17), endPosition.Y + 100);
+                    break;
+                case 2: endPosition = new Point(endPosition.X, endPosition.Y + 53 + 17 * lane);
+                    break;
+                case 3: endPosition = new Point(endPosition.X + 37 - (17 * lane), endPosition.Y);
+                    break;
+                case 4: endPosition = new Point(endPosition.X + 100, endPosition.Y + 37 - (17 * lane));
+                    break;
+                default: endPosition = new Point(0, 0);
+                    break;
+            }
+            return endPosition;
         }
     }
 }
