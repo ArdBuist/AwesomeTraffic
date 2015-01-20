@@ -21,13 +21,16 @@ namespace TrafficSimulation
 		AboutWindow about;
         InterfaceStart interfaceStart;
 		Tile[] tempTileList = new Tile[300];
+        int widthStartScreen, heightStartScreen;
 
         public StartWindow(Size size, WindowSelect sim)
         {
             this.Size = size;
+            widthStartScreen = size.Width;
+            heightStartScreen = size.Height;
             windowselect = sim;
 
-            interfaceStart = new InterfaceStart(this);
+            interfaceStart = new InterfaceStart(this, widthStartScreen, heightStartScreen);
             StartHost = new ElementHost()
             {
                 Height = size.Height,

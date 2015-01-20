@@ -31,15 +31,9 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="BorderStyle" Property="Background" Value="LightGray"/>
+                                <Setter TargetName="BorderStyle" Property="Background" Value="cornsilk"/>
                                 <Setter Property="Foreground" Value="Black" />
                                 <Setter Property="Cursor" Value="Hand" />
-                            </Trigger>
-                            <Trigger Property="IsEnabled" Value="false">
-                                <Setter TargetName="BorderStyle" Property="Background" Value="White"/>
-                                <Setter Property="BorderBrush" Value="Green"/>
-                                <Setter Property="Opacity" Value="0.25"/>
-                                <Setter Property="Cursor" Value="No"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -62,31 +56,31 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>       
         
-        <Rectangle Grid.Row ="0"
+        <Rectangle x:Name="weg" 
+                   Grid.Row ="0"
                    Grid.Column="0"
                    Grid.RowSpan="3"
-                   Grid.ColumnSpan="2"
-                   Margin="-300,0,0,0"
+                   Grid.ColumnSpan="3"
+                   HorizontalAlignment="Left"
                    Fill="Gray" 
                    Stroke="White" 
-                   Width="550" 
-                   Height="900" >
+                   Width="550" >
             <Rectangle.RenderTransform>
-                <SkewTransform AngleX="35"/>
+                <SkewTransform AngleX="36"/>
             </Rectangle.RenderTransform>
         </Rectangle>
  
-        <Rectangle Grid.Row ="0"
+        <Rectangle x:Name="strepen" 
+                   Grid.Row ="0"
                    Grid.Column="0"
                    Grid.RowSpan="3"
-                   Grid.ColumnSpan="2"
-                   Margin="-300,0,0,0"
+                   Grid.ColumnSpan="3"
                    Fill="White" 
                    Stroke="White" 
                    StrokeThickness="15"
                    StrokeDashArray="3,5"
-                   Width="10" 
-                   Height="900" >
+                   HorizontalAlignment="Left"
+                   Width="10"  >
             <Rectangle.RenderTransform>
                 <SkewTransform AngleX="35"/>
             </Rectangle.RenderTransform>
@@ -108,12 +102,11 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <Button x:Name="new" 
+            <Button x:Name="nieuw" 
                     Grid.Row="1"
                     Grid.Column="0"
                     Style="{StaticResource StartSchermButtons}" 
                     Click="New_Click"
-                    Margin="150,10,5,5"
                     HorizontalAlignment="Left"
                     Content="New" />
 
@@ -176,12 +169,12 @@
                 Margin="10,0,0,10"
                 Source="Resources/TrafficExpertLogo.png"/>
         
-        <TextBlock Grid.Row="3"
+        <TextBlock x:Name="slogan"
+                   Grid.Row="3"
                    Grid.RowSpan="2"
                    Grid.Column="0"
                    Grid.ColumnSpan="2"
-                   Margin="-210,25,10,20"
-                   HorizontalAlignment="Center"
+                   HorizontalAlignment="Left"
                    VerticalAlignment="Bottom"
                    FontStyle="Italic"
                    Height="50"
@@ -191,16 +184,13 @@
             How efficient is your road?
         </TextBlock>
         
-        <Image  Grid.Row="3" 
+        <Image  x:Name="stopgo" 
+                Grid.Row="3" 
                 Grid.Column="0" 
-                Height="150"
-                Width="150"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Bottom"
                 Margin="1,1,1,1"
                 Source="Resources\stopandgologo.png"/>
         
-        
-                   
     </Grid>
 </UserControl>

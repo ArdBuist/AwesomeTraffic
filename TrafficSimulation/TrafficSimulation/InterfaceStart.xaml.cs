@@ -21,12 +21,34 @@ namespace TrafficSimulation
     public partial class InterfaceStart : UserControl
     {
         StartWindow startcontrol;
+        int widthStartScreen, heightStartScreen;
+        int widthStopGo, buttonMargin, wegMargin, widthWeg, heightWeg;
 
-        public InterfaceStart(StartWindow start)
+        public InterfaceStart(StartWindow start, int wSS, int hSS)
         {
             InitializeComponent();
-
+            widthStartScreen = wSS;
+            heightStartScreen = hSS;
             startcontrol = start;
+
+            widthWeg = widthStartScreen / 4;
+            heightWeg = heightStartScreen;
+            wegMargin = widthStartScreen / 14;
+            widthStopGo = widthStartScreen / 9;
+            buttonMargin = widthStartScreen / 38;
+
+            weg.Margin = new Thickness(wegMargin, 0, 0, 0);
+            weg.Width = widthWeg;
+            strepen.Margin = new Thickness((wegMargin + (widthWeg/2) ), 1, 1, 1);
+            stopgo.Width = widthStopGo;
+            slogan.Margin = new Thickness(widthStopGo, 5, 5, 5);
+            nieuw.Margin = new Thickness((buttonMargin * 2), 5, 5, 5);
+            open.Margin = new Thickness((buttonMargin * 3), 5, 5, 5);
+            options.Margin = new Thickness((buttonMargin * 4), 5, 5, 5);
+            howTo.Margin = new Thickness((buttonMargin * 5), 5, 5, 5);
+            about.Margin = new Thickness((buttonMargin * 6), 5, 5, 5);
+            exit.Margin = new Thickness((buttonMargin * 7), 5, 5, 5);
+            
         }
 
         public void New_Click(object sender, RoutedEventArgs e)
