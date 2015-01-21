@@ -26,6 +26,7 @@ namespace TrafficSimulation
             button3.Enabled = false;
             button2.Tag = "paused";
             timerStarted = false;
+            label3.Text = "";
         }
 
         //stopbutton
@@ -51,6 +52,7 @@ namespace TrafficSimulation
             if ((string)button2.Tag == "paused")
             {
                 button2.BackgroundImage = new Bitmap((Bitmap)TrafficSimulation.Properties.Resources.ResourceManager.GetObject("Pause_Button"));
+                simwindow.simcontrol.ResetSimulationCounters();
                 button1.Enabled = true;
                 button2.Tag = "playing";
                 StartTimer();
@@ -166,8 +168,9 @@ namespace TrafficSimulation
             int newValue = progressBar1.Maximum -(ts.Seconds + (60 * ts.Minutes) + (3600 * ts.Hours));
             if (newValue < progressBar1.Maximum)
                 progressBar1.Value = newValue;
-            else
+            else if(simwindow.simcontrol.totalCars!=0)
             {
+                
                 ShowEfficiency();
                 
             }
@@ -200,7 +203,11 @@ namespace TrafficSimulation
         {
             if(button1.Enabled== true)
                 simwindow.simcontrol.simulation.StartSim();
+            
+            
             EnableHosts(true);
+            simwindow.BovenSchermLinks.SimulationDesign_Click(null, null);
+            simwindow.BovenSchermLinks.SimulationDesign_Click(null, null);
         }
         private void EnableHosts(Boolean enabled)
         {
@@ -208,6 +215,12 @@ namespace TrafficSimulation
             simwindow.bovenHostRechts.Enabled = enabled;
             simwindow.onderHost.Enabled = enabled;
             simwindow.infoHost.Enabled = enabled;
+        }
+
+        private void StartEfficiency(object sender, EventArgs e)
+        {
+            if(simwindow.BovenSchermLinks.Simulation == true)
+            simwindow.BovenSchermLinks.SimulationDesign_Click(null, null);
         }
     }
 }

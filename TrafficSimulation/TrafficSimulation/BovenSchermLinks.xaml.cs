@@ -51,6 +51,7 @@ namespace TrafficSimulation
         {
             if (simulation)
             {
+                
                 // Buttons in het het bovenschermlinks inschakelen
                 play.IsEnabled = false;
                 slowDown.IsEnabled = false;
@@ -79,9 +80,11 @@ namespace TrafficSimulation
                 windowselect.simwindow.InfoBalk.UpdateSimulationReset();
                 simulationDesign.Content = "Simulation";
                 simulation = false;
+                windowselect.simwindow.simcontrol.vehicleBC.AddGrid();
             }
             else
             {
+                //windowselect.simwindow.simcontrol.vehicleBC = new BitmapControl(windowselect.simwindow.simcontrol.vehicleBC.bitmap.Size);
                 // Buttons in het het bovenschermlinks inschakelen
                 if (windowselect.simwindow.simcontrol.simulation.StartSim())
                 {
@@ -112,7 +115,7 @@ namespace TrafficSimulation
                     windowselect.simwindow.simcontrol.UpdateInfoBalkDesign();
                 }
             }
-            windowselect.Invalidate();
+            windowselect.simwindow.simcontrol.trafficlightPB.Invalidate();
         }
 
         //Klikmethode voor het starten van de simulatie

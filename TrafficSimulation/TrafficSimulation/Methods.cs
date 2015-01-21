@@ -28,7 +28,6 @@ namespace TrafficSimulation
 
         public static bool TileConnectionisValid(SimControl simcontrol, Tile currentBuildTile,Point tilePosition)
         {
-            //simcontrol.simulationMap.CreateMap();
             if (currentBuildTile.name == "Crossroad" || currentBuildTile.name == "Fork")
             {
                 foreach (Tile t in simcontrol.simulationMap.GetSurroundingTiles(new Point((tilePosition.X/100)*100,(tilePosition.Y/100)*100)))

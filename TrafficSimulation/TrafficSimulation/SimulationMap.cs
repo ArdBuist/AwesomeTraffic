@@ -235,5 +235,13 @@ namespace TrafficSimulation
             }
             tileList.Add(t);
         }
+
+        internal void ClearTileCarCounter()
+        {
+            foreach(Tile t in tileList)
+            {
+                t.NumberOfVehicles = 0;
+            }
+        }
     }
 }

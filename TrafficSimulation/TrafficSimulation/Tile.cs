@@ -62,6 +62,7 @@ namespace TrafficSimulation
         public int NumberOfVehicles
         {
             get { return numberOfVehicles; }
+            set { numberOfVehicles = value; }
         }
         public bool[,] Access
         {

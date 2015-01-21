@@ -122,6 +122,7 @@ namespace TrafficSimulation
             InitializeComponent();
             //The simulation thread will be started here, the whole simulation will be regulated in this class.
             this.simulation = new Simulation(this);
+            vehicleBC.AddGrid();
         }
 
         /*controleert of de tile een rechte weg is en checkt of de weg naar de goede kant doorloopt zodat je een hele weg kunt 
@@ -191,6 +192,7 @@ namespace TrafficSimulation
                     UpdateInfoBalkDesign();
                 }
                 simulationMap.RemoveTile(simulationMap.GetTileMea(mea.X, mea.Y));
+                trafficlightBC.bitmap.MakeTransparent(Color.Green);
                 this.Invalidate();
             }
         }
@@ -627,6 +629,7 @@ namespace TrafficSimulation
             this.totalCars = 0;
             simulation.WaitingCars = 0;
             gameSpeed = 1;
+            simulationMap.ClearTileCarCounter();
         }
     }
 }

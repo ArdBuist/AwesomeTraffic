@@ -140,6 +140,7 @@
             this.Text = "Efficiency";
             this.TopMost = true;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.EfficientieWindow_FormClosing);
+            this.Shown += new System.EventHandler(this.StartEfficiency);
             this.ResumeLayout(false);
             this.PerformLayout();
 
