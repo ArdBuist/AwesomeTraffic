@@ -33,6 +33,8 @@ namespace TrafficSimulation
                 gr.DrawLine(blackPen, new Point(x, 0), new Point(x, bitmap.Size.Height));
             for (int y = 0; y < bitmap.Size.Height; y += 100)
                 gr.DrawLine(blackPen, new Point(0, y), new Point(bitmap.Size.Width, y));
+            gr.DrawLine(blackPen, new Point(0, bitmap.Size.Height-1), new Point(bitmap.Size.Width, bitmap.Size.Height-1));
+            gr.DrawLine(blackPen, new Point(bitmap.Size.Width - 1, 0), new Point(bitmap.Size.Width - 1, bitmap.Size.Height));
         }
         // altijd aanroepen als er in de bitmap getekend moet worden.
         public Graphics GetBitmapGraphics

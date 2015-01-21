@@ -29,8 +29,7 @@ namespace TrafficSimulation
             this.Size = size;
             this.windowselect = windowselect;
             sim = new SimControl(this.ClientSize, this);
-            sim.Location = new Point(0, 0);
-          
+            this.BackColor = Color.Black;
             //Variable om de elementhosten afhankelijk te maken van het scherm en andere elementhosten
             breedteScherm = Screen.PrimaryScreen.Bounds.Width;
             hoogteScherm = Screen.PrimaryScreen.Bounds.Height;

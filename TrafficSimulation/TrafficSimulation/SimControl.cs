@@ -84,6 +84,9 @@ namespace TrafficSimulation
             simulationMap = new SimulationMap(this);
             //methode in the partial class creating all the objects needed for the simulation
             this.Size = new Size(2000, 1500);//has to be changed to the windowsize
+            Point bitmapLocation = new Point(-((this.Size.Width - Screen.PrimaryScreen.Bounds.Width) / 2), -((this.Size.Height - Screen.PrimaryScreen.Bounds.Height) / 2));
+            this.Location = bitmapLocation;
+            this.BackColor = Color.Green;
             /* 
              * De bitmapControls in which the simulation takes place, all the bitmapcontrols have a bitmap with
              * which it interacts. Use the BitmapControl to change the bitmaps used for the simulation

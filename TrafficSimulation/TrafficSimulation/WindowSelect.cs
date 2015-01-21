@@ -48,7 +48,7 @@ namespace TrafficSimulation
 
             /// Open homescreen
             startwindow = new StartWindow(screensize, this);
-            this.BackColor = Color.Black;
+            startwindow.BackColor = Color.Black;
 
             //startwindow.Left = ((widthstartscreen - 300) / 2);
             //startwindow.Top = ((heightstartscreen - 300) / 2);
@@ -64,10 +64,7 @@ namespace TrafficSimulation
         {
             /// Verwijder start menu
             this.Controls.Remove(startwindow);
-
             /// Open simwindow
-            simwindow.BackColor = Color.Green;
-            //simwindow.Location = new Point(0, 0);
 	            this.Controls.Add(simwindow);
         }
 

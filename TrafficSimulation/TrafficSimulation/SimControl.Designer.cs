@@ -47,10 +47,12 @@ namespace TrafficSimulation
              * PictureBox in which the background is saved, all the tiles in the simulation will be placed on the bitmap
              * in this PictureBox.
              */
+            
+            Point bitmapLocation = new Point(0,0);
             this.backgroundPB = new PictureBox();
             this.backgroundPB.Image = backgroundBC.bitmap;
             this.backgroundPB.BackColor = Color.Transparent;
-            this.backgroundPB.Location = new Point(0, 0);
+            this.backgroundPB.Location = bitmapLocation;
             this.backgroundPB.Size = new Size(this.Width, this.Height);
             /*
              * PictureBox in which the vehicles are saved, all the vehicles in the simulation will be placed on the bitmap
@@ -59,7 +61,7 @@ namespace TrafficSimulation
             this.vehiclePB = new PictureBox();
             this.vehiclePB.Image = vehicleBC.bitmap;
             this.vehiclePB.BackColor = Color.Transparent;
-            this.vehiclePB.Location = new Point(0, 0);
+            this.vehiclePB.Location = bitmapLocation;
             this.vehiclePB.Size = new Size(this.Width, this.Height);
             /*
              * PictureBox in which the trafficlights are saved, all the trafficlights in the simulation will be placed on the 
@@ -68,7 +70,7 @@ namespace TrafficSimulation
             this.trafficlightPB = new PictureBox();
             this.trafficlightPB.Image = trafficlightBC.bitmap;
             this.trafficlightPB.BackColor = Color.Transparent;
-            this.trafficlightPB.Location = new Point(0, 0);
+            this.trafficlightPB.Location = bitmapLocation;
             this.trafficlightPB.Size = new Size(this.Width, this.Height);
 
             this.Controls.Add(backgroundPB);
