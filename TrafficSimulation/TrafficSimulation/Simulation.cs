@@ -108,6 +108,7 @@ namespace TrafficSimulation
                 Thread.Sleep(simSleep);
             }
         }
+
         public void UpdateGame()
         {
             //de vehiclemap wordt weer helemaal leeg gemaakt zodat de auto's maar 1 keer getekend worden
@@ -166,7 +167,7 @@ namespace TrafficSimulation
             if (StaysOnTile(t, v))//if vehicle is still on the tile 
             {
                 if (DistanceFromCars(t, v))//if there are other cars standing in front
-                    v.Update();
+                    v.Update(GetEndPosition(t, v));
                 else
                 {
                     v.Speed = 0;
@@ -184,7 +185,7 @@ namespace TrafficSimulation
                         v.Speed = nextTile.maxSpeed;
                         nextTile.AddVehicle(simControl, v, v.Direction, v.Lane);
                         simControl.totalCars++;
-                        v.Update();
+                        v.Update(GetEndPosition(t, v));
                     }
                     simControl.simulationMap.GetTileMea(t.position.X, t.position.Y).RemoveVehicle(simControl, v, v.Direction, v.Lane);
                     simControl.totalCars--;
@@ -253,44 +254,69 @@ namespace TrafficSimulation
                         break;
 
                 }
-
-                {
-
-                }
             }
             return false;
         }
 
-        private Point GetStartDirection(Vehicle v)
-        {
-            return v.position;
-        }
-
         private Point GetEndPosition(Tile tile, Vehicle v)
         {
-            Point endPosition;
             int lane = v.Lane;
             int startDirection = v.Direction;
+            int endDirection = v.Direction;
+            //int endDirection = GetRandomOutDirection(tile, startDirection);
+            //Tile endTile = simControl.simulationMap.GetConnectingTiles(tile.position)[endDirection - 1];
+            //int tileLanes = endTile.GetLanesIn(endDirection);
+            //int randomLane = Math.Abs(Guid.NewGuid().GetHashCode()) % tileLanes;
+            
+            //TESTCODE
+            int randomLane = 0;
+            //EINDE TESTCODE
 
-            int endDirection = getRandomOutDirection(tile, v);
-
-            Tile endTile = simControl.simulationMap.GetSurroundingTiles(tile.position)[endDirection - 1];
-            int tileLanes = endTile.GetLanesIn(endDirection);
-            int randomLane = Math.Abs(Guid.NewGuid().GetHashCode()) % tileLanes;
             switch (endDirection)
             {
-                case 1: endPosition = new Point(endPosition.X + 37 - (randomLane * 17), endPosition.Y + 100);
-                    break;
-                case 2: endPosition = new Point(endPosition.X, endPosition.Y + 53 + 17 * lane);
-                    break;
-                case 3: endPosition = new Point(endPosition.X + 37 - (17 * lane), endPosition.Y);
-                    break;
-                case 4: endPosition = new Point(endPosition.X + 100, endPosition.Y + 37 - (17 * lane));
-                    break;
-                default: endPosition = new Point(0, 0);
-                    break;
+                case 1:
+                    return new Point(tile.position.X + 53 + (randomLane * 17), tile.position.Y);
+                case 2:
+                    return new Point(tile.position.X + 100, tile.position.Y + 53 + 17 * lane);
+                case 3:
+                    return new Point(tile.position.X + 37 - (17 * lane), tile.position.Y + 100);
+                case 4:
+                    return new Point(tile.position.X, tile.position.Y + 37 - (17 * lane));
+                default:
+                    return new Point(0, 0);
             }
-            return endPosition;
+        }
+
+        private int GetRandomOutDirection(Tile tile, int startDirection)
+        {
+            Tile[] tiles = simControl.simulationMap.GetConnectingTiles(tile.position);
+            int tilesCount = 0;
+            int[] positions = new int[4];
+            int positionsCount = 0;
+            
+            foreach (Tile t in tiles)
+            {
+                if (t != null)
+                {
+                    positions[positionsCount] = tilesCount;
+                    positionsCount++;
+                }
+                tilesCount++;
+            }
+
+            if (positionsCount == 0)
+            {
+                return 0;
+            }
+            else if (positionsCount == 1)
+            {
+                return positions[0]+1;
+            }
+            else
+            {
+                int randomDirection = Math.Abs(Guid.NewGuid().GetHashCode()) % positionsCount;
+                return positions[randomDirection]+1;
+            }
         }
     }
 }

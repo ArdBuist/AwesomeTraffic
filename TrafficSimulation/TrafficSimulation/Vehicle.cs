@@ -19,9 +19,13 @@ namespace TrafficSimulation
         protected int lane;
         protected static System.Security.Cryptography.RNGCryptoServiceProvider rnd;
 
+        private Point tilePoint;
+        private Point[] turnPosition;
+        private int turnPoint;
 
         public Vehicle(Point pos, Point dest, int len, int speed, int direction, int lane)
         {
+            turnPoint = 0;
             position = pos;
             destination = dest;
             size = new Size(10, len);
@@ -36,30 +40,67 @@ namespace TrafficSimulation
         public int Lane { get { return lane; } }
         public Bitmap Bitmap { get { return bitmap; } }
         public Size Size { get { return size; } }
-        
+
         public int Speed
         {
             get { return speed; }
             set { speed = value; }
         }
 
-        public void Update()
+        public void Update(Point endPosition)
         {
+            if (turnPoint == 0)
+            {
+                turnInit(endPosition);
+            }
+
+            for (int i = 0; i < speed && turnPoint < turnPosition.Length - 1; i++)
+            {
+                this.position.X += turnPosition[turnPoint].X;
+                this.position.Y += turnPosition[turnPoint].Y;
+                turnPoint++;
+            }
+
+            if (turnPoint >= turnPosition.Length)
+                switch (direction)
+                {
+                    case 1:
+                        position.Y -= 1;
+                        break;
+                    case 2:
+                        position.X += 1;
+                        break;
+                    case 3:
+                        position.Y += 1;
+                        break;
+                    case 4:
+                        position.X -= 1;
+                        break;
+                }
+
+            turnPoint++;
+        }
+
+        private void turnInit(Point endPosition)
+        {
+            turnPosition = Curves.GetCurves(this.direction, new Point(endPosition.X -
+                (this.position.X / 100 * 100), endPosition.Y - (this.position.Y / 100 * 100)));
+
             switch (direction)
             {
                 case 1:
-                    position.Y -= speed;
+                    turnPoint = (int)((100-position.Y % 100) / turnPosition.Length);
                     break;
                 case 2:
-                    position.X += speed;
                     break;
                 case 3:
-                    position.Y += speed;
+                    turnPoint = (int)(position.Y % 100 / turnPosition.Length);
                     break;
                 case 4:
-                    position.X -= speed;
                     break;
             }
+
+            turnPosition[turnPosition.Length - 1] = endPosition;
         }
 
         protected void createBitmap(int bmDirection)
@@ -70,8 +111,8 @@ namespace TrafficSimulation
             {
                 Byte[] random;
                 random = new Byte[1];
-                rnd.GetBytes(random);   
-                string carName = "car" + (((int)random[0]%5)+1);
+                rnd.GetBytes(random);
+                string carName = "car" + (((int)random[0] % 5) + 1);
                 carBitmap = (Bitmap)Properties.Resources.ResourceManager.GetObject(carName);
                 bitmap = new Bitmap(carBitmap.Width + speed, carBitmap.Height);
                 gr = Graphics.FromImage(bitmap);
@@ -79,7 +120,7 @@ namespace TrafficSimulation
                 {
                     destCar = new Rectangle(new Point(speed, 0), carBitmap.Size);
                 }
-                else if(bmDirection == 4)
+                else if (bmDirection == 4)
                 {
                     carBitmap.RotateFlip(RotateFlipType.Rotate180FlipNone);
                     destCar = new Rectangle(new Point(0, 0), carBitmap.Size);
@@ -113,8 +154,8 @@ namespace TrafficSimulation
             {
                 case 1:
                     createBitmap(1);
-                    position.X += 52+(17*lane);
-                    position.Y += 70-15;
+                    position.X += 52 + (17 * lane);
+                    position.Y += 70 - 15;
                     break;
                 case 2:
                     createBitmap(2);
@@ -128,7 +169,7 @@ namespace TrafficSimulation
                     break;
                 case 4:
                     createBitmap(4);
-                    position.X += 70-15;
+                    position.X += 70 - 15;
                     position.Y += (37 - (17 * lane));
                     break;
             }

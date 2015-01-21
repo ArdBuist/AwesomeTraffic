@@ -425,25 +425,34 @@ namespace TrafficSimulation
                 Spawn(sim);
             }
         }
+        //TESTCODE
+        bool autoIsGespawnt = false;
+        //TESTCODE
 
         public void Spawn(SimControl sim)
         {
-            //spawnt op een willekeurig moment een auto in een willekeurige baan.
-            Byte[] random;
-            random = new Byte[1];
-            rnd.GetBytes(random);
-            if (random[0] % carsSpawnChance == 0)
+            //BEGIN TESTCODE
+            if (!autoIsGespawnt)
+                //EINDE TESTCODE
             {
-                //takes a random lane to spawn in
-                spawnLane = ((random[0]*10)/8) % lanesOut;
-                List<List<Vehicle>> vehicleList = vehicles[this.direction - 1];
-                if (vehicleList[spawnLane].Count < 4)
+                //spawnt op een willekeurig moment een auto in een willekeurige baan.
+                Byte[] random;
+                random = new Byte[1];
+                rnd.GetBytes(random);
+                if (random[0] % carsSpawnChance == 0)
                 {
-                    AddVehicle(sim, createVehicle(spawnLane), direction, spawnLane);
-                    sim.totalCars++;
+                    //takes a random lane to spawn in
+                    spawnLane = ((random[0] * 10) / 8) % lanesOut;
+                    List<List<Vehicle>> vehicleList = vehicles[this.direction - 1];
+                    if (vehicleList[spawnLane].Count < 4)
+                    {
+                        AddVehicle(sim, createVehicle(spawnLane), direction, spawnLane);
+                        sim.totalCars++;
+                        autoIsGespawnt = true;
+                    }
                 }
+                currentSpawn--;
             }
-            currentSpawn--;
         }
 
         public Vehicle createVehicle(int spawnLane)

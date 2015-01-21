@@ -64,6 +64,7 @@
     <Compile Include="BovenSchermLinks.xaml.cs">
       <DependentUpon>BovenSchermLinks.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Curves.cs" />
     <Compile Include="Methods.cs" />
     <Compile Include="SimulationMap.cs" />
     <Compile Include="WindowSelect.cs">
@@ -87,7 +88,7 @@
       <DependentUpon>InterfaceStart.xaml</DependentUpon>
     </Compile>
     <Compile Include="LaneTrafficlight.cs" />
-	<Compile Include="LoadWindow.cs">
+    <Compile Include="LoadWindow.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Loadwindow.Designer.cs">
@@ -226,6 +227,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Tiles\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -11,7 +11,7 @@ namespace TrafficSimulation
 {
     public class BitmapControl
     {
-
+        
         public Bitmap bitmap;
         public BitmapControl(Size size)
         {

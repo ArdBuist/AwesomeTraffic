@@ -8,8 +8,7 @@ namespace TrafficSimulation
 {
     public class SimulationMap
     {
-        public Tile[,] map;
-
+        private Tile[,] map;
         private SimControl simControl;
         private int smallX, smallY;
         private int largeX, largeY;
@@ -136,7 +135,7 @@ namespace TrafficSimulation
 
         public Tile GetTileRight(Point position)
         {
-            if (ToGrid(position).X < Map.GetLength(0) - 2)
+            if (ToGrid(position).X < Map.GetLength(0) - 1)
             {
                 int x = ToGrid(position).X;
                 int y = ToGrid(position).Y;
@@ -189,6 +188,21 @@ namespace TrafficSimulation
             return tileArray;
         }
 
+        public Tile[] GetConnectingTiles(Point pos)
+        {
+            Tile[] connectingTiles = new Tile[4];
+
+            foreach (int d in GetTile(pos).Directions)
+            {
+                if (GetSurroundingTiles(pos)[d - 1] != null)
+                {
+                    connectingTiles[d - 1] = GetSurroundingTiles(pos)[d - 1];
+                }
+            }
+
+            return connectingTiles;
+        }
+
         public Point ToGrid(Point p)
         {
             int temp1 = p.X / 100;
@@ -215,6 +229,18 @@ namespace TrafficSimulation
             foreach (Tile t in tileList)
             {
                 if (t.position == p)
+                {
+                    return t;
+                }
+            }
+            return null;
+        }
+
+        public Tile GetTile(Point pos)
+        {
+            foreach (Tile t in tileList)
+            {
+                if (t.position == pos)
                 {
                     return t;
                 }

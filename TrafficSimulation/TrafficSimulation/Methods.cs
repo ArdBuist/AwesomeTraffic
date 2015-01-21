@@ -17,7 +17,9 @@ namespace TrafficSimulation
                 {
                     if (s.simulationMap.GetSurroundingTiles(t.position)[direction - 1] == null)
                     {
-                        Tile[] tile = s.simulationMap.GetSurroundingTiles(t.position);
+                        //TEST CODE
+                        return true;
+                        //TEST CODE
                         return false;
                     }
                 }
