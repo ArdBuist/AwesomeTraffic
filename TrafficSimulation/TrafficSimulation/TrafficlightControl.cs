@@ -145,7 +145,7 @@ namespace TrafficSimulation
                         else if (lowest == allRight)
                             R();
                     }
-                        //DIT WERKT NOG NIET
+                    /*Dit deel van de code werkt, maar bij bepaalde soorten wegen begint het vervelend te schuiven ivm keuzes waar geen enkel stoplicht op groen gaat*/
                     else
                     {
                         int prioMax = prio.Max();
