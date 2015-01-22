@@ -177,8 +177,8 @@ namespace TrafficSimulation
                         StratUpdate(i, 3);
                     }
                 }
-
                 //alle timers weer naar 0
+                //PROBLEM HERE//
                 for (int i = 0; i < 12; i++)
                 {
                     timer[i] = 0;
