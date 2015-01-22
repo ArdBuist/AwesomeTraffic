@@ -44,10 +44,9 @@ namespace TrafficSimulation
             slogan.Margin = new Thickness(widthStopGo, 5, 5, 5);
             nieuw.Margin = new Thickness((buttonMargin * 2), 5, 5, 5);
             open.Margin = new Thickness((buttonMargin * 3), 5, 5, 5);
-            options.Margin = new Thickness((buttonMargin * 4), 5, 5, 5);
-            howTo.Margin = new Thickness((buttonMargin * 5), 5, 5, 5);
-            about.Margin = new Thickness((buttonMargin * 6), 5, 5, 5);
-            exit.Margin = new Thickness((buttonMargin * 7), 5, 5, 5);
+            howTo.Margin = new Thickness((buttonMargin * 4), 5, 5, 5);
+            about.Margin = new Thickness((buttonMargin * 5), 5, 5, 5);
+            exit.Margin = new Thickness((buttonMargin * 6), 5, 5, 5);
             
         }
 

@@ -119,19 +119,10 @@
                     HorizontalAlignment="Left"
                     Content="Open" />
 
-            <Button x:Name="options"
-                    Grid.Row="3"
-                    Grid.Column="0"
-                    Style="{StaticResource StartSchermButtons}" 
-                    Click="Options_Click"
-                    HorizontalAlignment="Left"
-                    Margin="250,10,5,5"
-                    Content="Options" />
-
             <Button x:Name="howTo"
                    Style="{StaticResource StartSchermButtons}"
                    Click="HowTo_Click"
-                   Grid.Row="4"
+                   Grid.Row="3"
                    Grid.Column="0"
                    HorizontalAlignment="Left"
                     Margin="300,10,5,5"
@@ -140,7 +131,7 @@
             <Button x:Name="about"
                     Style="{StaticResource StartSchermButtons}" 
                     Click="About_Click" 
-                    Grid.Row="5"
+                    Grid.Row="4"
                     Grid.Column="0"
                     HorizontalAlignment="Left"
                     Margin="350,10,5,5"
@@ -149,7 +140,7 @@
             <Button x:Name="exit"
                     Style="{StaticResource StartSchermButtons}" 
                     Click="Exit_Click" 
-                    Grid.Row="6"
+                    Grid.Row="5"
                     Grid.Column="0"
                     HorizontalAlignment="Left"
                     Margin="400,5,5,5"
