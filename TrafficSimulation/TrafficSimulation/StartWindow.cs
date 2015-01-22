@@ -55,7 +55,7 @@ namespace TrafficSimulation
         /// <summary>
         /// Click New
         /// </summary>
-        public void New_Click()
+        public void Resume_Click()
         {
             /// Set current build tile to a straight road
             windowselect.simwindow.simcontrol.currentBuildTile = new Road(1, 3);
@@ -487,6 +487,12 @@ namespace TrafficSimulation
             Application.Exit();
 
 
+        }
+
+        internal void New_Click()
+        {
+            windowselect.simwindow = new SimWindow(windowselect.Size,windowselect);
+            Resume_Click();
         }
     }
 }

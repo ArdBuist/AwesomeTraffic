@@ -528,13 +528,13 @@ namespace TrafficSimulation
              * spawner staat.
              **/
             if (side == 3)
-                bmSpawner.FillRectangle(Brushes.Black, r3 - 5, 0, width, 30);
+                bmSpawner.FillRectangle(Brushes.Black, r3 - 5, 15, width, 15);
             else if (side == 4)
-                bmSpawner.FillRectangle(Brushes.Black, 70, r3 - 5, 30, width);
+                bmSpawner.FillRectangle(Brushes.Black, 70, r3 - 5, 15, width);
             else if (side == 1)
-                bmSpawner.FillRectangle(Brushes.Black, r - 5, 70, width, 30);
+                bmSpawner.FillRectangle(Brushes.Black, r - 5, 70, width, 15);
            else
-                bmSpawner.FillRectangle(Brushes.Black, 0, r - 5, 30, width);
+                bmSpawner.FillRectangle(Brushes.Black, 14, r - 5, 16, width);
             return bmSpawner;
         }
          
