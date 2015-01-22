@@ -8,6 +8,8 @@ namespace TrafficSimulation
 {
     static class Methods
     {
+        //["Spawner", "Road", "Fork","Crossroad"];
+
         public static bool CheckValidConnections(SimControl s)
         {
             s.simulationMap.CreateMap();

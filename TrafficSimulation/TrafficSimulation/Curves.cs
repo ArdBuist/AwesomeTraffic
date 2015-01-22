@@ -34,11 +34,18 @@ namespace TrafficSimulation
             LeftToRight();
             UpToDown();
         }
-
+        /*
+         * straal r = 50
+         * omtrek o = 2*pi*r = 100*Math.PI
+         * een bocht is 1/4 cirkel = 25*Math.PI
+         * een bocht is 1/2pi rad dus een stukje bocht is (1/25*Math.PI)*0.5*Math.PI = 1/50
+         * dit tel je op bij waar je begint, als je rechts begint is dan 0pi en als je links begint is dat 1pi
+         * dus 1 stap in de bocht van rechts naar boven is Math.PI+1/50*1 en die daarna Math.PI+1/50*2
+         * 
+         */
         private static void RightToUp()
         {
             rightToUp = new Point[(int)length];
-            double rad = (0.25 * Math.PI) / length;
             for (int i = 0; i < rightToUp.Length; i++)
             {
                 //rightToUp[i].X = 100+(int)(r*Math.Cos(Math.PI+((1.0/(25*Math.PI))*Math.PI*0.5*i)));
@@ -46,8 +53,17 @@ namespace TrafficSimulation
                 //rightToUp[i].Y=(int)(r*Math.Sin(Math.PI+((1.0/(25*Math.PI))*Math.PI*0.5*i)));
                 rightToUp[i].Y = (int)(r * Math.Sin(Math.PI + (1.0 / 50.0) * i));
             }
-            rightToUp = CorrectedArray(rightToUp);
             upToRight = CorrectedArray(ReverseArray(rightToUp));
+            rightToUp = CorrectedArray(rightToUp);
+
+            for (int i = 0; i < rightToUp.Length; i++)
+            {
+                rightToUp[i].X *= -1;
+                rightToUp[i].Y *= -1;
+            }
+
+            Point[] test1 = upToRight;
+            Point[] test2 = rightToUp;
         }
 
         private static void UpToLeft()
@@ -56,9 +72,10 @@ namespace TrafficSimulation
 
             for (int i = 0; i < rightToUp.Length; i++)
             {
-                double hoek = ((90.0 / length) * i) + 90;
-                rightToUp[i].X = (int)(r * Math.Cos(hoek));
-                rightToUp[i].Y = (int)(r * Math.Sin(hoek));
+                //rightToUp[i].X = 100+(int)(r*Math.Cos(Math.PI+((1.0/(25*Math.PI))*Math.PI*0.5*i)));
+                rightToUp[i].X = (int)(r * Math.Cos(Math.PI + ((1.0 / (25 * Math.PI)) * Math.PI * 0.5 * i)));
+                //rightToUp[i].Y=(int)(r*Math.Sin(Math.PI+((1.0/(25*Math.PI))*Math.PI*0.5*i)));
+                rightToUp[i].Y = (int)(r * Math.Sin(0));
             }
 
             leftToUp = ReverseArray(upToLeft);
@@ -147,8 +164,6 @@ namespace TrafficSimulation
 
         public static Point[] GetCurves(int direction, Point endPosition)
         {
-            Point[] result;
-
             if (direction == 1 && endPosition.X == 0)
             {
                 return downToLeft;

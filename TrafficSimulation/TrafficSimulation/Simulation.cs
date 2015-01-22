@@ -184,6 +184,7 @@ namespace TrafficSimulation
                     {
                         v.Speed = nextTile.maxSpeed;
                         nextTile.AddVehicle(simControl, v, v.Direction, v.Lane);
+                        v.reset();
                         simControl.totalCars++;
                         v.Update(GetEndPosition(t, v));
                     }
@@ -260,14 +261,12 @@ namespace TrafficSimulation
 
         private Point GetEndPosition(Tile tile, Vehicle v)
         {
+            int endDirection = GetRandomOutDirection(tile, v);
             int lane = v.Lane;
-            int startDirection = v.Direction;
-            int endDirection = v.Direction;
-            //int endDirection = GetRandomOutDirection(tile, startDirection);
             //Tile endTile = simControl.simulationMap.GetConnectingTiles(tile.position)[endDirection - 1];
             //int tileLanes = endTile.GetLanesIn(endDirection);
             //int randomLane = Math.Abs(Guid.NewGuid().GetHashCode()) % tileLanes;
-            
+
             //TESTCODE
             int randomLane = 0;
             //EINDE TESTCODE
@@ -287,36 +286,31 @@ namespace TrafficSimulation
             }
         }
 
-        private int GetRandomOutDirection(Tile tile, int startDirection)
+        private int GetRandomOutDirection(Tile tile, Vehicle v)
         {
-            Tile[] tiles = simControl.simulationMap.GetConnectingTiles(tile.position);
-            int tilesCount = 0;
-            int[] positions = new int[4];
-            int positionsCount = 0;
-            
-            foreach (Tile t in tiles)
+            Tile newTile = simControl.simulationMap.GetSurroundingTiles(tile.position)[v.Direction - 1];
+            int newDirection = 0;
+            switch (newTile.name)
             {
-                if (t != null)
-                {
-                    positions[positionsCount] = tilesCount;
-                    positionsCount++;
-                }
-                tilesCount++;
+                case "Spawner":
+                    newDirection = v.Direction;
+                    break;
+                case "Road":
+                    foreach (int i in newTile.Directions)
+                    {
+                        if (i != ((v.Direction + 2) % 4))
+                        {
+                            newDirection = i;
+                        }
+                    }
+                    break;
+            }
+            if (v.UpdatePoint == 0)
+            {
+                v.Direction = newDirection;
             }
 
-            if (positionsCount == 0)
-            {
-                return 0;
-            }
-            else if (positionsCount == 1)
-            {
-                return positions[0]+1;
-            }
-            else
-            {
-                int randomDirection = Math.Abs(Guid.NewGuid().GetHashCode()) % positionsCount;
-                return positions[randomDirection]+1;
-            }
+            return newDirection;
         }
     }
 }

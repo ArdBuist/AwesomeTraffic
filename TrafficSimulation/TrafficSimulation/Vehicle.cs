@@ -20,12 +20,15 @@ namespace TrafficSimulation
         protected static System.Security.Cryptography.RNGCryptoServiceProvider rnd;
 
         private Point tilePoint;
-        private Point[] turnPosition;
-        private int turnPoint;
+        private int updatePoint;
+        private Point beginPoint, endPoint;
+        private double tempX, tempY;
+        private Size updateSize;
+        private double updateLength;
 
         public Vehicle(Point pos, Point dest, int len, int speed, int direction, int lane)
         {
-            turnPoint = 0;
+            updatePoint = 0;
             position = pos;
             destination = dest;
             size = new Size(10, len);
@@ -36,73 +39,110 @@ namespace TrafficSimulation
         }
 
         public Point Destination { get { return destination; } }
-        public int Direction { get { return direction; } }
+        public int Direction { get { return direction; } set { value = direction; } }
         public int Lane { get { return lane; } }
         public Bitmap Bitmap { get { return bitmap; } }
         public Size Size { get { return size; } }
-
-        public int Speed
-        {
-            get { return speed; }
-            set { speed = value; }
-        }
+        public int UpdatePoint { get { return updatePoint; } }
+        public int Speed { get { return speed; } set { speed = value; } }
 
         public void Update(Point endPosition)
         {
-            if (turnPoint == 0)
+            if (updatePoint == 0)
             {
-                turnInit(endPosition);
+                tilePoint = new Point(this.position.X / 100 * 100, this.position.Y / 100 * 100);
+                beginPoint = this.position;
+                endPoint = endPosition;
+                updateSize = new Size(endPoint.X - beginPoint.X, endPoint.Y - beginPoint.Y);
+                updateLength = Math.Ceiling(Math.Sqrt(updateSize.Width * updateSize.Width + updateSize.Height * updateSize.Height));
             }
-
-            for (int i = 0; i < speed && turnPoint < turnPosition.Length - 1; i++)
+            
+            int test1 =GetEndDirection(new Point(endPosition.X-tilePoint.X,endPosition.Y-tilePoint.Y));
+            switch (direction + "-->" + GetEndDirection(new Point(endPosition.X-tilePoint.X,endPosition.Y-tilePoint.Y)))
             {
-                this.position.X += turnPosition[turnPoint].X;
-                this.position.Y += turnPosition[turnPoint].Y;
-                turnPoint++;
+                case "1-->1":
+                    tempX += ((double)updateSize.Width / updateLength) * speed;
+                    while (tempX >= 1)
+                    {
+                        if (endPosition.X < position.X)
+                        {
+                            position.X--;
+                        }
+                        else if (endPosition.X > position.X)
+                        {
+                            position.X++;
+                        }
+                        tempX--;
+                    }
+
+                    tempY += ((double)updateSize.Height / updateLength) * speed;
+                    while (tempY >= 1)
+                    {
+                        position.Y--;
+                        tempY--;
+                    }
+                    break;
+                case "1-->2":
+                    break;
+                case "1-->4":
+                    break;
+
+                case "2-->1":
+                    break;
+                case "2-->2":
+                    position.X += speed;
+                    break;
+                case "2-->3":
+                    break;
+
+                case "3-->2":
+                    break;
+                case "3-->3":
+                    position.Y += speed;
+                    break;
+                case "3-->4":
+                    break;
+
+                case "4-->1":
+                    break;
+                case "4-->4":
+                    position.X += speed;
+                    break;
+                case "4-->3":
+                    break;
             }
-
-            if (turnPoint >= turnPosition.Length)
-                switch (direction)
-                {
-                    case 1:
-                        position.Y -= 1;
-                        break;
-                    case 2:
-                        position.X += 1;
-                        break;
-                    case 3:
-                        position.Y += 1;
-                        break;
-                    case 4:
-                        position.X -= 1;
-                        break;
-                }
-
-            turnPoint++;
+            updatePoint++;
         }
 
-        private void turnInit(Point endPosition)
+        public void reset()
         {
-            turnPosition = Curves.GetCurves(this.direction, new Point(endPosition.X -
-                (this.position.X / 100 * 100), endPosition.Y - (this.position.Y / 100 * 100)));
-
-            switch (direction)
-            {
-                case 1:
-                    turnPoint = (int)((100-position.Y % 100) / turnPosition.Length);
-                    break;
-                case 2:
-                    break;
-                case 3:
-                    turnPoint = (int)(position.Y % 100 / turnPosition.Length);
-                    break;
-                case 4:
-                    break;
-            }
-
-            turnPosition[turnPosition.Length - 1] = endPosition;
+            updatePoint = 0;
         }
 
+
+        private int GetEndDirection(Point end)
+        {
+            if (end.X == 0)
+            {
+                return 4;
+            }
+            else if (end.X == 100)
+            {
+                return 2;
+            }
+            else if (end.Y == 0)
+            {
+                return 1;
+            }
+            else if (end.Y == 100)
+            {
+                return 3;
+            }
+            else
+            {
+                return 0;
+            }
+        }
         protected void createBitmap(int bmDirection)
         {
             Graphics gr;
