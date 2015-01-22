@@ -10,30 +10,88 @@ namespace TrafficSimulation
     class LaneTrafficlight
     {
         SimControl simcontrol;
-        public List<Trafficlight> trafficlights;
+        List<Trafficlight> trafficlights;
         Tile road;
-        public int direction;
+        int Lanes, direction;
 
         public LaneTrafficlight(SimControl sim, Tile road, int Direction, int Lanes)
         {
+            this.simcontrol = sim;
             trafficlights = new List<Trafficlight>();
             this.road = road;
-            simcontrol = sim;
-            this.direction = Direction + 1;
-            for (int i = 0; i < Lanes; i++)
+            this.Lanes = Lanes;
+            this.direction = Direction;
+
+            switch (Lanes)
             {
-                Point Position = GetPosition(Direction, i);
-                trafficlights.Add(new Trafficlight(sim, road, Position));
+                case 1:
+                    CreateSingleLane();
+                    break;
+                case 2:
+                    CreateDoubleLane();
+                    break;
+                case 3:
+                    CreateTripleLane();
+                    break;
             }
         }
 
-        public void ChangeColor(Color kleur)
+        public void CreateSingleLane()
+        {
+            for (int i = 0; i < Lanes; i++)
+            {
+                Point Position = GetPosition(direction, i);
+                trafficlights.Add(new Trafficlight(simcontrol, road, Position, 1));
+            }
+        }
+
+        public void CreateDoubleLane()
+        {
+            for (int i = 0; i < Lanes; i++)
+            {
+                Point Position = GetPosition(direction, i);
+                switch (i)
+                {
+                    case 0:
+                        trafficlights.Add(new Trafficlight(simcontrol, road, Position, 5));
+                        break;
+                    case 1:
+                        trafficlights.Add(new Trafficlight(simcontrol, road, Position, 2));
+                        break;
+                }
+            }
+        }
+
+        public void CreateTripleLane()
+        {
+            for (int i = 0; i < Lanes; i++)
+            {
+                Point Position = GetPosition(direction, i);
+                switch (i)
+                {
+                    case 0:
+                        trafficlights.Add(new Trafficlight(simcontrol, road, Position, 5));
+                        break;
+                    case 1:
+                        trafficlights.Add(new Trafficlight(simcontrol, road, Position, 4));
+                        break;
+                    case 2:
+                        trafficlights.Add(new Trafficlight(simcontrol, road, Position, 3));
+                        break;
+                }
+            }
+        }
+
+        public void ChangeColor(Color kleur, int LaneType)
         {
             for (int i = 0; i < trafficlights.Count; i++)
             {
                 Trafficlight Light = (Trafficlight)trafficlights[i];
-                Light.UpdateColor(kleur);
-                UpdateTileAccess(i, kleur);
+                if (LaneType == Light.LaneType)
+                {
+                    Light.UpdateColor(kleur);
+                    UpdateTileAccess(i, kleur);
+                }
             }
         }
 
@@ -75,14 +133,14 @@ namespace TrafficSimulation
         }
         private void UpdateTileAccess(int lane, Color kleur)
         {
-            Tile Othertile = simcontrol.simulationMap.GetSurroundingTiles(road.position)[direction - 1];
+            Tile Othertile = simcontrol.simulationMap.GetSurroundingTiles(road.position)[direction];
             if (Othertile != null)
             {
-                int tileDirection = (direction + 1) % 4 + 1;
+                int tileDirection = (direction + 2) % 4 + 1;
                 if (kleur == Color.Green)
-                    Othertile.Access[tileDirection-1, lane] = true;
+                    Othertile.Access[tileDirection - 1, lane] = true;
                else
-                    Othertile.Access[tileDirection-1, lane] = false;
+                    Othertile.Access[tileDirection - 1, lane] = false;
             }
         }
     }
