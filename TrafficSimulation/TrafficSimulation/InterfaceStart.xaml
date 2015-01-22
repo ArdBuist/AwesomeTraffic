@@ -102,8 +102,17 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <Button x:Name="nieuw" 
+            <Button x:Name="resume" 
+                    Visibility="Hidden"
                     Grid.Row="1"
+                    Grid.Column="0"
+                    Style="{StaticResource StartSchermButtons}" 
+                    Click="resume_Click"
+                    HorizontalAlignment="Left"
+                    Content="Resume" />
+
+            <Button x:Name="nieuw" 
+                    Grid.Row="2"
                     Grid.Column="0"
                     Style="{StaticResource StartSchermButtons}" 
                     Click="New_Click"
@@ -111,7 +120,7 @@
                     Content="New" />
 
             <Button x:Name="open"
-                    Grid.Row="2"
+                    Grid.Row="3"
                     Grid.Column="0"
                     Style="{StaticResource StartSchermButtons}" 
                     Click="Open_Click" 
@@ -122,7 +131,7 @@
             <Button x:Name="howTo"
                    Style="{StaticResource StartSchermButtons}"
                    Click="HowTo_Click"
-                   Grid.Row="3"
+                   Grid.Row="4"
                    Grid.Column="0"
                    HorizontalAlignment="Left"
                     Margin="300,10,5,5"
@@ -131,7 +140,7 @@
             <Button x:Name="about"
                     Style="{StaticResource StartSchermButtons}" 
                     Click="About_Click" 
-                    Grid.Row="4"
+                    Grid.Row="5"
                     Grid.Column="0"
                     HorizontalAlignment="Left"
                     Margin="350,10,5,5"
@@ -140,7 +149,7 @@
             <Button x:Name="exit"
                     Style="{StaticResource StartSchermButtons}" 
                     Click="Exit_Click" 
-                    Grid.Row="5"
+                    Grid.Row="6"
                     Grid.Column="0"
                     HorizontalAlignment="Left"
                     Margin="400,5,5,5"
