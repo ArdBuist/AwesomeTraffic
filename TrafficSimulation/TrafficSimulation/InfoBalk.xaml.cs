@@ -367,7 +367,7 @@ namespace TrafficSimulation
                     break;
                 case "Road": rotatedTile = new Road((originalTile.startDirection+difference )% 4 + 1, (originalTile.endDirection +difference)% 4 + 1);
                     break;
-                case "Spawner": rotatedTile = new Spawner((originalTile.direction + difference) % 4 + 1);
+                case "Spawner": rotatedTile = new Spawner(windowselect.simwindow.simcontrol, (originalTile.direction + difference) % 4 + 1);
                     break;
                 default: rotatedTile = new Crossroad(simcontrol);
                     break;

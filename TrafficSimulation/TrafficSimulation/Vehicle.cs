@@ -114,21 +114,21 @@ namespace TrafficSimulation
                 case 1:
                     createBitmap(1);
                     position.X += 52+(17*lane);
-                    position.Y += 70-15;
+                    position.Y += 85-15;
                     break;
                 case 2:
                     createBitmap(2);
                     position.Y += 53 + 17 * lane;
-                    position.X += 30;
+                    position.X += 15;
                     break;
                 case 3:
                     createBitmap(3);
                     position.X += (37 - (17 * lane));
-                    position.Y += 30;
+                    position.Y += 15;
                     break;
                 case 4:
                     createBitmap(4);
-                    position.X += 70-15;
+                    position.X += 85-15;
                     position.Y += (37 - (17 * lane));
                     break;
             }

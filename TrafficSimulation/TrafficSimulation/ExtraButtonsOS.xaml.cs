@@ -126,7 +126,7 @@ namespace TrafficSimulation
         private void Spawnerdown_Click(object sender, RoutedEventArgs e)
         {
             HideButtons();
-            windowselect.simwindow.simcontrol.currentBuildTile = new Spawner(1);
+            windowselect.simwindow.simcontrol.currentBuildTile = new Spawner(windowselect.simwindow.simcontrol,1);
             windowselect.simwindow.simcontrol.state = "building";
             windowselect.simwindow.OnderScherm.spawnerButton.IsChecked = true;
         }
@@ -134,15 +134,15 @@ namespace TrafficSimulation
         private void Spawnerleft_Click(object sender, RoutedEventArgs e)
         {
             HideButtons();
-            windowselect.simwindow.simcontrol.currentBuildTile = new Spawner(2);
+            windowselect.simwindow.simcontrol.currentBuildTile = new Spawner(windowselect.simwindow.simcontrol, 2);
             windowselect.simwindow.simcontrol.state = "building";
             windowselect.simwindow.OnderScherm.spawnerButton.IsChecked = true;
         }
 
         private void Spawnerup_Click(object sender, RoutedEventArgs e)
         {
-            HideButtons(); 
-            windowselect.simwindow.simcontrol.currentBuildTile = new Spawner(3);
+            HideButtons();
+            windowselect.simwindow.simcontrol.currentBuildTile = new Spawner(windowselect.simwindow.simcontrol, 3);
             windowselect.simwindow.simcontrol.state = "building";
             windowselect.simwindow.OnderScherm.spawnerButton.IsChecked = true;
         }
@@ -150,7 +150,7 @@ namespace TrafficSimulation
         private void Spawnerright_Click(object sender, RoutedEventArgs e)
         {
             HideButtons();
-            windowselect.simwindow.simcontrol.currentBuildTile = new Spawner(4);
+            windowselect.simwindow.simcontrol.currentBuildTile = new Spawner(windowselect.simwindow.simcontrol, 4);
             windowselect.simwindow.simcontrol.state = "building";
             windowselect.simwindow.OnderScherm.spawnerButton.IsChecked = true;
         }

@@ -228,7 +228,7 @@ namespace TrafficSimulation
 									/// Load a spawner to the list
 									case "Spawner":
 										/// Make new tile
-										currentBuildTile = new Spawner(Convert.ToInt32(information[6]));
+                                        currentBuildTile = new Spawner(windowselect.simwindow.simcontrol, Convert.ToInt32(information[6]));
 
 										/// Get location
 										roadX = Convert.ToInt32(information[2]) / 100;

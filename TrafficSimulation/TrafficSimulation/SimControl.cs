@@ -553,7 +553,7 @@ namespace TrafficSimulation
             switch (tileName)
             {
                 case "Spawner": Spawner currentSpawnerTile = (Spawner)startTile;
-                    tile = new Spawner(currentSpawnerTile.direction);
+                    tile = new Spawner(this, currentSpawnerTile.direction);
                     break;
                 case "Crossroad": tile = new Crossroad(this);
                     break;
