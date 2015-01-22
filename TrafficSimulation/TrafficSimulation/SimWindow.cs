@@ -47,7 +47,7 @@ namespace TrafficSimulation
             {
                 breedteBovenSchermLinks = (260 * (int)graphics.DpiX) / 96;
                 breedteBovenSchermRechts = ((55 * 4) * (int)graphics.DpiX) / 96;
-                breedteInfoBalk = ((breedteScherm / 6) *(int)graphics.DpiX) / 96;
+                breedteInfoBalk = ((300) *(int)graphics.DpiX) / 96;
                 xLocatieOnderBalk = (((breedteScherm / 8) * 2) * (int)graphics.DpiX) / 96;
             }
             
