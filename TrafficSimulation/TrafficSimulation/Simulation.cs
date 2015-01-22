@@ -187,7 +187,7 @@ namespace TrafficSimulation
                         nextTile.AddVehicle(simControl, v, v.Direction, v.Lane);
                         Tile test1 = nextTile;
                         simControl.totalCars++;
-                        v.Update(t, GetEndPosition(t, v));
+                        v.Update(nextTile, GetEndPosition(nextTile, v));
                     }
                     simControl.simulationMap.GetTileMea(t.position.X, t.position.Y).RemoveVehicle(simControl, v, v.Direction, v.Lane);
                     simControl.totalCars--;
@@ -308,7 +308,7 @@ namespace TrafficSimulation
             }
             if (v.UpdatePoint == 0)
             {
-                v.Direction = newDirection;
+                v.NextDirection = newDirection;
             }
 
             return newDirection;

@@ -19,7 +19,7 @@ namespace TrafficSimulation
             this.simControl = simControl;
             tileList = new List<Tile>();
         }
-
+        //maakt de map, word aangeroepen als de simulatie word gestart
         public void CreateMap()
         {
             CreateList(tileList);
@@ -27,6 +27,7 @@ namespace TrafficSimulation
 
         public Tile[,] Map { get { return map; } }
 
+        //is nodig als een map wordt geladen, dan word de lijst van tiles ingelezen
         private void CreateList(List<Tile> tileList)
         {
             createArray(tileList);
@@ -40,6 +41,7 @@ namespace TrafficSimulation
             }
         }
 
+        //maakt een array van de lijst met alle tiles erin
         private void createArray(List<Tile> tileList)
         {
             smallX = 0;
@@ -92,6 +94,7 @@ namespace TrafficSimulation
             map = new Tile[largeX - smallX + 1, largeY - smallY + 1];
         }
 
+        //lijst met alle tiles erin
         public List<Tile> GetMap()
         {
             return tileList;
@@ -147,14 +150,14 @@ namespace TrafficSimulation
                 return null;
             }
         }
-
+        //deze wordt gebruikt als de simulatie is gestart
         public Tile[] GetSurroundingTilesSim(Point pos)
         {
             //createMap has to have been called
             Tile[] tileArray = { GetTileAbove(pos), GetTileRight(pos), GetTileBelow(pos), GetTileLeft(pos) };
             return tileArray;
         }
-
+        //deze wordt gebruikt als de simulatie nog niet is gestart
         public Tile[] GetSurroundingTiles(Point pos)
         {
             Tile[] tileArray = new Tile[4];
@@ -203,6 +206,7 @@ namespace TrafficSimulation
             return connectingTiles;
         }
 
+        //returnt het gegeven punt als een punt op de grid, als de array word aangemaakt dan is deze veel kleiner als de originele array
         public Point ToGrid(Point p)
         {
             int temp1 = p.X / 100;
@@ -212,6 +216,7 @@ namespace TrafficSimulation
             return point;
         }
 
+        //is nodig als er een muisclick word gedaan, hierzo word deze click verbonden met een punt op de grid.
         public Point GetPosition(Point p)
         {
             return new Point((p.X / 100) * 100, (p.Y / 100) * 100);
@@ -222,6 +227,7 @@ namespace TrafficSimulation
             tileList.Remove(t);
         }
 
+        //returned een tile aan de hand van een x en y
         public Tile GetTileMea(int x, int y)
         {
             Point p = GetPosition(new Point(x, y));
@@ -236,6 +242,7 @@ namespace TrafficSimulation
             return null;
         }
 
+        //returned een tile aan de hand van een positie
         public Tile GetTile(Point pos)
         {
             foreach (Tile t in tileList)

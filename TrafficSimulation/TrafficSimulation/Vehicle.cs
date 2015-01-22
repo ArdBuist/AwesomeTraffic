@@ -20,6 +20,7 @@ namespace TrafficSimulation
         protected static System.Security.Cryptography.RNGCryptoServiceProvider rnd;
 
         private Point tilePoint;
+        private int nextDirection;
         private int updatePoint;
         private Point beginPoint, endPoint;
         private double tempX, tempY;
@@ -45,13 +46,14 @@ namespace TrafficSimulation
         public Size Size { get { return size; } }
         public int UpdatePoint { get { return updatePoint; } }
         public int Speed { get { return speed; } set { speed = value; } }
+        public int NextDirection{set{nextDirection = value;}}
 
         public void Update(Tile t, Point endPosition)
         {
             if (updatePoint == 0)
             {
                 //als de Vehicle een nieuwe tile oprijd dan is deze 0 en worden deze variabelen geinstantieerd
-                tilePoint = new Point(this.position.X / 100 * 100, this.position.Y / 100 * 100);
+                tilePoint = new Point(this.position.X/100*100,this.position.Y/100*100);
                 //beginpunt van de beweging
                 beginPoint = this.position;
                 //eindpunt van de beweging
@@ -62,10 +64,9 @@ namespace TrafficSimulation
                 updateLength = Math.Ceiling(Math.Sqrt(updateSize.Width * updateSize.Width + updateSize.Height * updateSize.Height));
             }
 
-            int test1 = GetEndDirection(new Point(endPosition.X - tilePoint.X, endPosition.Y - tilePoint.Y));
             // de case voor elke mogelijkheid Direction --> Direction
             // de direction waar de auto vandaan komt en waar hij naar toe gaat gescheiden door een pijl
-            switch (direction + "-->" + GetEndDirection(new Point(endPosition.X - tilePoint.X, endPosition.Y - tilePoint.Y)))
+            switch (direction + "-->" + nextDirection)
             {
                 case "1-->1":
                     //nodig omdat een update niet altijd een heel getal is.
@@ -105,6 +106,20 @@ namespace TrafficSimulation
                     break;
 
                 case "3-->2":
+                    //nodig omdat een update niet altijd een heel getal is.
+                    tempX += ((double)updateSize.Width / updateLength) * speed;
+                    while (tempX >= 1)
+                    {
+                        position.X++;
+                        tempX--;
+                    }
+
+                    tempY += ((double)updateSize.Height / updateLength) * speed;
+                    while (tempY >= 1)
+                    {
+                        position.Y++;
+                        tempY--;
+                    }
                     break;
                 case "3-->3":
                     tempX += ((double)updateSize.Width / updateLength) * speed;
@@ -163,31 +178,6 @@ namespace TrafficSimulation
 
             //variabele die hier word gereset als de auto naar een andere tile rijd (nu nog ongebruikt)
             updatePoint = 0;
-        }
-
-
-        private int GetEndDirection(Point end)
-        {
-            if (end.X == 0)
-            {
-                return 4;
-            }
-            else if (end.X == 100)
-            {
-                return 2;
-            }
-            else if (end.Y == 0)
-            {
-                return 1;
-            }
-            else if (end.Y == 100)
-            {
-                return 3;
-            }
-            else
-            {
-                return 0;
-            }
         }
         protected void createBitmap(int bmDirection)
         {
