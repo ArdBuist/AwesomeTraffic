@@ -17,6 +17,9 @@ namespace TrafficSimulation
         int turn = 0;
         long lastTime = 0;
         int secondsPerUpdate = 3;
+        int startTime;
+        //geeft aan welke strategie wordt gebruikt
+        public int strat = 0;
 
         //timers
         int[] timer = new int[12];
@@ -25,9 +28,6 @@ namespace TrafficSimulation
 
         //bool om meerdere keren te voorkomen
         bool doublecheck = true;
-
-        //geeft aan welke strategie wordt gebruikt
-        public int strat = 1;
 
         public TrafficlightControl(SimControl sim, Tile road, int Directions, int NotDirection, int[] NumberOfLanes)
         {
@@ -85,9 +85,13 @@ namespace TrafficSimulation
         {
             if (Environment.TickCount - lastTime > (secondsPerUpdate * 1000) - extraTime)
             {
-                lastTime = Environment.TickCount;
-                Update(turn % NumberOfDirections);
-                turn++;
+                AllRed();
+                if (Environment.TickCount - lastTime > 1500 + (secondsPerUpdate * 1000) - extraTime)
+                {
+                    lastTime = Environment.TickCount;
+                    Update(turn % NumberOfDirections);
+                    turn++;
+                }
             }
         }
 
@@ -103,86 +107,90 @@ namespace TrafficSimulation
 
             if (Environment.TickCount - lastTime > secondsPerUpdate * 1000)
             {
-                lastTime = Environment.TickCount;
-                int allRight = timer[0] + timer[3] + timer[6] + timer[9];
-                int forwardRight1 = timer[0] + timer[6] + timer[1] + timer[7];
-                int forwardRight2 = timer[3] + timer[9] + timer[4] + timer[10];
-                int leftRightForward1 = timer[0] + timer[1] + timer[2];
-                int leftRightForward2 = timer[3] + timer[4] + timer[5];
-                int leftRightForward3 = timer[6] + timer[7] + timer[8];
-                int leftRightForward4 = timer[9] + timer[10] + timer[11];
-
-                //get lowest value
-                int lowest = Math.Min(allRight, Math.Min(forwardRight1, Math.Min(forwardRight2, Math.Min(leftRightForward1, Math.Min(leftRightForward2, Math.Min(leftRightForward3, leftRightForward4))))));
-
                 //alle stoplichten reset naar rood
                 AllRed();
 
-                /*Dit zijn alle strategieën voor de stoplichten, in de juiste volgorde. De wachttijden kunnen nooit clashen
-                 omdat de eerste keuzes die in de if-loops voorbij komen de hoogste value hebben (links/rechtdoor/rechts).
-                 Daarna komen de opties met 2 richtingen (rechtdoor/rechts), en daarna pas 4 richtingen (alleen rechts)
-                 Als er minder dan drie banen per weg zijn zal er nooit een niet-bestaand stoplicht op groen worden gezet door
-                 deze volgorde*/
-                if (lowest == leftRightForward1)
+                if (Environment.TickCount - lastTime > 1500 + secondsPerUpdate * 1000)
                 {
-                    for (int i = 1; i < 6; i++)
+                    lastTime = Environment.TickCount;
+                    int allRight = timer[0] + timer[3] + timer[6] + timer[9];
+                    int forwardRight1 = timer[0] + timer[6] + timer[1] + timer[7];
+                    int forwardRight2 = timer[3] + timer[9] + timer[4] + timer[10];
+                    int leftRightForward1 = timer[0] + timer[1] + timer[2];
+                    int leftRightForward2 = timer[3] + timer[4] + timer[5];
+                    int leftRightForward3 = timer[6] + timer[7] + timer[8];
+                    int leftRightForward4 = timer[9] + timer[10] + timer[11];
+
+                    //get lowest value
+                    int lowest = Math.Min(allRight, Math.Min(forwardRight1, Math.Min(forwardRight2, Math.Min(leftRightForward1, Math.Min(leftRightForward2, Math.Min(leftRightForward3, leftRightForward4))))));
+
+
+                    /*Dit zijn alle strategieën voor de stoplichten, in de juiste volgorde. De wachttijden kunnen nooit clashen
+                     omdat de eerste keuzes die in de if-loops voorbij komen de hoogste value hebben (links/rechtdoor/rechts).
+                     Daarna komen de opties met 2 richtingen (rechtdoor/rechts), en daarna pas 4 richtingen (alleen rechts)
+                     Als er minder dan drie banen per weg zijn zal er nooit een niet-bestaand stoplicht op groen worden gezet door
+                     deze volgorde*/
+                    if (lowest == leftRightForward1)
                     {
-                        StratUpdate(1, i);
+                        for (int i = 1; i < 6; i++)
+                        {
+                            StratUpdate(1, i);
+                        }
                     }
-                }
-                else if (lowest == leftRightForward2)
-                {
-                    for (int i = 1; i < 6; i++)
+                    else if (lowest == leftRightForward2)
                     {
-                        StratUpdate(2, i);
+                        for (int i = 1; i < 6; i++)
+                        {
+                            StratUpdate(2, i);
+                        }
                     }
-                }
-                else if (lowest == leftRightForward3)
-                {
-                    for (int i = 1; i < 6; i++)
+                    else if (lowest == leftRightForward3)
                     {
-                        StratUpdate(3, i);
+                        for (int i = 1; i < 6; i++)
+                        {
+                            StratUpdate(3, i);
+                        }
                     }
-                }
-                //bugging problem: bij een fork bestaat direction 4 niet omdat er maar 3 directions zijn (de notDirection overslaand omdat hier ook geen informatie voor opgeslagen hoeft te worden)
-                else if (lowest == leftRightForward4)
-                {
-                    for (int i = 1; i < 6; i++)
+
+                    else if (lowest == leftRightForward4)
                     {
-                        StratUpdate(4, i);
+                        for (int i = 1; i < 6; i++)
+                        {
+                            StratUpdate(4, i);
+                        }
                     }
-                }
-                else if (lowest == forwardRight1)
-                {
-                    StratUpdate(1, 2);
-                    StratUpdate(1, 3);
-                    StratUpdate(1, 4);
-                    StratUpdate(3, 2);
-                    StratUpdate(3, 3);
-                    StratUpdate(3, 4);
-                }
-                else if (lowest == forwardRight2)
-                {
-                    StratUpdate(2, 2);
-                    StratUpdate(2, 3);
-                    StratUpdate(2, 4);
-                    StratUpdate(4, 2);
-                    StratUpdate(4, 3);
-                    StratUpdate(4, 4);
-                }
-                else if (lowest == allRight)
-                {
-                    for (int i = 1; i < 5; i++)
+                    else if (lowest == forwardRight1)
                     {
-                        StratUpdate(i, 3);
+                        StratUpdate(1, 2);
+                        StratUpdate(1, 3);
+                        StratUpdate(1, 4);
+                        StratUpdate(3, 2);
+                        StratUpdate(3, 3);
+                        StratUpdate(3, 4);
                     }
-                }
-                //alle timers weer naar 0
-                //PROBLEM HERE//
-                for (int i = 0; i < 12; i++)
-                {
-                    timer[i] = 0;
-                    locks[i] = false;
+                    else if (lowest == forwardRight2)
+                    {
+                        StratUpdate(2, 2);
+                        StratUpdate(2, 3);
+                        StratUpdate(2, 4);
+                        StratUpdate(4, 2);
+                        StratUpdate(4, 3);
+                        StratUpdate(4, 4);
+                    }
+                    else if (lowest == allRight)
+                    {
+                        for (int i = 1; i < 5; i++)
+                        {
+                            StratUpdate(i, 3);
+                        }
+                    }
+                    //alle timers weer naar 0
+                    //PROBLEM HERE//
+                    for (int i = 0; i < 12; i++)
+                    {
+                        timer[i] = 0;
+                        locks[i] = false;
+                    }
                 }
             }
         }
@@ -285,6 +293,7 @@ namespace TrafficSimulation
                     lanetrafficlight.ChangeColor(Color.Red, j + 1);
                 }
             }
+            startTime = Environment.TickCount;
         }
 
         private void StratUpdate(int Direction, int LaneType)
