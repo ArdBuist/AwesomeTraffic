@@ -62,7 +62,7 @@ namespace TrafficSimulation
             //nodig omdat een update niet altijd een heel getal is.
             tempX += ((double)updateSize.Width / updateLength) * speed;
             tempY += ((double)updateSize.Height / updateLength) * speed;
-            
+
             // de case voor elke mogelijkheid Direction --> Direction
             // de direction waar de auto vandaan komt en waar hij naar toe gaat gescheiden door een pijl
             switch (direction + "-->" + nextDirection)
@@ -264,6 +264,8 @@ namespace TrafficSimulation
 
         private void Instantiate(Point endPosition)
         {
+            tempX = 0;
+            tempY = 0;
             //als de Vehicle een nieuwe tile oprijd dan is deze 0 en worden deze variabelen geinstantieerd
             tilePoint = new Point(this.position.X / 100 * 100, this.position.Y / 100 * 100);
             //beginpunt van de beweging
