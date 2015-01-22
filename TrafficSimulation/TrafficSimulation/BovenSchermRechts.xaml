@@ -6,9 +6,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="300">
     <UserControl.Resources>
-        <!--
-     Hier moet nog een linear brush achtig komen zodat je en knoppen een mooie leuk overgang kan laten hebben.   
-     -->
         <Style TargetType="{x:Type Button}" x:Key="buttonsRechts">
             <Setter Property="Width" Value="50" />
             <Setter Property="Height" Value="50" />
@@ -80,7 +77,7 @@
 					<Image Source="Resources/Buttons/Help_Button.png" Height="40" Width="40"/>
 				</Button>
 
-                    <Button x:Name="info" 
+                <Button x:Name="info" 
                             Style="{StaticResource buttonsRechts}" 
                             Grid.Row="0"
                             Grid.Column="1"
@@ -88,7 +85,7 @@
 					<Image Source="Resources/Buttons/Info_Button.png" Height="40" Width="40"/>
 				</Button>
 
-                    <Button x:Name="save" 
+                <Button x:Name="save" 
                             Style="{StaticResource buttonsRechts}"
                             Grid.Row="0"
                             Grid.Column="2"
@@ -96,7 +93,7 @@
 					<Image Source="Resources/Buttons/Save_Button.png" Height="40" Width="40"/>
 				</Button>
 
-               <Button x:Name="home" 
+                <Button x:Name="home" 
                             Style="{StaticResource buttonsRechts}" 
                             Grid.Row="0"
                             Grid.Column="3"

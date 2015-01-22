@@ -41,12 +41,12 @@ namespace TrafficSimulation
             yLocatieOnderBalk = (hoogteScherm - hoogteOnderBalk);
             xLocatieOnderBalk = (breedteScherm / 7) * 2;
             breedteInfoBalk = breedteScherm/6;
+            breedteOnderBalk = ((breedteScherm / 3));
 
             using (Graphics graphics = this.CreateGraphics())
             {
-                breedteBovenSchermLink = 55 * 6;
-                breedteBovenSchermRechts = (70 * 4);
-                breedteOnderBalk = ((breedteScherm / 3));
+                breedteBovenSchermLink = 260;
+                breedteBovenSchermRechts = (55 * 4);
                 yLocatieBovenSchermRechts = (breedteScherm - breedteBovenSchermRechts);
             }
             
