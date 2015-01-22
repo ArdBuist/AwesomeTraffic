@@ -20,7 +20,7 @@ namespace TrafficSimulation
     /// </summary>
     public partial class InterfaceStart : UserControl
     {
-        StartWindow startcontrol;
+        StartWindow startwindow;
         int widthStartScreen, heightStartScreen;
         int widthStopGo, buttonMargin, wegMargin, widthWeg, heightWeg;
 
@@ -29,7 +29,8 @@ namespace TrafficSimulation
             InitializeComponent();
             widthStartScreen = wSS;
             heightStartScreen = hSS;
-            startcontrol = start;
+            startwindow = start;
+            resume.Visibility = Visibility.Hidden;
 
             widthWeg = widthStartScreen / 4;
             heightWeg = heightStartScreen;
@@ -50,40 +51,41 @@ namespace TrafficSimulation
             exit.Margin = new Thickness((buttonMargin * 7), 5, 5, 5);
             
         }
+        public void resume_Click(object sender, RoutedEventArgs e)
+        {
+            startwindow.Resume_Click();
+        }
 
         public void New_Click(object sender, RoutedEventArgs e)
         {
-            startcontrol.New_Click();
+            startwindow.New_Click();
+            resume.Visibility = Visibility.Visible;
+            
         }
 
 		public void Open_Click(object sender, RoutedEventArgs e)
 		{
-			startcontrol.Open_Click();
+			startwindow.Open_Click();
 		}
 
         public void Options_Click(object sender, RoutedEventArgs e)
         {
-            startcontrol.Option_Click();
+            startwindow.Option_Click();
         }
 
 		public void HowTo_Click(object sender, RoutedEventArgs e)
 		{
-			startcontrol.HowTo_Click();
+			startwindow.HowTo_Click();
 		}
 
 		public void About_Click(object sender, RoutedEventArgs e)
 		{
-			startcontrol.About_Click();
+			startwindow.About_Click();
 		}
 
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
-            startcontrol.Exit_Click();
-        }
-
-        private void resume_Click(object sender, RoutedEventArgs e)
-        {
-
+            startwindow.Exit_Click();
         }
     }
 }

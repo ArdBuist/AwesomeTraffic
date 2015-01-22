@@ -35,6 +35,7 @@ namespace TrafficSimulation
 
             screensize = new Size(widthStartScreen, heightStartScreen);
             simwindow = new SimWindow(screensize, this);
+            startwindow = new StartWindow(screensize, this);
             Start();
         }
 
@@ -44,7 +45,7 @@ namespace TrafficSimulation
             this.Controls.Remove(simwindow);
             
             // Open homescreen
-            startwindow = new StartWindow(screensize, this);
+            
             startwindow.BackColor = Color.Black;
 
 			// Add the control
