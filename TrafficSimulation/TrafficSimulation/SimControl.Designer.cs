@@ -122,7 +122,7 @@ namespace TrafficSimulation
                 if (simwindow.BovenSchermLinks.Simulation == false)
                 {
                     /// Draws a line of straight roads on mousedown
-                    if (TileIsStraight(mouseDownPoint, mea.Location) && state == "building" && simulation.simStarted == false && mea.Button == System.Windows.Forms.MouseButtons.Left)
+                    if (Methods.TileIsStraight(this,mouseDownPoint, mea.Location) && state == "building" && simulation.simStarted == false && mea.Button == System.Windows.Forms.MouseButtons.Left)
                         DrawTile(mea.Location, currentBuildTile);
                     /// Erase all the tiles that you come across with your mouse
                     if (state == "eraser")

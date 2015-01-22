@@ -154,7 +154,7 @@ namespace TrafficSimulation
                 backgroundBC.AddObject(tileImage, simulationMap.GetPosition(new Point(mea.X, mea.Y)));
                 selectedTile = buildTile;
                 trafficlightBC.bitmap.MakeTransparent(Color.Green);
-                currentBuildTile = CopyCurrentTile(buildTile);//hier wordt een nieuwe buildTile gemaakt met dezelfde waardes als daarvoor omdat er dan opnieuw een tile ingeklikt kan worden.
+                currentBuildTile = Methods.CopyCurrentTile(this,buildTile);//hier wordt een nieuwe buildTile gemaakt met dezelfde waardes als daarvoor omdat er dan opnieuw een tile ingeklikt kan worden.
                 if (buildTile.name == "Crossroad" || buildTile.name == "Fork")
                 {
                     this.AmountOfTrafficlights++;
