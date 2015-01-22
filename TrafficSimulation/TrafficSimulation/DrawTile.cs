@@ -513,7 +513,7 @@ namespace TrafficSimulation
         public static Graphics drawSpawnerBlock(Graphics gr, int side, int lanesIn, int lanesOut)
         {
             Graphics bmSpawner = gr;
-            bmSpawner.FillRectangle(Brushes.Green, 0, 0, 100, 100);
+            bmSpawner.FillRectangle(Brushes.Transparent, 0, 0, 100, 100);
             int lanesTotal = lanesIn + lanesOut;
 
             //variabelen voor mogelijke wegen
