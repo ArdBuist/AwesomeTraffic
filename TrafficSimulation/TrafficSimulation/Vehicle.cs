@@ -28,6 +28,8 @@ namespace TrafficSimulation
         private Size updateSize;
         private double updateLength;
 
+        private bool rotated;
+
         public Vehicle(Point pos, Point dest, int len, int speed, int direction, int lane)
         {
             updatePoint = 0;
@@ -38,7 +40,9 @@ namespace TrafficSimulation
             this.direction = direction;
             nextDirection = direction;
             this.lane = lane;
-            lastDirection = direction; 
+            lastDirection = direction;
+
+            rotated = false;
             rnd = new System.Security.Cryptography.RNGCryptoServiceProvider();
         }
 
@@ -100,6 +104,12 @@ namespace TrafficSimulation
                         position.Y--;
                         tempY++;
                     }
+
+                    if (!rotated)
+                    {
+                        bitmap.RotateFlip(RotateFlipType.RotateNoneFlipNone);
+                        rotated = true;
+                    }
                     break;
                 case "1-->4":
                     //aanpassing in de x richting die altijd negatief is
@@ -113,6 +123,11 @@ namespace TrafficSimulation
                     {
                         position.Y--;
                         tempY++;
+                    }
+                    if (!rotated)
+                    {
+                        bitmap.RotateFlip(RotateFlipType.Rotate180FlipNone);
+                        rotated = true;
                     }
                     break;
 
@@ -128,6 +143,11 @@ namespace TrafficSimulation
                     {
                         position.Y--;
                         tempY++;
+                    }
+                    if (!rotated)
+                    {
+                        bitmap.RotateFlip(RotateFlipType.Rotate270FlipNone);
+                        rotated = true;
                     }
                     break;
                 case "2-->2":
@@ -162,6 +182,11 @@ namespace TrafficSimulation
                         position.Y++;
                         tempY--;
                     }
+                    if (!rotated)
+                    {
+                        bitmap.RotateFlip(RotateFlipType.RotateNoneFlipNone);
+                        rotated = true;
+                    }
                     break;
 
                 case "3-->2":
@@ -176,6 +201,11 @@ namespace TrafficSimulation
                     {
                         position.Y++;
                         tempY--;
+                    }
+                    if (!rotated)
+                    {
+                        bitmap.RotateFlip(RotateFlipType.Rotate270FlipNone);
+                        rotated = true;
                     }
                     break;
                 case "3-->3":
@@ -210,6 +240,11 @@ namespace TrafficSimulation
                         position.Y++;
                         tempY--;
                     }
+                    if (!rotated)
+                    {
+                        bitmap.RotateFlip(RotateFlipType.RotateNoneFlipNone);
+                        rotated = true;
+                    }
                     break;
 
                 case "4-->1":
@@ -224,6 +259,11 @@ namespace TrafficSimulation
                     {
                         position.Y--;
                         tempY++;
+                    }
+                    if (!rotated)
+                    {
+                        bitmap.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                        rotated = true;
                     }
                     break;
                 case "4-->4":
@@ -258,6 +298,11 @@ namespace TrafficSimulation
                         position.Y++;
                         tempY--;
                     }
+                    if (!rotated)
+                    {
+                        bitmap.RotateFlip(RotateFlipType.Rotate270FlipNone);
+                        rotated = true;
+                    }
                     break;
             }
             updatePoint++;
@@ -265,6 +310,7 @@ namespace TrafficSimulation
 
         private void Instantiate(Point endPosition)
         {
+            rotated = false;
             tempX = 0;
             tempY = 0;
             //als de Vehicle een nieuwe tile oprijd dan is deze 0 en worden deze variabelen geinstantieerd
@@ -307,45 +353,31 @@ namespace TrafficSimulation
             //variabele die hier word gereset als de auto naar een andere tile rijd (nu nog ongebruikt)
             updatePoint = 0;
         }
+
         protected void createBitmap(int bmDirection)
         {
-            Graphics gr;
-            Rectangle destCar;
-            Bitmap carBitmap;
-            {
-                Byte[] random;
-                random = new Byte[1];
-                rnd.GetBytes(random);
-                string carName = "car" + (((int)random[0] % 5) + 1);
-                carBitmap = (Bitmap)Properties.Resources.ResourceManager.GetObject(carName);
-                bitmap = new Bitmap(carBitmap.Width + speed, carBitmap.Height);
-                gr = Graphics.FromImage(bitmap);
-                if (bmDirection == 2)
-                {
-                    destCar = new Rectangle(new Point(speed, 0), carBitmap.Size);
-                }
-                else if (bmDirection == 4)
-                {
-                    carBitmap.RotateFlip(RotateFlipType.Rotate180FlipNone);
-                    destCar = new Rectangle(new Point(0, 0), carBitmap.Size);
-                }
-                else if (bmDirection == 1)
-                {
-                    carBitmap.RotateFlip(RotateFlipType.Rotate270FlipNone);
-                    bitmap = new Bitmap(carBitmap.Width, carBitmap.Height + speed);
-                    gr = Graphics.FromImage(bitmap);
-                    destCar = new Rectangle(new Point(0, 0), carBitmap.Size);
-                }
-                else // bmDirection == 3
-                {
-                    carBitmap.RotateFlip(RotateFlipType.Rotate90FlipNone);
-                    bitmap = new Bitmap(carBitmap.Width, carBitmap.Height + speed);
-                    gr = Graphics.FromImage(bitmap);
-                    destCar = new Rectangle(new Point(0, 0), carBitmap.Size);
-                }
-            }
-            gr.DrawImage(carBitmap, destCar, new Rectangle(new Point(), carBitmap.Size), GraphicsUnit.Pixel);
+            Byte[] random;
+            random = new Byte[1];
+            rnd.GetBytes(random);
 
+            string carName = "car" + (((int)random[0] % 5) + 1);
+            bitmap = (Bitmap)Properties.Resources.ResourceManager.GetObject(carName);
+
+            switch (bmDirection)
+            {
+                case 1:
+                    bitmap.RotateFlip(RotateFlipType.Rotate270FlipNone);
+                    break;
+                case 2:
+                    bitmap.RotateFlip(RotateFlipType.RotateNoneFlipNone);
+                    break;
+                case 3:
+                    bitmap.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                    break;
+                case 4:
+                    bitmap.RotateFlip(RotateFlipType.Rotate180FlipNone);
+                    break;
+            }
         }
     }
 
@@ -364,16 +396,16 @@ namespace TrafficSimulation
                 case 2:
                     createBitmap(2);
                     position.Y += 53 + 17 * lane;
-                    position.X += 30;
+                    position.X += 15;
                     break;
                 case 3:
                     createBitmap(3);
                     position.X += (37 - (17 * lane));
-                    position.Y += 30;
+                    position.Y += 15;
                     break;
                 case 4:
                     createBitmap(4);
-                    position.X += 70 - 15;
+                    position.X += 85 - 15;
                     position.Y += (37 - (17 * lane));
                     break;
             }
