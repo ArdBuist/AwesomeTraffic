@@ -4,23 +4,24 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-			 d:DesignWidth="300" d:DesignHeight="300">
+			 d:DesignWidth="1920" d:DesignHeight="1080">
     <UserControl.Resources>
-        <!--
-     Hier moet nog een linear brush achtig komen zodat je en knoppen een mooie leuk overgang kan laten hebben.   
-     -->
+     
         <Style TargetType="{x:Type Button}" x:Key="StartSchermButtons">
             <Setter Property="Width" Value="200" />
             <Setter Property="Height" Value="30" />
-            <Setter Property="Margin" Value="0,5,0,5" />
+            <Setter Property="Margin" Value="1,1,1,1" />
             <Setter Property="Background" Value="Green"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center" />
-
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
-                        <Border Background="LightGreen" BorderBrush="DarkGreen" BorderThickness="5" CornerRadius="10,10,10,10" x:Name="BorderStyle">
+                        <Border x:Name="BorderStyle"
+                                Background="NavajoWhite" 
+                                BorderBrush="LightSalmon" 
+                                BorderThickness="3" 
+                                CornerRadius="5,5,5,5" >
                             <ContentPresenter Margin="{TemplateBinding Padding}" 
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
@@ -30,15 +31,9 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="BorderStyle" Property="Background" Value="LightGray"/>
+                                <Setter TargetName="BorderStyle" Property="Background" Value="cornsilk"/>
                                 <Setter Property="Foreground" Value="Black" />
                                 <Setter Property="Cursor" Value="Hand" />
-                            </Trigger>
-                            <Trigger Property="IsEnabled" Value="false">
-                                <Setter TargetName="BorderStyle" Property="Background" Value="White"/>
-                                <Setter Property="BorderBrush" Value="Green"/>
-                                <Setter Property="Opacity" Value="0.25"/>
-                                <Setter Property="Cursor" Value="No"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -48,28 +43,154 @@
 
     </UserControl.Resources>
 
-    <Grid x:Name="Buttons" RenderTransformOrigin="0.5,0.5" OpacityMask="{DynamicResource {x:Static SystemColors.AppWorkspaceBrushKey}}" >
-        <Grid.Background>
-            <ImageBrush ImageSource="Resources/TrafficExpertLogo.png" TileMode="Tile"/>
-        </Grid.Background>
-        <Grid.RenderTransform>
-            <TransformGroup>
-                <ScaleTransform ScaleY="1" ScaleX="1"/>
-                <SkewTransform AngleY="0" AngleX="0"/>
-                <RotateTransform Angle="0"/>
-                <TranslateTransform/>
-            </TransformGroup>
-        </Grid.RenderTransform>
-        <Grid.ColumnDefinitions>
-        </Grid.ColumnDefinitions>
+    <Grid x:Name="Buttons" Background="Green" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
 
-        <StackPanel Orientation="Vertical" Grid.Column="1" VerticalAlignment="Center">
-            <Button Style="{StaticResource StartSchermButtons}" Click="New_Click">New</Button>
-            <Button Style="{StaticResource StartSchermButtons}" Click="Open_Click">Open</Button>
-            <Button Style="{StaticResource StartSchermButtons}" Click="Options_Click">Options</Button>
-            <Button Style="{StaticResource StartSchermButtons}" Click="HowTo_Click">How To</Button>
-            <Button Style="{StaticResource StartSchermButtons}" Click="About_Click">About</Button>
-            <Button Style="{StaticResource StartSchermButtons}" Click="Exit_Click">Exit</Button>
-        </StackPanel>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>       
+        
+        <Rectangle x:Name="weg" 
+                   Grid.Row ="0"
+                   Grid.Column="0"
+                   Grid.RowSpan="3"
+                   Grid.ColumnSpan="3"
+                   HorizontalAlignment="Left"
+                   Fill="Gray" 
+                   Stroke="White" 
+                   Width="550" >
+            <Rectangle.RenderTransform>
+                <SkewTransform AngleX="36"/>
+            </Rectangle.RenderTransform>
+        </Rectangle>
+ 
+        <Rectangle x:Name="strepen" 
+                   Grid.Row ="0"
+                   Grid.Column="0"
+                   Grid.RowSpan="3"
+                   Grid.ColumnSpan="3"
+                   Fill="White" 
+                   Stroke="White" 
+                   StrokeThickness="15"
+                   StrokeDashArray="3,5"
+                   HorizontalAlignment="Left"
+                   Width="10"  >
+            <Rectangle.RenderTransform>
+                <SkewTransform AngleX="35"/>
+            </Rectangle.RenderTransform>
+        </Rectangle>
+
+        <Grid Grid.Row="1" Grid.Column="1">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Button x:Name="resume" 
+                    Visibility="Hidden"
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Style="{StaticResource StartSchermButtons}" 
+                    Click="resume_Click"
+                    HorizontalAlignment="Left"
+                    Content="Resume" />
+
+            <Button x:Name="nieuw" 
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Style="{StaticResource StartSchermButtons}" 
+                    Click="New_Click"
+                    HorizontalAlignment="Left"
+                    Content="New" />
+
+            <Button x:Name="open"
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    Style="{StaticResource StartSchermButtons}" 
+                    Click="Open_Click" 
+                    Margin="200,10,5,5"
+                    HorizontalAlignment="Left"
+                    Content="Open" />
+
+            <Button x:Name="howTo"
+                   Style="{StaticResource StartSchermButtons}"
+                   Click="HowTo_Click"
+                   Grid.Row="4"
+                   Grid.Column="0"
+                   HorizontalAlignment="Left"
+                    Margin="300,10,5,5"
+                   Content="How to" />
+
+            <Button x:Name="about"
+                    Style="{StaticResource StartSchermButtons}" 
+                    Click="About_Click" 
+                    Grid.Row="5"
+                    Grid.Column="0"
+                    HorizontalAlignment="Left"
+                    Margin="350,10,5,5"
+                    Content="About" />
+
+            <Button x:Name="exit"
+                    Style="{StaticResource StartSchermButtons}" 
+                    Click="Exit_Click" 
+                    Grid.Row="6"
+                    Grid.Column="0"
+                    HorizontalAlignment="Left"
+                    Margin="400,5,5,5"
+                    Content="Exit" />
+            
+            
+        </Grid>
+        
+        <Image  Grid.Row="0" 
+                Grid.RowSpan="2"
+                Grid.Column="1" 
+                Grid.ColumnSpan="2"
+                Height="300"
+                Width="500"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Margin="10,0,0,10"
+                Source="Resources/TrafficExpertLogo.png"/>
+        
+        <TextBlock x:Name="slogan"
+                   Grid.Row="3"
+                   Grid.RowSpan="2"
+                   Grid.Column="0"
+                   Grid.ColumnSpan="2"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Bottom"
+                   FontStyle="Italic"
+                   Height="50"
+                   Width="500"
+                   FontSize="40"
+                   Foreground="White">
+            How efficient is your road?
+        </TextBlock>
+        
+        <Image  x:Name="stopgo" 
+                Grid.Row="3" 
+                Grid.Column="0" 
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom"
+                Margin="1,1,1,1"
+                Source="Resources\stopandgologo.png"/>
+        
     </Grid>
 </UserControl>

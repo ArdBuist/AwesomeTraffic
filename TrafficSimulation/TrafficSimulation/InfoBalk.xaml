@@ -7,9 +7,6 @@
              d:DesignHeight="800" d:DesignWidth="300" >
 
     <UserControl.Resources>
-        <!--
-     Hier moet nog een linear brush achtig komen zodat je en knoppen een mooie leuk overgang kan laten hebben.   
-     -->
         <Geometry x:Key="DownArrowGeometry">M0,0 L1,0 0.5,17</Geometry>
 
         <Style x:Key="infoBalkLabels" TargetType="Label">
@@ -271,8 +268,7 @@
                 <Grid Grid.Row="1" Grid.Column="0">
 
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="2*" />
-                        <RowDefinition Height="*" />
+                        <RowDefinition Height="5*" />
                         <RowDefinition Height="*" />
                         <RowDefinition Height="*" />
                         <RowDefinition Height="*" />
@@ -285,7 +281,7 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
-                    <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="3">
+                    <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="1">
 
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
@@ -310,8 +306,8 @@
                            Grid.ColumnSpan="2"
                            HorizontalAlignment="Center" 
                            VerticalAlignment="Center" 
-                           Height="65"
-                           Width="65"
+                           Height="55"
+                           Width="55"
                            Margin="1,1,1,1"
                            />
 
@@ -436,13 +432,13 @@
                     </Grid>
 
                     <Label x:Name="labelSpeed" 
-                           Grid.Row="3" 
+                           Grid.Row="1" 
                            Grid.Column="0" 
                            Style="{StaticResource infoBalkLabels}" 
                            Content="speedlimit" />
 
                     <ComboBox x:Name="speed" 
-                              Grid.Row="3" 
+                              Grid.Row="2" 
                               Grid.Column="1" 
                               Width="70"
                               DropDownClosed="speed_Close"
@@ -460,10 +456,11 @@
                            Content="Choose your traffic strategy" />
 
                     <ComboBox x:Name="listboxStrategie" 
-                             Grid.Row="4" 
+                             Grid.Row="3" 
                              Grid.Column="1"
                               DropDownClosed="listboxStrategie_Closing"
                               Width="70"
+
                              Style="{StaticResource infoBalkComboBox}"
                              >
                         <ComboBoxItem Tag="Tijd" IsSelected="True">Tijd</ComboBoxItem>
@@ -472,13 +469,13 @@
                     </ComboBox>
 
                     <Label x:Name="labelCarsOnTile" 
-                           Grid.Row="5" 
+                           Grid.Row="4" 
                            Grid.Column="0" 
                            Style="{StaticResource infoBalkLabels}" 
                            Content="Amount of cars on the tile" />
 
                     <Label x:Name="labelCarsOnTileNumber" 
-                           Grid.Row="5" 
+                           Grid.Row="4" 
                            Grid.Column="1" 
                            HorizontalAlignment="Left"
                            Style="{StaticResource infoBalkLabels}" 
@@ -488,7 +485,7 @@
                                  Style="{StaticResource styleRadioButton}"
                                  GroupName="spwaner"
                                  Click="SpawnerLow_Checked"
-                                 Grid.Row="6"
+                                 Grid.Row="5"
                                  Grid.Column="0"  
                                  Grid.ColumnSpan="2"
                                  HorizontalAlignment="Left" 
@@ -499,7 +496,7 @@
                                  Style="{StaticResource styleRadioButton}"
                                  Click="SpawnerNormal_Checked"
                                  GroupName="spwaner"
-                                 Grid.Row="6"
+                                 Grid.Row="5"
                                  Grid.Column="0"  
                                  Grid.ColumnSpan="2"
                                  HorizontalAlignment="Center" 
@@ -616,7 +613,6 @@
                            Grid.Row="6" 
                            Grid.Column="0" 
                            Style="{StaticResource infoBalkLabels}"
-
                            Content="Efficiency"  />
 
                     <Label x:Name="labelEfficientieNumber" 
@@ -630,7 +626,6 @@
                            Grid.Row="4" 
                            Grid.Column="0" 
                            Style="{StaticResource infoBalkLabels}"
-
                            Content="Amount of tiles"  />
 
                     <Label x:Name="labelTilesNumber" 
@@ -653,6 +648,7 @@
                             Grid.ColumnSpan="2"
                             Grid.Column="0"
                             Content="Efficiency" RenderTransformOrigin="1.005,1.024"/>
+
 
                 </Grid>
 

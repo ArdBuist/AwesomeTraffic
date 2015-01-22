@@ -6,6 +6,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.IO;
 using System.Resources;
@@ -20,30 +21,35 @@ namespace TrafficSimulation
 		ElementHost StartHost;
 		AboutWindow about;
 		SimControl simcontrol;
-        InterfaceStart StartScherm;
-        Tile[] tempTileList = new Tile[300];
+        	InterfaceStart interfaceStart;
+		Tile[] tempTileList = new Tile[300];
+        	int widthStartScreen, heightStartScreen;
+
 
         public StartWindow(Size size, WindowSelect sim)
         {
             this.Size = size;
+            widthStartScreen = size.Width;
+            heightStartScreen = size.Height;
             windowselect = sim;
 
             /// I use this, a lot..
             simcontrol = windowselect.simwindow.simcontrol;
 
-            /// New start screen
-            StartScherm = new InterfaceStart(this);
+            interfaceStart = new InterfaceStart(this, widthStartScreen, heightStartScreen);
 
             StartHost = new ElementHost()
             {
-                Height = 1000,
-                Width = 1000,
-                Child = StartScherm
+                Height = size.Height,
+                Width = size.Width,
+                Location = new Point(0,0),
+                Child = interfaceStart,
             };
 
             /// Add startbuttons
             this.Controls.Add(StartHost);
             StartHost.Left = (this.Size.Width - StartHost.Size.Width) / 2;
+
         }
 
         /// <summary>
@@ -61,9 +67,7 @@ namespace TrafficSimulation
             windowselect.New();
         }
 
-		/// <summary>
-		/// When the button "Open" is clicked, this method will start.
-		/// </summary>
+		// When the button "Open" is clicked, this method will start.
 		public void Open_Click()
 		{
 			///Make new stream
@@ -71,7 +75,6 @@ namespace TrafficSimulation
 			Stream myStream2 = null;
 			Stream dummyStream = null;
 
-			int deleteLines;
 			int addLines = 0;
 			int totalLines;
 
@@ -110,7 +113,6 @@ namespace TrafficSimulation
 						StreamReader r1, r2;
 
 						/// Set the number of lines of code that has to be deleted and added
-                        deleteLines = simcontrol.simulationMap.GetMap().Count;
 						addLines = 0;
 
 						/// Count the numbers of lines in the file
@@ -121,7 +123,7 @@ namespace TrafficSimulation
 						}
 
 						/// Total amount of lines that has to be run through while loading
-						totalLines = addLines * 2 + deleteLines;
+						totalLines = addLines * 2;
 
 						/// Set maximums of the progressbar
 						LoadWin.progressBar1.Maximum = totalLines;
@@ -129,26 +131,14 @@ namespace TrafficSimulation
 						/// Show the LoadWindow
 						LoadWin.Show();
 
-						/// Go by each tile in the tile list
-						foreach (Tile tile in simcontrol.simulationMap.GetMap())
-						{
-							/// Add 1 to both progressbars
-							LoadWin.progressBar1.PerformStep();
+						/// Clear the map
+						simcontrol.backgroundBC.ClearBitmap();
+						simcontrol.trafficlightBC.ClearBitmap();
+						simcontrol.trafficlightBC.bitmap.MakeTransparent(Color.Green);
+						simcontrol.Invalidate();
 
-							/// Remove the tile (if it's not empty)
-							if (tile != null)
-							{
-								Bitmap tileImage;
-								Tile selectedTile = new removeTile();
-								selectedTile.SetValues(simcontrol, tile.position);
-								tileImage = selectedTile.DrawImage();
-								simcontrol.trafficlightBC.AddObject(tileImage, new Point(tile.position.X, tile.position.Y));
-                                simcontrol.simulationMap.RemoveTile(tile);
-								simcontrol.trafficlightBC.bitmap.MakeTransparent(Color.Green);
-								simcontrol.Invalidate();
-							}
-							
-						}
+						/// Clear the list
+						simcontrol.simulationMap.ClearTileList();
 
 						/// Add al the roads to the map
 						using (myStream1)
@@ -381,11 +371,11 @@ namespace TrafficSimulation
 							#endregion
 						}
 					}
-
 					/// Set the current building tile to a straight road
 					simcontrol.currentBuildTile = new Road(1, 3);
+					
 					///Set the state to selected
-					simcontrol.state = "selected";
+					simcontrol.state = "selected";;
 
 					LoadWin.Close();
 
@@ -407,30 +397,34 @@ namespace TrafficSimulation
 			}
 		}
 
+		public void DoWork(Tile tile)
+		{
+		
+		}
+
 		/// <summary>
 		/// Click on option...?
 		/// </summary>
-
         public void Option_Click()
         {
 
         }
 
-        /// <summary>
-        /// Click About
-        /// </summary> 
-        public void About_Click()
-        {
-            /// New form with info about the program
-            about = new AboutWindow();
-            about.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+		// Klik op "About" 
+		public void About_Click()
+		{
+			// Niewe form met info over 't programma
+			about = new AboutWindow();
+			about.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            //about.Size = new Size(1000, 1000);
 
-            /// Close form on deactivation
-            about.Deactivate += About_LostFocus;
+			// Sluit form als dit niet de active form is
+			about.Deactivate += About_LostFocus;
 
-            /// Open form
-            about.Show();
-        }
+			// Open de form
+			about.Show();
+		}
+
 
         /// <summary>
         /// When AboutForm is not the main form anymore

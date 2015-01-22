@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Resources;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.Integration;
@@ -22,7 +23,7 @@ namespace TrafficSimulation
         public ExtraButtonsOS ExtraButtonsOS;
         public OnderScherm OnderScherm;
         public int hoogteBovenBalk, hoogteOnderBalk, hoogteInfoBalk,  hoogteScherm, yLocatieOnderBalk, xLocatieOnderBalk, yLocatieBovenSchermRechts;
-        public int breedteInfoBalk, breedteScherm, breedteBovenSchermLink, breedteBovenSchermRechts, breedteOnderBalk;
+        public int breedteInfoBalk, breedteScherm, breedteBovenSchermLinks, breedteBovenSchermRechts, breedteOnderBalk;
 
         public SimWindow(Size size, WindowSelect windowselect)
         {
@@ -40,10 +41,17 @@ namespace TrafficSimulation
             yLocatieOnderBalk = (hoogteScherm - hoogteOnderBalk);
             xLocatieOnderBalk = (breedteScherm / 7) * 2;
             breedteInfoBalk = breedteScherm/6;
-            breedteBovenSchermLink = 55*6;
-            breedteBovenSchermRechts = (70*4);
-            breedteOnderBalk = ((breedteScherm / 3) );
-            yLocatieBovenSchermRechts = (breedteScherm - breedteBovenSchermRechts);
+            breedteOnderBalk = ((breedteScherm / 3));
+
+            using (Graphics graphics = this.CreateGraphics())
+            {
+                breedteBovenSchermLinks = (260 * (int)graphics.DpiX) / 96;
+                breedteBovenSchermRechts = ((55 * 4) * (int)graphics.DpiX) / 96;
+                breedteInfoBalk = ((300) *(int)graphics.DpiX) / 96;
+                xLocatieOnderBalk = (((breedteScherm / 8) * 2) * (int)graphics.DpiX) / 96;
+            }
+            
+            
             
             InfoBalk = new InfoBalk(windowselect);
             ExtraButtonsOS = new ExtraButtonsOS(windowselect, InfoBalk);
@@ -64,7 +72,7 @@ namespace TrafficSimulation
             {
                 BackColor = Color.Transparent,
                 Height = hoogteBovenBalk,
-                Width = breedteBovenSchermLink,
+                Width = breedteBovenSchermLinks,
                 Location = new Point(10, 10),
                 Child = BovenSchermLinks,
             };
