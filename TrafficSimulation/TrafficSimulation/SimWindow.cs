@@ -29,7 +29,8 @@ namespace TrafficSimulation
             this.Size = size;
             this.windowselect = windowselect;
             sim = new SimControl(this.ClientSize, this);
-            this.BackColor = Color.Black;
+            this.BackColor = Color.Green;
+
             //Variable om de elementhosten afhankelijk te maken van het scherm en andere elementhosten
             breedteScherm = Screen.PrimaryScreen.Bounds.Width;
             hoogteScherm = Screen.PrimaryScreen.Bounds.Height;
@@ -102,7 +103,6 @@ namespace TrafficSimulation
             this.Controls.Add(sim);
             
         }
-
         public SimControl simcontrol { get { return sim; } }
     }
 }
