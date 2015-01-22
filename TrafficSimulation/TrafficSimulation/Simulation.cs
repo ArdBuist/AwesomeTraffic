@@ -167,7 +167,7 @@ namespace TrafficSimulation
             if (StaysOnTile(t, v))//if vehicle is still on the tile 
             {
                 if (DistanceFromCars(t, v))//if there are other cars standing in front
-                    v.Update(GetEndPosition(t, v));
+                    v.Update(t, GetEndPosition(t, v));
                 else
                 {
                     v.Speed = 0;
@@ -182,11 +182,12 @@ namespace TrafficSimulation
                     Tile nextTile = simControl.simulationMap.GetSurroundingTilesSim(t.position)[v.Direction - 1];
                     if (nextTile != null)
                     {
+                        v.reset();
                         v.Speed = nextTile.maxSpeed;
                         nextTile.AddVehicle(simControl, v, v.Direction, v.Lane);
-                        v.reset();
+                        Tile test1 = nextTile;
                         simControl.totalCars++;
-                        v.Update(GetEndPosition(t, v));
+                        v.Update(t, GetEndPosition(t, v));
                     }
                     simControl.simulationMap.GetTileMea(t.position.X, t.position.Y).RemoveVehicle(simControl, v, v.Direction, v.Lane);
                     simControl.totalCars--;

@@ -46,24 +46,33 @@ namespace TrafficSimulation
         public int UpdatePoint { get { return updatePoint; } }
         public int Speed { get { return speed; } set { speed = value; } }
 
-        public void Update(Point endPosition)
+        public void Update(Tile t, Point endPosition)
         {
             if (updatePoint == 0)
             {
+                //als de Vehicle een nieuwe tile oprijd dan is deze 0 en worden deze variabelen geinstantieerd
                 tilePoint = new Point(this.position.X / 100 * 100, this.position.Y / 100 * 100);
+                //beginpunt van de beweging
                 beginPoint = this.position;
+                //eindpunt van de beweging
                 endPoint = endPosition;
-                updateSize = new Size(endPoint.X - beginPoint.X, endPoint.Y - beginPoint.Y);
+                //de breedte en de hoogte van de beweging, hoever de auto beweegt over de x- en y-as
+                updateSize = new Size(Math.Abs(endPoint.X - beginPoint.X), Math.Abs(endPoint.Y - beginPoint.Y));
+                //met pythagoras word de lengte van de beweging uitgerekend
                 updateLength = Math.Ceiling(Math.Sqrt(updateSize.Width * updateSize.Width + updateSize.Height * updateSize.Height));
             }
-            
-            int test1 =GetEndDirection(new Point(endPosition.X-tilePoint.X,endPosition.Y-tilePoint.Y));
-            switch (direction + "-->" + GetEndDirection(new Point(endPosition.X-tilePoint.X,endPosition.Y-tilePoint.Y)))
+
+            int test1 = GetEndDirection(new Point(endPosition.X - tilePoint.X, endPosition.Y - tilePoint.Y));
+            // de case voor elke mogelijkheid Direction --> Direction
+            // de direction waar de auto vandaan komt en waar hij naar toe gaat gescheiden door een pijl
+            switch (direction + "-->" + GetEndDirection(new Point(endPosition.X - tilePoint.X, endPosition.Y - tilePoint.Y)))
             {
                 case "1-->1":
+                    //nodig omdat een update niet altijd een heel getal is.
                     tempX += ((double)updateSize.Width / updateLength) * speed;
                     while (tempX >= 1)
                     {
+                        //als de auto rechtdoor rijd kan hij van baan wisselen, dit kan naar een baan boven de huidige baan of eentje eronder
                         if (endPosition.X < position.X)
                         {
                             position.X--;
@@ -98,7 +107,27 @@ namespace TrafficSimulation
                 case "3-->2":
                     break;
                 case "3-->3":
-                    position.Y += speed;
+                    tempX += ((double)updateSize.Width / updateLength) * speed;
+                    while (tempX >= 1)
+                    {
+                        //als de auto rechtdoor rijd kan hij van baan wisselen, dit kan naar een baan boven de huidige baan of eentje eronder
+                        if (endPosition.X < position.X)
+                        {
+                            position.X--;
+                        }
+                        else if (endPosition.X > position.X)
+                        {
+                            position.X++;
+                        }
+                        tempX--;
+                    }
+
+                    tempY += ((double)updateSize.Height / updateLength) * speed;
+                    while (tempY >= 1)
+                    {
+                        position.Y++;
+                        tempY--;
+                    }
                     break;
                 case "3-->4":
                     break;
@@ -116,6 +145,23 @@ namespace TrafficSimulation
 
         public void reset()
         {
+            //switch (direction)
+            //{
+            //    case 1:
+            //        position.Y -= speed;
+            //        break;
+            //    case 2:
+            //        position.X += speed;
+            //        break;
+            //    case 3:
+            //        position.Y += speed;
+            //        break;
+            //    case 4:
+            //        position.X -= speed;
+            //        break;
+            //}
+
+            //variabele die hier word gereset als de auto naar een andere tile rijd (nu nog ongebruikt)
             updatePoint = 0;
         }
 
