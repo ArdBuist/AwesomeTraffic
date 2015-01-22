@@ -225,6 +225,7 @@ namespace TrafficSimulation
             RotatedRight.IsEnabled = true;
             RotateLeft.IsEnabled = true;
             speed.IsEnabled = true;
+            listboxStrategie.IsEnabled = true;
             spawnerCarHigh.Visibility = Visibility.Hidden;
             spawnerCarsNormal.Visibility = Visibility.Hidden;
             spawnerCarsLow.Visibility = Visibility.Hidden;
