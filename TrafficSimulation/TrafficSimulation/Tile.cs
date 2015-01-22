@@ -432,7 +432,7 @@ namespace TrafficSimulation
         public void Spawn(SimControl sim)
         {
             //BEGIN TESTCODE
-            if (!autoIsGespawnt)
+            //if (!autoIsGespawnt)
                 //EINDE TESTCODE
             {
                 //spawnt op een willekeurig moment een auto in een willekeurige baan.

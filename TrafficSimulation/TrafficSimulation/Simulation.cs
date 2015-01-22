@@ -20,9 +20,11 @@ namespace TrafficSimulation
         Boolean simPause;
         protected int simSleep;
         public int extraSpeed;
+        protected static System.Security.Cryptography.RNGCryptoServiceProvider rnd;//om de auto's een willekeurige kant op te laten gaan
 
         public Simulation(SimControl simControl)
         {
+            rnd = new System.Security.Cryptography.RNGCryptoServiceProvider();
             this.simControl = simControl;
             this.simStarted = false;
             spawnerList = new List<Spawner>();
@@ -161,7 +163,7 @@ namespace TrafficSimulation
             //if vehicle has to dissapear ----- moet worden vervangen door zwart vlak over de spawner-----
             if (VehicleIsOnEndSpawner(v, t))
             {
-                simControl.simulationMap.GetTileMea(t.position.X, t.position.Y).RemoveVehicle(simControl, v, v.LastDirection, v.Direction, v.Lane);
+                simControl.simulationMap.GetTileMea(t.position.X, t.position.Y).RemoveVehicle(simControl, v, v.Direction, v.LastDirection, v.Lane);
                 simControl.totalCars--;
             }
             if (StaysOnTile(t, v))//if vehicle is still on the tile 
@@ -179,9 +181,8 @@ namespace TrafficSimulation
             }
             else
             {
-                if (t.Access[v.Direction - 1, v.Lane])//if the next tile is accessible
+                if (t.Access[v.NextDirection - 1, v.Lane])//if the next tile is accessible
                 {
-                    
                     //remove vehicle from old tile and add vehicle to new tile
                     Tile[] test = simControl.simulationMap.GetSurroundingTilesSim(t.position);
                     //simControl.simulationMap.GetTile(t.position).RemoveVehicle(simControl, v, v.LastDirection, v.Lane);
@@ -219,6 +220,8 @@ namespace TrafficSimulation
             int distance = 0;//distance between the end of the tile and the last car standing still.
             List<List<Vehicle>> vehicleList = simControl.simulationMap.GetTileMea(t.position.X, t.position.Y).vehicles[v.Direction - 1];
             distance = vehicleList[v.Lane].IndexOf(v) * 16;
+            if (t.name == "Fork" || t.name == "Crossroad")
+                return true;
             return CorrectDistance(t, v, distance);
         }
 
@@ -227,16 +230,16 @@ namespace TrafficSimulation
         {
             switch (v.NextDirection)
             {
-                case 1: if (v.position.Y - v.Speed >= t.position.Y)
+                case 1: if (v.position.Y - v.Speed >= t.position.Y+ CarSpace)
                         return true;
                     break;
-                case 2: if (v.position.X + v.Speed <= t.position.X + t.size.Width)
+                case 2: if (v.position.X + v.Speed <= t.position.X + t.size.Width - CarSpace)
                         return true;
                     break;
-                case 3: if (v.position.Y + v.Speed <= t.position.Y + t.size.Height)
+                case 3: if (v.position.Y + v.Speed <= t.position.Y + t.size.Height - CarSpace)
                         return true;
                     break;
-                case 4: if (v.position.X - v.Speed >= t.position.X)
+                case 4: if (v.position.X - v.Speed >= t.position.X +CarSpace)
                         return true;
                     break;
             }
@@ -269,10 +272,10 @@ namespace TrafficSimulation
         private Point GetEndPosition(Tile tile, Vehicle v)
         {
             
-            int randomLane = v.Lane;
-            //Tile endTile = simControl.simulationMap.GetConnectingTiles(tile.position)[endDirection - 1];
-            //int tileLanes = endTile.GetLanesIn(endDirection);
+            //Tile endTile = simControl.simulationMap.GetConnectingTiles(tile.position)[v.NextDirection - 1];
+            //int tileLanes = endTile.GetLanesIn((v.NextDirection+1)%4+1);
             //int randomLane = Math.Abs(Guid.NewGuid().GetHashCode()) % tileLanes;
+            int randomLane = 0;
 
             switch (v.NextDirection)
             {
@@ -306,6 +309,119 @@ namespace TrafficSimulation
                         }
                     }
                     break;
+                case  "Crossroad" :
+                    switch (tile.GetLanesIn((v.Direction+1)%4+1))
+                    {
+                        case 1: while (newDirection == 0 || newDirection == (v.Direction + 1) % 4 + 1)
+                                    newDirection = RandomNumber(4);
+                            break;
+                        case 2:
+                            
+                                switch(v.Lane)
+                                {
+                                    
+                                case 1: int number = RandomNumber(2);
+                                    if (number == 1)
+                                        newDirection = (v.Direction) % 4 + 1;
+                                    else
+                                        newDirection = v.Direction;
+                                    break;
+                                case 0: newDirection = (v.Direction+2) % 4 + 1;
+                                    break;
+                            }
+                            break;
+                        case 3:
+                            switch (v.Lane)
+                            {
+                                case 0: newDirection = (v.Direction + 2) % 4 + 1;
+                                    break;
+                                case 1: newDirection = v.Direction;  
+                                    break;
+                                case 2: newDirection = (v.Direction) % 4 + 1;
+                                    break;
+                            }
+                            break;
+                    }
+                    break;
+                case "Fork" :
+                    switch (tile.GetLanesIn((v.Direction + 1) % 4 + 1))
+                        {
+                            case 1: while (newDirection == 0 || newDirection == (v.Direction + 1) % 4 + 1 || newDirection == tile.notDirection)
+                                    newDirection = RandomNumber(4);
+                                break;
+                            case 2:
+                                if ((v.Direction+1)%4+1 == (tile.notDirection + 2) % 4 + 1)
+                                {
+                                    switch (v.Lane)
+                                    {
+                                        case 1: newDirection = v.Direction;
+                                            break;
+                                        case 0: newDirection = (v.Direction) % 4 + 1;
+                                            break;
+                                    }
+                                }
+                                else if((v.Direction+1)%4+1 == (tile.notDirection) % 4 + 1)
+                                {
+                                     switch (v.Lane)
+                                    {
+                                        case 1: newDirection = v.Direction;
+                                            break;
+                                        case 0: newDirection = (v.Direction + 2) % 4 + 1;
+                                            break;
+                                    }   
+                                }
+                                else
+                                {   
+                                    switch (v.Lane)
+                                    {
+                                        case 1: newDirection = (v.Direction + 2) % 4 + 1;
+                                            break;
+                                        case 0: newDirection = (v.Direction) % 4 + 1;
+                                            break;
+                                    }
+                                }
+                            break;
+
+                            case 3:
+                                if ((v.Direction + 1) % 4 + 1 == (tile.notDirection + 2) % 4 + 1)
+                                {
+                                    switch (v.Lane)
+                                    {
+                                        case 2: newDirection = v.Direction;
+                                            break;
+                                        case 1: newDirection = v.Direction;
+                                            break;
+                                        case 0: newDirection = (v.Direction) % 4 + 1;
+                                            break;
+                                    }
+                                }
+                                else if ((v.Direction + 1) % 4 + 1 == (tile.notDirection) % 4 + 1)
+                                {
+                                    switch (v.Lane)
+                                    {
+                                        case 2: newDirection = v.Direction;
+                                            break;
+                                        case 1: newDirection = v.Direction;
+                                            break;
+                                        case 0: newDirection = (v.Direction + 2) % 4 + 1;
+                                            break;
+                                    }
+                                }
+                                else
+                                {
+                                    switch (v.Lane)
+                                    {
+                                        case 2: newDirection = (v.Direction + 2) % 4 + 1;
+                                            break;
+                                        case 1: newDirection = (v.Direction) % 4 + 1;
+                                            break;
+                                        case 0: newDirection = (v.Direction) % 4 + 1;
+                                            break;
+                                    }
+                                }
+                                break;
+                        }
+                    break;
             }
             if (v.UpdatePoint == 0)
             {
@@ -315,6 +431,14 @@ namespace TrafficSimulation
                 }
                 v.NextDirection = newDirection;
             }
+        }
+
+        private int RandomNumber(int Max)
+        {
+            Byte[] random;
+            random = new Byte[1];
+            rnd.GetBytes(random);
+            return random[0] % Max+1;
         }
     }
 }
