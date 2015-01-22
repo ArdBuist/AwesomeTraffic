@@ -19,15 +19,12 @@ namespace TrafficSimulation
         int secondsPerUpdate = 3;
         int startTime;
         //geeft aan welke strategie wordt gebruikt
-        public int strat = 0;
+        public int strat = 1;
 
         //timers
         int[] timer = new int[12];
         //locks for the timers
         bool[] locks = new bool[12];
-
-        //bool om meerdere keren te voorkomen
-        bool doublecheck = true;
 
         public TrafficlightControl(SimControl sim, Tile road, int Directions, int NotDirection, int[] NumberOfLanes)
         {
