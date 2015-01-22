@@ -38,6 +38,7 @@ namespace TrafficSimulation
             this.direction = direction;
             nextDirection = direction;
             this.lane = lane;
+            lastDirection = direction; 
             rnd = new System.Security.Cryptography.RNGCryptoServiceProvider();
         }
 

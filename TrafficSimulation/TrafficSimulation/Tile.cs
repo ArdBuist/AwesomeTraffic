@@ -329,17 +329,17 @@ namespace TrafficSimulation
 
         /*komende methodes zijn voor het laten rijden van de auto's*/
 
-        public void RemoveVehicle(SimControl sim, Vehicle v, int Side, int lane)
+        public void RemoveVehicle(SimControl sim, Vehicle v, int lastSide,int Side, int lane)
         {
-            List<List<Vehicle>> sideVehicles = vehicles[Side-1];
+            List<List<Vehicle>> sideVehicles = vehicles[lastSide-1];
             List<Vehicle> laneVehicles = sideVehicles[lane];
             laneVehicles.Remove(v);
             numberOfVehicles--;
             //looks if there is space for other cars to come on the tile
                 if (laneVehicles.Count < 5 && this.name != "Spawner"&&this.name!="Crossroad" && this.name!="Fork")
                 {
-                    Tile lastTile = sim.simulationMap.GetSurroundingTiles(this.position)[(Side + 1) % 4];
-                    lastTile.Access[Side - 1, lane] = true;
+                    Tile lastTile = sim.simulationMap.GetSurroundingTilesSim(this.position)[(lastSide + 1) % 4];
+                    lastTile.Access[lastSide - 1, lane] = true;
                 }
         }
 
