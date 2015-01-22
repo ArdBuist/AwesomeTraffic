@@ -232,7 +232,7 @@ namespace TrafficSimulation
                         }
                         for (int j = 0; j < 3; j++)
                         {
-                            if (!locks[(i * 3) + j]) //<--PROBLEM HERE
+                            if (!locks[(i * 3) + j])
                                 timer[(i * 3) + j]++;
                         }
                     }
