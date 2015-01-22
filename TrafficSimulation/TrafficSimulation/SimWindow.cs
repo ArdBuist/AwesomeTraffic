@@ -23,7 +23,7 @@ namespace TrafficSimulation
         public ExtraButtonsOS ExtraButtonsOS;
         public OnderScherm OnderScherm;
         public int hoogteBovenBalk, hoogteOnderBalk, hoogteInfoBalk,  hoogteScherm, yLocatieOnderBalk, xLocatieOnderBalk, yLocatieBovenSchermRechts;
-        public int breedteInfoBalk, breedteScherm, breedteBovenSchermLink, breedteBovenSchermRechts, breedteOnderBalk;
+        public int breedteInfoBalk, breedteScherm, breedteBovenSchermLinks, breedteBovenSchermRechts, breedteOnderBalk;
 
         public SimWindow(Size size, WindowSelect windowselect)
         {
@@ -45,9 +45,9 @@ namespace TrafficSimulation
 
             using (Graphics graphics = this.CreateGraphics())
             {
-                breedteBovenSchermLink = 260;
-                breedteBovenSchermRechts = (55 * 4);
-                yLocatieBovenSchermRechts = (breedteScherm - breedteBovenSchermRechts);
+                breedteBovenSchermLinks = (260 * (int)graphics.DpiX) / 96;
+                breedteBovenSchermRechts = ((55 * 4) * (int)graphics.DpiX) / 96;
+                xLocatieOnderBalk = (((breedteScherm / 8) * 2) * (int)graphics.DpiX) / 96;
             }
             
             
@@ -71,7 +71,7 @@ namespace TrafficSimulation
             {
                 BackColor = Color.Transparent,
                 Height = hoogteBovenBalk,
-                Width = breedteBovenSchermLink,
+                Width = breedteBovenSchermLinks,
                 Location = new Point(10, 10),
                 Child = BovenSchermLinks,
             };
