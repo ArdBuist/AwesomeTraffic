@@ -151,17 +151,17 @@ namespace TrafficSimulation
                         int prioMax = prio.Max();
                         if (prioMax == prio[0])
                             LRF1();
-                        if (prioMax == prio[1])
+                        else if (prioMax == prio[1])
                             LRF2();
-                        if (prioMax == prio[2])
+                        else if (prioMax == prio[2])
                             LRF3();
-                        if (prioMax == prio[3])
+                        else if (prioMax == prio[3])
                             LRF4();
-                        if (prioMax == prio[4])
+                        else if (prioMax == prio[4])
                             FR1();
-                        if (prioMax == prio[5])
+                        else if (prioMax == prio[5])
                             FR2();
-                        if (prioMax == prio[6])
+                        else if (prioMax == prio[6])
                             R();
                     }
 
