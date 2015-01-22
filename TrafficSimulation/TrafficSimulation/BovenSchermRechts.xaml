@@ -69,21 +69,13 @@
                     <ColumnDefinition Width="55"/>
                     <ColumnDefinition Width="55"/>
                     <ColumnDefinition Width="55"/>
-                    <ColumnDefinition Width="55"/>
                 </Grid.ColumnDefinitions>
-                <!--
-                <Button x:Name="dayNight"
-                            Style="{StaticResource buttonsRechts}" 
-                            Grid.Row="0"
-                            Grid.Column="0"
-                            Click="DayNight_Click" >
-					<Image Source="Resources/Buttons/Day_Button.png" Height="40" Width="40"/>
-				</Button>
-                -->
+                
+               
                 <Button x:Name="help" 
                             Style="{StaticResource buttonsRechts}" 
                             Grid.Row="0"
-                            Grid.Column="1"
+                            Grid.Column="0"
                             Click="Help_Click" >
 					<Image Source="Resources/Buttons/Help_Button.png" Height="40" Width="40"/>
 				</Button>
@@ -91,7 +83,7 @@
                     <Button x:Name="info" 
                             Style="{StaticResource buttonsRechts}" 
                             Grid.Row="0"
-                            Grid.Column="2"
+                            Grid.Column="1"
                             Click="Info_Click" >
 					<Image Source="Resources/Buttons/Info_Button.png" Height="40" Width="40"/>
 				</Button>
@@ -99,7 +91,7 @@
                     <Button x:Name="save" 
                             Style="{StaticResource buttonsRechts}"
                             Grid.Row="0"
-                            Grid.Column="3"
+                            Grid.Column="2"
                             Click="Save_Click" >
 					<Image Source="Resources/Buttons/Save_Button.png" Height="40" Width="40"/>
 				</Button>
@@ -107,7 +99,7 @@
                <Button x:Name="home" 
                             Style="{StaticResource buttonsRechts}" 
                             Grid.Row="0"
-                            Grid.Column="4"
+                            Grid.Column="3"
                             Click="Home_Click" >
 					<Image x:Name="imageDay" Source="Resources/Buttons/Home_Button.png" Height="40" Width="40"/>
 				</Button>

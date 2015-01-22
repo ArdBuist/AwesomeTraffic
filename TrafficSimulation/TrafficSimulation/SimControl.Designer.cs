@@ -38,7 +38,6 @@ namespace TrafficSimulation
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Name = "SimControl";
-            this.Load += new System.EventHandler(this.SimControl_Load);
             this.ResumeLayout(false);
         #endregion
 
@@ -118,12 +117,12 @@ namespace TrafficSimulation
             if (mouseDownPoint != new Point(0, 0))
             {
                 /// Move the map
-                if (state == "selected" || stateGreenWave == "buildingGreenWave")
+                if (state == "selected")
                     MoveMap(mea);
                 if (simwindow.BovenSchermLinks.Simulation == false)
                 {
                     /// Draws a line of straight roads on mousedown
-                    if (TileIsStraight(mouseDownPoint, mea.Location) && state == "building" && simulation.simStarted == false && mea.Button == System.Windows.Forms.MouseButtons.Left)
+                    if (Methods.TileIsStraight(this,mouseDownPoint, mea.Location) && state == "building" && simulation.simStarted == false && mea.Button == System.Windows.Forms.MouseButtons.Left)
                         DrawTile(mea.Location, currentBuildTile);
                     /// Erase all the tiles that you come across with your mouse
                     if (state == "eraser")
@@ -151,11 +150,6 @@ namespace TrafficSimulation
                 if (state == "eraser")
                 {
                     removeTile(mea.Location);
-                }
-                //als je een route wil aanklikken voor een groene golf
-                else if (stateGreenWave == "buildingGreenWave" && state == "selected")
-                {
-                    //DrawGreenWave(mea);
                 }
                 /// Als de select-tool is aangeklikt
                 else if (state == "selected")

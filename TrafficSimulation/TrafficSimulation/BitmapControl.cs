@@ -15,7 +15,7 @@ namespace TrafficSimulation
 
         public BitmapControl(Size size)
         {
-            bitmap = new Bitmap(size.Width, size.Height);			
+            bitmap = new Bitmap(size.Width, size.Height);
         }
 
 		/// <summary>

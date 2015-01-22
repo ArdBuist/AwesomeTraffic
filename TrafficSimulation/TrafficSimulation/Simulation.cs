@@ -252,16 +252,16 @@ namespace TrafficSimulation
             {
                 switch (v.Direction)
                 {
-                    case 1: if (v.position.Y - v.Speed <= t.position.Y + 30)
+                    case 1: if (v.position.Y - v.Speed <= t.position.Y + 15)
                             return true;
                         break;
-                    case 2: if (v.position.X + v.Speed + 15 >= t.position.X + 70)
+                    case 2: if (v.position.X + v.Speed + 15 >= t.position.X + 85)
                             return true;
                         break;
-                    case 3: if (v.position.Y + v.Speed + 15 >= t.position.Y + 70)
+                    case 3: if (v.position.Y + v.Speed + 15 >= t.position.Y + 85)
                             return true;
                         break;
-                    case 4: if (v.position.X - v.Speed <= t.position.X + 30)
+                    case 4: if (v.position.X - v.Speed <= t.position.X + 15)
                             return true;
                         break;
 

@@ -283,7 +283,7 @@ namespace TrafficSimulation
         private double spawnPerSec;//Aantal wat elke gametick bij de currentspawn word opgetelt
         protected static System.Security.Cryptography.RNGCryptoServiceProvider rnd;//om de auto's op willekeurige tijden te laten spawnen
 
-        public Spawner(int direction)
+        public Spawner(SimControl sim, int direction)
         {
             this.direction = direction;
             this.name = "Spawner";
@@ -295,6 +295,8 @@ namespace TrafficSimulation
             directions.Add(direction);
             currentSpawn = 1;
             rnd = new System.Security.Cryptography.RNGCryptoServiceProvider();
+            
+            
         }
 
         public double CurrentSpawn { get { return currentSpawn; } }
@@ -311,6 +313,15 @@ namespace TrafficSimulation
                 return 1;
         }
 
+        public override void SetValues(SimControl s, Point position)
+        {
+            base.SetValues(s, position);
+            Bitmap image = new Bitmap(100, 100);
+            Graphics gr = Graphics.FromImage(image);
+            gr.FillRectangle(Brushes.Black, 0, 0, 100, 100);
+            DrawTile.drawSpawnerBlock(Graphics.FromImage(image), direction, lanesOut, lanesIn);
+            s.trafficlightBC.AddObject(image, this.position);
+        }
         public override int GetLanesOut(int direction)
         {
             if (this.direction == direction)

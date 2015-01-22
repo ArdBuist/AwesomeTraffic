@@ -4,12 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="400">
-	<Grid Background="White">
+             d:DesignHeight="800" d:DesignWidth="400">
+	
+    <Grid Background="White">
 		<Grid.RowDefinitions>
-			<RowDefinition Height="448"/>
+			<RowDefinition Height="3*"/>
 			<RowDefinition Height="*"/>
 		</Grid.RowDefinitions>
+        
 		<Grid Grid.Row="0" Name="root">
 			<Rectangle>
 				<Rectangle.Fill>
@@ -21,7 +23,9 @@
 			</Rectangle>
 			<Image Source="/Resources/TrafficExpertLogo.png"/>
 		</Grid>
+        
 		<Separator Grid.Row="1" VerticalAlignment="Top" Height="1"/>
+        
 		<TextBlock Grid.Row="1" HorizontalAlignment="Center" FontSize="12" TextAlignment="Center" VerticalAlignment="Center">
 			(c) 2014 Stop and Go					<LineBreak/>
 			The name Traffic Expert and logo, are	<LineBreak/>
@@ -29,7 +33,6 @@
 													<LineBreak/>
 			This product is meant for educational purposes only	<LineBreak/>
 			and is under license of the UU.
-			
 		</TextBlock>
     </Grid>
 </UserControl>

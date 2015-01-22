@@ -14,6 +14,7 @@ namespace TrafficSimulation
         Point Position;
         Tile road;
         SimControl sc;
+        public int LaneType;
 
         //brushes
         Brush zwart = new SolidBrush(Color.Black);
@@ -21,8 +22,9 @@ namespace TrafficSimulation
         Brush rood = new SolidBrush(Color.Red);
         Brush oranje = new SolidBrush(Color.Orange);
 
-        public Trafficlight(SimControl sim, Tile road, Point Position)
+        public Trafficlight(SimControl sim, Tile road, Point Position, int LaneType)
         {
+            this.LaneType = LaneType;
             this.road = road;
             this.Position = Position;
             sc = sim;
@@ -38,6 +40,7 @@ namespace TrafficSimulation
         {
             //hierin kunnen nog meer acties worden gedaan als de kleur wordt veranderd, zoals andere positie van de lichten t.o.v. elkaar.
             DrawTrafficlight(kleur);
+            color = kleur;
         }
 
         public void DrawTrafficlight(Color kleur)

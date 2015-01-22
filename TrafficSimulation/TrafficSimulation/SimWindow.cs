@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Resources;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.Integration;
@@ -29,7 +30,8 @@ namespace TrafficSimulation
             this.Size = size;
             this.windowselect = windowselect;
             sim = new SimControl(this.ClientSize, this);
-            this.BackColor = Color.Black;
+            this.BackColor = Color.Green;
+
             //Variable om de elementhosten afhankelijk te maken van het scherm en andere elementhosten
             breedteScherm = Screen.PrimaryScreen.Bounds.Width;
             hoogteScherm = Screen.PrimaryScreen.Bounds.Height;
@@ -39,10 +41,16 @@ namespace TrafficSimulation
             yLocatieOnderBalk = (hoogteScherm - hoogteOnderBalk);
             xLocatieOnderBalk = (breedteScherm / 7) * 2;
             breedteInfoBalk = breedteScherm/6;
-            breedteBovenSchermLink = 55*6;
-            breedteBovenSchermRechts = (70*4);
-            breedteOnderBalk = ((breedteScherm / 3) );
-            yLocatieBovenSchermRechts = (breedteScherm - breedteBovenSchermRechts);
+
+            using (Graphics graphics = this.CreateGraphics())
+            {
+                breedteBovenSchermLink = 55 * 6;
+                breedteBovenSchermRechts = (70 * 4);
+                breedteOnderBalk = ((breedteScherm / 3));
+                yLocatieBovenSchermRechts = (breedteScherm - breedteBovenSchermRechts);
+            }
+            
+            
             
             InfoBalk = new InfoBalk(windowselect);
             ExtraButtonsOS = new ExtraButtonsOS(windowselect, InfoBalk);
@@ -102,7 +110,6 @@ namespace TrafficSimulation
             this.Controls.Add(sim);
             
         }
-
         public SimControl simcontrol { get { return sim; } }
     }
 }

@@ -32,18 +32,6 @@ namespace TrafficSimulation
 
         }
 
-        private void GreenWave_Click(object sender, RoutedEventArgs e)
-        {
-            windowselect.simwindow.simcontrol.stateGreenWave = "buildingGreenWave";
-            windowselect.simwindow.simcontrol.state = "greenWave";
-        }
-
-        private void GreenWaveDelete_Click(object sender, RoutedEventArgs e)
-        {
-            windowselect.simwindow.simcontrol.state = "greenWave";
-            //windowselect.simwindow.simcontrol.RemoveGreenWave();
-        }
-
         private void lane1_Close(object sender, EventArgs e)
         {
 
@@ -367,7 +355,7 @@ namespace TrafficSimulation
                     break;
                 case "Road": rotatedTile = new Road((originalTile.startDirection+difference )% 4 + 1, (originalTile.endDirection +difference)% 4 + 1);
                     break;
-                case "Spawner": rotatedTile = new Spawner((originalTile.direction + difference) % 4 + 1);
+                case "Spawner": rotatedTile = new Spawner(windowselect.simwindow.simcontrol, (originalTile.direction + difference) % 4 + 1);
                     break;
                 default: rotatedTile = new Crossroad(simcontrol);
                     break;
