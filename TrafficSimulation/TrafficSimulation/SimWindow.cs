@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Resources;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.Integration;
@@ -40,10 +41,16 @@ namespace TrafficSimulation
             yLocatieOnderBalk = (hoogteScherm - hoogteOnderBalk);
             xLocatieOnderBalk = (breedteScherm / 7) * 2;
             breedteInfoBalk = breedteScherm/6;
-            breedteBovenSchermLink = 55*6;
-            breedteBovenSchermRechts = (70*4);
-            breedteOnderBalk = ((breedteScherm / 3) );
-            yLocatieBovenSchermRechts = (breedteScherm - breedteBovenSchermRechts);
+
+            using (Graphics graphics = this.CreateGraphics())
+            {
+                breedteBovenSchermLink = 55 * 6;
+                breedteBovenSchermRechts = (70 * 4);
+                breedteOnderBalk = ((breedteScherm / 3));
+                yLocatieBovenSchermRechts = (breedteScherm - breedteBovenSchermRechts);
+            }
+            
+            
             
             InfoBalk = new InfoBalk(windowselect);
             ExtraButtonsOS = new ExtraButtonsOS(windowselect, InfoBalk);

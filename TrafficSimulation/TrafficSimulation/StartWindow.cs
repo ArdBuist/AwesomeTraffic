@@ -20,30 +20,35 @@ namespace TrafficSimulation
 		ElementHost StartHost;
 		AboutWindow about;
 		SimControl simcontrol;
-        InterfaceStart StartScherm;
-        Tile[] tempTileList = new Tile[300];
+        	InterfaceStart interfaceStart;
+		Tile[] tempTileList = new Tile[300];
+        	int widthStartScreen, heightStartScreen;
+
 
         public StartWindow(Size size, WindowSelect sim)
         {
             this.Size = size;
+            widthStartScreen = size.Width;
+            heightStartScreen = size.Height;
             windowselect = sim;
 
             /// I use this, a lot..
             simcontrol = windowselect.simwindow.simcontrol;
 
-            /// New start screen
-            StartScherm = new InterfaceStart(this);
+            interfaceStart = new InterfaceStart(this, widthStartScreen, heightStartScreen);
 
             StartHost = new ElementHost()
             {
-                Height = 1000,
-                Width = 1000,
-                Child = StartScherm
+                Height = size.Height,
+                Width = size.Width,
+                Location = new Point(0,0),
+                Child = interfaceStart,
             };
 
             /// Add startbuttons
             this.Controls.Add(StartHost);
             StartHost.Left = (this.Size.Width - StartHost.Size.Width) / 2;
+
         }
 
         /// <summary>
@@ -61,9 +66,7 @@ namespace TrafficSimulation
             windowselect.New();
         }
 
-		/// <summary>
-		/// When the button "Open" is clicked, this method will start.
-		/// </summary>
+		// When the button "Open" is clicked, this method will start.
 		public void Open_Click()
 		{
 			///Make new stream
@@ -416,21 +419,21 @@ namespace TrafficSimulation
 
         }
 
-        /// <summary>
-        /// Click About
-        /// </summary> 
-        public void About_Click()
-        {
-            /// New form with info about the program
-            about = new AboutWindow();
-            about.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+		// Klik op "About" 
+		public void About_Click()
+		{
+			// Niewe form met info over 't programma
+			about = new AboutWindow();
+			about.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            //about.Size = new Size(1000, 1000);
 
-            /// Close form on deactivation
-            about.Deactivate += About_LostFocus;
+			// Sluit form als dit niet de active form is
+			about.Deactivate += About_LostFocus;
 
-            /// Open form
-            about.Show();
-        }
+			// Open de form
+			about.Show();
+		}
+
 
         /// <summary>
         /// When AboutForm is not the main form anymore

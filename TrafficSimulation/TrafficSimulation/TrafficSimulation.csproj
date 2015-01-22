@@ -182,6 +182,7 @@
     <Resource Include="Resources\Buttons\TurnLeft_Button.png" />
     <Resource Include="Resources\Buttons\TurnRight_Button.png" />
     <None Include="Resources\Oxygen-Icons.org-Oxygen-Actions-document-edit.ico" />
+    <Resource Include="Resources\stopandgologo.png" />
     <Content Include="TrafficExpertLogo.png" />
     <Resource Include="Resources\Roads\bendLD.png" />
     <Resource Include="Resources\Roads\bendLU.PNG" />
