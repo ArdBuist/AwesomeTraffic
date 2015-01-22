@@ -245,6 +245,11 @@ namespace TrafficSimulation
             prio[6] = 0;
         }
 
+        public void priodistribution
+        {
+            //Ik wil in deze methode kunnen differentiëren tussen verschillende soorten wegen en of de prio-functie dus wel zin heeft bij verschillende hoeveelheden van banen
+        }
+
         public void waitingCheck()
         {
             //assigns all the roads to variables except for the notDirection (in case of Fork)
