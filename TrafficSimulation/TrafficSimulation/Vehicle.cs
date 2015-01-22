@@ -29,14 +29,31 @@ namespace TrafficSimulation
 
         public Vehicle(Point pos, Point dest, int len, int speed, int direction, int lane)
         {
-            updatePoint = 0;
+            updatePoint = 999;
             position = pos;
             destination = dest;
             size = new Size(10, len);
             this.speed = speed;
             this.direction = direction;
+            nextDirection = direction;
             this.lane = lane;
             rnd = new System.Security.Cryptography.RNGCryptoServiceProvider();
+
+            switch (direction)
+            {
+                case 1:
+                    Instantiate(new Point(this.position.X, this.position.Y - 100));
+                    break;
+                case 2:
+                    Instantiate(new Point(this.position.X + 100, this.position.Y));
+                    break;
+                case 3:
+                    Instantiate(new Point(this.position.X, this.position.Y + 100));
+                    break;
+                case 4:
+                    Instantiate(new Point(this.position.X - 100, this.position.Y));
+                    break;
+            }
         }
 
         public Point Destination { get { return destination; } }
@@ -46,98 +63,165 @@ namespace TrafficSimulation
         public Size Size { get { return size; } }
         public int UpdatePoint { get { return updatePoint; } }
         public int Speed { get { return speed; } set { speed = value; } }
-        public int NextDirection{set{nextDirection = value;}}
+        public int NextDirection { set { nextDirection = value; } }
 
         public void Update(Tile t, Point endPosition)
         {
             if (updatePoint == 0)
             {
-                //als de Vehicle een nieuwe tile oprijd dan is deze 0 en worden deze variabelen geinstantieerd
-                tilePoint = new Point(this.position.X/100*100,this.position.Y/100*100);
-                //beginpunt van de beweging
-                beginPoint = this.position;
-                //eindpunt van de beweging
-                endPoint = endPosition;
-                //de breedte en de hoogte van de beweging, hoever de auto beweegt over de x- en y-as
-                updateSize = new Size(Math.Abs(endPoint.X - beginPoint.X), Math.Abs(endPoint.Y - beginPoint.Y));
-                //met pythagoras word de lengte van de beweging uitgerekend
-                updateLength = Math.Ceiling(Math.Sqrt(updateSize.Width * updateSize.Width + updateSize.Height * updateSize.Height));
+                Instantiate(endPosition);
+                getEndDirection();
+
+                //switch (direction)
+                //{
+                //    case 1:
+                //        position.Y -= speed;
+                //        break;
+                //    case 2:
+                //        position.X += speed;
+                //        break;
+                //    case 3:
+                //        position.Y += speed;
+                //        break;
+                //    case 4:
+                //        position.X -= speed;
+                //        break;
+                //}
             }
 
             // de case voor elke mogelijkheid Direction --> Direction
             // de direction waar de auto vandaan komt en waar hij naar toe gaat gescheiden door een pijl
+
+
+            //nodig omdat een update niet altijd een heel getal is.
+            tempX += ((double)updateSize.Width / updateLength) * speed;
+            tempY += ((double)updateSize.Height / updateLength) * speed;
+
             switch (direction + "-->" + nextDirection)
             {
                 case "1-->1":
-                    //nodig omdat een update niet altijd een heel getal is.
-                    tempX += ((double)updateSize.Width / updateLength) * speed;
+                    //aanpassing in de x richting die positief of negatief is
                     while (tempX >= 1)
                     {
-                        //als de auto rechtdoor rijd kan hij van baan wisselen, dit kan naar een baan boven de huidige baan of eentje eronder
-                        if (endPosition.X < position.X)
-                        {
-                            position.X--;
-                        }
-                        else if (endPosition.X > position.X)
-                        {
-                            position.X++;
-                        }
+                        this.position.X++;
                         tempX--;
                     }
-
-                    tempY += ((double)updateSize.Height / updateLength) * speed;
-                    while (tempY >= 1)
+                    while (tempX <= -1)
+                    {
+                        this.position.X--;
+                        tempX++;
+                    }
+                    //aanpassing in de y richting die altijd negatief is
+                    while (tempY <= -1)
                     {
                         position.Y--;
-                        tempY--;
+                        tempY++;
                     }
                     break;
                 case "1-->2":
-                    break;
-                case "1-->4":
-                    break;
-
-                case "2-->1":
-                    break;
-                case "2-->2":
-                    position.X += speed;
-                    break;
-                case "2-->3":
-                    break;
-
-                case "3-->2":
-                    //nodig omdat een update niet altijd een heel getal is.
-                    tempX += ((double)updateSize.Width / updateLength) * speed;
+                    //aanpassing in de x richting die altijd positief is
                     while (tempX >= 1)
                     {
-                        position.X++;
+                        this.position.X++;
                         tempX--;
                     }
-
-                    tempY += ((double)updateSize.Height / updateLength) * speed;
+                    //aanpassing in de y richting die altijd negatief is
+                    while (tempY <= -1)
+                    {
+                        position.Y--;
+                        tempY++;
+                    }
+                    break;
+                case "1-->4":
+                    //aanpassing in de x richting die altijd negatief is
+                    while (tempX <= -1)
+                    {
+                        this.position.X--;
+                        tempX++;
+                    }
+                    //aanpassing in de y richting die altijd positief is
                     while (tempY >= 1)
                     {
                         position.Y++;
                         tempY--;
                     }
                     break;
-                case "3-->3":
-                    tempX += ((double)updateSize.Width / updateLength) * speed;
+
+                case "2-->1":
+                    //aanpassing in de x richting die altijd negatief is
+                    while (tempX <= -1)
+                    {
+                        this.position.X--;
+                        tempX++;
+                    }
+                    //aanpassing in de y richting die altijd negatief is
+                    while (tempY <= -1)
+                    {
+                        position.Y--;
+                        tempY++;
+                    }
+                    break;
+                case "2-->2":
+                    //aanpassing in de x richting die altijd negatief is
                     while (tempX >= 1)
                     {
-                        //als de auto rechtdoor rijd kan hij van baan wisselen, dit kan naar een baan boven de huidige baan of eentje eronder
-                        if (endPosition.X < position.X)
-                        {
-                            position.X--;
-                        }
-                        else if (endPosition.X > position.X)
-                        {
-                            position.X++;
-                        }
+                        position.X++;
                         tempX--;
                     }
+                    //aanpassing in de y richting die positief of negatief is
+                    while (tempY >= 1)
+                    {
+                        this.position.Y++;
+                        tempY--;
+                    }
+                    while (tempY <= -1)
+                    {
+                        this.position.Y--;
+                        tempY++;
+                    }
+                    break;
+                case "2-->3":
+                    //aanpassing in de x richting die altijd negatief is
+                    while (tempX <= -1)
+                    {
+                        this.position.X--;
+                        tempX++;
+                    }
+                    //aanpassing in de y richting die altijd positief is
+                    while (tempY >= 1)
+                    {
+                        position.Y++;
+                        tempY--;
+                    }
+                    break;
 
-                    tempY += ((double)updateSize.Height / updateLength) * speed;
+                case "3-->2":
+                    //aanpassing in de x richting die altijd positief is
+                    while (tempX >= 1)
+                    {
+                        this.position.X++;
+                        tempX--;
+                    }
+                    //aanpassing in de y richting die altijd negatief is
+                    while (tempY <= -1)
+                    {
+                        position.Y--;
+                        tempY++;
+                    }
+                    break;
+                case "3-->3":
+                    //aanpassing in de x richting die positief of negatief is
+                    while (tempX >= 1)
+                    {
+                        this.position.X++;
+                        tempX--;
+                    }
+                    while (tempX <= -1)
+                    {
+                        this.position.X--;
+                        tempX++;
+                    }
+                    //aanpassing in de y richting die altijd negatief is
                     while (tempY >= 1)
                     {
                         position.Y++;
@@ -145,37 +229,106 @@ namespace TrafficSimulation
                     }
                     break;
                 case "3-->4":
+                    //aanpassing in de x richting die altijd negatief is
+                    while (tempX <= -1)
+                    {
+                        this.position.X--;
+                        tempX++;
+                    }
+                    //aanpassing in de y richting die altijd negatief is
+                    while (tempY <= -1)
+                    {
+                        position.Y--;
+                        tempY++;
+                    }
                     break;
 
                 case "4-->1":
+                    //aanpassing in de x richting die altijd positief is
+                    while (tempX >= 1)
+                    {
+                        this.position.X++;
+                        tempX--;
+                    }
+                    //aanpassing in de y richting die altijd negatief is
+                    while (tempY <= -1)
+                    {
+                        position.Y--;
+                        tempY++;
+                    }
                     break;
                 case "4-->4":
-                    position.X += speed;
+                    //aanpassing in de x richting die altijd positief is
+                    while (tempX <= -1)
+                    {
+                        this.position.X--;
+                        tempX++;
+                    }
+                    //aanpassing in de y richting die positief of negatief is
+                    while (tempY >= 1)
+                    {
+                        this.position.Y++;
+                        tempY--;
+                    }
+                    while (tempY <= -1)
+                    {
+                        this.position.Y--;
+                        tempY++;
+                    }
                     break;
                 case "4-->3":
+                    //aanpassing in de x richting die altijd positief is
+                    while (tempX >= 1)
+                    {
+                        this.position.X++;
+                        tempX--;
+                    }
+                    //aanpassing in de y richting die altijd positief is
+                    while (tempY >= 1)
+                    {
+                        position.Y++;
+                        tempY--;
+                    }
                     break;
             }
-            updatePoint++;
+        }
+
+        private void Instantiate(Point endPosition)
+        {
+            //als de Vehicle een nieuwe tile oprijd dan is deze 0 en worden deze variabelen geinstantieerd
+            tilePoint = new Point(this.position.X / 100 * 100, this.position.Y / 100 * 100);
+            //beginpunt van de beweging
+            beginPoint = this.position;
+            //eindpunt van de beweging
+            endPoint = endPosition;
+            //de breedte en de hoogte van de beweging, hoever de auto beweegt over de x- en y-as
+            updateSize = new Size(endPoint.X - beginPoint.X, endPoint.Y - beginPoint.Y);
+            //met pythagoras word de lengte van de beweging uitgerekend
+            updateLength = Math.Ceiling(Math.Sqrt(updateSize.Width * updateSize.Width + updateSize.Height * updateSize.Height));
+        }
+
+        public void getEndDirection()
+        {
+            if (endPoint.X - tilePoint.X == 0)
+            {
+                nextDirection = 4;
+            }
+            else if (endPoint.X - tilePoint.X == 100)
+            {
+                nextDirection = 2;
+            }
+            else if (endPoint.Y - tilePoint.Y == 0)
+            {
+                nextDirection = 1;
+            }
+            else if (endPoint.Y - tilePoint.Y == 100)
+            {
+                nextDirection = 3;
+            }
         }
 
         public void reset()
         {
-            //switch (direction)
-            //{
-            //    case 1:
-            //        position.Y -= speed;
-            //        break;
-            //    case 2:
-            //        position.X += speed;
-            //        break;
-            //    case 3:
-            //        position.Y += speed;
-            //        break;
-            //    case 4:
-            //        position.X -= speed;
-            //        break;
-            //}
-
             //variabele die hier word gereset als de auto naar een andere tile rijd (nu nog ongebruikt)
             updatePoint = 0;
         }

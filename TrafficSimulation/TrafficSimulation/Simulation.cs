@@ -178,6 +178,8 @@ namespace TrafficSimulation
             {
                 if (t.Access[v.Direction - 1, v.Lane])//if the next tile is accessible
                 {
+                    simControl.simulationMap.GetTileMea(t.position.X, t.position.Y).RemoveVehicle(simControl, v, v.Direction, v.Lane);
+                    simControl.totalCars--;
                     //remove vehicle from old tile and add vehicle to new tile
                     Tile nextTile = simControl.simulationMap.GetSurroundingTilesSim(t.position)[v.Direction - 1];
                     if (nextTile != null)
@@ -189,8 +191,6 @@ namespace TrafficSimulation
                         simControl.totalCars++;
                         v.Update(nextTile, GetEndPosition(nextTile, v));
                     }
-                    simControl.simulationMap.GetTileMea(t.position.X, t.position.Y).RemoveVehicle(simControl, v, v.Direction, v.Lane);
-                    simControl.totalCars--;
                 }
                 else
                 {
@@ -289,15 +289,14 @@ namespace TrafficSimulation
 
         private int GetRandomOutDirection(Tile tile, Vehicle v)
         {
-            Tile newTile = simControl.simulationMap.GetSurroundingTiles(tile.position)[v.Direction - 1];
             int newDirection = 0;
-            switch (newTile.name)
+            switch (tile.name)
             {
                 case "Spawner":
                     newDirection = v.Direction;
                     break;
                 case "Road":
-                    foreach (int i in newTile.Directions)
+                    foreach (int i in tile.Directions)
                     {
                         if (i != ((v.Direction + 2) % 4))
                         {
@@ -308,6 +307,10 @@ namespace TrafficSimulation
             }
             if (v.UpdatePoint == 0)
             {
+                if (v.Direction - newDirection <0)
+                {
+                    v.Bitmap.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                }
                 v.NextDirection = newDirection;
             }
 
