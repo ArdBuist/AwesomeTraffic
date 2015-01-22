@@ -610,46 +610,7 @@
                            Grid.Column="0" 
                            Style="{StaticResource infoBalkLabels}"
                            VerticalAlignment="Top"
-                           Content="Efficientie" />
-
-                    <Label x:Name="labelGreenwave" 
-                           Grid.Row="6" 
-                           Grid.Column="0" 
-                           Grid.ColumnSpan="2"
-                           Style="{StaticResource infoBalkLabels}"
-                           VerticalAlignment="Top"
-                           Width="250"
-                           Height="50"
-                           HorizontalAlignment="Left">
-                        bla bla bla  uitleg over de greenwave en het 
-                        aanklikken van meerdere kruispunten
-                    </Label>
-
-                    <Button x:Name="greenWave" 
-                            Style="{StaticResource infoBalkButtons}"
-                            Height="40"
-                            Width="100"
-                            VerticalAlignment="Bottom"
-                            Margin="10"
-                            HorizontalAlignment="Left"
-                            Click="GreenWave_Click"
-                            Grid.Row="6"
-                            Grid.ColumnSpan="2"
-                            Grid.Column="0"
-                            Content="Add Greenwave"/>
-
-                    <Button x:Name="greenWaveDelete" 
-                            Style="{StaticResource infoBalkButtons}"
-                            Height="40"
-                            Width="100"
-                            VerticalAlignment="Bottom"
-                            Margin="10"
-                            HorizontalAlignment="Right"
-                            Click="GreenWaveDelete_Click"
-                            Grid.Row="6"
-                            Grid.ColumnSpan="2"
-                            Grid.Column="0"
-                            Content="Delete Greenwave"/>
+                           Content="Efficientie" />              
 
                 </Grid>
 
