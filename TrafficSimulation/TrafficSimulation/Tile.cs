@@ -220,6 +220,8 @@ namespace TrafficSimulation
         //controleert of aan de aangegeven zijkant ook echt een weg ligt.
         public abstract bool doesConnect(int side);
 
+		public abstract TrafficlightControl GetControl();
+
         //returnt de tile die aan één van de vier zijkanten van de tile ligt.
         
         //verwerkt de waarden die verkregen worden als de tile op de kaart wordt geplaatst.
@@ -316,9 +318,8 @@ namespace TrafficSimulation
         public override void SetValues(SimControl s, Point position)
         {
             base.SetValues(s, position);
+
             Bitmap image = new Bitmap(100, 100);
-            Graphics gr = Graphics.FromImage(image);
-            gr.FillRectangle(Brushes.Black, 0, 0, 100, 100);
             DrawTile.drawSpawnerBlock(Graphics.FromImage(image), direction, lanesOut, lanesIn);
             s.trafficlightBC.AddObject(image, this.position);
         }
@@ -373,7 +374,7 @@ namespace TrafficSimulation
 
         public Vehicle createVehicle(int spawnLane)
         {
-                return new NormalCar(this.position, this.position, 10, this.maxSpeed, this.direction, spawnLane);
+			return new NormalCar(this.position, this.position, 10, this.maxSpeed, this.direction, spawnLane);
         }
 
         public override bool doesConnect(int side)
@@ -528,6 +529,11 @@ namespace TrafficSimulation
             control = new TrafficlightControl(s, this, 3, notDirection, lanes, position);
         }
 
+		public override TrafficlightControl GetControl()
+		{
+			return control;
+		}
+
         public override bool doesConnect(int side)
         {
             if ((side + 1) % 4 + 1 != notDirection)
@@ -586,6 +592,11 @@ namespace TrafficSimulation
             lanes[direction * 2 - 2] = lanesIn;
             control = new TrafficlightControl(s, this, 4, 5, lanes, position);
         }
+
+		public override TrafficlightControl GetControl()
+		{
+			return control;
+		}
 
         public override bool doesConnect(int side)
         {

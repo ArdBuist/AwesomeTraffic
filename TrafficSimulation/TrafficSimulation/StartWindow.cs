@@ -21,9 +21,9 @@ namespace TrafficSimulation
 		ElementHost StartHost;
 		AboutWindow about;
 		SimControl simcontrol;
-        	InterfaceStart interfaceStart;
+        InterfaceStart interfaceStart;
 		Tile[] tempTileList = new Tile[300];
-        	int widthStartScreen, heightStartScreen;
+        int widthStartScreen, heightStartScreen;
 
 
         public StartWindow(Size size, WindowSelect sim)
@@ -67,7 +67,9 @@ namespace TrafficSimulation
             windowselect.New();
         }
 
-		// When the button "Open" is clicked, this method will start.
+		/// <summary>
+		///  When the button "Open" is clicked, this method will start.
+		/// </summary>
 		public void Open_Click()
 		{
 			///Make new stream
@@ -312,7 +314,7 @@ namespace TrafficSimulation
 										/// Set some values
 										currentBuildTile.SetValues(simcontrol, new Point((roadX * 100), roadY * 100));
 										currentBuildTile.maxSpeed = Convert.ToInt32(information[4]);
-										/*currentBuildTile.strat = Convert.ToInt32(information[3]);*/
+										currentBuildTile.GetControl().strat = Convert.ToInt32(information[3]);
 
 										/// Add to list
 										tempTileList[(roadX + roadY * 20)] = currentBuildTile;
@@ -339,7 +341,7 @@ namespace TrafficSimulation
 										/// Set some values
 										currentBuildTile.SetValues(simcontrol, new Point((roadX * 100), roadY * 100));
 										currentBuildTile.maxSpeed = Convert.ToInt32(information[4]);
-										//currentBuildTile.strat = Convert.ToInt32(information[3]);
+										currentBuildTile.GetControl().strat = Convert.ToInt32(information[3]);
 
 										/// Add to list
 										tempTileList[(roadX + roadY * 20)] = currentBuildTile;
@@ -374,7 +376,7 @@ namespace TrafficSimulation
 					simcontrol.currentBuildTile = new Road(1, 3);
 					
 					///Set the state to selected
-					simcontrol.state = "selected";;
+					simcontrol.state = "selected";
 
 					LoadWin.Close();
 
@@ -396,11 +398,6 @@ namespace TrafficSimulation
 
 			}
  */ 
-		}
-
-		public void DoWork(Tile tile)
-		{
-		
 		}
 
 		/// <summary>

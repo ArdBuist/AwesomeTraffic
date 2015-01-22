@@ -154,22 +154,22 @@ namespace TrafficSimulation
 								// Save case for a fork
 								case "Fork":
 									file.WriteLine(
-										tile.name + "_" +			// 0 Welke tile
-										tile.position.X + "_" +		// 1 X positie
-										tile.position.Y + "_" +		// 2 Y positie
-										" " /*tile.strat*/ + "_" + 	// 3 strat
-										tile.maxSpeed + "_" +		// 4 Maxspeed
-										tile.notDirection);			// 5 De not direction
+										tile.name + "_" +					// 0 Welke tile
+										tile.position.X + "_" +				// 1 X positie
+										tile.position.Y + "_" +				// 2 Y positie
+										tile.GetControl().strat + "_" + 	// 3 strat
+										tile.maxSpeed + "_" +				// 4 Maxspeed
+										tile.notDirection);					// 5 De not direction
 									break;
 
 								// Save case for a crossroad
 								case "Crossroad":
 									file.WriteLine(
-										tile.name + "_" +			// 0 Welke tile
-										tile.position.X + "_" +		// 1 X positie
-										tile.position.Y + "_" +		// 2 Y positie
-										" " /*tile.strat*/ + "_" + 	// 3 strat
-										tile.maxSpeed);				// 4 Maxspeed
+										tile.name + "_" +					// 0 Welke tile
+										tile.position.X + "_" +				// 1 X positie
+										tile.position.Y + "_" +				// 2 Y positie
+										tile.GetControl().strat + "_" + 	// 3 strat
+										tile.maxSpeed);						// 4 Maxspeed
 									break;
 
 								// Save case for a road (that is a straight road or a curved road)
