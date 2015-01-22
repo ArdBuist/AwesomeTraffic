@@ -166,8 +166,11 @@ namespace TrafficSimulation
             }
             if (StaysOnTile(t, v))//if vehicle is still on the tile 
             {
-                if (DistanceFromCars(t, v))//if there are other cars standing in front
+                if (DistanceFromCars(t, v))
+                {
+                    //if there are other cars standing in front
                     v.Update(t, GetEndPosition(t, v));
+                }
                 else
                 {
                     v.Speed = 0;
@@ -178,20 +181,15 @@ namespace TrafficSimulation
             {
                 if (t.Access[v.Direction - 1, v.Lane])//if the next tile is accessible
                 {
-                    simControl.simulationMap.GetTileMea(t.position.X, t.position.Y).RemoveVehicle(simControl, v, v.LastDirection, v.Lane);
-                    simControl.totalCars--;
+                    simControl.simulationMap.GetTile(t.position).RemoveVehicle(simControl, v, v.Direction, v.Lane);
                     //remove vehicle from old tile and add vehicle to new tile
+                    Tile[] test = simControl.simulationMap.GetSurroundingTilesSim(t.position);
                     Tile nextTile = simControl.simulationMap.GetSurroundingTilesSim(t.position)[v.NextDirection - 1];
-                    if (nextTile != null)
-                    {
-                        v.Direction = v.NextDirection;
-                        v.reset();
-                        v.Speed = nextTile.maxSpeed;
-                        nextTile.AddVehicle(simControl, v, v.Direction, v.Lane);
-                        Tile test1 = nextTile;
-                        simControl.totalCars++;
-                        v.Update(nextTile, GetEndPosition(nextTile, v));
-                    }
+                    v.reset();
+                    v.Speed = nextTile.maxSpeed;
+                    nextTile.AddVehicle(simControl, v, v.Direction, v.Lane);
+                    v.Direction = v.NextDirection;
+                    v.Update(nextTile, GetEndPosition(nextTile, v));
                 }
                 else
                 {
@@ -221,20 +219,20 @@ namespace TrafficSimulation
         {
             switch (v.NextDirection)
             {
-                case 1: if (v.position.Y - t.MaxSpeed - 1 >= t.position.Y + CarSpace)
+                case 1: if (v.position.Y - v.Speed >= t.position.Y)
                         return true;
                     break;
-                case 2: if (v.position.X + t.MaxSpeed + v.Size.Width + 5 <= t.position.X + t.size.Width - CarSpace)
+                case 2: if (v.position.X + v.Speed <= t.position.X + t.size.Width)
                         return true;
                     break;
-                case 3: if (v.position.Y + t.MaxSpeed + v.Size.Width + t.maxSpeed + 3 <= t.position.Y + t.size.Height - CarSpace)
+                case 3: if (v.position.Y + v.Speed <= t.position.Y + t.size.Height)
                         return true;
                     break;
-                case 4: if (v.position.X - t.MaxSpeed - 1 >= t.position.X + CarSpace)
+                case 4: if (v.position.X - v.Speed >= t.position.X)
                         return true;
                     break;
             }
-                return false;
+            return false;
         }
 
         private bool VehicleIsOnEndSpawner(Vehicle v, Tile t)
@@ -262,32 +260,28 @@ namespace TrafficSimulation
 
         private Point GetEndPosition(Tile tile, Vehicle v)
         {
-            int endDirection = GetRandomOutDirection(tile, v);
-            int lane = v.Lane;
+            GetRandomOutDirection(tile, v);
+            int randomLane = v.Lane;
             //Tile endTile = simControl.simulationMap.GetConnectingTiles(tile.position)[endDirection - 1];
             //int tileLanes = endTile.GetLanesIn(endDirection);
             //int randomLane = Math.Abs(Guid.NewGuid().GetHashCode()) % tileLanes;
 
-            //TESTCODE
-            int randomLane = 0;
-            //EINDE TESTCODE
-
-            switch (endDirection)
+            switch (v.NextDirection)
             {
                 case 1:
                     return new Point(tile.position.X + 53 + (randomLane * 17), tile.position.Y);
                 case 2:
-                    return new Point(tile.position.X + 100, tile.position.Y + 53 + 17 * lane);
+                    return new Point(tile.position.X + 100, tile.position.Y + 53 + 17 * randomLane);
                 case 3:
-                    return new Point(tile.position.X + 37 - (17 * lane), tile.position.Y + 100);
+                    return new Point(tile.position.X + 37 - (17 * randomLane), tile.position.Y + 100);
                 case 4:
-                    return new Point(tile.position.X, tile.position.Y + 37 - (17 * lane));
+                    return new Point(tile.position.X, tile.position.Y + 37 - (17 * randomLane));
                 default:
                     return new Point(0, 0);
             }
         }
 
-        private int GetRandomOutDirection(Tile tile, Vehicle v)
+        private void GetRandomOutDirection(Tile tile, Vehicle v)
         {
             int newDirection = 0;
             switch (tile.name)
@@ -313,8 +307,6 @@ namespace TrafficSimulation
                 }
                 v.NextDirection = newDirection;
             }
-
-            return newDirection;
         }
     }
 }

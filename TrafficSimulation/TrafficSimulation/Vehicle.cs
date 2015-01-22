@@ -12,7 +12,7 @@ namespace TrafficSimulation
         public Point position;
         protected Point destination;
         protected Bitmap bitmap;
-        protected Size size;
+        //protected Size size;
         protected int width;
         protected int speed;
         protected int direction;
@@ -30,38 +30,22 @@ namespace TrafficSimulation
 
         public Vehicle(Point pos, Point dest, int len, int speed, int direction, int lane)
         {
-            updatePoint = 999;
+            updatePoint = 0;
             position = pos;
             destination = dest;
-            size = new Size(10, len);
+            //size = new Size(10, len);
             this.speed = speed;
             this.direction = direction;
             nextDirection = direction;
             this.lane = lane;
             rnd = new System.Security.Cryptography.RNGCryptoServiceProvider();
-
-            switch (direction)
-            {
-                case 1:
-                    Instantiate(new Point(this.position.X, this.position.Y - 100));
-                    break;
-                case 2:
-                    Instantiate(new Point(this.position.X + 100, this.position.Y));
-                    break;
-                case 3:
-                    Instantiate(new Point(this.position.X, this.position.Y + 100));
-                    break;
-                case 4:
-                    Instantiate(new Point(this.position.X - 100, this.position.Y));
-                    break;
-            }
         }
 
         public Point Destination { get { return destination; } }
-        public int Direction { get { return direction; } set { value = direction; } }
+        public int Direction { get { return direction; } set { direction = value; } }
         public int Lane { get { return lane; } }
         public Bitmap Bitmap { get { return bitmap; } }
-        public Size Size { get { return size; } }
+        //public Size Size { get { return size; } }
         public int UpdatePoint { get { return updatePoint; } }
         public int Speed { get { return speed; } set { speed = value; } }
         public int NextDirection { get { return nextDirection; } set { nextDirection = value; } }
@@ -73,32 +57,14 @@ namespace TrafficSimulation
             {
                 Instantiate(endPosition);
                 getEndDirection();
-
-                //switch (direction)
-                //{
-                //    case 1:
-                //        position.Y -= speed;
-                //        break;
-                //    case 2:
-                //        position.X += speed;
-                //        break;
-                //    case 3:
-                //        position.Y += speed;
-                //        break;
-                //    case 4:
-                //        position.X -= speed;
-                //        break;
-                //}
             }
-
-            // de case voor elke mogelijkheid Direction --> Direction
-            // de direction waar de auto vandaan komt en waar hij naar toe gaat gescheiden door een pijl
-
 
             //nodig omdat een update niet altijd een heel getal is.
             tempX += ((double)updateSize.Width / updateLength) * speed;
             tempY += ((double)updateSize.Height / updateLength) * speed;
-
+            
+            // de case voor elke mogelijkheid Direction --> Direction
+            // de direction waar de auto vandaan komt en waar hij naar toe gaat gescheiden door een pijl
             switch (direction + "-->" + nextDirection)
             {
                 case "1-->1":
@@ -141,20 +107,20 @@ namespace TrafficSimulation
                         this.position.X--;
                         tempX++;
                     }
-                    //aanpassing in de y richting die altijd positief is
-                    while (tempY >= 1)
+                    //aanpassing in de y richting die altijd negatief is
+                    while (tempY <= -1)
                     {
-                        position.Y++;
-                        tempY--;
+                        position.Y--;
+                        tempY++;
                     }
                     break;
 
                 case "2-->1":
-                    //aanpassing in de x richting die altijd negatief is
-                    while (tempX <= -1)
+                    //aanpassing in de x richting die altijd positief is
+                    while (tempX >= 1)
                     {
-                        this.position.X--;
-                        tempX++;
+                        this.position.X++;
+                        tempX--;
                     }
                     //aanpassing in de y richting die altijd negatief is
                     while (tempY <= -1)
@@ -164,7 +130,7 @@ namespace TrafficSimulation
                     }
                     break;
                 case "2-->2":
-                    //aanpassing in de x richting die altijd negatief is
+                    //aanpassing in de x richting die altijd positief is
                     while (tempX >= 1)
                     {
                         position.X++;
@@ -183,11 +149,11 @@ namespace TrafficSimulation
                     }
                     break;
                 case "2-->3":
-                    //aanpassing in de x richting die altijd negatief is
-                    while (tempX <= -1)
+                    //aanpassing in de x richting die altijd positief is
+                    while (tempX >= 1)
                     {
-                        this.position.X--;
-                        tempX++;
+                        this.position.X++;
+                        tempX--;
                     }
                     //aanpassing in de y richting die altijd positief is
                     while (tempY >= 1)
@@ -204,7 +170,7 @@ namespace TrafficSimulation
                         this.position.X++;
                         tempX--;
                     }
-                    //aanpassing in de y richting die altijd negatief is
+                    //aanpassing in de y richting die altijd positief is
                     while (tempY >= 1)
                     {
                         position.Y++;
@@ -223,7 +189,7 @@ namespace TrafficSimulation
                         this.position.X--;
                         tempX++;
                     }
-                    //aanpassing in de y richting die altijd negatief is
+                    //aanpassing in de y richting die altijd positief is
                     while (tempY >= 1)
                     {
                         position.Y++;
@@ -237,20 +203,20 @@ namespace TrafficSimulation
                         this.position.X--;
                         tempX++;
                     }
-                    //aanpassing in de y richting die altijd negatief is
-                    while (tempY <= -1)
+                    //aanpassing in de y richting die altijd positief is
+                    while (tempY >= 1)
                     {
-                        position.Y--;
-                        tempY++;
+                        position.Y++;
+                        tempY--;
                     }
                     break;
 
                 case "4-->1":
-                    //aanpassing in de x richting die altijd positief is
-                    while (tempX >= 1)
+                    //aanpassing in de x richting die altijd negatief is
+                    while (tempX <= -1)
                     {
-                        this.position.X++;
-                        tempX--;
+                        this.position.X--;
+                        tempX++;
                     }
                     //aanpassing in de y richting die altijd negatief is
                     while (tempY <= -1)
@@ -260,7 +226,7 @@ namespace TrafficSimulation
                     }
                     break;
                 case "4-->4":
-                    //aanpassing in de x richting die altijd positief is
+                    //aanpassing in de x richting die altijd negatief is
                     while (tempX <= -1)
                     {
                         this.position.X--;
@@ -279,11 +245,11 @@ namespace TrafficSimulation
                     }
                     break;
                 case "4-->3":
-                    //aanpassing in de x richting die altijd positief is
-                    while (tempX >= 1)
+                    //aanpassing in de x richting die altijd negatief is
+                    while (tempX <= -1)
                     {
-                        this.position.X++;
-                        tempX--;
+                        this.position.X--;
+                        tempX++;
                     }
                     //aanpassing in de y richting die altijd positief is
                     while (tempY >= 1)
@@ -303,6 +269,7 @@ namespace TrafficSimulation
             //beginpunt van de beweging
             beginPoint = this.position;
             //eindpunt van de beweging
+            Point test1 = endPosition;
             endPoint = endPosition;
             //de breedte en de hoogte van de beweging, hoever de auto beweegt over de x- en y-as
             updateSize = new Size(endPoint.X - beginPoint.X, endPoint.Y - beginPoint.Y);
