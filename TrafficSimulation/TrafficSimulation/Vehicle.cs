@@ -21,6 +21,7 @@ namespace TrafficSimulation
 
         private Point tilePoint;
         private int nextDirection;
+        private int lastDirection;
         private int updatePoint;
         private Point beginPoint, endPoint;
         private double tempX, tempY;
@@ -63,7 +64,8 @@ namespace TrafficSimulation
         public Size Size { get { return size; } }
         public int UpdatePoint { get { return updatePoint; } }
         public int Speed { get { return speed; } set { speed = value; } }
-        public int NextDirection { set { nextDirection = value; } }
+        public int NextDirection { get { return nextDirection; } set { nextDirection = value; } }
+        public int LastDirection { get { return lastDirection; } set { lastDirection = value; } }
 
         public void Update(Tile t, Point endPosition)
         {
@@ -203,10 +205,10 @@ namespace TrafficSimulation
                         tempX--;
                     }
                     //aanpassing in de y richting die altijd negatief is
-                    while (tempY <= -1)
+                    while (tempY >= 1)
                     {
-                        position.Y--;
-                        tempY++;
+                        position.Y++;
+                        tempY--;
                     }
                     break;
                 case "3-->3":
@@ -291,6 +293,7 @@ namespace TrafficSimulation
                     }
                     break;
             }
+            updatePoint++;
         }
 
         private void Instantiate(Point endPosition)
@@ -305,6 +308,8 @@ namespace TrafficSimulation
             updateSize = new Size(endPoint.X - beginPoint.X, endPoint.Y - beginPoint.Y);
             //met pythagoras word de lengte van de beweging uitgerekend
             updateLength = Math.Ceiling(Math.Sqrt(updateSize.Width * updateSize.Width + updateSize.Height * updateSize.Height));
+
+            getEndDirection();
         }
 
         public void getEndDirection()

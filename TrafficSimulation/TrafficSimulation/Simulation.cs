@@ -178,12 +178,13 @@ namespace TrafficSimulation
             {
                 if (t.Access[v.Direction - 1, v.Lane])//if the next tile is accessible
                 {
-                    simControl.simulationMap.GetTileMea(t.position.X, t.position.Y).RemoveVehicle(simControl, v, v.Direction, v.Lane);
+                    simControl.simulationMap.GetTileMea(t.position.X, t.position.Y).RemoveVehicle(simControl, v, v.LastDirection, v.Lane);
                     simControl.totalCars--;
                     //remove vehicle from old tile and add vehicle to new tile
-                    Tile nextTile = simControl.simulationMap.GetSurroundingTilesSim(t.position)[v.Direction - 1];
+                    Tile nextTile = simControl.simulationMap.GetSurroundingTilesSim(t.position)[v.NextDirection - 1];
                     if (nextTile != null)
                     {
+                        v.Direction = v.NextDirection;
                         v.reset();
                         v.Speed = nextTile.maxSpeed;
                         nextTile.AddVehicle(simControl, v, v.Direction, v.Lane);
@@ -218,12 +219,12 @@ namespace TrafficSimulation
         //calculates the places and returns if the vehicle is allowed to drive
         private bool CorrectDistance(Tile t, Vehicle v, int CarSpace)
         {
-            switch (v.Direction)
+            switch (v.NextDirection)
             {
                 case 1: if (v.position.Y - t.MaxSpeed - 1 >= t.position.Y + CarSpace)
                         return true;
                     break;
-                case 2: if (v.position.X + t.MaxSpeed + v.Size.Width + t.maxSpeed + 5 <= t.position.X + t.size.Width - CarSpace)
+                case 2: if (v.position.X + t.MaxSpeed + v.Size.Width + 5 <= t.position.X + t.size.Width - CarSpace)
                         return true;
                     break;
                 case 3: if (v.position.Y + t.MaxSpeed + v.Size.Width + t.maxSpeed + 3 <= t.position.Y + t.size.Height - CarSpace)
@@ -233,7 +234,7 @@ namespace TrafficSimulation
                         return true;
                     break;
             }
-            return false;
+                return false;
         }
 
         private bool VehicleIsOnEndSpawner(Vehicle v, Tile t)
@@ -254,7 +255,6 @@ namespace TrafficSimulation
                     case 4: if (v.position.X - v.Speed <= t.position.X + 30)
                             return true;
                         break;
-
                 }
             }
             return false;
@@ -307,7 +307,7 @@ namespace TrafficSimulation
             }
             if (v.UpdatePoint == 0)
             {
-                if (v.Direction - newDirection <0)
+                if (v.Direction - newDirection < 0)
                 {
                     v.Bitmap.RotateFlip(RotateFlipType.Rotate90FlipNone);
                 }
