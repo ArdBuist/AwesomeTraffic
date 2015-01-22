@@ -186,7 +186,7 @@ namespace TrafficSimulation
             lane2.SelectedIndex = tileLanes[3, 0] - 1;
             labelCrossroadsNumber.Content = trafficlights;
             labelTilesNumber.Content = totalTiles;
-            listboxStrategie.SelectedIndex = strategie-1;
+            listboxStrategie.SelectedIndex = strategie;
             labelGameSpeedNumber.Content = Math.Round(gameSpeed, 1); 
             //kijken of het kan
         }
@@ -372,12 +372,12 @@ namespace TrafficSimulation
             if (selectedTile.name == "Crossroad")
             {
                 Crossroad crosTile = (Crossroad)selectedTile;
-                crosTile.control.strat = strategie+1;
+                crosTile.control.strat = strategie;
             }
             else
             {
                 Fork crosTile = (Fork)selectedTile;
-                crosTile.control.strat = strategie+1;
+                crosTile.control.strat = strategie;
             }
         }
 
