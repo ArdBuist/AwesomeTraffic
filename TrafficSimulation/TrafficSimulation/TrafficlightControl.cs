@@ -20,11 +20,12 @@ namespace TrafficSimulation
         int startTime;
         //geeft aan welke strategie wordt gebruikt
         public int strat = 1;
-
         //timers
         int[] timer = new int[12];
         //locks for the timers
         bool[] locks = new bool[12];
+        //prioriteit strategieën
+        int[] prio = new int[7];
 
         public TrafficlightControl(SimControl sim, Tile road, int Directions, int NotDirection, int[] NumberOfLanes)
         {
@@ -121,68 +122,35 @@ namespace TrafficSimulation
                     //get lowest value
                     int lowest = Math.Min(allRight, Math.Min(forwardRight1, Math.Min(forwardRight2, Math.Min(leftRightForward1, Math.Min(leftRightForward2, Math.Min(leftRightForward3, leftRightForward4))))));
 
-
                     /*Dit zijn alle strategieën voor de stoplichten, in de juiste volgorde. De wachttijden kunnen nooit clashen
                      omdat de eerste keuzes die in de if-loops voorbij komen de hoogste value hebben (links/rechtdoor/rechts).
                      Daarna komen de opties met 2 richtingen (rechtdoor/rechts), en daarna pas 4 richtingen (alleen rechts)
                      Als er minder dan drie banen per weg zijn zal er nooit een niet-bestaand stoplicht op groen worden gezet door
                      deze volgorde*/
-                    if (lowest == leftRightForward1)
+                    if (leftRightForward1 != leftRightForward2 && leftRightForward2 != leftRightForward3
+                        && leftRightForward3 != leftRightForward4)
                     {
-                        for (int i = 1; i < 6; i++)
-                        {
-                            StratUpdate(1, i);
-                        }
+                        if (lowest == leftRightForward1)
+                            LRF1();
+                        else if (lowest == leftRightForward2)
+                            LRF2();
+                        else if (lowest == leftRightForward3)
+                            LRF3();
+                        else if (lowest == leftRightForward4)
+                            LRF4();
+                        else if (lowest == forwardRight1)
+                            FR1();
+                        else if (lowest == forwardRight2)
+                            FR2();
+                        else if (lowest == allRight)
+                            R();
                     }
-                    else if (lowest == leftRightForward2)
+                    else
                     {
-                        for (int i = 1; i < 6; i++)
-                        {
-                            StratUpdate(2, i);
-                        }
-                    }
-                    else if (lowest == leftRightForward3)
-                    {
-                        for (int i = 1; i < 6; i++)
-                        {
-                            StratUpdate(3, i);
-                        }
+                        
                     }
 
-                    else if (lowest == leftRightForward4)
-                    {
-                        for (int i = 1; i < 6; i++)
-                        {
-                            StratUpdate(4, i);
-                        }
-                    }
-                    else if (lowest == forwardRight1)
-                    {
-                        StratUpdate(1, 2);
-                        StratUpdate(1, 3);
-                        StratUpdate(1, 4);
-                        StratUpdate(3, 2);
-                        StratUpdate(3, 3);
-                        StratUpdate(3, 4);
-                    }
-                    else if (lowest == forwardRight2)
-                    {
-                        StratUpdate(2, 2);
-                        StratUpdate(2, 3);
-                        StratUpdate(2, 4);
-                        StratUpdate(4, 2);
-                        StratUpdate(4, 3);
-                        StratUpdate(4, 4);
-                    }
-                    else if (lowest == allRight)
-                    {
-                        for (int i = 1; i < 5; i++)
-                        {
-                            StratUpdate(i, 3);
-                        }
-                    }
                     //alle timers weer naar 0
-                    //PROBLEM HERE//
                     for (int i = 0; i < 12; i++)
                     {
                         timer[i] = 0;
@@ -190,6 +158,76 @@ namespace TrafficSimulation
                     }
                 }
             }
+        }
+        public void LRF1()
+        {
+            for (int i = 1; i < 6; i++)
+                StratUpdate(1, i);
+
+            for (int i = 0; i < 7; i++)
+                prio[i]++;
+            prio[0] = 0;
+        }
+        public void LRF2()
+        {
+            for (int i = 1; i < 6; i++)
+                StratUpdate(2, i);
+
+            for (int i = 0; i < 7; i++)
+                prio[i]++;
+            prio[1] = 0;
+        }
+        public void LRF3()
+        {
+            for (int i = 1; i < 6; i++)
+                StratUpdate(3, i);
+
+            for (int i = 0; i < 7; i++)
+                prio[i]++;
+            prio[2] = 0;
+        }
+        public void LRF4()
+        {
+            for (int i = 1; i < 6; i++)
+            {
+                StratUpdate(4, i);
+            }
+            prio[3] = 0;
+        }
+        public void FR1()
+        {
+            StratUpdate(1, 2);
+            StratUpdate(1, 3);
+            StratUpdate(1, 4);
+            StratUpdate(3, 2);
+            StratUpdate(3, 3);
+            StratUpdate(3, 4);
+
+            for (int i = 0; i < 7; i++)
+                prio[i]++;
+            prio[4] = 0;
+        }
+        public void FR2()
+        {
+            StratUpdate(2, 2);
+            StratUpdate(2, 3);
+            StratUpdate(2, 4);
+            StratUpdate(4, 2);
+            StratUpdate(4, 3);
+            StratUpdate(4, 4);
+
+            for (int i = 0; i < 7; i++)
+                prio[i]++;
+            prio[5] = 0;
+        }
+        public void R()
+        {
+            for (int i = 1; i < 5; i++)
+                StratUpdate(i, 3);
+
+            for (int i = 0; i < 7; i++)
+                prio[i]++;
+            prio[6] = 0;
         }
 
         public void waitingCheck()
