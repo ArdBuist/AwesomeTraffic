@@ -208,6 +208,11 @@ namespace TrafficSimulation
             tileList.Remove(t);
         }
 
+		public void ClearTileList()
+		{
+			tileList.Clear();
+		}
+
         public Tile GetTileMea(int x, int y)
         {
             Point p = GetPosition(new Point(x, y));

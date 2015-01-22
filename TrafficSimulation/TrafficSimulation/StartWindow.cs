@@ -6,6 +6,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.IO;
 using System.Resources;
@@ -71,7 +72,6 @@ namespace TrafficSimulation
 			Stream myStream2 = null;
 			Stream dummyStream = null;
 
-			int deleteLines;
 			int addLines = 0;
 			int totalLines;
 
@@ -110,7 +110,6 @@ namespace TrafficSimulation
 						StreamReader r1, r2;
 
 						/// Set the number of lines of code that has to be deleted and added
-                        deleteLines = simcontrol.simulationMap.GetMap().Count;
 						addLines = 0;
 
 						/// Count the numbers of lines in the file
@@ -121,7 +120,7 @@ namespace TrafficSimulation
 						}
 
 						/// Total amount of lines that has to be run through while loading
-						totalLines = addLines * 2 + deleteLines;
+						totalLines = addLines * 2;
 
 						/// Set maximums of the progressbar
 						LoadWin.progressBar1.Maximum = totalLines;
@@ -129,26 +128,14 @@ namespace TrafficSimulation
 						/// Show the LoadWindow
 						LoadWin.Show();
 
-						/// Go by each tile in the tile list
-						foreach (Tile tile in simcontrol.simulationMap.GetMap())
-						{
-							/// Add 1 to both progressbars
-							LoadWin.progressBar1.PerformStep();
+						/// Clear the map
+						simcontrol.backgroundBC.ClearBitmap();
+						simcontrol.trafficlightBC.ClearBitmap();
+						simcontrol.trafficlightBC.bitmap.MakeTransparent(Color.Green);
+						simcontrol.Invalidate();
 
-							/// Remove the tile (if it's not empty)
-							if (tile != null)
-							{
-								Bitmap tileImage;
-								Tile selectedTile = new removeTile();
-								selectedTile.SetValues(simcontrol, tile.position);
-								tileImage = selectedTile.DrawImage();
-								simcontrol.trafficlightBC.AddObject(tileImage, new Point(tile.position.X, tile.position.Y));
-                                simcontrol.simulationMap.RemoveTile(tile);
-								simcontrol.trafficlightBC.bitmap.MakeTransparent(Color.Green);
-								simcontrol.Invalidate();
-							}
-							
-						}
+						/// Clear the list
+						simcontrol.simulationMap.ClearTileList();
 
 						/// Add al the roads to the map
 						using (myStream1)
@@ -381,11 +368,11 @@ namespace TrafficSimulation
 							#endregion
 						}
 					}
-
 					/// Set the current building tile to a straight road
 					simcontrol.currentBuildTile = new Road(1, 3);
+					
 					///Set the state to selected
-					simcontrol.state = "selected";
+					simcontrol.state = "selected";;
 
 					LoadWin.Close();
 
@@ -407,10 +394,14 @@ namespace TrafficSimulation
 			}
 		}
 
+		public void DoWork(Tile tile)
+		{
+		
+		}
+
 		/// <summary>
 		/// Click on option...?
 		/// </summary>
-
         public void Option_Click()
         {
 
