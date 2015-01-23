@@ -76,7 +76,7 @@ namespace TrafficSimulation
             tilesHorizontal = Size.Width / 100;
             this.Visible = true;
             gameSpeed = 1;
-            this.simulation = new Simulation(this);          
+            this.simulation = new Simulation(this);
             InitializeComponent();
             //The simulation thread will be started here, the whole simulation will be regulated in this class.
             this.simulation = new Simulation(this);
@@ -153,7 +153,7 @@ namespace TrafficSimulation
                 backgroundBC.AddObject(tileImage, simulationMap.GetPosition(new Point(mea.X, mea.Y)));
                 selectedTile = buildTile;
                 trafficlightBC.bitmap.MakeTransparent(Color.Green);
-                currentBuildTile = Methods.CopyCurrentTile(this,buildTile);//A new buildTile is created with the same values as before because a new tile can than be clicked in
+                currentBuildTile = Methods.CopyCurrentTile(this, buildTile);//A new buildTile is created with the same values as before because a new tile can than be clicked in
                 if (buildTile.name == "Crossroad" || buildTile.name == "Fork")
                 {
                     this.AmountOfTrafficlights++;
@@ -168,9 +168,9 @@ namespace TrafficSimulation
         {
             if (Math.Abs(mea.X - mouseMovePoint.X) > 3 || Math.Abs(mea.Y - mouseMovePoint.Y) > 3)
             {
-		        Point newPosition = new Point(backgroundPB.Location.X + (mea.X - mouseMovePoint.X), backgroundPB.Location.Y + (mea.Y - mouseMovePoint.Y));
-                Rectangle trafficGround = new Rectangle(trafficlightPB.Location,trafficlightPB.Size);
-                if(trafficGround.Contains(mea.Location))
+                Point newPosition = new Point(backgroundPB.Location.X + (mea.X - mouseMovePoint.X), backgroundPB.Location.Y + (mea.Y - mouseMovePoint.Y));
+                Rectangle trafficGround = new Rectangle(trafficlightPB.Location, trafficlightPB.Size);
+                if (trafficGround.Contains(mea.Location))
                 {
                     backgroundPB.Location = newPosition;
                     isMoved = true;
@@ -203,7 +203,7 @@ namespace TrafficSimulation
             backgroundPB.Invalidate();
         }
 
-        
+
 
         public void MakeTrafficControlList()
         {
