@@ -44,7 +44,7 @@ namespace TrafficSimulation
 
         /// <summary>
         /// Based on the method GetLanesIn in Spawner
-        /// returns the lanes going into the tile in the specified direction
+        /// returns the lanes going into the tile in the specified direction.
         /// </summary>
         /// <param name="direction"></param>
         /// <returns></returns>
@@ -60,7 +60,7 @@ namespace TrafficSimulation
 
         /// <summary>
         /// Based on the method SetValues in Tile
-        /// sets the values given to the Spawner when the Spawner is placed on the map
+        /// sets the values given to the Spawner when the Spawner is placed on the map.
         /// </summary>
         /// <param name="s"></param>
         /// <param name="position"></param>
@@ -75,7 +75,7 @@ namespace TrafficSimulation
 
         /// <summary>
         /// Based on the method GetLanesOut in Spawner
-        /// returns the lanes going out of the tile in the specified direction
+        /// returns the lanes going out of the tile in the specified direction.
         /// </summary>
         /// <param name="direction"></param>
         /// <returns></returns>
@@ -91,7 +91,7 @@ namespace TrafficSimulation
 
         /// <summary>
         /// Based on the method GetControl in Tile
-        /// returns the TrafficLightControl used by the Spawner
+        /// returns the TrafficLightControl used by the Spawner.
         /// </summary>
         /// <returns></returns>
         public override TrafficlightControl GetControl()
@@ -153,7 +153,7 @@ namespace TrafficSimulation
 
         /// <summary>
         /// Based on the method doesConnect in Tile
-        /// returns true if the given side connects to another tile and false if it doesn't
+        /// returns true if the given side connects to another tile and false if it doesn't.
         /// </summary>
         /// <param name="side"></param>
         /// <returns></returns>
