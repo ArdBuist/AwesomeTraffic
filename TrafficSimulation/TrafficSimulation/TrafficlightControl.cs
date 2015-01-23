@@ -322,7 +322,7 @@ namespace TrafficSimulation
             {
                 for (int i = 0; i < 3; i++)
                 {
-                    timer[(road.notDirection - 1) * 3 + i] = 99999;
+                    timer[(road.NotDirection - 1) * 3 + i] = 99999;
                 }
             }
         }
@@ -372,7 +372,7 @@ namespace TrafficSimulation
             }
             else
             {
-                if (Direction < road.notDirection)
+                if (Direction < road.NotDirection)
                 {
                     LaneTrafficlight l = (LaneTrafficlight)trafficlightList[Direction - 1];
                     l.ChangeColor(Color.Green, LaneType);

@@ -54,11 +54,11 @@ namespace TrafficSimulation
             if (s.currentBuildTile.name == "Road" && s.state == "building")
             {
                 Road tile = (Road)s.currentBuildTile;
-                if ((tile.startDirection + tile.endDirection) % 2 == 0)
+                if ((tile.StartDirection + tile.EndDirection) % 2 == 0)
                 {
-                    if (tile.startDirection == 2 && mouseDown.Y < mousePoint.Y && mouseDown.Y + 100 > mousePoint.Y)
+                    if (tile.StartDirection == 2 && mouseDown.Y < mousePoint.Y && mouseDown.Y + 100 > mousePoint.Y)
                         return true;
-                    if (tile.startDirection == 1 && mouseDown.X < mousePoint.X && mouseDown.X + 100 > mousePoint.X)
+                    if (tile.StartDirection == 1 && mouseDown.X < mousePoint.X && mouseDown.X + 100 > mousePoint.X)
                         return true;
                 }
             }
@@ -72,12 +72,12 @@ namespace TrafficSimulation
             switch (tileName)
             {
                 case "Spawner": Spawner currentSpawnerTile = (Spawner)startTile;
-                    tile = new Spawner(s, currentSpawnerTile.direction);
+                    tile = new Spawner(s, currentSpawnerTile.Direction);
                     break;
                 case "Crossroad": tile = new Crossroad(s);
                     break;
                 case "Road": Road currentRoadTile = (Road)startTile;
-                    tile = new Road(currentRoadTile.startDirection, currentRoadTile.endDirection);
+                    tile = new Road(currentRoadTile.StartDirection, currentRoadTile.EndDirection);
                     break;
                 case "Fork": Fork currentForkTile = (Fork)startTile;
                     tile = new Fork(s, currentForkTile.NotDirection);
