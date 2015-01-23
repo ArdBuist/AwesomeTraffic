@@ -5,6 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="400">
+    <!--
+        Here is the BovenSchermLinks constructed and styled. The Interaction of this control is done by BovenSchermLinks.xaml.cs.
+    -->
     <UserControl.Resources>
     
         <Style TargetType="{x:Type RadioButton}" x:Key="kleineButtons">

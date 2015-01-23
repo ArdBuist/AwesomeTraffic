@@ -5,12 +5,14 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="300" >
-
+    <!--
+        Here is the InfoBalk constructed and styled. The Interaction of this control is done by InfoBalk.xaml.cs.
+    -->
     <UserControl.Resources>
         <Geometry x:Key="DownArrowGeometry">M0,0 L1,0 0.5,17</Geometry>
 
         <Style x:Key="infoBalkLabels" TargetType="Label">
-            <Setter Property="Width" Value="auto" />
+            <Setter Property="Width" Value="50" />
             <Setter Property="Height" Value="30" />
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="HorizontalAlignment" Value="Right" />
@@ -537,7 +539,7 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="2*"/>
                     </Grid.RowDefinitions>
 
                     <Grid.ColumnDefinitions>
@@ -556,7 +558,7 @@
                            Grid.Column="1" 
                            Style="{StaticResource infoBalkLabels}" 
                            HorizontalAlignment="Left"
-                           Content="0" Margin="1,4,0,4" Width="16" />
+                           Content="0" Margin="1,4,0,4" Width="40" />
 
                     <Label x:Name="labelWaitingCars" 
                            Grid.Row="1" 
@@ -569,7 +571,7 @@
                            Grid.Column="1" 
                            Style="{StaticResource infoBalkLabels}" 
                            HorizontalAlignment="Left"
-                           Content="0" Margin="1,4,0,4" Width="16" />
+                           Content="0" Margin="1,4,0,4" Width="40" />
 
                     <Label x:Name="labelDrivingCars" 
                            Grid.Row="2" 
@@ -582,7 +584,7 @@
                            Grid.Column="1" 
                            Style="{StaticResource infoBalkLabels}"
                            HorizontalAlignment="Left"
-                           Content="0" Margin="1,4,0,5" Width="16" />
+                           Content="0" Margin="1,4,0,5" Width="40" />
 
                     <Label x:Name="labelCrossroads" 
                            Grid.Row="3" 
@@ -595,7 +597,7 @@
                            Grid.Column="1" 
                            Style="{StaticResource infoBalkLabels}"
                            HorizontalAlignment="Left"
-                           Content="0" Margin="1,4,0,4" Width="16" />
+                           Content="0" Margin="1,4,0,4" Width="40" />
 
                     <Label x:Name="labelGameSpeed" 
                            Grid.Row="5" 
@@ -608,7 +610,7 @@
                            Grid.Column="1" 
                            Style="{StaticResource infoBalkLabels}"
                            HorizontalAlignment="Left"
-                           Content="0" Margin="1,4,0,4" Width="16"  />
+                           Content="0" Margin="1,4,0,4" Width="40"  />
 
                     <Label x:Name="labelEfficientieTabel" 
                            Grid.Row="5" 
@@ -617,11 +619,11 @@
                            Content="Efficiency" Margin="0,37,1,7" Grid.RowSpan="2" Width="57"  />
 
                     <Label x:Name="labelEfficientieNumber" 
-                           Grid.Row="5" 
+                           Grid.Row="6" 
                            Grid.Column="1" 
                            Style="{StaticResource infoBalkLabels}"
                            HorizontalAlignment="Left"
-                           Content="0" Margin="1,37,0,7" Grid.RowSpan="2" Width="16"  />
+                           Content="0" Margin="1,0,0,12.4" Width="40"  />
 
                     <Label x:Name="labeltotalTiles" 
                            Grid.Row="4" 
@@ -634,21 +636,19 @@
                            Grid.Column="1" 
                            Style="{StaticResource infoBalkLabels}"
                            HorizontalAlignment="Left"
-                           Content="0" Margin="1,5,0,4" Width="16"  />
-
+                           Content="0" Margin="1,5,0,4" Width="40"  />
 
                     <Button x:Name="Efficientie" 
                             Style="{StaticResource infoBalkButtons}"
                             Height="40"
                             Width="100"
-                            VerticalAlignment="Bottom"
+                            VerticalAlignment="Center"
                             Margin="0,0,0,3"
                             HorizontalAlignment="Right"
                             Click="Efficientie_Click"
                             Grid.Row="7"
                             Grid.Column="0"
                             Content="Efficiency" RenderTransformOrigin="1.005,1.024"/>
-
 
                 </Grid>
 

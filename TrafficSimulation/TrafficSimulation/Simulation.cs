@@ -311,8 +311,8 @@ namespace TrafficSimulation
                 case 1:
                     return new Point(tile.position.X + 53 + (randomLane * 16), tile.position.Y );
                 case 2:
-                    if (v.LastDirection == 1)
-                        return new Point(tile.position.X - v.Bitmap.Height + 100 - 5, tile.position.Y + 53 + (16 * randomLane) - v.Bitmap.Width);
+                    if (v.LastDirection == 1 && v.Direction != 2)
+                        return new Point(tile.position.X - v.Bitmap.Height + 100 - 5, tile.position.Y + 53 + (16 * randomLane) - v.Bitmap.Height);
                     else
                         return new Point(tile.position.X - v.Bitmap.Height + 100 - 5, tile.position.Y + 53 + (16 * randomLane));
                 case 3:
