@@ -126,8 +126,7 @@ namespace TrafficSimulation
         public abstract Bitmap DrawImage();
 
         /// <summary>
-        /// This method is used when a new tile is placed on the map, this causes all the tiles bordering this tile to also update
-        /// if you change the lanes on a tile it updates the tiles bordering this tile, and they update the tiles bordering those tiles ect.
+        /// Changes the lanes on a tile when a tile bordering this tile updates it's lanes, and they update the tiles bordering those tiles ect.
         /// the update chain stops at forks and crossroads.
         /// The method uses the lanes on the lowest direction of the placed tile, so the upper side first and the left side last.
         /// </summary>
@@ -189,6 +188,11 @@ namespace TrafficSimulation
             simcontrol.backgroundBC.AddObject(this.DrawImage(), this.position);
         }
 
+        /// <summary>
+        /// This method is used when a new tile is placed on the map, this causes the tile to update its lanes according to bordering tiles.
+        /// </summary>
+        /// <param name="simcontrol"></param>
+        /// <param name="NotDirection"></param>
         public void UpdateOtherTiles(SimControl simcontrol, int NotDirection)
         {
             if (this.name != "Crossroad")
@@ -232,23 +236,47 @@ namespace TrafficSimulation
             simcontrol.backgroundBC.AddObject(this.DrawImage(), this.position);
         }
 
-        //krijgt een aantal banen die binnenkomen en eruit moeten gaan voor een bepaald richting. Tile moet dat dan in zijn gegevens verwerken.
+        /// <summary>
+        /// Called when the lanes are updated.
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="direction"></param>
+        /// <param name="lanesIn"></param>
+        /// <param name="lanesOut"></param>
         public abstract void UpdateLanes(SimControl s, int direction, int lanesIn, int lanesOut);
 
-        //returnt de banen die er bij een bepaalde kant uitgaan.
+        /// <summary>
+        /// Returns the number of lanes going in to the tile in a specific direction
+        /// </summary>
+        /// <param name="direction"></param>
+        /// <returns></returns>
         public abstract int GetLanesIn(int direction);
 
-        //returnt de banen die er bij een bepaald kant ingaan.
+        /// <summary>
+        /// Returns the number of lanes going out of the tile in a specific direction
+        /// </summary>
+        /// <param name="direction"></param>
+        /// <returns></returns>
         public abstract int GetLanesOut(int direction);
 
-        //controleert of aan de aangegeven zijkant ook echt een weg ligt.
+        /// <summary>
+        /// Returns true if the side connects to another tile and false if it doesn't
+        /// </summary>
+        /// <param name="side"></param>
+        /// <returns></returns>
         public abstract bool doesConnect(int side);
 
+        /// <summary>
+        /// Returns the TrafficlightControl of the tile, this control contains all the trafficlights used by the tile.
+        /// </summary>
+        /// <returns></returns>
         public abstract TrafficlightControl GetControl();
 
-        //returnt de tile die aan één van de vier zijkanten van de tile ligt.
-
-        //verwerkt de waarden die verkregen worden als de tile op de kaart wordt geplaatst.
+        /// <summary>
+        /// Sets the values given to the tile when the tile is placed on the map
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="position"></param>
         public virtual void SetValues(SimControl s, Point position)
         {
             this.position.X = (position.X / 100) * 100;
@@ -256,7 +284,11 @@ namespace TrafficSimulation
             this.UpdateFromOtherTile(s, 0);
         }
 
-        //telt alle banen zodat voor elke baan een list voor de auto's aangemaakt kan worden.
+        /// <summary>
+        /// Returns the total amount of lanes on a tile.
+        /// </summary>
+        /// <param name="lanes"></param>
+        /// <returns></returns>
         public int CountLanes(int[] lanes)
         {
             int totalLanes = 0;
@@ -267,8 +299,14 @@ namespace TrafficSimulation
             return totalLanes;
         }
 
-        /*komende methodes zijn voor het laten rijden van de auto's*/
-
+        /// <summary>
+        /// Removes a vehicle on a tile, this is used when a vehicle leaves the map on a spawner
+        /// Removes a vehicle when a vehicle leaves a tile to enter another.
+        /// </summary>
+        /// <param name="sim"></param>
+        /// <param name="v"></param>
+        /// <param name="Side"></param>
+        /// <param name="lane"></param>
         public void RemoveVehicle(SimControl sim, Vehicle v, int Side, int lane)
         {
             List<List<Vehicle>> sideVehicles = vehicles[Side - 1];
@@ -283,6 +321,13 @@ namespace TrafficSimulation
             }
         }
 
+        /// <summary>
+        /// Adds a vehicle to the tile.
+        /// </summary>
+        /// <param name="sim"></param>
+        /// <param name="v"></param>
+        /// <param name="Side"></param>
+        /// <param name="lane"></param>
         public void AddVehicle(SimControl sim, Vehicle v, int Side, int lane)
         {
             List<List<Vehicle>> sideVehicles = vehicles[Side - 1];
