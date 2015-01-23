@@ -37,7 +37,7 @@ namespace TrafficSimulation
             HideButtons();
         }
         
-        //klikmethode rechte weg 1 naar 3 (verticaal)
+        //Click method straight road 1 to 3 (vertical)
         private void Roadver_Checked(object sender, RoutedEventArgs e)
         {
             HideButtons();
@@ -46,7 +46,7 @@ namespace TrafficSimulation
             windowselect.simwindow.OnderScherm.roadButton.IsChecked = true;
         }
 
-        //klikmethode rechte weg 2 naar 4 (horizontaal)
+        //Click method straight road 2 to 4 (horizontal)
         private void Roadhor_Checked(object sender, RoutedEventArgs e)
         {
             HideButtons();
@@ -55,7 +55,7 @@ namespace TrafficSimulation
             windowselect.simwindow.OnderScherm.roadButton.IsChecked = true;
         }
 
-        //klikmethode bocht 1 naar 2
+        //Click method curved road 1 to 2
         private void Curve12_Checked(object sender, RoutedEventArgs e)
         {
             HideButtons(); 
@@ -64,7 +64,7 @@ namespace TrafficSimulation
             windowselect.simwindow.OnderScherm.bendButton.IsChecked = true;
         }
 
-        //klikmethode bocht 2 naar 3
+        //Click method curved road 2 to 3
         private void Curve23_Checked(object sender, RoutedEventArgs e)
         {
             HideButtons(); 
@@ -73,7 +73,7 @@ namespace TrafficSimulation
             windowselect.simwindow.OnderScherm.bendButton.IsChecked = true;
         }
 
-        //klikmethode bocht 3 naar 4
+        //Click method curved road 3 to 4
         private void Curve34_Checked(object sender, RoutedEventArgs e)
         {
             HideButtons(); 
@@ -82,7 +82,7 @@ namespace TrafficSimulation
             windowselect.simwindow.OnderScherm.bendButton.IsChecked = true;
         }
 
-        //klikmethode bocht 1 naar 4
+        //Click method curved road 1 to 4
         private void Curve14_Checked(object sender, RoutedEventArgs e)
         {
             HideButtons(); 
@@ -91,6 +91,7 @@ namespace TrafficSimulation
             windowselect.simwindow.OnderScherm.bendButton.IsChecked = true;
         }
 
+        //Click method fork 1 to 2
         private void Fork12_Click(object sender, RoutedEventArgs e)
         {
             HideButtons();
@@ -99,6 +100,7 @@ namespace TrafficSimulation
             windowselect.simwindow.OnderScherm.forkButton.IsChecked = true;
         }
 
+        //Click method fork 2 to 3
         private void Fork23_Click(object sender, RoutedEventArgs e)
         {
             HideButtons();
@@ -107,6 +109,7 @@ namespace TrafficSimulation
             windowselect.simwindow.OnderScherm.forkButton.IsChecked = true;
         }
 
+        //Click method fork 3 to 4
         private void Fork34_Click(object sender, RoutedEventArgs e)
         {
             HideButtons(); 
@@ -115,6 +118,7 @@ namespace TrafficSimulation
             windowselect.simwindow.OnderScherm.forkButton.IsChecked = true;
         }
 
+        //Click method fork 1 to 4
         private void Fork14_Click(object sender, RoutedEventArgs e)
         {
             HideButtons();
@@ -123,6 +127,7 @@ namespace TrafficSimulation
             windowselect.simwindow.OnderScherm.forkButton.IsChecked = true;
         }
 
+        //Click method spawner down
         private void Spawnerdown_Click(object sender, RoutedEventArgs e)
         {
             HideButtons();
@@ -131,6 +136,7 @@ namespace TrafficSimulation
             windowselect.simwindow.OnderScherm.spawnerButton.IsChecked = true;
         }
 
+        //Click method spawner left
         private void Spawnerleft_Click(object sender, RoutedEventArgs e)
         {
             HideButtons();
@@ -139,6 +145,7 @@ namespace TrafficSimulation
             windowselect.simwindow.OnderScherm.spawnerButton.IsChecked = true;
         }
 
+        //Click method spawner up
         private void Spawnerup_Click(object sender, RoutedEventArgs e)
         {
             HideButtons();
@@ -147,6 +154,7 @@ namespace TrafficSimulation
             windowselect.simwindow.OnderScherm.spawnerButton.IsChecked = true;
         }
 
+        //Click method spawner right
         private void Spawnerright_Click(object sender, RoutedEventArgs e)
         {
             HideButtons();

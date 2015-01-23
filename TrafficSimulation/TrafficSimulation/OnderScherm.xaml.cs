@@ -46,15 +46,11 @@ namespace TrafficSimulation
 
         private void SelectButton_Checked(object sender, RoutedEventArgs e)
         {
-            //AlgemeenClick();
-            windowselect.simwindow.simcontrol.state = "selected";
-            //hierna moet dan een scherm verschijnen met info en aanpassingsmogelijkheden
-            
+            windowselect.simwindow.simcontrol.state = "selected";           
         }
 
         private void EraserButton_Checked(object sender, RoutedEventArgs e)
         {
-            //AlgemeenClick();
             windowselect.simwindow.simcontrol.state = "eraser";
 		}
 

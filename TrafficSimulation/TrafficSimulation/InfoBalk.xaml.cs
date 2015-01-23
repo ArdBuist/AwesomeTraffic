@@ -188,7 +188,6 @@ namespace TrafficSimulation
             labelTilesNumber.Content = totalTiles;
             listboxStrategie.SelectedIndex = strategie;
             labelGameSpeedNumber.Content = Math.Round(gameSpeed, 1); 
-            //kijken of het kan
         }
 
 
@@ -197,7 +196,7 @@ namespace TrafficSimulation
         public void HideCombobox()
         {
             ImageInfoBalk.Source = null;
-            // alle comboboxen laten verdwijnen
+            // Let all combo boxes disappear
             lane1.Visibility = Visibility.Hidden;
             lane2.Visibility = Visibility.Hidden;
             lane3.Visibility = Visibility.Hidden;

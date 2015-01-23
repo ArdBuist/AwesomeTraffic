@@ -382,7 +382,7 @@ namespace TrafficSimulation
                 bmSpawner.DrawLine(Pens.White, r3, 0, r3, 100);
                 bmSpawner.DrawLine(Pens.White, r2, 0, r2, 100);
 
-                //als er maar 1 weg in en 1 weg uit, dan moet er een streepjeslijn in het midden
+                //if there is an incoming and outcoming road, then draw stripes line
                 if (lanesIn == 1 && lanesOut == 1)
                 {
                     bmSpawner.DrawLine(stripesPen, 50, 0, 50, 100);
@@ -408,7 +408,7 @@ namespace TrafficSimulation
                 bmSpawner.DrawLine(Pens.White, 0, r3, 100, r3);
                 bmSpawner.DrawLine(Pens.White, 0, r2, 100, r2);
 
-                //als er maar 1 weg in en 1 weg uit, dan moet er een streepjeslijn in het midden
+                //if there is an incoming and outcoming road, then draw stripes line
                 if (lanesIn == 1 && lanesOut == 1)
                 {
                     bmSpawner.DrawLine(stripesPen, 0, 50, 100, 50);
@@ -460,7 +460,7 @@ namespace TrafficSimulation
                 bmSpawner.DrawLine(Pens.White, 0, r, 100, r);
                 bmSpawner.DrawLine(Pens.White, 0, r4, 100, r4);
 
-                //als er maar 1 weg in en 1 weg uit, dan moet er een streepjeslijn in het midden
+                //if there is an incoming and outcoming road, then draw stripes line
                 if (lanesIn == 1 && lanesOut == 1)
                 {
                     bmSpawner.DrawLine(stripesPen, 0, 50, 100, 50);
@@ -511,17 +511,13 @@ namespace TrafficSimulation
             bmSpawner.FillRectangle(Brushes.Transparent, 0, 0, 100, 100);
             int lanesTotal = lanesIn + lanesOut;
 
-            //variabelen voor mogelijke wegen
+            //variables for possible roads
             int r = 50 - roadW * lanesOut;
             int r2 = 50 + roadW * lanesOut;
             int r3 = 50 - roadW * lanesIn;
             int r4 = 50 + roadW * lanesIn;
             int width = roadW * lanesIn + roadW * lanesOut + 10;
 
-            /*Verschillende plaatjes voor verschillende kanten. Spawner is 30 px hoog
-             * en 5px breder aan beide kanten van de wegen. De side is waar de
-             * spawner staat.
-             **/
             if (side == 3)
                 bmSpawner.FillRectangle(Brushes.Black, r3 - 5, 15, width, 15);
             else if (side == 4)
