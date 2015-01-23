@@ -381,11 +381,11 @@ namespace TrafficSimulation
                 case "Fork" :
                     switch (tile.GetLanesIn((v.Direction + 1) % 4 + 1))
                         {
-                            case 1: while (newDirection == 0 || newDirection == (v.Direction + 1) % 4 + 1 || newDirection == tile.notDirection)
+                            case 1: while (newDirection == 0 || newDirection == (v.Direction + 1) % 4 + 1 || newDirection == tile.NotDirection)
                                     newDirection = RandomNumber(4);
                                 break;
                             case 2:
-                                if (v.Direction == (tile.notDirection + 2) % 4 + 1)
+                                if (v.Direction == (tile.NotDirection + 2) % 4 + 1)
                                 {
                                     switch (v.Lane)
                                     {
@@ -395,7 +395,7 @@ namespace TrafficSimulation
                                             break;
                                     }
                                 }
-                                else if(v.Direction == (tile.notDirection) % 4 + 1)
+                                else if(v.Direction == (tile.NotDirection) % 4 + 1)
                                 {
                                      switch (v.Lane)
                                     {
@@ -418,7 +418,7 @@ namespace TrafficSimulation
                             break;
 
                             case 3:
-                                if ((v.Direction + 1) % 4 + 1 == (tile.notDirection + 2) % 4 + 1)
+                                if ((v.Direction + 1) % 4 + 1 == (tile.NotDirection + 2) % 4 + 1)
                                 {
                                     switch (v.Lane)
                                     {
@@ -430,7 +430,7 @@ namespace TrafficSimulation
                                             break;
                                     }
                                 }
-                                else if ((v.Direction + 1) % 4 + 1 == (tile.notDirection) % 4 + 1)
+                                else if ((v.Direction + 1) % 4 + 1 == (tile.NotDirection) % 4 + 1)
                                 {
                                     switch (v.Lane)
                                     {

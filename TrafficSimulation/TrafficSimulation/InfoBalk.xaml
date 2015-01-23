@@ -12,7 +12,7 @@
         <Geometry x:Key="DownArrowGeometry">M0,0 L1,0 0.5,17</Geometry>
 
         <Style x:Key="infoBalkLabels" TargetType="Label">
-            <Setter Property="Width" Value="50" />
+            <Setter Property="Width" Value="100" />
             <Setter Property="Height" Value="30" />
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="HorizontalAlignment" Value="Right" />
@@ -437,6 +437,7 @@
                     <Label x:Name="labelSpeed" 
                            Grid.Row="3" 
                            Grid.Column="0" 
+                           Width="175"
                            Style="{StaticResource infoBalkLabels}" 
                            Content="speedlimit" />
 
@@ -456,7 +457,8 @@
                            Grid.Row="4" 
                            Grid.Column="0"
                            Style="{StaticResource infoBalkLabels}"
-                           Content="Choose your traffic strategy" />
+                           Content="Choose your traffic strategy"
+                           Width="175"/>
 
                     <ComboBox x:Name="listboxStrategie" 
                              Grid.Row="4" 
@@ -466,8 +468,8 @@
 
                              Style="{StaticResource infoBalkComboBox}"
                              >
-                        <ComboBoxItem Tag="Tijd" IsSelected="True">Tijd</ComboBoxItem>
-                        <ComboBoxItem Tag="Wachttijd" >Wachttijd</ComboBoxItem>
+                        <ComboBoxItem Tag="Tijd" IsSelected="True">Auto</ComboBoxItem>
+                        <ComboBoxItem Tag="Wachttijd" >Waiting time</ComboBoxItem>
 
                     </ComboBox>
 
@@ -475,7 +477,8 @@
                            Grid.Row="5" 
                            Grid.Column="0" 
                            Style="{StaticResource infoBalkLabels}" 
-                           Content="Amount of cars on the tile" />
+                           Content="Amount of cars on the tile"
+                           Width="175"/>
 
                     <Label x:Name="labelCarsOnTileNumber" 
                            Grid.Row="5" 

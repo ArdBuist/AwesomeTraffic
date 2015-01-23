@@ -159,7 +159,7 @@ namespace TrafficSimulation
 										tile.position.Y + "_" +				// 2 Y positie
 										tile.GetControl().strat + "_" + 	// 3 strat
 										tile.maxSpeed + "_" +				// 4 Maxspeed
-										tile.notDirection);					// 5 De not direction
+										tile.NotDirection);					// 5 De not direction
 									break;
 
 								// Save case for a crossroad
@@ -180,8 +180,8 @@ namespace TrafficSimulation
 										tile.position.Y + "_" +		// 2 Y positie
 										" " + "_" +					// 3 Empty
 										tile.maxSpeed + "_"	+		// 4 Maxpeed
-										tile.startDirection + "_" +	// 5 Begin richting
-										tile.endDirection + "_" +	// 6 Eind richting
+										tile.StartDirection + "_" +	// 5 Begin richting
+										tile.EndDirection + "_" +	// 6 Eind richting
 										tile.LanesHighToLow + "_" + // 7 Wegen hoog, laag
 										tile.LanesLowToHigh);		// 8 Wegen laag, hoog
 									break;
@@ -194,10 +194,10 @@ namespace TrafficSimulation
 										tile.position.Y + "_" +		// 2 Y positie
 										" " + "_" +					// 3 Empty
 										tile.maxSpeed + "_" +		// 4 Maxspeed
-										tile.direction + "_" +		// 5 Richting
+										tile.Direction + "_" +		// 5 Richting
 										" " + "_" +					// 6 Empty
-										tile.GetLanesOut((tile.direction + 1) % 4 + 1) + "_" +	// 8 LanesHighToLow
-										tile.GetLanesIn((tile.direction + 1) % 4 + 1) /* + "_ "	+	// 9 LanesLowToHigh
+										tile.GetLanesOut((tile.Direction + 1) % 4 + 1) + "_" +	// 8 LanesHighToLow
+										tile.GetLanesIn((tile.Direction + 1) % 4 + 1) /* + "_ "	+	// 9 LanesLowToHigh
 										tile.carsPerSec*/);			
 									break;
 							}
