@@ -162,7 +162,9 @@ namespace TrafficSimulation
                 List<List<Vehicle>> vehicleList = vehicles[this.Direction - 1];
                 if (vehicleList[spawnLane].Count < 4)
                 {
-                    AddVehicle(sim, createVehicle(spawnLane), Direction, spawnLane);
+                    Vehicle auto = createVehicle(spawnLane);
+                    auto.endPosition = sim.simulation.GetEndPosition(this, auto);
+                    AddVehicle(sim, auto, Direction, spawnLane);
                     sim.totalCars++;
                 }
             }

@@ -110,7 +110,6 @@
     <Compile Include="Tiles\Fork.cs" />
     <Compile Include="Tiles\removeTile.cs" />
     <Compile Include="Tiles\Road.cs" />
-    <Compile Include="Tiles\SelectTile.cs" />
     <Compile Include="Tiles\Spawner.cs" />
     <Compile Include="Tiles\Tile.cs" />
     <Compile Include="WindowSelect.cs">
