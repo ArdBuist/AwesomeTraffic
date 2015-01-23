@@ -9,6 +9,8 @@ namespace TrafficSimulation
 {
     static class Methods
     {
+        //["Spawner", "Road", "Fork","Crossroad"];
+
         public static bool CheckValidConnections(SimControl s)
         {
             s.simulationMap.CreateMap();
@@ -18,7 +20,9 @@ namespace TrafficSimulation
                 {
                     if (s.simulationMap.GetSurroundingTiles(t.position)[direction - 1] == null)
                     {
-                        Tile[] tile = s.simulationMap.GetSurroundingTiles(t.position);
+                        //TEST CODE
+                        return true;
+                        //TEST CODE
                         return false;
                     }
                 }

@@ -70,6 +70,7 @@
     <Compile Include="EfficientieWindow.Designer.cs">
       <DependentUpon>EfficientieWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="Curves.cs" />
     <Compile Include="Methods.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -239,6 +240,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Tiles\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

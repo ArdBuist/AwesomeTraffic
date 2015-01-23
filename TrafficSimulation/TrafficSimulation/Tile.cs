@@ -245,17 +245,18 @@ namespace TrafficSimulation
 
         /*komende methodes zijn voor het laten rijden van de auto's*/
 
-        public void RemoveVehicle(SimControl sim, Vehicle v, int Side, int lane)
+        public void RemoveVehicle(SimControl sim, Vehicle v, int lastSide,int Side, int lane)
         {
-            List<List<Vehicle>> sideVehicles = vehicles[Side-1];
+            List<List<Vehicle>> sideVehicles = vehicles[lastSide-1];
             List<Vehicle> laneVehicles = sideVehicles[lane];
             laneVehicles.Remove(v);
             numberOfVehicles--;
             //looks if there is space for other cars to come on the tile
                 if (laneVehicles.Count < 5 && this.name != "Spawner"&&this.name!="Crossroad" && this.name!="Fork")
                 {
-                    Tile lastTile = sim.simulationMap.GetSurroundingTiles(this.position)[(Side + 1) % 4];
-                    lastTile.Access[Side - 1, lane] = true;
+                    Tile lastTile = sim.simulationMap.GetSurroundingTilesSim(this.position)[(lastSide + 1) % 4];
+                    if(lastTile!=null)
+                        lastTile.Access[lastSide - 1, lane] = true;
                 }
         }
 
@@ -356,25 +357,36 @@ namespace TrafficSimulation
                 Spawn(sim);
             }
         }
+        //TESTCODE
+        bool autoIsGespawnt = false;
+        //TESTCODE
 
         public void Spawn(SimControl sim)
         {
-            //spawnt op een willekeurig moment een auto in een willekeurige baan.
-            Byte[] random;
-            random = new Byte[1];
-            rnd.GetBytes(random);
-            if (random[0] % carsSpawnChance == 0)
+            //BEGIN TESTCODE
+            //if (!autoIsGespawnt)
+                //EINDE TESTCODE
             {
-                //takes a random lane to spawn in
-                spawnLane = ((random[0]*10)/8) % lanesOut;
-                List<List<Vehicle>> vehicleList = vehicles[this.direction - 1];
-                if (vehicleList[spawnLane].Count < 4)
+                //spawnt op een willekeurig moment een auto in een willekeurige baan.
+                Byte[] random;
+                random = new Byte[1];
+                rnd.GetBytes(random);
+                if (random[0] % carsSpawnChance == 0)
                 {
-                    AddVehicle(sim, createVehicle(spawnLane), direction, spawnLane);
-                    sim.totalCars++;
+                    //takes a random lane to spawn in
+                    spawnLane = ((random[0] * 10) / 8) % lanesOut;
+                    List<List<Vehicle>> vehicleList = vehicles[this.direction - 1];
+                    if (vehicleList[spawnLane].Count < 4)
+                    {
+                        Vehicle auto = createVehicle(spawnLane);
+                        auto.endPosition = sim.simulation.GetEndPosition(this, auto);
+                        AddVehicle(sim,auto , direction, spawnLane);
+                        sim.totalCars++;
+                        autoIsGespawnt = true;
+                    }
                 }
+                currentSpawn--;
             }
-            currentSpawn--;
         }
 
         public Vehicle createVehicle(int spawnLane)

@@ -51,6 +51,11 @@ namespace TrafficSimulation
 
         public SimControl(Size size, SimWindow simwindow)
         {
+            //TESTING
+            //deze code moet hierzo weg maar is nu even voor testen
+            Curves.Instantiate();
+            //END TESTING
+
             this.simwindow = simwindow;
             simulationMap = new SimulationMap(this);
             //methode in the partial class creating all the objects needed for the simulation
@@ -268,7 +273,7 @@ namespace TrafficSimulation
             this.totalCars = 0;
             simulation.WaitingCars = 0;
             gameSpeed = 1;
-            simulationMap.ClearTileCarCounter();
+            simulationMap.ResetCarsOnTile();
         }
     }
 }
