@@ -268,5 +268,12 @@ namespace TrafficSimulation
             }
             tileList.Add(t);
         }
+        public void ResetCarsOnTile()
+        {
+            foreach(Tile t in tileList)
+            {
+                t.NumberOfVehicles = 0;
+            }
+        }
     }
 }

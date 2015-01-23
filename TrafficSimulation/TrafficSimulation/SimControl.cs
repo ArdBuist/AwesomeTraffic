@@ -630,6 +630,7 @@ namespace TrafficSimulation
             this.totalCars = 0;
             simulation.WaitingCars = 0;
             gameSpeed = 1;
+            simulationMap.ResetCarsOnTile();
         }
     }
 }

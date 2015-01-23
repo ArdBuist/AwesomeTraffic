@@ -62,6 +62,7 @@ namespace TrafficSimulation
         public int NumberOfVehicles
         {
             get { return numberOfVehicles; }
+            set { numberOfVehicles = value; }
         }
         public bool[,] Access
         {
@@ -339,7 +340,8 @@ namespace TrafficSimulation
                 if (laneVehicles.Count < 5 && this.name != "Spawner"&&this.name!="Crossroad" && this.name!="Fork")
                 {
                     Tile lastTile = sim.simulationMap.GetSurroundingTilesSim(this.position)[(lastSide + 1) % 4];
-                    lastTile.Access[lastSide - 1, lane] = true;
+                    if(lastTile!=null)
+                        lastTile.Access[lastSide - 1, lane] = true;
                 }
         }
 
@@ -446,7 +448,9 @@ namespace TrafficSimulation
                     List<List<Vehicle>> vehicleList = vehicles[this.direction - 1];
                     if (vehicleList[spawnLane].Count < 4)
                     {
-                        AddVehicle(sim, createVehicle(spawnLane), direction, spawnLane);
+                        Vehicle auto = createVehicle(spawnLane);
+                        auto.endPosition = sim.simulation.GetEndPosition(this, auto);
+                        AddVehicle(sim,auto , direction, spawnLane);
                         sim.totalCars++;
                         autoIsGespawnt = true;
                     }

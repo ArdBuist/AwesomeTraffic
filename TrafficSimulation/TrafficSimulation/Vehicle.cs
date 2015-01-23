@@ -27,6 +27,8 @@ namespace TrafficSimulation
         private double tempX, tempY;
         private Size updateSize;
         private double updateLength;
+        public int oldLane;
+        public Point endPosition;
 
         private bool rotated;
 
@@ -40,6 +42,7 @@ namespace TrafficSimulation
             this.direction = direction;
             nextDirection = direction;
             this.lane = lane;
+            this.oldLane = lane;
             lastDirection = direction;
 
             rotated = false;
@@ -48,7 +51,7 @@ namespace TrafficSimulation
 
         public Point Destination { get { return destination; } }
         public int Direction { get { return direction; } set { direction = value; } }
-        public int Lane { get { return lane; } }
+        public int Lane { get { return lane; } set { lane = value; } }
         public Bitmap Bitmap { get { return bitmap; } }
         //public Size Size { get { return size; } }
         public int UpdatePoint { get { return updatePoint; } }
@@ -56,7 +59,7 @@ namespace TrafficSimulation
         public int NextDirection { get { return nextDirection; } set { nextDirection = value; } }
         public int LastDirection { get { return lastDirection; } set { lastDirection = value; } }
 
-        public void Update(Tile t, Point endPosition)
+        public void Update(Tile t)
         {
             if (updatePoint == 0)
             {
