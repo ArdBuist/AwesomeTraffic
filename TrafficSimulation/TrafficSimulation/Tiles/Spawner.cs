@@ -9,13 +9,26 @@ namespace TrafficSimulation
 {
     public class Spawner : Tile
     {
-        private int carsSpawnChance;//De kans dat een auto gespawned wordt.
-        private double numberOfCars;//opslag voor auto's die gespawned moeten worden voor als de weg vol is.
-        private int lanesOut, lanesIn;//aantal wegen van en naar de spawner
-        private int spawnLane;//Lane waar de auto gespawnt gaat worden
-        private double currentSpawn;//Nummer waarin word opgeslagen hoever de spawner is met het spawnen van een nieuwe auto
-        private double spawnPerSec;//Aantal wat elke gametick bij de currentspawn word opgetelt
-        protected static System.Security.Cryptography.RNGCryptoServiceProvider rnd;//om de auto's op willekeurige tijden te laten spawnen
+        /*
+         * Variables of Spawner
+         *      lanesOut is the number of lanes going out of the tile
+         *      LanesIn is the number of lanes going into the tile
+         *      
+         *      carsSpawnChance is the chance to spawn a new vehicle, the higher this number is the higher chance of spawning a new vehicle
+         *      spawnLane lane on which the vehicle is spawned
+         *      currentSpawn is used to a part of the car, this number is decremented each time it's higher than one
+         *      spawnPerTick, currentspawn is increased by this number evrey gametick.
+         */
+        //spawner variables
+        private int lanesOut;
+        private int lanesIn;
+        //variables used to spawn vehicles
+        private int carsSpawnChance;
+        private int spawnLane;
+        private double currentSpawn;
+        private double spawnPerTick;
+        //random number generator
+        protected static System.Security.Cryptography.RNGCryptoServiceProvider rnd;
 
         /// <summary>
         /// Constructor used by fork, based on the constructor in Tile
@@ -30,14 +43,16 @@ namespace TrafficSimulation
             spawnLane = 0;
             this.lanesIn = 1;
             this.lanesOut = 1;
-            this.spawnPerSec = 0.05;
+            this.spawnPerTick = 0.05;
             directions.Add(direction);
             currentSpawn = 1;
             rnd = new System.Security.Cryptography.RNGCryptoServiceProvider();
 
 
         }
-
+        /*
+         * getters and setters used for spawning vehicles
+         */
         public double CurrentSpawn { get { return currentSpawn; } }
         public int SpawnLane { get { return spawnLane; } }
         public int CarsSpawnChance { get { return carsSpawnChance; } set { carsSpawnChance = value; } }
@@ -116,9 +131,15 @@ namespace TrafficSimulation
             }
         }
 
+        /// <summary>
+        /// method called on each gametick.
+        /// </summary>
+        /// <param name="sim"></param>
+        /// <param name="extraSpeed"></param>
+        /// <param name="extraTime"></param>
         public void Tick(SimControl sim, int extraSpeed, double extraTime)
         {
-            currentSpawn += (spawnPerSec * (extraSpeed + 1)) + ((extraTime / 50) * spawnPerSec);
+            currentSpawn += (spawnPerTick * (extraSpeed + 1)) + ((extraTime / 50) * spawnPerTick);
 
             if (currentSpawn >= 1)
             {
@@ -126,15 +147,17 @@ namespace TrafficSimulation
             }
         }
 
+        /// <summary>
+        /// spawns a new car with a randomiser to make the spawns come at random moments
+        /// </summary>
+        /// <param name="sim"></param>
         public void Spawn(SimControl sim)
         {
-            //spawnt op een willekeurig moment een auto in een willekeurige baan.
             Byte[] random;
             random = new Byte[1];
             rnd.GetBytes(random);
             if (random[0] % carsSpawnChance == 0)
             {
-                //takes a random lane to spawn in
                 spawnLane = ((random[0] * 10) / 8) % lanesOut;
                 List<List<Vehicle>> vehicleList = vehicles[this.Direction - 1];
                 if (vehicleList[spawnLane].Count < 4)
@@ -146,6 +169,11 @@ namespace TrafficSimulation
             currentSpawn--;
         }
 
+        /// <summary>
+        /// returns a new vehicle with default values
+        /// </summary>
+        /// <param name="spawnLane"></param>
+        /// <returns></returns>
         public Vehicle createVehicle(int spawnLane)
         {
             return new NormalCar(this.position, this.position, 10, this.maxSpeed, this.Direction, spawnLane);
