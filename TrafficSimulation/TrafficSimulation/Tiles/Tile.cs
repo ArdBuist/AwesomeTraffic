@@ -308,17 +308,18 @@ namespace TrafficSimulation
         /// <param name="v"></param>
         /// <param name="Side"></param>
         /// <param name="lane"></param>
-        public void RemoveVehicle(SimControl sim, Vehicle v, int Side, int lane)
+        public void RemoveVehicle(SimControl sim, Vehicle v, int lastSide, int Side, int lane)
         {
-            List<List<Vehicle>> sideVehicles = vehicles[Side - 1];
+            List<List<Vehicle>> sideVehicles = vehicles[lastSide - 1];
             List<Vehicle> laneVehicles = sideVehicles[lane];
             laneVehicles.Remove(v);
             numberOfVehicles--;
-            //returns true if there is space for other cars to enter the tile
+            //looks if there is space for other cars to come on the tile
             if (laneVehicles.Count < 5 && this.name != "Spawner" && this.name != "Crossroad" && this.name != "Fork")
             {
-                Tile lastTile = sim.simulationMap.GetSurroundingTiles(this.position)[(Side + 1) % 4];
-                lastTile.Access[Side - 1, lane] = true;
+                Tile lastTile = sim.simulationMap.GetSurroundingTilesSim(this.position)[(lastSide + 1) % 4];
+                if (lastTile != null)
+                    lastTile.Access[lastSide - 1, lane] = true;
             }
         }
 

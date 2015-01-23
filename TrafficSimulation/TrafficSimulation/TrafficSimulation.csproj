@@ -58,7 +58,7 @@
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="PresentationCore" />
@@ -92,26 +92,26 @@
     <Compile Include="BovenSchermLinks.xaml.cs">
       <DependentUpon>BovenSchermLinks.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Crossroad.cs" />
     <Compile Include="EfficientieWindow.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="EfficientieWindow.Designer.cs">
       <DependentUpon>EfficientieWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="Curves.cs" />
-    <Compile Include="Fork.cs" />
     <Compile Include="Methods.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="removeTile.cs" />
-    <Compile Include="Road.cs" />
-    <Compile Include="SelectTile.cs" />
     <Compile Include="SimulationMap.cs" />
-    <Compile Include="Spawner.cs" />
+    <Compile Include="Tiles\Crossroad.cs" />
+    <Compile Include="Tiles\Fork.cs" />
+    <Compile Include="Tiles\removeTile.cs" />
+    <Compile Include="Tiles\Road.cs" />
+    <Compile Include="Tiles\SelectTile.cs" />
+    <Compile Include="Tiles\Spawner.cs" />
+    <Compile Include="Tiles\Tile.cs" />
     <Compile Include="WindowSelect.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -128,7 +128,6 @@
     <Compile Include="InfoBalk.xaml.cs">
       <DependentUpon>InfoBalk.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DrawTile.cs" />
     <Compile Include="InterfaceStart.xaml.cs">
       <DependentUpon>InterfaceStart.xaml</DependentUpon>
     </Compile>
@@ -148,7 +147,6 @@
     <Compile Include="StartWindow.Designer.cs">
       <DependentUpon>StartWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="Tile.cs" />
     <Compile Include="Trafficlight.cs" />
     <Compile Include="TrafficlightControl.cs" />
     <Compile Include="SimControl.cs">
@@ -276,9 +274,7 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Tiles\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
       <Visible>False</Visible>
