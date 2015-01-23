@@ -24,6 +24,7 @@ namespace TrafficSimulation
 
             switch (Lanes)
             {
+                //all options for different amounts of lanes, done like this to also give them their proper lanetype
                 case 1:
                     CreateSingleLane();
                     break;
@@ -36,6 +37,7 @@ namespace TrafficSimulation
             }
         }
 
+        //one lane
         public void CreateSingleLane()
         {
             for (int i = 0; i < Lanes; i++)
@@ -45,6 +47,7 @@ namespace TrafficSimulation
             }
         }
 
+        //two lanes
         public void CreateDoubleLane()
         {
             for (int i = 0; i < Lanes; i++)
@@ -62,6 +65,7 @@ namespace TrafficSimulation
             }
         }
 
+        //three lanes
         public void CreateTripleLane()
         {
             for (int i = 0; i < Lanes; i++)
@@ -82,6 +86,7 @@ namespace TrafficSimulation
             }
         }
 
+        //method called to change the color of a trafficlight with certain given parameters
         public void ChangeColor(Color kleur, int LaneType)
         {
             for (int i = 0; i < trafficlights.Count; i++)
@@ -95,8 +100,7 @@ namespace TrafficSimulation
             }
         }
 
-        //uitrekenen van de relatieve positie van het stoplicht t.o.v. de linkerbovenhoek van de tile.
-        //Dit moet nog een stuk beter en mooier.
+        //calculate the actual position of the trafficlight on the map
         private Point GetPosition(int Direction, int NumberTrafficlight)
         {
             Point Position = new Point(0, 0);
@@ -131,6 +135,7 @@ namespace TrafficSimulation
                 light.DrawTrafficlight(Color.Red);
             }
         }
+
         private void UpdateTileAccess(int lane, Color kleur)
         {
             Tile Othertile = simcontrol.simulationMap.GetSurroundingTiles(road.position)[direction];

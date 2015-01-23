@@ -28,7 +28,6 @@ namespace TrafficSimulation
             this.road = road;
             this.Position = Position;
             sc = sim;
-            //DrawTrafficlight(Color.Red);
         }
 
         public Color Kleur
@@ -38,7 +37,7 @@ namespace TrafficSimulation
 
         public void UpdateColor(Color kleur)
         {
-            //hierin kunnen nog meer acties worden gedaan als de kleur wordt veranderd, zoals andere positie van de lichten t.o.v. elkaar.
+            //update the member-variable and actually draw the light
             DrawTrafficlight(kleur);
             color = kleur;
         }
@@ -48,12 +47,12 @@ namespace TrafficSimulation
             Graphics gr = sc.trafficlightBC.GetBitmapGraphics;
             gr.SmoothingMode = SmoothingMode.AntiAlias;
 
-            //daadwerkelijke positie stoplichten
+            //actual position of the trafficlight
             Point TruePos = new Point(Position.X + road.position.X, Position.Y + road.position.Y);
 
-            //teken hier het zwarte vierkant van het stoplicht
+            //draw black rectangle
             gr.FillRectangle(zwart, TruePos.X, TruePos.Y, 10, 10);
-            //teken hier de kleur van het rondje
+            //draw the light itself
             if (kleur == Color.Green)
             {
                 gr.FillEllipse(groen, TruePos.X + 1, TruePos.Y + 1, 8, 8);
