@@ -368,24 +368,28 @@ namespace TrafficSimulation
         //this method turns certain trafficlights green, depending on their direction and type
         private void StratUpdate(int Direction, int LaneType)
         {
-            if (road.name == "Crossroad")
+            try
             {
-                LaneTrafficlight l = (LaneTrafficlight)trafficlightList[Direction - 1];
-                l.ChangeColor(Color.Green, LaneType);
-            }
-            else
-            {
-                if (Direction < road.notDirection)
+                if (road.name == "Crossroad")
                 {
                     LaneTrafficlight l = (LaneTrafficlight)trafficlightList[Direction - 1];
                     l.ChangeColor(Color.Green, LaneType);
                 }
                 else
                 {
-                    LaneTrafficlight l = (LaneTrafficlight)trafficlightList[Direction - 2];
-                    l.ChangeColor(Color.Green, LaneType);
+                    if (Direction < road.notDirection)
+                    {
+                        LaneTrafficlight l = (LaneTrafficlight)trafficlightList[Direction - 1];
+                        l.ChangeColor(Color.Green, LaneType);
+                    }
+                    else
+                    {
+                        LaneTrafficlight l = (LaneTrafficlight)trafficlightList[Direction - 2];
+                        l.ChangeColor(Color.Green, LaneType);
+                    }
                 }
             }
+            catch { }
         }
 
         public void ChangeValues(Point position)
