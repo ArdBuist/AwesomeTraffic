@@ -240,7 +240,10 @@ namespace TrafficSimulation
             Tile[] sides = simcontrol.simulationMap.GetSurroundingTiles(road.position);
             int[] lanes = new int[4];
             for (int i = 0; i < 4; i++)
-                lanes[i] = sides[i].GetLanesOut(((i + 2) % 4) + 1);
+            {
+                if (road.notDirection != i + 1)
+                    lanes[i] = sides[i].GetLanesOut(((i + 2) % 4) + 1);
+            }
             int lowestLanes = lanes.Min();
 
             switch (lowestLanes)
