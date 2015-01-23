@@ -34,7 +34,7 @@ namespace TrafficSimulation
             onderscherm = onder;
             InitializeComponent();
 
-            //aan het begin is het simulatiegedeelte niet te gebruiken.
+            //At the beginning the simulation part is not used
             play.IsEnabled = false;
             slowDown.IsEnabled = false;
             speedUp.IsEnabled = false;
@@ -46,20 +46,19 @@ namespace TrafficSimulation
         {
             get { return simulation; }
         }
-        //Klikmethode om te kunnen wisselen tussen de simulatie en designer
+        //Click method to change between simulation and designer
         public void SimulationDesign_Click(object sender, RoutedEventArgs e)
         {
             if (simulation)
-            {
-                
-                // Buttons in het het bovenschermlinks inschakelen
+            {                
+                //Deactivate buttons in bovenschermlinks
                 play.IsEnabled = false;
                 slowDown.IsEnabled = false;
                 speedUp.IsEnabled = false;
                 stop.IsEnabled = false;
                 pauze.IsEnabled = false;
 
-                // Buttons in het onderscherm uitschakelen
+                //Activate buttons in onderscherm
                 onderscherm.selectButton.IsEnabled = true;
                 onderscherm.eraserButton.IsEnabled = true;
                 onderscherm.roadButton.IsEnabled = true;
@@ -68,11 +67,11 @@ namespace TrafficSimulation
                 onderscherm.forkButton.IsEnabled = true;
                 onderscherm.spawnerButton.IsEnabled = true;
 
-                //stoppen van laten rijden van de auto's
+                //Stopping movement of cars
                 if(windowselect.simwindow.simcontrol.simulation.simStarted)
                     windowselect.simwindow.simcontrol.simulation.StartSim();
 
-                //verwijderen van alle auto's
+                //Removes all cars
                 windowselect.simwindow.simcontrol.ClearRoad();
                 windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.ClientSize);
                
@@ -85,7 +84,7 @@ namespace TrafficSimulation
             else
             {
                 //windowselect.simwindow.simcontrol.vehicleBC = new BitmapControl(windowselect.simwindow.simcontrol.vehicleBC.bitmap.Size);
-                // Buttons in het het bovenschermlinks inschakelen
+                //Activate buttons in bovenschermlinks
                 if (windowselect.simwindow.simcontrol.simulation.StartSim())
                 {
                     windowselect.simwindow.simcontrol.ClearRoad();
@@ -97,7 +96,7 @@ namespace TrafficSimulation
                     windowselect.simwindow.InfoBalk.UpdateSimulationReset();
                    
 
-                    // Buttons in het onderscherm uitschakelen
+                    // Deactivate buttons in onderscherm
                     onderscherm.selectButton.IsEnabled = false;
                     onderscherm.eraserButton.IsEnabled = false;
                     onderscherm.roadButton.IsEnabled = false;
@@ -107,7 +106,7 @@ namespace TrafficSimulation
                     onderscherm.spawnerButton.IsEnabled = false;
                     windowselect.simwindow.extraButtonsHost.Location = new System.Drawing.Point(windowselect.simwindow.ClientSize);
 
-                    //zorgen dat er niet meer getekend kan worden, er kan alleen verschoven worden
+                    //Make sure you can't draw anymore, so that you can only move
                     windowselect.simwindow.simcontrol.state = "selected";
 
                     simulationDesign.Content = "Design";
@@ -118,7 +117,7 @@ namespace TrafficSimulation
             windowselect.simwindow.simcontrol.trafficlightPB.Invalidate();
         }
 
-        //Klikmethode voor het starten van de simulatie
+        //Click method for starting simulation
         private void Play_Click(object sender, RoutedEventArgs e)
         {
             windowselect.simwindow.simcontrol.simulation.StartSimknop();
@@ -129,7 +128,7 @@ namespace TrafficSimulation
             speedUp.IsEnabled = true;
         }
 
-        //klikmethode voor het pauzeren van de simulatie
+        //Click method for pausing simulation
         private void Pauze_Click(object sender, RoutedEventArgs e)
         {
             windowselect.simwindow.simcontrol.simulation.PauseSimknop() ;
@@ -139,7 +138,7 @@ namespace TrafficSimulation
             speedUp.IsEnabled = false;
         }
 
-        //Klikmethode voor het stoppen van de simulatie
+        //Click method for stopping simulation
         private void Stop_Clik(object sender, RoutedEventArgs e)
         {
             
@@ -155,7 +154,7 @@ namespace TrafficSimulation
             
         }
 
-        //klikmethode voor het vertragen van de simulatie
+        //Click method for slowing down simulation
         private void SlowDown_Click(object sender, RoutedEventArgs e)
         {
             if (windowselect.simwindow.simcontrol.simulation.extraSpeed != 0)
@@ -165,7 +164,7 @@ namespace TrafficSimulation
             windowselect.simwindow.simcontrol.gameSpeed -= 0.1;
         }
 
-        //klikmethode voor het versnellen van de simulatie
+        //Click method for accelerating simulation
         private void SpeedUp_Click(object sender, RoutedEventArgs e)
         {
             if (windowselect.simwindow.simcontrol.simulation.PauseSeconds>50)

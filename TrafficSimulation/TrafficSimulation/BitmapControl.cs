@@ -37,7 +37,7 @@ namespace TrafficSimulation
         }
 
 		/// <summary>
-		/// Has to be called when there has to be drawn a bitmap.
+		/// Has to be called when there has to be drawn a bitmap
 		/// </summary>
         public Graphics GetBitmapGraphics
         {
@@ -46,7 +46,7 @@ namespace TrafficSimulation
 
         public void AddObject(Bitmap bitmap, Point p)
         {
-			//zorgt ervoor dat de nieuwe tile op de kaart komt in het grid.
+			//Makes sure the new tile appears on the grid
             Graphics gr = GetBitmapGraphics;
             gr.DrawImage(bitmap, p.X, p.Y);
         }

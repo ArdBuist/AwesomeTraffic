@@ -24,7 +24,7 @@ namespace TrafficSimulation
         Point mouseDownPoint;
         Point mouseMovePoint;
         public SimulationMap simulationMap;
-        //de oude geselecteerde tile
+        //the old selected tile
         public Tile oldselectedTile;
         //tile which is selected for the infobalk
         public Tile selectedTile;
@@ -36,7 +36,7 @@ namespace TrafficSimulation
         public List<TrafficlightControl> controlList = new List<TrafficlightControl>();
         //selected tile for building
         public Tile currentBuildTile;
-        //variabelen voor klikmethodes: state geeft aan op welke knop er is geklikt en dus wat voor actie de klikmethode moet uitvoeren
+        //variable for click methods: state indicates which button is clicked and which action follows
         public String state = "selected";
         //if map is moved
         bool isMoved;
@@ -72,12 +72,11 @@ namespace TrafficSimulation
             //
             mouseDownPoint = new Point(0, 0);
             mouseMovePoint = new Point(0, 0);
-            //aantal tiles die horizontaal in de bitmap passen
-            tilesHorizontal = Size.Width / 100; //nutteloos
+            //amount of tiles that fit in the bitmap horizontally
+            tilesHorizontal = Size.Width / 100;
             this.Visible = true;
             gameSpeed = 1;
-            this.simulation = new Simulation(this);
-            //tekenfunctie voor de tileList (tijdelijke functie)
+            this.simulation = new Simulation(this);          
             InitializeComponent();
             //The simulation thread will be started here, the whole simulation will be regulated in this class.
             this.simulation = new Simulation(this);
@@ -85,16 +84,16 @@ namespace TrafficSimulation
         }
 
 
-        //tekent een blauwe lijn om de geselecteerde tile
+        //Draws a blue line surrounding the selected tile
         public void DrawSelectLine(Point mea)
         {
             if (simulationMap.GetTileMea(mea.X, mea.Y) != null)
             {
                 Tile selectTile = new SelectTile();
-                //Er wordt een blauw randje getekend om de geselecteerde tile
+                //Drawing blue line
                 selectTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100));
                 selectTile.DrawImage();
-                //de huidige selectedTile wordt de oude selectedtile voor de volgende keer
+                //The current selectedTile becomes the oldselectedTile
                 oldselectedTile = simulationMap.GetTileMea(mea.X, mea.Y);
                 selectedTile = simulationMap.GetTileMea(mea.X, mea.Y);
                 UpdateInfoBalkDesign();
@@ -112,7 +111,7 @@ namespace TrafficSimulation
             this.Invalidate();
         }
 
-        //"verwijdert" een tile (d.m.v. tekenen groen vlak)
+        //removes a tile
         public void removeTile(Point mea)
         {
             if (simulationMap.GetTileMea(mea.X, mea.Y) != null)
@@ -146,15 +145,15 @@ namespace TrafficSimulation
                 removeTile(mea);
 
                 AmountOfTiles++;
-                //tile wordt in de lijst van tiles gezet
+                //tile is placced in list
                 simulationMap.AddTile(buildTile);
                 buildTile.SetValues(this, simulationMap.GetPosition(new Point(mea.X, mea.Y)));
                 tileImage = buildTile.DrawImage();
-                //Dit zorgt ervoor dat de kaart geupdate wordt met de nieuwe tile
+                //MAp is updated with the new tile
                 backgroundBC.AddObject(tileImage, simulationMap.GetPosition(new Point(mea.X, mea.Y)));
                 selectedTile = buildTile;
                 trafficlightBC.bitmap.MakeTransparent(Color.Green);
-                currentBuildTile = Methods.CopyCurrentTile(this,buildTile);//hier wordt een nieuwe buildTile gemaakt met dezelfde waardes als daarvoor omdat er dan opnieuw een tile ingeklikt kan worden.
+                currentBuildTile = Methods.CopyCurrentTile(this,buildTile);//A new buildTile is created with the same values as before because a new tile can than be clicked in
                 if (buildTile.name == "Crossroad" || buildTile.name == "Fork")
                 {
                     this.AmountOfTrafficlights++;
@@ -164,7 +163,7 @@ namespace TrafficSimulation
             }
         }
 
-        //verplaatst de map als er gesleept wordt
+        //Moves the map if is dragged
         private void MoveMap(MouseEventArgs mea)
         {
             if (Math.Abs(mea.X - mouseMovePoint.X) > 3 || Math.Abs(mea.Y - mouseMovePoint.Y) > 3)
@@ -195,10 +194,10 @@ namespace TrafficSimulation
                     }
                 }
             }
-            //alle auto's weer verwijderen
+            //Removes all cars
             Graphics g = Graphics.FromImage((System.Drawing.Image)vehicleBC.bitmap);
             g.Clear(System.Drawing.Color.Transparent);
-            //snelheidswaarden resetten
+            //reset speed values
             simulation.PauseSeconds = 50;
             simulation.extraSpeed = 0;
             backgroundPB.Invalidate();
