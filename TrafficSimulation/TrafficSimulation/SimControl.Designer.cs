@@ -97,7 +97,19 @@ namespace TrafficSimulation
             }
             /// Remove a tile by clicking with the right mouse button
             if (mea.Button == System.Windows.Forms.MouseButtons.Right && simwindow.BovenSchermLinks.Simulation == false)
-                removeTile(mea.Location);
+			{
+				if (state == "selected")
+				{
+					selectedTile = null;
+					removeTile(mea.Location);
+				}
+				else 
+				{
+					removeTile(mea.Location);
+				}
+
+			}
+
 
             /// Als je een weg wil bouwen
             else if (state == "building")
