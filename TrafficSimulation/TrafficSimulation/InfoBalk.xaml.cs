@@ -29,54 +29,45 @@ namespace TrafficSimulation
             windowselect = ws;
             InitializeComponent();
             HideCombobox();
-
         }
 
         private void lane1_Close(object sender, EventArgs e)
         {
-
             ChangeCasts((string)lane1.Tag, ((ComboBoxItem)lane1.SelectedItem).ToString());
         }
 
         private void lane2_Close(object sender, EventArgs e)
         {
-
             ChangeCasts((string)lane2.Tag, ((ComboBoxItem)lane2.SelectedItem).ToString());
         }
 
         private void lane3_Close(object sender, EventArgs e)
         {
-
             ChangeCasts((string)lane3.Tag, ((ComboBoxItem)lane3.SelectedItem).ToString());
         }
 
         private void lane4_Close(object sender, EventArgs e)
         {
-
             ChangeCasts((string)lane4.Tag, ((ComboBoxItem)lane4.SelectedItem).ToString());
         }
 
         private void lane5_Close(object sender, EventArgs e)
         {
-
             ChangeCasts((string)lane5.Tag, ((ComboBoxItem)lane5.SelectedItem).ToString());
         }
 
         private void lane6_Close(object sender, EventArgs e)
         {
-
             ChangeCasts((string)lane6.Tag, ((ComboBoxItem)lane6.SelectedItem).ToString());
         }
 
         private void lane7_Close(object sender, EventArgs e)
         {
-
             ChangeCasts((string)lane7.Tag, ((ComboBoxItem)lane7.SelectedItem).ToString());
         }
 
         private void lane8_Close(object sender, EventArgs e)
         {
-
             ChangeCasts((string)lane8.Tag, ((ComboBoxItem)lane8.SelectedItem).ToString());
         }
 
@@ -91,19 +82,18 @@ namespace TrafficSimulation
             Spawner spawner = (Spawner)windowselect.simwindow.simcontrol.selectedTile;
             spawner.CarsSpawnChance = 1;
         }
+
         private void SpawnerLow_Checked(object sender, EventArgs e)
         {
             Spawner spawner = (Spawner)windowselect.simwindow.simcontrol.selectedTile;
             spawner.CarsSpawnChance = 5;
         }
+
         private void SpawnerNormal_Checked(object sender, EventArgs e)
         {
             Spawner spawner = (Spawner)windowselect.simwindow.simcontrol.selectedTile;
             spawner.CarsSpawnChance = 3;
         }
-
-
-
 
         private void ChangeCasts(string kant, string ob)
         {
@@ -131,7 +121,6 @@ namespace TrafficSimulation
                 }
             }
         }
-
 
         //copied from internet
         public static BitmapSource loadBitmap(System.Drawing.Bitmap source)
@@ -189,9 +178,6 @@ namespace TrafficSimulation
             listboxStrategie.SelectedIndex = strategie;
             labelGameSpeedNumber.Content = Math.Round(gameSpeed, 1); 
         }
-
-
-
 
         public void HideCombobox()
         {
