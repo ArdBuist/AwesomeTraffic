@@ -100,9 +100,9 @@ namespace TrafficSimulation
         public int LanesLowToHigh { get { return this.lanesLowToHigh; } set { lanesLowToHigh = value; } }
         public int MaxSpeed { get { return maxSpeed; } set { maxSpeed = value; } }
 
-        /*
-         * Called when the tile is made and set all tile values to the default values.
-         */
+        /// <summary>
+        /// Called when the tile is made and set all tile values to the default values.
+        /// </summary>
         public void Initialize()
         {
             vehicles = new List<List<Vehicle>>[4];

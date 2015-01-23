@@ -9,29 +9,38 @@ namespace TrafficSimulation
 {
     public class removeTile : Tile
     {
-        public removeTile()
-        {
-        }
-
+        /// <summary>
+        /// Based on the method DrawImage in Tile
+        /// returns an empty bitmap.
+        /// </summary>
+        /// <returns></returns>
         public override Bitmap DrawImage()
-        { // hier wordt een bitmap gemaakt en getekend door de andere methode. 
+        {
             Bitmap image = new Bitmap(100, 100);
             DrawTile.drawRemoveTile(Graphics.FromImage(image));
             return image;
         }
 
-        //returnt de banen die er bij een bepaalde kant uitgaan.
+        /// <summary>
+        /// Based on the method GetLanesin in Tile
+        /// always returns 0.
+        /// </summary>
+        /// <param name="direction"></param>
+        /// <returns></returns>
         public override int GetLanesIn(int direction)
         {
-            int noLanes = 0;
-            return noLanes;
+            return 0;
         }
 
-        //returnt de banen die er bij een bepaald kant ingaan.
+        /// <summary>
+        /// Based on the method GetLanesOut in Tile
+        /// always returns 0.
+        /// </summary>
+        /// <param name="direction"></param>
+        /// <returns></returns>
         public override int GetLanesOut(int direction)
         {
-            int noLanes = 0;
-            return noLanes;
+            return 0;
         }
 
         public override TrafficlightControl GetControl()
@@ -39,18 +48,36 @@ namespace TrafficSimulation
             throw new NotImplementedException();
         }
 
-        //controleert of aan de aangegeven zijkant ook echt een weg ligt.
+        /// <summary>
+        /// Based on the method doesConnect in Tile
+        /// always returns false.
+        /// </summary>
+        /// <param name="side"></param>
+        /// <returns></returns>
         public override bool doesConnect(int side)
         {
-            bool noLanes = false;
-            return noLanes;
+            return false;
         }
 
+        /// <summary>
+        /// Based on the method UpdateLanes in Tile.
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="direction"></param>
+        /// <param name="lanesIn"></param>
+        /// <param name="lanesOut"></param>
         public override void UpdateLanes(SimControl s, int direction, int lanesIn, int lanesOut)
         {
+
         }
+        /// <summary>
+        /// Based on the method SetValues in Tile.
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="position"></param>
         public override void SetValues(SimControl s, Point position)
         {
+
         }
     }
 }

@@ -9,46 +9,72 @@ namespace TrafficSimulation
 {
     public class SelectTile : Tile
     {
-        public SelectTile()
-        {
-        }
-
+        /// <summary>
+        /// Based on the method DrawImage in Tile
+        /// returns the bitmap of the tile with lightblue borders.
+        /// </summary>
+        /// <returns></returns>
         public override Bitmap DrawImage()
-        { // hier wordt een bitmap gemaakt en getekend door de andere methode. 
+        {
             Bitmap image = new Bitmap(100, 100);
             DrawTile.drawSelectTile(Graphics.FromImage(image));
             return image;
         }
 
-        //returnt de banen die er bij een bepaalde kant uitgaan.
+        /// <summary>
+        /// Based on the method GetLanesin in Tile
+        /// always returns 0.
+        /// </summary>
+        /// <param name="direction"></param>
+        /// <returns></returns>
         public override int GetLanesIn(int direction)
         {
-            int noLanes = 0;
-            return noLanes;
+            return 0;
         }
 
-        //returnt de banen die er bij een bepaald kant ingaan.
+        /// <summary>
+        /// Based on the method GetLanesOut in Tile
+        /// always returns 0.
+        /// </summary>
+        /// <param name="direction"></param>
+        /// <returns></returns>
         public override int GetLanesOut(int direction)
         {
-            int noLanes = 0;
-            return noLanes;
+            return 0;
         }
 
+        /// <summary>
+        /// Based on the method GetControl in Tile
+        /// returns the TrafficLightControl used by the SelectTile.
+        /// </summary>
+        /// <returns></returns>
         public override TrafficlightControl GetControl()
         {
             throw new NotImplementedException();
         }
 
-        //controleert of aan de aangegeven zijkant ook echt een weg ligt.
+        /// <summary>
+        /// Based on the method doesConnect in Tile
+        /// always returns false.
+        /// </summary>
+        /// <param name="side"></param>
+        /// <returns></returns>
         public override bool doesConnect(int side)
         {
-            bool noLanes = false;
-            return noLanes;
+            return false;
         }
 
+        /// <summary>
+        /// Based on the method UpdateLanes in Tile
+        /// this method is called when the lanes are updated.
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="direction"></param>
+        /// <param name="lanesIn"></param>
+        /// <param name="lanesOut"></param>
         public override void UpdateLanes(SimControl s, int direction, int lanesIn, int lanesOut)
         {
-        }
 
+        }
     }
 }

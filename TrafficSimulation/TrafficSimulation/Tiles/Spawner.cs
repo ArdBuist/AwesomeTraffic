@@ -17,6 +17,12 @@ namespace TrafficSimulation
         private double spawnPerSec;//Aantal wat elke gametick bij de currentspawn word opgetelt
         protected static System.Security.Cryptography.RNGCryptoServiceProvider rnd;//om de auto's op willekeurige tijden te laten spawnen
 
+        /// <summary>
+        /// Constructor used by fork, based on the constructor in Tile
+        /// here all default values of the Spawner are set.
+        /// </summary>
+        /// <param name="sim"></param>
+        /// <param name="direction"></param>
         public Spawner(SimControl sim, int direction)
         {
             this.name = "Spawner";
@@ -36,6 +42,12 @@ namespace TrafficSimulation
         public int SpawnLane { get { return spawnLane; } }
         public int CarsSpawnChance { get { return carsSpawnChance; } set { carsSpawnChance = value; } }
 
+        /// <summary>
+        /// Based on the method GetLanesIn in Spawner
+        /// returns the lanes going into the tile in the specified direction
+        /// </summary>
+        /// <param name="direction"></param>
+        /// <returns></returns>
         public override int GetLanesIn(int direction)
         {
             if (this.Direction == direction)
@@ -46,6 +58,12 @@ namespace TrafficSimulation
                 return 1;
         }
 
+        /// <summary>
+        /// Based on the method SetValues in Tile
+        /// sets the values given to the Spawner when the Spawner is placed on the map
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="position"></param>
         public override void SetValues(SimControl s, Point position)
         {
             base.SetValues(s, position);
@@ -54,6 +72,13 @@ namespace TrafficSimulation
             DrawTile.drawSpawnerBlock(Graphics.FromImage(image), Direction, lanesOut, lanesIn);
             s.trafficlightBC.AddObject(image, this.position);
         }
+
+        /// <summary>
+        /// Based on the method GetLanesOut in Spawner
+        /// returns the lanes going out of the tile in the specified direction
+        /// </summary>
+        /// <param name="direction"></param>
+        /// <returns></returns>
         public override int GetLanesOut(int direction)
         {
             if (this.Direction == direction)
@@ -64,11 +89,24 @@ namespace TrafficSimulation
                 return 1;
         }
 
+        /// <summary>
+        /// Based on the method GetControl in Tile
+        /// returns the TrafficLightControl used by the Spawner
+        /// </summary>
+        /// <returns></returns>
         public override TrafficlightControl GetControl()
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Based on the method UpdateLanes in Spawner
+        /// this method is called when the lanes are updated.
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="direction"></param>
+        /// <param name="lanesIn"></param>
+        /// <param name="lanesOut"></param>
         public override void UpdateLanes(SimControl s, int direction, int lanesIn, int lanesOut)
         {
             if (direction == this.Direction)
@@ -113,6 +151,12 @@ namespace TrafficSimulation
             return new NormalCar(this.position, this.position, 10, this.maxSpeed, this.Direction, spawnLane);
         }
 
+        /// <summary>
+        /// Based on the method doesConnect in Tile
+        /// returns true if the given side connects to another tile and false if it doesn't
+        /// </summary>
+        /// <param name="side"></param>
+        /// <returns></returns>
         public override bool doesConnect(int side)
         {
             if ((side + 1) % 4 + 1 == this.Direction)
@@ -120,6 +164,11 @@ namespace TrafficSimulation
             return false;
         }
 
+        /// <summary>
+        /// Based on the method DrawImage in Tile
+        /// returns the bitmap of the Spawner.
+        /// </summary>
+        /// <returns></returns>
         public override Bitmap DrawImage()
         {
             Bitmap image = new Bitmap(100, 100);
