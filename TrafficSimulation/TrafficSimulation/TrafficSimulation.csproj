@@ -106,6 +106,7 @@
     </Compile>
     <Compile Include="SimulationMap.cs" />
     <Compile Include="Tiles\Crossroad.cs" />
+    <Compile Include="Tiles\DrawTile.cs" />
     <Compile Include="Tiles\Fork.cs" />
     <Compile Include="Tiles\removeTile.cs" />
     <Compile Include="Tiles\Road.cs" />

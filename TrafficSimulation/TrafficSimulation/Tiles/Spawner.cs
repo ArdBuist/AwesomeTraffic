@@ -84,7 +84,7 @@ namespace TrafficSimulation
             base.SetValues(s, position);
 
             Bitmap image = new Bitmap(100, 100);
-            s.DrawTile.drawSpawnerBlock(Graphics.FromImage(image), Direction, lanesOut, lanesIn);
+            DrawTile.drawSpawnerBlock(Graphics.FromImage(image), Direction, lanesOut, lanesIn);
             s.trafficlightBC.AddObject(image, this.position);
         }
 
