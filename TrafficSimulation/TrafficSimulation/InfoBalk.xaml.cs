@@ -350,13 +350,13 @@ namespace TrafficSimulation
             Tile rotatedTile;
             switch (originalTile.name)
             {
-                case "Fork": rotatedTile = new Fork(simcontrol, (originalTile.notDirection+difference) % 4 + 1);
+                case "Fork": rotatedTile = new Fork(simcontrol, (originalTile.NotDirection+difference) % 4 + 1);
                     break;
                 case "Crossroad": rotatedTile = new Crossroad(simcontrol);
                     break;
-                case "Road": rotatedTile = new Road((originalTile.startDirection+difference )% 4 + 1, (originalTile.endDirection +difference)% 4 + 1);
+                case "Road": rotatedTile = new Road((originalTile.StartDirection+difference )% 4 + 1, (originalTile.EndDirection +difference)% 4 + 1);
                     break;
-                case "Spawner": rotatedTile = new Spawner(windowselect.simwindow.simcontrol, (originalTile.direction + difference) % 4 + 1);
+                case "Spawner": rotatedTile = new Spawner(windowselect.simwindow.simcontrol, (originalTile.Direction + difference) % 4 + 1);
                     break;
                 default: rotatedTile = new Crossroad(simcontrol);
                     break;

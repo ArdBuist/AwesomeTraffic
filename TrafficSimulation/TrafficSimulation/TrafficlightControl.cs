@@ -202,7 +202,7 @@ namespace TrafficSimulation
             int[] lanes = new int[4];
             for (int i = 0; i < 4; i++)
             {
-                if (road.notDirection != i + 1)
+                if (road.NotDirection != i + 1)
                 {
                     lanes[i] = sides[i].GetLanesOut(((i + 2) % 4) + 1);
                     foreach (List<Vehicle> lane in sides[i].vehicles[(i + 2) % 4])
@@ -251,7 +251,7 @@ namespace TrafficSimulation
             {
                 for (int i = 0; i < 3; i++)
                 {
-                    timer[(road.notDirection - 1) * 3 + i] = 99999;
+                    timer[(road.NotDirection - 1) * 3 + i] = 99999;
                 }
             }
         }
@@ -305,7 +305,7 @@ namespace TrafficSimulation
             }
             else
             {
-                if (Direction < road.notDirection)
+                if (Direction < road.NotDirection)
                 {
                     LaneTrafficlight l = (LaneTrafficlight)trafficlightList[Direction - 1];
                     l.ChangeColor(Color.Green, LaneType);

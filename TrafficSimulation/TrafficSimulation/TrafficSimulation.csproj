@@ -77,6 +77,12 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="SimulationMap.cs" />
+    <Compile Include="Tiles\Crossroad.cs" />
+    <Compile Include="Tiles\Fork.cs" />
+    <Compile Include="Tiles\removeTile.cs" />
+    <Compile Include="Tiles\Road.cs" />
+    <Compile Include="Tiles\SelectTile.cs" />
+    <Compile Include="Tiles\Spawner.cs" />
     <Compile Include="WindowSelect.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -113,7 +119,7 @@
     <Compile Include="StartWindow.Designer.cs">
       <DependentUpon>StartWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="Tile.cs" />
+    <Compile Include="Tiles\Tile.cs" />
     <Compile Include="Trafficlight.cs" />
     <Compile Include="TrafficlightControl.cs" />
     <Compile Include="SimControl.cs">
