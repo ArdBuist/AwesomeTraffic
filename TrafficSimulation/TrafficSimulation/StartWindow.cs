@@ -25,7 +25,11 @@ namespace TrafficSimulation
 		Tile[] tempTileList = new Tile[300];
         int widthStartScreen, heightStartScreen;
 
-
+		/// <summary>
+		/// Constructor of the StartWindow
+		/// </summary>
+		/// <param name="size">size of the screen</param>
+		/// <param name="sim">windowselect class</param>
         public StartWindow(Size size, WindowSelect sim)
         {
             this.Size = size;
@@ -53,7 +57,7 @@ namespace TrafficSimulation
         }
 
         /// <summary>
-        /// Click New
+        /// Click on New in the homescreen
         /// </summary>
         public void New_Click()
         {
@@ -79,6 +83,8 @@ namespace TrafficSimulation
 
 			int addLines = 0;
 			int totalLines;
+
+			int mapX = 0, mapY = 0; /// Boo
 
 			/// New open dialog
 			OpenFileDialog openDialog = new OpenFileDialog();
@@ -143,6 +149,8 @@ namespace TrafficSimulation
 						/// Clear the list
 						simcontrol.simulationMap.ClearTileList();
 
+						#region Add roads and spawners to the map
+
 						/// Add al the roads to the map
 						using (myStream1)
 						{
@@ -153,7 +161,8 @@ namespace TrafficSimulation
 							LoadWin.progressBar1.Value = 0;
 							LoadWin.progressBar1.Maximum = (addLines * 2);
 
-							#region Add roads and spawners to the map
+							mapX = Convert.ToInt32(r1.ReadLine());
+							mapY = Convert.ToInt32(r1.ReadLine());
 
 							/// Read the file line for line
 							while (r1.Peek() >= 0)
@@ -257,15 +266,15 @@ namespace TrafficSimulation
                                     windowselect.simwindow.simcontrol.simulationMap.AddTile(tile);
 								}
 							}
-							#endregion
 						}
+						#endregion
+
+						#region Add the rest to the map
 
 						using (myStream2)
 						{
 							r2 = new StreamReader(myStream2);
 
-							#region Add the rest to the map
-						
 							/// Read the file line for line
 							while (r2.Peek() >= 0)
 							{
@@ -283,6 +292,8 @@ namespace TrafficSimulation
 								int roadY;
 
 								int tilesHorizontal = Size.Width / 100;
+
+								/// Read 2 lines before starting to read the rest
 
 								/// You need different information from different tiles
 								/// So you need multiple cases, one for each tile
@@ -369,14 +380,17 @@ namespace TrafficSimulation
 									windowselect.simwindow.simcontrol.simulationMap.AddTile(tile);
 								}
 							}
-							#endregion
 						}
+						#endregion
+
 					}
 					/// Set the current building tile to a straight road
 					simcontrol.currentBuildTile = new Road(1, 3);
 					
 					///Set the state to selected
 					simcontrol.state = "selected";
+
+					simcontrol.mapSize = new Size(mapX, mapY);
 
 					LoadWin.Close();
 
@@ -401,14 +415,8 @@ namespace TrafficSimulation
 		}
 
 		/// <summary>
-		/// Click on option...?
+		/// Click on About in the homescreen
 		/// </summary>
-        public void Option_Click()
-        {
-
-        }
-
-		// Klik op "About" 
 		public void About_Click()
 		{
 			// Niewe form met info over 't programma
@@ -434,7 +442,7 @@ namespace TrafficSimulation
         }
 
         /// <summary>
-        /// Click How-To
+        /// Click on How-To in the homescreen
         /// </summary>
         public void HowTo_Click()
         {
@@ -472,7 +480,7 @@ namespace TrafficSimulation
         }
 
         /// <summary>
-        /// Click Exit
+        /// Click on Exit in the homescreen
         /// </summary>
         public void Exit_Click()
         {

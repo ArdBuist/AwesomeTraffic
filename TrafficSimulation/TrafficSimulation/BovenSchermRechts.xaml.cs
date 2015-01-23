@@ -56,14 +56,14 @@ namespace TrafficSimulation
         public void ShowOrHideInfoBalk(Boolean infoVisible)
         {
             this.InfoVisible = infoVisible;
-            /// Hide info
+            /// Hide info screen
             if (!InfoVisible)
             {
                 windowselect.simwindow.infoHost.Location = new System.Drawing.Point(windowselect.simwindow.Size);
                 InfoVisible = false;
 
             }
-            // Show info
+            /// Show info screen
             else
             {
                 windowselect.simwindow.infoHost.Location = new System.Drawing.Point((breedteScherm - breedteInfoBalk), hoogteBovenBalk);
@@ -119,6 +119,11 @@ namespace TrafficSimulation
 
 					/// File can be bigger than 1024
 					file.AutoFlush = true;	
+
+					/// Save some basic information
+					// Map size
+					file.WriteLine(windowselect.simwindow.simcontrol.mapSize.Width.ToString());		// Map x
+					file.WriteLine(windowselect.simwindow.simcontrol.mapSize.Height.ToString());	// Map y
 
 					/// Get every tile in the list
 					foreach (Tile tile in windowselect.simwindow.simcontrol.simulationMap.GetMap())

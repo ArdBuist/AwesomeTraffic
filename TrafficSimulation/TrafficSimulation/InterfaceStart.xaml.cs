@@ -37,17 +37,18 @@ namespace TrafficSimulation
             widthStopGo = widthStartScreen / 9;
             buttonMargin = widthStartScreen / 38;
 
-            weg.Margin = new Thickness(wegMargin, 0, 0, 0);
-            weg.Width = widthWeg;
-            strepen.Margin = new Thickness((wegMargin + (widthWeg/2) ), 1, 1, 1);
-            stopgo.Width = widthStopGo;
-            slogan.Margin = new Thickness(widthStopGo, 5, 5, 5);
-            resume.Margin = new Thickness((buttonMargin * 2), 5, 5, 5);
-            nieuw.Margin = new Thickness((buttonMargin * 3), 5, 5, 5);
-            open.Margin = new Thickness((buttonMargin * 4), 5, 5, 5);
-            howTo.Margin = new Thickness((buttonMargin * 5), 5, 5, 5);
-            about.Margin = new Thickness((buttonMargin * 6), 5, 5, 5);
-            exit.Margin = new Thickness((buttonMargin * 7), 5, 5, 5);
+			stopgo.Width = widthStopGo;
+			weg.Width = widthWeg;
+
+            weg.Margin		= new Thickness(wegMargin, 0, 0, 0);
+            strepen.Margin	= new Thickness((wegMargin + (widthWeg / 2)), 1, 1, 1);
+            slogan.Margin	= new Thickness(widthStopGo, 5, 5, 5);
+            resume.Margin	= new Thickness((buttonMargin * 2), 5, 5, 5);
+            nieuw.Margin	= new Thickness((buttonMargin * 3), 5, 5, 5);
+            open.Margin		= new Thickness((buttonMargin * 4), 5, 5, 5);
+            howTo.Margin	= new Thickness((buttonMargin * 5), 5, 5, 5);
+            about.Margin	= new Thickness((buttonMargin * 6), 5, 5, 5);
+            exit.Margin		= new Thickness((buttonMargin * 7), 5, 5, 5);
             
         }
 
@@ -60,11 +61,6 @@ namespace TrafficSimulation
 		{
 			startcontrol.Open_Click();
 		}
-
-        public void Options_Click(object sender, RoutedEventArgs e)
-        {
-            startcontrol.Option_Click();
-        }
 
 		public void HowTo_Click(object sender, RoutedEventArgs e)
 		{

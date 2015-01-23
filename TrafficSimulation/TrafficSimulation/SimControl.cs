@@ -38,6 +38,8 @@ namespace TrafficSimulation
         public Tile currentBuildTile;
         //variabelen voor klikmethodes: state geeft aan op welke knop er is geklikt en dus wat voor actie de klikmethode moet uitvoeren
         public String state = "selected";
+		//
+		public Size mapSize = new Size(2000, 1500);
         //if map is moved
         bool isMoved;
         //number for gamespeed for infobalk
@@ -54,7 +56,7 @@ namespace TrafficSimulation
             this.simwindow = simwindow;
             simulationMap = new SimulationMap(this);
             //methode in the partial class creating all the objects needed for the simulation
-            this.Size = new Size(2000, 1500);//has to be changed to the windowsize
+			this.Size = mapSize;
             Point bitmapLocation = new Point(-((this.Size.Width - Screen.PrimaryScreen.Bounds.Width) / 2), -((this.Size.Height - Screen.PrimaryScreen.Bounds.Height) / 2));
             this.Location = bitmapLocation;
             this.BackColor = Color.Green;
@@ -62,9 +64,9 @@ namespace TrafficSimulation
              * De bitmapControls in which the simulation takes place, all the bitmapcontrols have a bitmap with
              * which it interacts. Use the BitmapControl to change the bitmaps used for the simulation
              */
-            backgroundBC = new BitmapControl(this.Size);
-            trafficlightBC = new BitmapControl(this.Size);
-            vehicleBC = new BitmapControl(this.Size);
+            backgroundBC = new BitmapControl(mapSize);
+            trafficlightBC = new BitmapControl(mapSize);
+            vehicleBC = new BitmapControl(mapSize);
 
             totalCars = 0;
             //
