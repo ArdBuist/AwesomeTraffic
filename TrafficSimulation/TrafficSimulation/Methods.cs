@@ -12,23 +12,23 @@ namespace TrafficSimulation
         //["Spawner", "Road", "Fork","Crossroad"];
 
         public static bool CheckValidConnections(SimControl s)
-        {
-            s.simulationMap.CreateMap();
+         {
+             s.simulationMap.CreateMap();
             foreach (Tile t in s.simulationMap.GetMap())
-            {
+             {
                 foreach (int direction in t.Directions)
                 {
                     if (s.simulationMap.GetSurroundingTiles(t.position)[direction - 1] == null)
-                    {
-                        //TEST CODE
-                        return true;
-                        //TEST CODE
+                     {
+                         Tile OtherTile = s.simulationMap.GetSurroundingTiles(t.position)[direction - 1];
+                        if (OtherTile == null || !OtherTile.doesConnect(direction))
+                            return false;
                         return false;
-                    }
+                     }
                 }
-            }
-            return true;
-        }
+             }
+             return true;
+         }
 
         public static bool TileConnectionisValid(SimControl simcontrol, Tile currentBuildTile,Point tilePosition)
         {
