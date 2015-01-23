@@ -137,6 +137,7 @@ namespace TrafficSimulation
                 }
                 simulationMap.RemoveTile(simulationMap.GetTileMea(mea.X, mea.Y));
                 trafficlightBC.bitmap.MakeTransparent(Color.Green);
+                UpdateInfoBalkDesign();
                 this.Invalidate();
             }
         }
