@@ -11,11 +11,8 @@ namespace TrafficSimulation
 {
     public abstract class Tile
     {
-        //all vehicles on the Tile
-
-
         /*
-         * Variables of the tile
+         * Variables of tile
          *      name is the name of the tile, used to determine what kind of tile the tile is
          *      position is the position of the tile, in pixels
          *      maxSpeed is the speed cars are moving on the tile
@@ -42,10 +39,10 @@ namespace TrafficSimulation
         //interfacevariables
         protected int numberOfVehicles;
 
-        /* 
-         * returns the directions of the tile
-         * it returns one direction because by knowing which direction the tile doesnt have you als know which ones it does have
-         */
+        /// <summary>
+        /// returns the directions of the tile
+        /// it returns one direction because by knowing which direction the tile doesnt have you als know which ones it does have
+        /// </summary>
         public int NotDirection
         {
             get
@@ -68,13 +65,17 @@ namespace TrafficSimulation
                 }
             }
         }
+
         /*
          * returns the startdirection of the tile, used by road
          * return the enddirection of the tile, used by road
          */
         public int StartDirection { get { return directions.ElementAt(0); } }
         public int EndDirection { get { return directions.ElementAt(1); } }
-        //returns the direction the spawner is facing, used by spawner
+
+        /*
+         * returns the direction the spawner is facing, used by spawner
+         */
         public int Direction { get { return directions.ElementAt(0); } }
 
         /// <summary>
