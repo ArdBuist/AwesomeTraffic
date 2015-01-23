@@ -67,13 +67,12 @@ namespace TrafficSimulation
 
         public void Run(int extraSpeed, double extraTime)
         {
+            //de verschillende strategieën die mogenlijk zijn per kruispunt
             switch (strat)
             {
                 case 0: timerStrat(extraSpeed, extraTime);
                     break;
                 case 1: waitingStrat();
-                    break;
-                case 2: randomStrat();
                     break;
             }
         }
@@ -95,22 +94,19 @@ namespace TrafficSimulation
 
         public void waitingStrat()
         {
-            /*LaneType werkt nog niet goed, ik moet nog uitzoeken hoe de stoplichttimers gaan werken,
-             en de berekeningen zouden bij gebrek aan 3 banen nog kapot kunnen gaan*/
-
-            //hier tijdelijke variabelen voor de wachttijd
-            //moet nog daadwerkelijk de wachttijd van de stoplichten worden
-
             waitingCheck();
 
             if (Environment.TickCount - lastTime > secondsPerUpdate * 1000)
             {
-                //alle stoplichten reset naar rood
+                //reset all lights to red
                 AllRed();
-
+                //1.5 seconds of waiting time
                 if (Environment.TickCount - lastTime > 1500 + secondsPerUpdate * 1000)
                 {
+                    //set the new time for the loop to continue in a steady pulse
                     lastTime = Environment.TickCount;
+
+                    //all the different possibilities for lights going green at the same time, decided by the timers added up to eachother
                     int allRight = timer[0] + timer[3] + timer[6] + timer[9];
                     int forwardRight1 = timer[0] + timer[6] + timer[1] + timer[7];
                     int forwardRight2 = timer[3] + timer[9] + timer[4] + timer[10];
@@ -122,11 +118,9 @@ namespace TrafficSimulation
                     //get lowest value
                     int lowest = Math.Min(allRight, Math.Min(forwardRight1, Math.Min(forwardRight2, Math.Min(leftRightForward1, Math.Min(leftRightForward2, Math.Min(leftRightForward3, leftRightForward4))))));
 
-                    /*Dit zijn alle strategieën voor de stoplichten, in de juiste volgorde. De wachttijden kunnen nooit clashen
-                     omdat de eerste keuzes die in de if-loops voorbij komen de hoogste value hebben (links/rechtdoor/rechts).
-                     Daarna komen de opties met 2 richtingen (rechtdoor/rechts), en daarna pas 4 richtingen (alleen rechts)
-                     Als er minder dan drie banen per weg zijn zal er nooit een niet-bestaand stoplicht op groen worden gezet door
-                     deze volgorde*/
+                    /*These are all the different strategies, in the right order. The waiting times can't clash because the first
+                     choices are the ones that can be done on any type of road, and the ones after that are for more specific kinds
+                     of roads (for example, only the lights to the right turning green)*/
                     if (leftRightForward1 != leftRightForward2 && leftRightForward2 != leftRightForward3
                         && leftRightForward3 != leftRightForward4)
                     {
@@ -145,7 +139,6 @@ namespace TrafficSimulation
                         else if (lowest == allRight)
                             R();
                     }
-                    /*Dit deel van de code werkt, maar bij bepaalde soorten wegen begint het vervelend te schuiven ivm keuzes waar geen enkel stoplicht op groen gaat*/
                     else
                     {
                         int prioMax = prio.Max();
@@ -165,7 +158,7 @@ namespace TrafficSimulation
                             R();
                     }
 
-                    //alle timers weer naar 0
+                    //reset all timers
                     for (int i = 0; i < 12; i++)
                     {
                         timer[i] = 0;
@@ -174,13 +167,14 @@ namespace TrafficSimulation
                 }
             }
         }
+
+        //these methods define which lights go green and which don't
         public void LRF1()
         {
             for (int i = 1; i < 6; i++)
                 StratUpdate(1, i);
 
-            for (int i = 0; i < 7; i++)
-                prio[i]++;
+            priodistribution();
             prio[0] = 0;
         }
         public void LRF2()
@@ -188,8 +182,7 @@ namespace TrafficSimulation
             for (int i = 1; i < 6; i++)
                 StratUpdate(2, i);
 
-            for (int i = 0; i < 7; i++)
-                prio[i]++;
+            priodistribution();
             prio[1] = 0;
         }
         public void LRF3()
@@ -197,16 +190,15 @@ namespace TrafficSimulation
             for (int i = 1; i < 6; i++)
                 StratUpdate(3, i);
 
-            for (int i = 0; i < 7; i++)
-                prio[i]++;
+            priodistribution();
             prio[2] = 0;
         }
         public void LRF4()
         {
             for (int i = 1; i < 6; i++)
-            {
                 StratUpdate(4, i);
-            }
+
+            priodistribution();
             prio[3] = 0;
         }
         public void FR1()
@@ -218,8 +210,7 @@ namespace TrafficSimulation
             StratUpdate(3, 3);
             StratUpdate(3, 4);
 
-            for (int i = 0; i < 7; i++)
-                prio[i]++;
+            priodistribution();
             prio[4] = 0;
         }
         public void FR2()
@@ -231,8 +222,7 @@ namespace TrafficSimulation
             StratUpdate(4, 3);
             StratUpdate(4, 4);
 
-            for (int i = 0; i < 7; i++)
-                prio[i]++;
+            priodistribution();
             prio[5] = 0;
         }
         public void R()
@@ -240,14 +230,34 @@ namespace TrafficSimulation
             for (int i = 1; i < 5; i++)
                 StratUpdate(i, 3);
 
-            for (int i = 0; i < 7; i++)
-                prio[i]++;
+            priodistribution();
             prio[6] = 0;
         }
 
-        public void priodistribution
+        //this method makes sure that even with the priority-system, there's always at least 1 light green
+        public void priodistribution()
         {
-            //Ik wil in deze methode kunnen differentiëren tussen verschillende soorten wegen en of de prio-functie dus wel zin heeft bij verschillende hoeveelheden van banen
+            Tile[] sides = simcontrol.simulationMap.GetSurroundingTiles(road.position);
+            int[] lanes = new int[4];
+            for (int i = 0; i < 4; i++)
+                lanes[i] = sides[i].GetLanesOut(((i + 2) % 4) + 1);
+            int lowestLanes = lanes.Min();
+
+            switch (lowestLanes)
+            {
+                case 1:
+                    for (int i = 0; i < 4; i++)
+                        prio[i]++;
+                    break;
+                case 2:
+                    for (int i = 0; i < 6; i++)
+                        prio[i]++;
+                    break;
+                case 3:
+                    for (int i = 0; i < 7; i++)
+                        prio[i]++;
+                    break;
+            }
         }
 
         public void waitingCheck()
@@ -255,8 +265,10 @@ namespace TrafficSimulation
             //assigns all the roads to variables except for the notDirection (in case of Fork)
             Tile[] sides = simcontrol.simulationMap.GetSurroundingTiles(road.position);
             int[] lanes = new int[4];
+            //loop to avoid double coding
             for (int i = 0; i < 4; i++)
             {
+                //avoiding outofindexexceptions
                 if (road.notDirection != i + 1)
                 {
                     lanes[i] = sides[i].GetLanesOut(((i + 2) % 4) + 1);
@@ -264,8 +276,10 @@ namespace TrafficSimulation
                     {
                         foreach (Vehicle veh in lane)
                         {
+                            //check if there's a vehicle NOT moving currently in the tile
                             if (veh.Speed == 0)
                             {
+                                //if so, lock the timer for that specific trafficlight
                                 switch (lanes[i])
                                 {
                                     case 1:
@@ -295,6 +309,7 @@ namespace TrafficSimulation
                         }
                         for (int j = 0; j < 3; j++)
                         {
+                            //if it's still unlocked, add to the timer of the trafficlight
                             if (!locks[(i * 3) + j])
                                 timer[(i * 3) + j]++;
                         }
@@ -302,6 +317,7 @@ namespace TrafficSimulation
                 }
             }
 
+            //to avoid nonexisten sides getting the lowest value
             if (road.name == "Fork")
             {
                 for (int i = 0; i < 3; i++)
@@ -311,14 +327,9 @@ namespace TrafficSimulation
             }
         }
 
-        public void randomStrat()
-        {
-            //yolo
-        }
-
         private void Update(int turn)
         {
-            //Zet nu telkens een andere kant op groen.
+            //Switches around the crossroads, clockwise, turning the lights green
             for (int i = 0; i < NumberOfDirections; i++)
             {
                 Color kleur;
@@ -351,6 +362,7 @@ namespace TrafficSimulation
             startTime = Environment.TickCount;
         }
 
+        //this method turns certain trafficlights green, depending on their direction and type
         private void StratUpdate(int Direction, int LaneType)
         {
             if (road.name == "Crossroad")
