@@ -71,6 +71,11 @@
       <DependentUpon>EfficientieWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Methods.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="SimulationMap.cs" />
     <Compile Include="WindowSelect.cs">
       <SubType>Form</SubType>
@@ -101,11 +106,6 @@
     </Compile>
     <Compile Include="OnderScherm.xaml.cs">
       <DependentUpon>OnderScherm.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="StartWindow.cs">
       <SubType>UserControl</SubType>
@@ -183,17 +183,16 @@
     <Resource Include="Resources\Buttons\TurnRight_Button.png" />
     <None Include="Resources\Oxygen-Icons.org-Oxygen-Actions-document-edit.ico" />
     <Resource Include="Resources\stopandgologo.png" />
+    <None Include="Resources\car2.png" />
+    <None Include="Resources\car3.png" />
+    <None Include="Resources\car4.png" />
+    <None Include="Resources\car5.png" />
     <Content Include="TrafficExpertLogo.png" />
     <Resource Include="Resources\Roads\bendLD.png" />
     <Resource Include="Resources\Roads\bendLU.PNG" />
     <Resource Include="Resources\Roads\bendRD.png" />
     <Resource Include="Resources\Roads\bendUR.png" />
     <Content Include="Resources\car1.png" />
-    <None Include="Resources\car1R.bmp" />
-    <Content Include="Resources\car2.png" />
-    <Content Include="Resources\car3.png" />
-    <Content Include="Resources\car4.png" />
-    <Content Include="Resources\car5.png" />
     <Resource Include="Resources\Crossroads\forkdown.PNG" />
     <Resource Include="Resources\Crossroads\forkleft.png" />
     <Resource Include="Resources\Crossroads\forkright.png" />
