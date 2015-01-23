@@ -40,8 +40,8 @@ namespace TrafficSimulation
         protected int numberOfVehicles;
 
         /// <summary>
-        /// returns the directions of the tile
-        /// it returns one direction because by knowing which direction the tile doesnt have you als know which ones it does have
+        /// Returns the directions of the tile
+        /// it returns one direction because by knowing which direction the tile doesnt have you als know which directions it does have.
         /// </summary>
         public int NotDirection
         {
@@ -80,7 +80,7 @@ namespace TrafficSimulation
 
         /// <summary>
         /// Tile constructor, no variables are given
-        /// it only has getters and setters, when the tile is placed all values are set to default
+        /// all values are edited with setters, when the tile is placed all values are set to their default values.
         /// </summary>
         public Tile()
         {
@@ -92,7 +92,7 @@ namespace TrafficSimulation
             Initialize();
         }
         /*
-         * Getters and setters needed to run the simulation and save the tiles
+         * getters and setters needed to run the simulation and save the tiles
          */
         public List<int> Directions { get { return this.directions; } }
         public int NumberOfVehicles { get { return numberOfVehicles; } set { numberOfVehicles = value; } }
@@ -102,7 +102,7 @@ namespace TrafficSimulation
         public int MaxSpeed { get { return maxSpeed; } set { maxSpeed = value; } }
 
         /// <summary>
-        /// Called when the tile is made and set all tile values to the default values.
+        /// Called when the tile is made and sets all tile values to the default values and instantiates vehicles and access.
         /// </summary>
         public void Initialize()
         {
@@ -121,7 +121,7 @@ namespace TrafficSimulation
         }
 
         /// <summary>
-        /// Returns the bitmap of the tile, used when drawing the tile on the map
+        /// Returns the bitmap of the tile, used when drawing the tile on the map.
         /// </summary>
         /// <returns>Tile.bitmap</returns>
         public abstract Bitmap DrawImage();
@@ -247,21 +247,21 @@ namespace TrafficSimulation
         public abstract void UpdateLanes(SimControl s, int direction, int lanesIn, int lanesOut);
 
         /// <summary>
-        /// Returns the number of lanes going in to the tile in a specific direction
+        /// Returns the number of lanes going in to the tile in a specific direction.
         /// </summary>
         /// <param name="direction"></param>
         /// <returns></returns>
         public abstract int GetLanesIn(int direction);
 
         /// <summary>
-        /// Returns the number of lanes going out of the tile in a specific direction
+        /// Returns the number of lanes going out of the tile in a specific direction.
         /// </summary>
         /// <param name="direction"></param>
         /// <returns></returns>
         public abstract int GetLanesOut(int direction);
 
         /// <summary>
-        /// Returns true if the side connects to another tile and false if it doesn't
+        /// Returns true if the side connects to another tile and false if it doesn't.
         /// </summary>
         /// <param name="side"></param>
         /// <returns></returns>
@@ -274,7 +274,7 @@ namespace TrafficSimulation
         public abstract TrafficlightControl GetControl();
 
         /// <summary>
-        /// Sets the values given to the tile when the tile is placed on the map
+        /// Sets the values given to the tile when the tile is placed on the map.
         /// </summary>
         /// <param name="s"></param>
         /// <param name="position"></param>
@@ -302,7 +302,7 @@ namespace TrafficSimulation
 
         /// <summary>
         /// Removes a vehicle on a tile, this is used when a vehicle leaves the map on a spawner
-        /// Removes a vehicle when a vehicle leaves a tile to enter another.
+        /// also removes a vehicle when a vehicle leaves a tile to enter another.
         /// </summary>
         /// <param name="sim"></param>
         /// <param name="v"></param>
@@ -314,7 +314,7 @@ namespace TrafficSimulation
             List<Vehicle> laneVehicles = sideVehicles[lane];
             laneVehicles.Remove(v);
             numberOfVehicles--;
-            //looks if there is space for other cars to come on the tile
+            //returns true if there is space for other cars to enter the tile
             if (laneVehicles.Count < 5 && this.name != "Spawner" && this.name != "Crossroad" && this.name != "Fork")
             {
                 Tile lastTile = sim.simulationMap.GetSurroundingTiles(this.position)[(Side + 1) % 4];
@@ -335,7 +335,7 @@ namespace TrafficSimulation
             List<Vehicle> laneVehicles = sideVehicles[lane];
             laneVehicles.Add(v);
             numberOfVehicles++;
-            //looks if the tile is full
+            //returns false if the tile is full
             if (laneVehicles.Count > 5 && this.name != "Spawner" && this.name != "Crossroad" && this.name != "Fork")
             {
                 Tile lastTile = sim.simulationMap.GetSurroundingTiles(this.position)[(Side + 1) % 4];
