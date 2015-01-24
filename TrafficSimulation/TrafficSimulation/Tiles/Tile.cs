@@ -59,9 +59,13 @@ namespace TrafficSimulation
                 {
                     return 3;
                 }
-                else
+                else if (!directions.Contains(4))
                 {
                     return 4;
+                }
+                else
+                {
+                    return 0;
                 }
             }
         }

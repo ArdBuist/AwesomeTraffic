@@ -19,7 +19,7 @@ namespace TrafficSimulation
         int secondsPerUpdate = 3;
         int startTime;
         //geeft aan welke strategie wordt gebruikt
-        public int strat = 1;
+        public int strat;
         //timers
         int[] timer = new int[12];
         //locks for the timers
@@ -121,8 +121,7 @@ namespace TrafficSimulation
                     /*These are all the different strategies, in the right order. The waiting times can't clash because the first
                      choices are the ones that can be done on any type of road, and the ones after that are for more specific kinds
                      of roads (for example, only the lights to the right turning green)*/
-                    if (leftRightForward1 != leftRightForward2 && leftRightForward2 != leftRightForward3
-                        && leftRightForward3 != leftRightForward4)
+                    if (leftRightForward1 != leftRightForward2 && leftRightForward2 != leftRightForward3 && leftRightForward3 != leftRightForward4)
                     {
                         if (lowest == leftRightForward1)
                             LRF1();
@@ -139,24 +138,24 @@ namespace TrafficSimulation
                         else if (lowest == allRight)
                             R();
                     }
-                    else
-                    {
-                        int prioMax = prio.Max();
-                        if (prioMax == prio[0])
-                            LRF1();
-                        else if (prioMax == prio[1])
-                            LRF2();
-                        else if (prioMax == prio[2])
-                            LRF3();
-                        else if (prioMax == prio[3])
-                            LRF4();
-                        else if (prioMax == prio[4])
-                            FR1();
-                        else if (prioMax == prio[5])
-                            FR2();
-                        else if (prioMax == prio[6])
-                            R();
-                    }
+                        else
+                        {
+                            int prioMax = prio.Max();
+                            if (prioMax == prio[0])
+                                LRF1();
+                            else if (prioMax == prio[1])
+                                LRF2();
+                            else if (prioMax == prio[2])
+                                LRF3();
+                            else if (prioMax == prio[3])
+                                LRF4();
+                            else if (prioMax == prio[4])
+                                FR1();
+                            else if (prioMax == prio[5])
+                                FR2();
+                            else if (prioMax == prio[6])
+                                R();
+                        }
 
                     //reset all timers
                     for (int i = 0; i < 12; i++)
@@ -323,7 +322,7 @@ namespace TrafficSimulation
                 }
             }
 
-            //to avoid nonexisten sides getting the lowest value
+            //to avoid nonexistent sides getting the lowest value
             if (road.name == "Fork")
             {
                 for (int i = 0; i < 3; i++)
