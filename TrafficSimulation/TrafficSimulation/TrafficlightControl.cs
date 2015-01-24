@@ -19,7 +19,7 @@ namespace TrafficSimulation
         int secondsPerUpdate = 3;
         int startTime;
         //geeft aan welke strategie wordt gebruikt
-        public int strat = 0;
+        public int strat = 1;
         //timers
         int[] timer = new int[12];
         //locks for the timers
@@ -171,8 +171,11 @@ namespace TrafficSimulation
         //these methods define which lights go green and which don't
         public void LRF1()
         {
-            for (int i = 1; i < 6; i++)
-                StratUpdate(1, i);
+            if (road.NotDirection != 1)
+                for (int i = 1; i < 6; i++)
+                    StratUpdate(1, i);
+            else
+                LRF2();
 
             priodistribution();
             prio[0] = 0;
@@ -368,28 +371,24 @@ namespace TrafficSimulation
         //this method turns certain trafficlights green, depending on their direction and type
         private void StratUpdate(int Direction, int LaneType)
         {
-            try
+            if (road.name == "Crossroad")
             {
-                if (road.name == "Crossroad")
+                LaneTrafficlight l = (LaneTrafficlight)trafficlightList[Direction - 1];
+                l.ChangeColor(Color.Green, LaneType);
+            }
+            else
+            {
+                if (Direction < road.NotDirection)
                 {
                     LaneTrafficlight l = (LaneTrafficlight)trafficlightList[Direction - 1];
                     l.ChangeColor(Color.Green, LaneType);
                 }
                 else
                 {
-                    if (Direction < road.NotDirection)
-                    {
-                        LaneTrafficlight l = (LaneTrafficlight)trafficlightList[Direction - 1];
-                        l.ChangeColor(Color.Green, LaneType);
-                    }
-                    else
-                    {
-                        LaneTrafficlight l = (LaneTrafficlight)trafficlightList[Direction - 2];
-                        l.ChangeColor(Color.Green, LaneType);
-                    }
+                    LaneTrafficlight l = (LaneTrafficlight)trafficlightList[Direction - 2];
+                    l.ChangeColor(Color.Green, LaneType);
                 }
             }
-            catch { }
         }
 
         public void ChangeValues(Point position)
