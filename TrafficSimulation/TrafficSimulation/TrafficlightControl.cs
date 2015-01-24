@@ -138,24 +138,25 @@ namespace TrafficSimulation
                         else if (lowest == allRight)
                             R();
                     }
-                        else
-                        {
-                            int prioMax = prio.Max();
-                            if (prioMax == prio[0])
-                                LRF1();
-                            else if (prioMax == prio[1])
-                                LRF2();
-                            else if (prioMax == prio[2])
-                                LRF3();
-                            else if (prioMax == prio[3])
-                                LRF4();
-                            else if (prioMax == prio[4])
-                                FR1();
-                            else if (prioMax == prio[5])
-                                FR2();
-                            else if (prioMax == prio[6])
-                                R();
-                        }
+                    //priority system, to make sure that all sides get to go every once in a while
+                    else
+                    {
+                        int prioMax = prio.Max();
+                        if (prioMax == prio[0])
+                            LRF1();
+                        else if (prioMax == prio[1])
+                            LRF2();
+                        else if (prioMax == prio[2])
+                            LRF3();
+                        else if (prioMax == prio[3])
+                            LRF4();
+                        else if (prioMax == prio[4])
+                            FR1();
+                        else if (prioMax == prio[5])
+                            FR2();
+                        else if (prioMax == prio[6])
+                            R();
+                    }
 
                     //reset all timers
                     for (int i = 0; i < 12; i++)
