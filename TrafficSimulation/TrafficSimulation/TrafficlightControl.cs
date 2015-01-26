@@ -34,7 +34,7 @@ namespace TrafficSimulation
             NumberOfDirections = Directions;
             this.road = road;
             this.simcontrol = sim;
-
+            RemoveOldTrafficlights();
             for (int i = 0; i < 4; i++)
             {
                 if (i != NotDirection - 1)
@@ -51,6 +51,7 @@ namespace TrafficSimulation
             NumberOfDirections = Directions;
             this.road = road;
             this.simcontrol = sim;
+            RemoveOldTrafficlights();
             for (int i = 0; i < 4; i++)
             {
                 if (i != NotDirection - 1)
@@ -397,6 +398,13 @@ namespace TrafficSimulation
             {
                 lane.ChangeValues(position);
             }
+        }
+        private void RemoveOldTrafficlights()
+        {
+            for (int i = road.position.X; i < road.position.X + 101; i++)
+                for (int j = road.position.Y; j < road.position.Y + 101; j++)
+                    simcontrol.trafficlightBC.bitmap.SetPixel(i, j, Color.Transparent);
+            simcontrol.trafficlightPB.Invalidate();
         }
     }
 }

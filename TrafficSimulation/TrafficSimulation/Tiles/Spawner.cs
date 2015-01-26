@@ -82,10 +82,7 @@ namespace TrafficSimulation
         public override void SetValues(SimControl s, Point position)
         {
             base.SetValues(s, position);
-
-            Bitmap image = new Bitmap(100, 100);
-            DrawTile.drawSpawnerBlock(Graphics.FromImage(image), Direction, lanesOut, lanesIn);
-            s.trafficlightBC.AddObject(image, this.position);
+            DrawSpawnerBlock(s);
         }
 
         /// <summary>
@@ -128,9 +125,19 @@ namespace TrafficSimulation
             {
                 this.lanesIn = lanesIn;
                 this.lanesOut = lanesOut;
+                DrawSpawnerBlock(s);
             }
         }
 
+        private void DrawSpawnerBlock(SimControl s)
+        {
+            for (int i = this.position.X; i < this.position.X + 101; i++)
+                for (int j = this.position.Y; j < this.position.Y + 101; j++)
+                    s.trafficlightBC.bitmap.SetPixel(i, j, Color.Transparent);
+            Bitmap image = new Bitmap(100, 100);
+            DrawTile.drawSpawnerBlock(Graphics.FromImage(image), Direction, lanesOut, lanesIn);
+            s.trafficlightBC.AddObject(image, this.position);
+        }
         /// <summary>
         /// method called on each gametick.
         /// </summary>
