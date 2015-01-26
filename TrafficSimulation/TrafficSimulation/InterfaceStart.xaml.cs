@@ -66,6 +66,7 @@ namespace TrafficSimulation
 		public void Open_Click(object sender, RoutedEventArgs e)
 		{
 			startwindow.Open_Click();
+            resume.Visibility = Visibility.Visible;
 		}
 
         public void Options_Click(object sender, RoutedEventArgs e)

@@ -294,7 +294,11 @@ namespace TrafficSimulation
             labelDrivingCarsNumber.Content = DrivingCars;
             labelCarsOnTileNumber.Content = TileCars;
             labelGameSpeedNumber.Content = Math.Round(gameSpeed,1);
-            labelEfficientieNumber.Content = (int)((double)((double)DrivingCars / (totalCars))*100);
+            int efficiency = (int)((double)((double)DrivingCars / (totalCars))*100);
+            if (efficiency < 101 && efficiency>-1)
+                labelEfficientieNumber.Content = efficiency;
+            else
+                labelEfficientieNumber.Content = 100;
             if(windowselect.simwindow.simcontrol.selectedTile != null && lane1.Visibility == Visibility.Hidden)
             {
                 windowselect.simwindow.simcontrol.UpdateInfoBalkDesign();
