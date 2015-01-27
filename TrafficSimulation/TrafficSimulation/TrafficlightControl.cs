@@ -122,7 +122,9 @@ namespace TrafficSimulation
                     /*These are all the different strategies, in the right order. The waiting times can't clash because the first
                      choices are the ones that can be done on any type of road, and the ones after that are for more specific kinds
                      of roads (for example, only the lights to the right turning green)*/
-                    if (leftRightForward1 != leftRightForward2 && leftRightForward2 != leftRightForward3 && leftRightForward3 != leftRightForward4)
+                    if (leftRightForward1 != leftRightForward2 && leftRightForward2 != leftRightForward3 &&
+                        leftRightForward3 != leftRightForward4 && leftRightForward1 != leftRightForward3 &&
+                        leftRightForward2 != leftRightForward4 && leftRightForward1 != leftRightForward4)
                     {
                         if (lowest == leftRightForward1)
                             LRF1();
