@@ -69,11 +69,6 @@ namespace TrafficSimulation
             resume.Visibility = Visibility.Visible;
 		}
 
-        public void Options_Click(object sender, RoutedEventArgs e)
-        {
-            startwindow.Option_Click();
-        }
-
 		public void HowTo_Click(object sender, RoutedEventArgs e)
 		{
 			startwindow.HowTo_Click();

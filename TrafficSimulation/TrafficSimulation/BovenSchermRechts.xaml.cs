@@ -27,7 +27,6 @@ namespace TrafficSimulation
         InfoBalk infoBalk;
         OnderScherm onderScherm;
         WindowSelect windowselect;
-        Boolean day = false;
         int breedteScherm, breedteInfoBalk, hoogteBovenBalk;
 
         public BovenSchermRechts(WindowSelect ws, InfoBalk info, OnderScherm Onder, int bs, int bib, int hbb)
@@ -118,15 +117,17 @@ namespace TrafficSimulation
 					StreamWriter file = new StreamWriter(@saveDialog.FileName);
 
 					/// File can be bigger than 1024
-					file.AutoFlush = true;	
+					file.AutoFlush = true;
+
+					/// Remove all duplicates
+					List<Tile> list = windowselect.simwindow.simcontrol.simulationMap.GetMap().Distinct().ToList();
 
 					/// Get every tile in the list
-					foreach (Tile tile in windowselect.simwindow.simcontrol.simulationMap.GetMap())
+					foreach (Tile tile in list)
 					{
 						/// If the tile has some value asigned to it						
 						if (tile != null)
 						{
-
 							string currenttile = tile.name;
 
 							// TODO: Extra save options
@@ -137,17 +138,16 @@ namespace TrafficSimulation
 							/// 
 							/// Basic information
 							///		 0: Tile
-							///		 1: Place in list
-							///		 2: X position
-							///		 3: Y position
+							///		 1: X position
+							///		 2: Y position
 							///	Specific information
-							///		 4: Trafficlight strat
-							///		 5: Maxspeed for a tile
-							///		 6: Begin direction (notDirection for Fork, direction for Spawner)
-							///		 7: End direction (only for Road)
-							///		 8: laneshightolow, not for Crossroad and Fork
-							///		 9: laneslowtohigh, not for Crossroad and Fork
-							///		10: Cars per second in spawner
+							///		 3: Trafficlight strat
+							///		 4: Maxspeed for a tile
+							///		 5: Begin direction (notDirection for Fork, direction for Spawner)
+							///		 6: End direction (only for Road)
+							///		 7: laneshightolow, not for Crossroad and Fork
+							///		 8: laneslowtohigh, not for Crossroad and Fork
+							///		 9: Cars per second in spawner
 
 							switch (currenttile)
 							{
@@ -188,6 +188,8 @@ namespace TrafficSimulation
 
 								// Save case for a spawner
 								case "Spawner":
+									Spawner spawner = (Spawner)tile;
+
 									file.WriteLine(
 										tile.name + "_" +			// 0 Welke tile
 										tile.position.X + "_" +		// 1 X positie
@@ -196,9 +198,9 @@ namespace TrafficSimulation
 										tile.maxSpeed + "_" +		// 4 Maxspeed
 										tile.Direction + "_" +		// 5 Richting
 										" " + "_" +					// 6 Empty
-										tile.GetLanesOut((tile.Direction + 1) % 4 + 1) + "_" +	// 8 LanesHighToLow
-										tile.GetLanesIn((tile.Direction + 1) % 4 + 1) /* + "_ "	+	// 9 LanesLowToHigh
-										tile.carsPerSec*/);			
+										tile.GetLanesOut((tile.Direction + 1) % 4 + 1) + "_" +	// 7 LanesHighToLow
+										tile.GetLanesIn((tile.Direction + 1) % 4 + 1) + "_" +	// 8 LanesLowToHigh
+										spawner.CarsSpawnChance);								// 9 Spawn speed
 									break;
 							}
 						}
@@ -222,7 +224,7 @@ namespace TrafficSimulation
 
         private void Help_Click(object sender, RoutedEventArgs e)
         {
-
+			///
         }
     }
 }

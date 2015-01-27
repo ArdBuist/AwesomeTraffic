@@ -43,9 +43,8 @@ namespace TrafficSimulation
         public void Start()
         {
             this.Controls.Remove(simwindow);
-            
+           
             // Open homescreen
-            
             startwindow.BackColor = Color.Black;
 
 			// Add the control
@@ -58,8 +57,9 @@ namespace TrafficSimulation
         {
             // Verwijder start menu
             this.Controls.Remove(startwindow);
+
             /// Open simwindow
-	            this.Controls.Add(simwindow);
+	        this.Controls.Add(simwindow);
         }
 
 
@@ -73,14 +73,17 @@ namespace TrafficSimulation
 			switch (keyData)
 			{
 				case (Keys.Control | Keys.S):
-					this.simwindow.BovenSchermRechts.Save_Click(new object(), new System.Windows.RoutedEventArgs());
+					this.simwindow.BovenSchermRechts.Save_Click(null, null);
 					return true;
+
 				case (Keys.Control | Keys.H):
-					this.simwindow.BovenSchermRechts.Home_Click(new object(), new System.Windows.RoutedEventArgs());
+					this.simwindow.BovenSchermRechts.Home_Click(null, null);
 					return true;
+
 				case (Keys.Control | Keys.I):
-					this.simwindow.BovenSchermRechts.Info_Click(new object(), new System.Windows.RoutedEventArgs());
+					this.simwindow.BovenSchermRechts.Info_Click(null, null);
 					return true;
+
                 case (Keys.Alt | Keys.F4):
                     WindowSelect_FormClosing(null, null);
                     return true;

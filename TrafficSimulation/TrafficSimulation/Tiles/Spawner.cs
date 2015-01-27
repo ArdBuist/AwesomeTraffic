@@ -131,8 +131,8 @@ namespace TrafficSimulation
 
         private void DrawSpawnerBlock(SimControl s)
         {
-            for (int i = this.position.X; i < this.position.X + 101; i++)
-                for (int j = this.position.Y; j < this.position.Y + 101; j++)
+            for (int i = this.position.X; i < this.position.X + 100; i++)
+                for (int j = this.position.Y; j < this.position.Y + 100; j++)
                     s.trafficlightBC.bitmap.SetPixel(i, j, Color.Transparent);
             Bitmap image = new Bitmap(100, 100);
             DrawTile.drawSpawnerBlock(Graphics.FromImage(image), Direction, lanesOut, lanesIn);

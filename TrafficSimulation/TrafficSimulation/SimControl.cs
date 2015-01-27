@@ -54,7 +54,7 @@ namespace TrafficSimulation
             this.simwindow = simwindow;
             simulationMap = new SimulationMap(this);
             //methode in the partial class creating all the objects needed for the simulation
-            this.Size = new Size(2000, 1500);//has to be changed to the windowsize
+			this.Size = new Size(2000, 1500); //has to be changed to the windowsize
             Point bitmapLocation = new Point(-((this.Size.Width - Screen.PrimaryScreen.Bounds.Width) / 2), -((this.Size.Height - Screen.PrimaryScreen.Bounds.Height) / 2));
             this.Location = bitmapLocation;
             this.BackColor = Color.Green;
@@ -82,7 +82,6 @@ namespace TrafficSimulation
             this.simulation = new Simulation(this);
             vehicleBC.AddGrid();
         }
-
 
         //Draws a blue line surrounding the selected tile
         public void DrawSelectLine(Point mea)

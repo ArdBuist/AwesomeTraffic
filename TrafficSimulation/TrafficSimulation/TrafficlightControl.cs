@@ -401,8 +401,8 @@ namespace TrafficSimulation
         }
         private void RemoveOldTrafficlights()
         {
-            for (int i = road.position.X; i < road.position.X + 101; i++)
-                for (int j = road.position.Y; j < road.position.Y + 101; j++)
+            for (int i = road.position.X; i < road.position.X + 100; i++)
+                for (int j = road.position.Y; j < road.position.Y + 100; j++)
                     simcontrol.trafficlightBC.bitmap.SetPixel(i, j, Color.Transparent);
             simcontrol.trafficlightPB.Invalidate();
         }

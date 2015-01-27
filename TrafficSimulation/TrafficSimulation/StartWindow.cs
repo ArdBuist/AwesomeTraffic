@@ -18,6 +18,7 @@ namespace TrafficSimulation
     public partial class StartWindow : UserControl
     {
         public WindowSelect windowselect;
+
 		ElementHost StartHost;
 		AboutWindow about;
 		SimControl simcontrol;
@@ -25,16 +26,12 @@ namespace TrafficSimulation
 		Tile[] tempTileList = new Tile[300];
         int widthStartScreen, heightStartScreen;
 
-
         public StartWindow(Size size, WindowSelect sim)
         {
             this.Size = size;
             widthStartScreen = size.Width;
             heightStartScreen = size.Height;
             windowselect = sim;
-
-            /// I use this, a lot..
-            simcontrol = windowselect.simwindow.simcontrol;
 
             interfaceStart = new InterfaceStart(this, widthStartScreen, heightStartScreen);
 
@@ -53,7 +50,7 @@ namespace TrafficSimulation
         }
 
         /// <summary>
-        /// Click New
+        /// Click Resume in homescreen
         /// </summary>
         public void Resume_Click()
         {
@@ -61,18 +58,32 @@ namespace TrafficSimulation
             windowselect.simwindow.simcontrol.currentBuildTile = new Road(1, 3);
 
             /// Set state to building mode
-            //windowselect.simwindow.simcontrol.state = "building";
+            windowselect.simwindow.simcontrol.state = "selected";
 
             /// Open simcontrol
             windowselect.New();
         }
 
 		/// <summary>
-		///  When the button "Open" is clicked, this method will start.
+		/// Click New in homescreen
+		/// Create an empty field to create a map
+		/// </summary>
+		internal void New_Click()
+		{
+			windowselect.simwindow = new SimWindow(windowselect.Size, windowselect);
+			Resume_Click();
+		}
+
+		/// <summary>
+		/// Click Open in homescreen
+		/// Loads previous saved files
 		/// </summary>
 		public void Open_Click()
 		{
-			///Make new stream
+			/// Does this work?
+			simcontrol = windowselect.simwindow.simcontrol;
+
+			/// Make new stream
 			Stream myStream1 = null;
 			Stream myStream2 = null;
 			Stream dummyStream = null;
@@ -221,15 +232,17 @@ namespace TrafficSimulation
 									case "Spawner":
 										/// Make new tile
                                         currentBuildTile = new Spawner(windowselect.simwindow.simcontrol, Convert.ToInt32(information[5]));
+										Spawner spawner = (Spawner)currentBuildTile;
 
 										/// Get location
 										roadX = Convert.ToInt32(information[1]) / 100;
 										roadY = Convert.ToInt32(information[2]) / 100;
 
 										/// Set some values
-										currentBuildTile.maxSpeed = Convert.ToInt32(information[4]);
-										currentBuildTile.UpdateLanes(simcontrol, Convert.ToInt32(information[5]), Convert.ToInt32(information[7]), Convert.ToInt32(information[8]));
-										currentBuildTile.SetValues(simcontrol, new Point((roadX * 100), roadY * 100));
+										spawner.maxSpeed = Convert.ToInt32(information[4]);
+										spawner.UpdateLanes(simcontrol, Convert.ToInt32(information[5]), Convert.ToInt32(information[7]), Convert.ToInt32(information[8]));
+										spawner.SetValues(simcontrol, new Point((roadX * 100), roadY * 100));
+										spawner.CarsSpawnChance = Convert.ToInt32(information[9]);
 
 										/// Add to list
 										tempTileList[(roadX + roadY * 20)] = currentBuildTile;
@@ -385,8 +398,9 @@ namespace TrafficSimulation
 
 					/// New screen
 					windowselect.New();
+/*				
 				}
-/*
+
 				/// Throw exception when something is wrong
 				catch (Exception ex)
 				{
@@ -394,21 +408,16 @@ namespace TrafficSimulation
 					this.Cursor = Cursors.Arrow;
 
 					MessageBox.Show("Error: Could not read file from disk. Original error: " + ex.Message);
-				}
+				} 
+ */
 
 			}
- */ 
 		}
 
 		/// <summary>
-		/// Click on option...?
+		/// Click About in homescreen
 		/// </summary>
-        public void Option_Click()
-        {
-
-        }
-
-		// Klik op "About" 
+ 
 		public void About_Click()
 		{
 			// Niewe form met info over 't programma
@@ -423,7 +432,6 @@ namespace TrafficSimulation
 			about.Show();
 		}
 
-
         /// <summary>
         /// When AboutForm is not the main form anymore
         /// </summary>
@@ -434,7 +442,8 @@ namespace TrafficSimulation
         }
 
         /// <summary>
-        /// Click How-To
+        /// Click How-To in homscreen
+		/// Opens the manual for the project
         /// </summary>
         public void HowTo_Click()
         {
@@ -472,7 +481,8 @@ namespace TrafficSimulation
         }
 
         /// <summary>
-        /// Click Exit
+        /// Click Exit in homescreen
+		/// Closes the program
         /// </summary>
         public void Exit_Click()
         {
@@ -487,12 +497,6 @@ namespace TrafficSimulation
             Application.Exit();
 
 
-        }
-
-        internal void New_Click()
-        {
-            windowselect.simwindow = new SimWindow(windowselect.Size,windowselect);
-            Resume_Click();
         }
     }
 }
