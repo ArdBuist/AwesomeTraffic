@@ -28,7 +28,7 @@ namespace TrafficSimulation
         //tilevariables
         public string name;
         public Point position;
-        public int maxSpeed;
+        protected int maxSpeed;
         public Size size;
         //simulatievariables
         public List<List<Vehicle>>[] vehicles;
@@ -88,7 +88,7 @@ namespace TrafficSimulation
         /// </summary>
         public Tile()
         {
-            this.MaxSpeed = 2;
+            this.MaxSpeed = 1;
             this.LanesHighToLow = 1;
             this.LanesLowToHigh = 1;
             this.size = new Size(100, 100);

@@ -252,7 +252,7 @@ namespace TrafficSimulation
                     lanes[i, 1] = selectedTile.GetLanesIn(i + 1);
                     lanes[i, 0] = selectedTile.GetLanesOut(i + 1);
                 }
-                simwindow.InfoBalk.UpdateDesign(lanes, selectedTile.maxSpeed, AmountOfTiles, AmountOfTrafficlights, trafficStrategy, gameSpeed);
+                simwindow.InfoBalk.UpdateDesign(lanes, selectedTile.MaxSpeed, AmountOfTiles, AmountOfTrafficlights, trafficStrategy, gameSpeed);
             }
         }
 

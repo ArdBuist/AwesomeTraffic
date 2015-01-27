@@ -205,7 +205,7 @@ namespace TrafficSimulation
                     int oldLane = v.Lane;
                     if (nextTile != null)
                     {
-                        v.Speed = nextTile.maxSpeed;
+                        v.Speed = nextTile.MaxSpeed;
                         v.LastDirection = v.Direction;
                         v.Direction = v.NextDirection;
                         v.oldLane = v.Lane;
@@ -261,7 +261,7 @@ namespace TrafficSimulation
                         return true;
                     break;
             }
-            return false;
+			return false;
         }
 
         private bool VehicleIsOnEndSpawner(Vehicle v, Tile t)

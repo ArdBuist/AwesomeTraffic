@@ -214,7 +214,7 @@ namespace TrafficSimulation
 										currentBuildTile.SetValues(simcontrol, new Point((roadX * 100), roadY * 100));
 										currentBuildTile.LanesHighToLow = Convert.ToInt32(information[7]);
 										currentBuildTile.LanesLowToHigh = Convert.ToInt32(information[8]);
-										currentBuildTile.maxSpeed = Convert.ToInt32(information[4]);
+										currentBuildTile.MaxSpeed = Convert.ToInt32(information[4]);
 
 										/// Add to list
 										tempTileList[(roadX + roadY * 20)] = currentBuildTile;
@@ -239,7 +239,7 @@ namespace TrafficSimulation
 										roadY = Convert.ToInt32(information[2]) / 100;
 
 										/// Set some values
-										spawner.maxSpeed = Convert.ToInt32(information[4]);
+										spawner.MaxSpeed = Convert.ToInt32(information[4]);
 										spawner.UpdateLanes(simcontrol, Convert.ToInt32(information[5]), Convert.ToInt32(information[7]), Convert.ToInt32(information[8]));
 										spawner.SetValues(simcontrol, new Point((roadX * 100), roadY * 100));
 										spawner.CarsSpawnChance = Convert.ToInt32(information[9]);
@@ -326,7 +326,7 @@ namespace TrafficSimulation
 
 										/// Set some values
 										currentBuildTile.SetValues(simcontrol, new Point((roadX * 100), roadY * 100));
-										currentBuildTile.maxSpeed = Convert.ToInt32(information[4]);
+										currentBuildTile.MaxSpeed = Convert.ToInt32(information[4]);
 										currentBuildTile.GetControl().strat = Convert.ToInt32(information[3]);
 
 										/// Add to list
@@ -353,7 +353,7 @@ namespace TrafficSimulation
 
 										/// Set some values
 										currentBuildTile.SetValues(simcontrol, new Point((roadX * 100), roadY * 100));
-										currentBuildTile.maxSpeed = Convert.ToInt32(information[4]);
+										currentBuildTile.MaxSpeed = Convert.ToInt32(information[4]);
 										currentBuildTile.GetControl().strat = Convert.ToInt32(information[3]);
 
 										/// Add to list
