@@ -112,8 +112,8 @@ namespace TrafficSimulation
 				LoadWin.ControlBox = false;
 
 				/// Try to open the file
-				//try
-				//{
+				try
+				{
 					if (openDialog.OpenFile() != null)
 					{
 						/// Make 3 streams, 1 for the road and spawners, 2 for the forks and crossroads and the dummy for counting
@@ -154,6 +154,8 @@ namespace TrafficSimulation
 						/// Clear the list
 						simcontrol.simulationMap.ClearTileList();
 
+						#region Add roads and spawners to the map
+
 						/// Add al the roads to the map
 						using (myStream1)
 						{
@@ -164,7 +166,6 @@ namespace TrafficSimulation
 							LoadWin.progressBar1.Value = 0;
 							LoadWin.progressBar1.Maximum = (addLines * 2);
 
-							#region Add roads and spawners to the map
 
 							/// Read the file line for line
 							while (r1.Peek() >= 0)
@@ -270,14 +271,16 @@ namespace TrafficSimulation
                                     windowselect.simwindow.simcontrol.simulationMap.AddTile(tile);
 								}
 							}
-							#endregion
 						}
+
+						#endregion
+
+						#region Add the rest to the map
 
 						using (myStream2)
 						{
 							r2 = new StreamReader(myStream2);
 
-							#region Add the rest to the map
 						
 							/// Read the file line for line
 							while (r2.Peek() >= 0)
@@ -382,8 +385,10 @@ namespace TrafficSimulation
 									windowselect.simwindow.simcontrol.simulationMap.AddTile(tile);
 								}
 							}
-							#endregion
 						}
+
+						#endregion
+
 					}
 					/// Set the current building tile to a straight road
 					simcontrol.currentBuildTile = new Road(1, 3);
@@ -397,8 +402,7 @@ namespace TrafficSimulation
 					this.Cursor = Cursors.Arrow;
 
 					/// New screen
-					windowselect.New();
-/*				
+					windowselect.New();			
 				}
 
 				/// Throw exception when something is wrong
@@ -408,8 +412,7 @@ namespace TrafficSimulation
 					this.Cursor = Cursors.Arrow;
 
 					MessageBox.Show("Error: Could not read file from disk. Original error: " + ex.Message);
-				} 
- */
+				}
 
 			}
 		}

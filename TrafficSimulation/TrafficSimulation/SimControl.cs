@@ -83,34 +83,50 @@ namespace TrafficSimulation
             vehicleBC.AddGrid();
         }
 
-        //Draws a blue line surrounding the selected tile
+        /// <summary>
+		/// Draws a blue line surrounding the selected tile
+        /// </summary>
+        /// <param name="mea">location of the mouse</param>
         public void DrawSelectLine(Point mea)
         {
+			/// If the point has a road, draw blue line
             if (simulationMap.GetTileMea(mea.X, mea.Y) != null)
             {
                 Tile selectTile = new SelectTile();
-                //Drawing blue line
+
+                /// Drawing blue line
                 selectTile.SetValues(this, new Point(mea.X / 100 * 100, mea.Y / 100 * 100));
                 selectTile.DrawImage();
-                //The current selectedTile becomes the oldselectedTile
+
+                /// The current selectedTile becomes the oldselectedTile
                 oldselectedTile = simulationMap.GetTileMea(mea.X, mea.Y);
                 selectedTile = simulationMap.GetTileMea(mea.X, mea.Y);
                 UpdateInfoBalkDesign();
                 simwindow.BovenSchermRechts.ShowOrHideInfoBalk(true);
 
             }
+			/// If the point doesn't have a road
             else
             {
+				/// Remove blue line
                 if (selectedTile != null)
                     backgroundBC.AddObject(selectedTile.DrawImage(), selectedTile.position);
+
+				/// Set selectedTile and oldSelectedTile to null
                 oldselectedTile = null;
                 selectedTile = null;
+
+				/// Hide info screen
                 simwindow.BovenSchermRechts.ShowOrHideInfoBalk(false);
             }
+
             this.Invalidate();
         }
 
-        //removes a tile
+        /// <summary>
+        /// Removes a tile
+        /// </summary>
+        /// <param name="mea">location of the mouse</param>
         public void removeTile(Point mea)
         {
             if (simulationMap.GetTileMea(mea.X, mea.Y) != null)
@@ -136,9 +152,15 @@ namespace TrafficSimulation
             }
         }
 
+		/// <summary>
+		/// Draw a tile
+		/// </summary>
+		/// <param name="mea">location of the mouse</param>
+		/// <param name="buildTile">tile that has to be drawn</param>
         public void DrawTile(Point mea, Tile buildTile)
         {
             Bitmap tileImage;
+
             if (Methods.TileConnectionisValid(this, buildTile, mea))
             {
                 simwindow.BovenSchermRechts.ShowOrHideInfoBalk(false);
@@ -149,11 +171,12 @@ namespace TrafficSimulation
                 simulationMap.AddTile(buildTile);
                 buildTile.SetValues(this, simulationMap.GetPosition(new Point(mea.X, mea.Y)));
                 tileImage = buildTile.DrawImage();
-                //MAp is updated with the new tile
+                //Map is updated with the new tile
                 backgroundBC.AddObject(tileImage, simulationMap.GetPosition(new Point(mea.X, mea.Y)));
                 selectedTile = buildTile;
                 trafficlightBC.bitmap.MakeTransparent(Color.Green);
-                currentBuildTile = Methods.CopyCurrentTile(this, buildTile);//A new buildTile is created with the same values as before because a new tile can than be clicked in
+				//A new buildTile is created with the same values as before because a new tile can than be clicked in
+                currentBuildTile = Methods.CopyCurrentTile(this, buildTile);
                 if (buildTile.name == "Crossroad" || buildTile.name == "Fork")
                 {
                     this.AmountOfTrafficlights++;
@@ -163,7 +186,10 @@ namespace TrafficSimulation
             }
         }
 
-        //Moves the map if is dragged
+        /// <summary>
+		/// Moves the map if is dragged
+        /// </summary>
+        /// <param name="mea">location of mouse</param>
         private void MoveMap(MouseEventArgs mea)
         {
             if (Math.Abs(mea.X - mouseMovePoint.X) > 3 || Math.Abs(mea.Y - mouseMovePoint.Y) > 3)
@@ -203,8 +229,9 @@ namespace TrafficSimulation
             backgroundPB.Invalidate();
         }
 
-
-
+		/// <summary>
+		/// Create a list of all the trafficlightcontrols
+		/// </summary>
         public void MakeTrafficControlList()
         {
             int tempTrafficlightCount = 0;
@@ -231,6 +258,10 @@ namespace TrafficSimulation
             }
             this.AmountOfTrafficlights = tempTrafficlightCount;
         }
+
+		/// <summary>
+		/// Updates the infoscreen when in design mode
+		/// </summary>
         public void UpdateInfoBalkDesign()
         {
             if (selectedTile != null)
@@ -256,6 +287,9 @@ namespace TrafficSimulation
             }
         }
 
+		/// <summary>
+		/// Update the infoscreen when in simulation mode
+		/// </summary>
         internal void UpdateInfoBalkSimulatie()
         {
             int vehicleNumber = 0;
@@ -263,6 +297,10 @@ namespace TrafficSimulation
                 vehicleNumber = selectedTile.NumberOfVehicles;
             simwindow.InfoBalk.UpdateSimulation(totalCars, simulation.WaitingCars, vehicleNumber, gameSpeed);
         }
+
+		/// <summary>
+		/// Reset some counters used in the simulation
+		/// </summary>
         public void ResetSimulationCounters()
         {
             this.totalCars = 0;
