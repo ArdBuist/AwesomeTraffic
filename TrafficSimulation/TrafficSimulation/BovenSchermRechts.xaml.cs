@@ -158,7 +158,7 @@ namespace TrafficSimulation
 										tile.position.X + "_" +				// 1 X positie
 										tile.position.Y + "_" +				// 2 Y positie
 										tile.GetControl().strat + "_" + 	// 3 strat
-										tile.MaxSpeed + "_" +				// 4 Maxspeed
+										tile.maxSpeed + "_" +				// 4 Maxspeed
 										tile.NotDirection);					// 5 De not direction
 									break;
 
@@ -169,7 +169,7 @@ namespace TrafficSimulation
 										tile.position.X + "_" +				// 1 X positie
 										tile.position.Y + "_" +				// 2 Y positie
 										tile.GetControl().strat + "_" + 	// 3 strat
-										tile.MaxSpeed);						// 4 Maxspeed
+										tile.maxSpeed);						// 4 Maxspeed
 									break;
 
 								// Save case for a road (that is a straight road or a curved road)
@@ -179,7 +179,7 @@ namespace TrafficSimulation
 										tile.position.X + "_" +		// 1 X positie
 										tile.position.Y + "_" +		// 2 Y positie
 										" " + "_" +					// 3 Empty
-										tile.MaxSpeed + "_"	+		// 4 Maxpeed
+										tile.maxSpeed + "_"	+		// 4 Maxpeed
 										tile.StartDirection + "_" +	// 5 Begin richting
 										tile.EndDirection + "_" +	// 6 Eind richting
 										tile.LanesHighToLow + "_" + // 7 Wegen hoog, laag
@@ -195,7 +195,7 @@ namespace TrafficSimulation
 										tile.position.X + "_" +		// 1 X positie
 										tile.position.Y + "_" +		// 2 Y positie
 										" " + "_" +					// 3 Empty
-										tile.MaxSpeed + "_" +		// 4 Maxspeed
+										tile.maxSpeed + "_" +		// 4 Maxspeed
 										tile.Direction + "_" +		// 5 Richting
 										" " + "_" +					// 6 Empty
 										tile.GetLanesOut((tile.Direction + 1) % 4 + 1) + "_" +	// 7 LanesHighToLow
