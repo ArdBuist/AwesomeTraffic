@@ -519,7 +519,7 @@ namespace TrafficSimulation
             int width = roadW * lanesIn + roadW * lanesOut + 10;
 
             if (side == 3)
-                bmSpawner.FillRectangle(Brushes.Black, r3 - 5, 15, width, 15);
+                bmSpawner.FillRectangle(Brushes.Black, r3-5, 10, width, 20);
             else if (side == 4)
                 bmSpawner.FillRectangle(Brushes.Black, 70, r3 - 5, 15, width);
             else if (side == 1)

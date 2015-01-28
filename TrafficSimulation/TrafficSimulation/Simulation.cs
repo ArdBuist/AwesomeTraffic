@@ -160,11 +160,13 @@ namespace TrafficSimulation
             if (simControl.selectedTile != null)
                 simControl.DrawSelectLine(simControl.selectedTile.position);
             simControl.UpdateInfoBalkSimulatie();
-            string date = DateTime.Now.ToString("H:mm:ss");
-            string[] efficiencyTime = new string[] { DateTime.Now.ToString("H:mm:ss:fff"), ""+simControl.simwindow.InfoBalk.labelEfficientieNumber.Content };
-            efficiencyNumbers.Add(efficiencyTime);
             if (simControl.simwindow.InfoBalk.EfWindow != null)
+            {
+                string date = DateTime.Now.ToString("H:mm:ss");
+                string[] efficiencyTime = new string[] { DateTime.Now.ToString("H:mm:ss:fff"), "" + simControl.simwindow.InfoBalk.labelEfficientieNumber.Content };
+                efficiencyNumbers.Add(efficiencyTime);
                 simControl.simwindow.InfoBalk.EfWindow.t_Tick(null, null);
+            }
             simControl.Invalidate();
         }
 
