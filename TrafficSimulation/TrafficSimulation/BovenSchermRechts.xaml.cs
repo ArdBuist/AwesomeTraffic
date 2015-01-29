@@ -79,7 +79,7 @@ namespace TrafficSimulation
 
             if (windowselect.simwindow.simcontrol.simulation.simStarted == true)
             {
-                windowselect.simwindow.simcontrol.simulation.thread.Abort();
+				windowselect.simwindow.BovenSchermLinks.SimulationDesign_Click(null, null);
                 windowselect.simwindow.simcontrol.simulation.simStarted = false;
             }
         }
