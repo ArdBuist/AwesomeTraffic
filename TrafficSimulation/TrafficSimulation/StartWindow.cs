@@ -21,9 +21,9 @@ namespace TrafficSimulation
 
 		ElementHost StartHost;
 		AboutWindow about;
-		SimControl simcontrol;
+		
         InterfaceStart interfaceStart;
-		Tile[] tempTileList = new Tile[300];
+		
         int widthStartScreen, heightStartScreen;
 
         public StartWindow(Size size, WindowSelect sim)
@@ -80,8 +80,12 @@ namespace TrafficSimulation
 		/// </summary>
 		public void Open_Click()
 		{
+            Tile[] tempTileList = new Tile[(windowselect.simwindow.simcontrol.Size.Width / 100) * (windowselect.simwindow.simcontrol.Size.Height / 100)];
 			/// Does this work?
+            SimControl simcontrol;
+            
 			simcontrol = windowselect.simwindow.simcontrol;
+            simcontrol.oldselectedTile = null;
 
 			/// Make new stream
 			Stream myStream1 = null;
@@ -264,13 +268,13 @@ namespace TrafficSimulation
 							}
 
 							/// Copy the tempTileList to tileList
-							foreach (Tile tile in tempTileList)
-							{
-								if (tile != null)
-								{
+                            foreach (Tile tile in tempTileList)
+                            {
+                                if (tile != null)
+                                {
                                     windowselect.simwindow.simcontrol.simulationMap.AddTile(tile);
-								}
-							}
+                                }
+                            }
 						}
 
 						#endregion
@@ -281,7 +285,7 @@ namespace TrafficSimulation
 						{
 							r2 = new StreamReader(myStream2);
 
-						
+                            tempTileList = new Tile[(windowselect.simwindow.simcontrol.Size.Width / 100) * (windowselect.simwindow.simcontrol.Size.Height / 100)];
 							/// Read the file line for line
 							while (r2.Peek() >= 0)
 							{
