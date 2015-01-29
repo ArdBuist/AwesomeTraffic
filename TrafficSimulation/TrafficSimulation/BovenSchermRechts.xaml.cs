@@ -75,13 +75,13 @@ namespace TrafficSimulation
 		/// </summary>
 		public void Home_Click(object sender, RoutedEventArgs e)
         {
-            windowselect.Start();
-
             if (windowselect.simwindow.simcontrol.simulation.simStarted == true)
             {
 				windowselect.simwindow.BovenSchermLinks.SimulationDesign_Click(null, null);
                 windowselect.simwindow.simcontrol.simulation.simStarted = false;
             }
+
+			windowselect.Start();
         }
 
 		/// <summary>
