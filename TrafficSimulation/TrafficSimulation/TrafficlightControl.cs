@@ -44,10 +44,10 @@ namespace TrafficSimulation
             }
         }
 
-        public TrafficlightControl(SimControl sim, Tile road, int Directions, int NotDirection, int[] NumberOfLanes, Point position)
+        public TrafficlightControl(SimControl sim, Tile road, int Directions, int NotDirection, int[] NumberOfLanes, Point position, int strat)
         {
             trafficlightList = new List<LaneTrafficlight>();
-
+            this.strat = strat;
             NumberOfDirections = Directions;
             this.road = road;
             this.simcontrol = sim;
