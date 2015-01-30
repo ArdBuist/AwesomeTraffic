@@ -194,7 +194,7 @@
     <EmbeddedResource Include="Resources\Projectdocument.pdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <None Include="Resources\UserManualTraffic.pdf" />
+    <Resource Include="Resources\Manual.pdf" />
     <None Include="TrafficSimulation_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>

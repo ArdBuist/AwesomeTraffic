@@ -460,7 +460,7 @@ namespace TrafficSimulation
             try
             {
                 /// Path of the file
-				string path = Path.Combine(Directory.GetCurrentDirectory(), @"Resources\UserManualTraffic.pdf");
+				string path = Path.Combine(Directory.GetCurrentDirectory(), @"Resources\Manual.pdf");
 
                 /// Make new process and open set Adobe Acrobat as the program to open
                 Process P = new Process
@@ -477,7 +477,7 @@ namespace TrafficSimulation
             /// Acrobat reader is not installed, the user has to select his own program
             catch
             {
-                string path = Path.Combine(Directory.GetCurrentDirectory(), @"Resources\UserManualTraffic.pdf");
+                string path = Path.Combine(Directory.GetCurrentDirectory(), @"Resources\Manual.pdf");
                 string args = "shell32.dll,OpenAs_RunDLL " + path;
 
                 /// Make new process and open the program searcher thing
