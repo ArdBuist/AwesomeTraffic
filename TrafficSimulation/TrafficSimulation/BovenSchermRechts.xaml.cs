@@ -224,7 +224,7 @@ namespace TrafficSimulation
 
         private void Help_Click(object sender, RoutedEventArgs e)
         {
-			///
+			windowselect.startwindow.HowTo_Click();
         }
     }
 }

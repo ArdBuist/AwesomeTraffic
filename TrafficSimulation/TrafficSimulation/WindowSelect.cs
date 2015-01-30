@@ -12,7 +12,7 @@ namespace TrafficSimulation
 {
     public partial class WindowSelect : Form
     {
-        StartWindow startwindow;
+        public StartWindow startwindow;
         public SimWindow simwindow;
         public Size screensize;
 

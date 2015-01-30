@@ -417,7 +417,7 @@ namespace TrafficSimulation
 
 					MessageBox.Show("Error: Could not read file from disk. Original error: " + ex.Message);
 				}
-
+				/// Blaze it.
 			}
 		}
 
@@ -454,11 +454,13 @@ namespace TrafficSimulation
         /// </summary>
         public void HowTo_Click()
         {
+			this.Cursor = Cursors.WaitCursor;
+
             /// Adobe Acrobat is geïnstaleerd
             try
             {
                 /// Path of the file
-                string path = Path.Combine(Directory.GetCurrentDirectory(), @"Resources\Projectdocument.pdf");
+				string path = Path.Combine(Directory.GetCurrentDirectory(), @"Resources\UserManualTraffic.pdf");
 
                 /// Make new process and open set Adobe Acrobat as the program to open
                 Process P = new Process
@@ -469,11 +471,13 @@ namespace TrafficSimulation
                 /// Set process to fullscreen and start the procees
                 P.StartInfo.WindowStyle = ProcessWindowStyle.Maximized;
                 P.Start();
+
+				this.Cursor = Cursors.Arrow;
             }
             /// Acrobat reader is not installed, the user has to select his own program
             catch
             {
-                string path = Path.Combine(Directory.GetCurrentDirectory(), @"Resources\Projectdocument.pdf");
+                string path = Path.Combine(Directory.GetCurrentDirectory(), @"Resources\UserManualTraffic.pdf");
                 string args = "shell32.dll,OpenAs_RunDLL " + path;
 
                 /// Make new process and open the program searcher thing
@@ -484,6 +488,8 @@ namespace TrafficSimulation
 
                 /// Set process to fullscreen and start the process
                 P.Start();
+
+				this.Cursor = Cursors.Arrow;
             }
         }
 
