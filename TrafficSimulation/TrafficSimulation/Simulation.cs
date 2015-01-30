@@ -63,6 +63,11 @@ namespace TrafficSimulation
                         if (t.name.Equals("Spawner"))
                             spawnerList.Add((Spawner)t);
                     }
+					if(spawnerList.Count == 0)
+					{
+						simControl.simwindow.windowselect.ShowMessage("Add spawners to the map before starting a simulation.");
+						return false;
+					}
                     simControl.MakeTrafficControlList();
                     ThreadStart threadDelegate = new ThreadStart(Update);
                     thread = new Thread(threadDelegate);
@@ -72,9 +77,8 @@ namespace TrafficSimulation
                 }
                 else
                 {
-                    simControl.simwindow.windowselect.ShowMessage("niet alle tiles liggen aan elkaar");
-                    return false;
-
+					simControl.simwindow.windowselect.ShowMessage("Not all tiles are connected. Check road for missing tiles.");
+					return false;
                 }
             }
             else
