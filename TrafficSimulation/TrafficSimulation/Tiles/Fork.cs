@@ -88,7 +88,7 @@ namespace TrafficSimulation
                 lanes[direction * 2 - 1] = lanesOut;
                 lanes[direction * 2 - 2] = lanesIn;
             }
-            control = new TrafficlightControl(s, this, 3, NotDirection, lanes, position);
+            control = new TrafficlightControl(s, this, 3, NotDirection, lanes, position,control.strat);
         }
 
         /// <summary>

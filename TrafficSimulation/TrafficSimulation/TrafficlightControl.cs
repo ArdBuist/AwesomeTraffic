@@ -44,10 +44,10 @@ namespace TrafficSimulation
             }
         }
 
-        public TrafficlightControl(SimControl sim, Tile road, int Directions, int NotDirection, int[] NumberOfLanes, Point position)
+        public TrafficlightControl(SimControl sim, Tile road, int Directions, int NotDirection, int[] NumberOfLanes, Point position, int strat)
         {
             trafficlightList = new List<LaneTrafficlight>();
-
+            this.strat = strat;
             NumberOfDirections = Directions;
             this.road = road;
             this.simcontrol = sim;
@@ -122,28 +122,9 @@ namespace TrafficSimulation
                     /*These are all the different strategies, in the right order. The waiting times can't clash because the first
                      choices are the ones that can be done on any type of road, and the ones after that are for more specific kinds
                      of roads (for example, only the lights to the right turning green)*/
-                    if (leftRightForward1 != leftRightForward2 && leftRightForward2 != leftRightForward3 &&
-                        leftRightForward3 != leftRightForward4 && leftRightForward1 != leftRightForward3 &&
-                        leftRightForward2 != leftRightForward4 && leftRightForward1 != leftRightForward4)
+                    if (leftRightForward4 <= 10)
                     {
-                        if (lowest == leftRightForward1)
-                            LRF1();
-                        else if (lowest == leftRightForward2)
-                            LRF2();
-                        else if (lowest == leftRightForward3)
-                            LRF3();
-                        else if (lowest == leftRightForward4)
-                            LRF4();
-                        else if (lowest == forwardRight1)
-                            FR1();
-                        else if (lowest == forwardRight2)
-                            FR2();
-                        else if (lowest == allRight)
-                            R();
-                    }
-                    //priority system, to make sure that all sides get to go every once in a while
-                    else
-                    {
+                        //priority system, to make sure that all sides get to go every once in a while
                         int prioMax = prio.Max();
                         if (prioMax == prio[0])
                             LRF1();
@@ -160,6 +141,23 @@ namespace TrafficSimulation
                         else if (prioMax == prio[6])
                             R();
                     }
+                    else
+                    {
+                        if (lowest == leftRightForward1)
+                            LRF1();
+                        else if (lowest == leftRightForward2)
+                            LRF2();
+                        else if (lowest == leftRightForward3)
+                            LRF3();
+                        else if (lowest == leftRightForward4)
+                            LRF4();
+                        else if (lowest == forwardRight1)
+                            FR1();
+                        else if (lowest == forwardRight2)
+                            FR2();
+                        else if (lowest == allRight)
+                            R();
+                    }
 
                     //reset all timers
                     for (int i = 0; i < 12; i++)
@@ -171,7 +169,9 @@ namespace TrafficSimulation
             }
         }
 
-        //these methods define which lights go green and which don't
+        /// <summary>
+        /// these methods define which lights go green and which don't
+        /// </summary>
         public void LRF1()
         {
             if (road.NotDirection != 1)
@@ -249,6 +249,8 @@ namespace TrafficSimulation
             {
                 if (road.NotDirection != i + 1)
                     lanes[i] = sides[i].GetLanesOut(((i + 2) % 4) + 1);
+                else
+                    lanes[i] = 3;
             }
             int lowestLanes = lanes.Min();
 
@@ -388,8 +390,11 @@ namespace TrafficSimulation
                 }
                 else
                 {
-                    LaneTrafficlight l = (LaneTrafficlight)trafficlightList[Direction - 2];
-                    l.ChangeColor(Color.Green, LaneType);
+                    if (Direction >= 2)
+                    {
+                        LaneTrafficlight l = (LaneTrafficlight)trafficlightList[Direction - 2];
+                        l.ChangeColor(Color.Green, LaneType);
+                    }
                 }
             }
         }
@@ -410,3 +415,6 @@ namespace TrafficSimulation
         }
     }
 }
+
+
+//nice
